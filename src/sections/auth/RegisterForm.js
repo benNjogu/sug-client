@@ -1,0 +1,109 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import FormProvider from './../../components/hook-form/FormProvider';
+import {
+  Alert,
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+} from '@mui/material';
+import RHFTextfield from './../../components/hook-form/RHFTextfield';
+import { Eye, EyeSlash } from 'phosphor-react';
+import { RegisterUser } from '../../redux/slices/auth';
+
+const RegisterForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
+  const RegisterSchema = Yup.object().shape({
+    orgsName: Yup.string().required('Name of organization is required.'),
+    levyNumber: Yup.string().required('Levy registration number is required.'),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email must be a valid email address'),
+    password: Yup.string().required('Password is required'),
+  });
+
+  const methods = useForm({
+    resolver: yupResolver(RegisterSchema),
+    //defaultValues,
+  });
+
+  const {
+    reset,
+    setError,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const onSubmit = async (data) => {
+    try {
+      //submit data to backend
+      dispatch(RegisterUser(data));
+    } catch (error) {
+      console.log(error);
+      reset();
+      setError('afterSubmit', {
+        ...error,
+        message: error.message,
+      });
+    }
+  };
+
+  return (
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={3}>
+        {!!errors.afterSubmit && (
+          <Alert severity="error">{errors.afterSubmit.message}</Alert>
+        )}
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTextfield name="orgsName" label="Name of organization" />
+          <RHFTextfield name="levyNumber" label="Levy registration number" />
+        </Stack>
+
+        <RHFTextfield name="email" label="Enter organization's email" />
+        <RHFTextfield
+          name="password"
+          label="Create password"
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <Eye /> : <EyeSlash />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          fullWidth
+          color="inherit"
+          size="large"
+          type="submit"
+          variant="contained"
+          sx={{
+            bgcolor: 'text.primary',
+            color: (theme) =>
+              theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
+            '&:hover': {
+              bgcolor: 'text.primary',
+              color: (theme) =>
+                theme.palette.mode === 'light' ? 'common.white' : 'grey',
+            },
+          }}
+        >
+          {'Create Account'}
+        </Button>
+      </Stack>
+    </FormProvider>
+  );
+};
+
+export default RegisterForm;
