@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { store } from './redux/store';
 import { Provider as ReduxProvider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
 
 import App from './App';
 import './index.css';

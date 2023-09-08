@@ -3,9 +3,9 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import FormProvider from './../../components/hook-form/FormProvider';
+import FormProvider from '../../components/hook-form/FormProvider';
 import { Alert, Button, Stack } from '@mui/material';
-import RHFTextfield from './../../components/hook-form/RHFTextfield';
+import RHFTextfield from '../../components/hook-form/RHFTextfield';
 import { ForgotPassword } from '../../redux/slices/auth';
 
 const ResetPasswordForm = () => {

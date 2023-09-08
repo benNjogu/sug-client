@@ -17,10 +17,13 @@ const AuthLayout = () => {
   return (
     <>
       <Container sx={{ mt: 5, overflowY: 'auto' }} maxWidth="sm">
-        <Stack spacing={5}>
-          <Stack sx={{ width: '100%' }} direction="column" alignItems="center">
-            <img src={Logo} alt="Logo" style={{ height: 120, width: 120 }} />
-          </Stack>
+        <Stack
+          spacing={5}
+          sx={{ width: '100%' }}
+          direction="column"
+          alignItems="center"
+        >
+          <img src={Logo} alt="Logo" style={{ height: 120, width: 240 }} />
         </Stack>
         <Outlet />
       </Container>

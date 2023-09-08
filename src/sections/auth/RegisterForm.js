@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import FormProvider from './../../components/hook-form/FormProvider';
+import FormProvider from '../../components/hook-form/FormProvider';
 import {
   Alert,
   Button,
@@ -12,7 +12,7 @@ import {
   InputAdornment,
   Stack,
 } from '@mui/material';
-import RHFTextfield from './../../components/hook-form/RHFTextfield';
+import RHFTextfield from '../../components/hook-form/RHFTextfield';
 import { Eye, EyeSlash } from 'phosphor-react';
 import { RegisterUser } from '../../redux/slices/auth';
 
