@@ -672,14 +672,49 @@ const Application = () => {
                   type="number"
                   name="total"
                   class="form-control"
-                  id="total_cost"
+                  id="total"
                   placeholder="0.00"
                 />
               </div>
             </div>
           </div>
         ) : selectedCategory === 6 ? (
-          <>world</>
+          <div>
+            <legend className="text-danger">Certify and submit</legend>
+            <div class="form-row">
+              <div class="col-md-12 form-group">
+                <div class="form-group form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="declaration"
+                  />
+                  <label class="form-check-label" for="declaration">
+                    I hereby declare that the information here given is true to
+                    the best of my knowledge.{' '}
+                    <span className="text-danger">
+                      I understand that checking the box will apply as my
+                      signature to this form!
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12 form-group">
+                <input
+                  type="text"
+                  name="name_hr"
+                  class="form-control"
+                  id="name_hr"
+                  placeholder="Firstname Lastname"
+                />
+              </div>
+              <div class="col-md-3 form-group">
+                <button className="btn-primary btn-sm">Submit</button>
+              </div>
+            </div>
+          </div>
         ) : (
           <div>end</div>
         )}
