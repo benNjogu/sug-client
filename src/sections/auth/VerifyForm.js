@@ -68,11 +68,11 @@ const VerifyForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: 'text.primary',
+            bgcolor: '#0D6EFD',
             color: (theme) =>
               theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
             '&:hover': {
-              bgcolor: 'text.primary',
+              bgcolor: '#0D6EFD',
               color: (theme) =>
                 theme.palette.mode === 'light' ? 'common.white' : 'grey',
             },
