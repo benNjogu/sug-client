@@ -9,7 +9,6 @@ import Profile from './Profile';
 import Approved from './Approved';
 
 const SelectedCategory = ({ selectedCategory, userType }) => {
-  console.log(userType);
   if (userType === 'user') {
     switch (selectedCategory) {
       case 0:
@@ -44,6 +43,7 @@ const SelectedCategory = ({ selectedCategory, userType }) => {
         return <Rejected />;
       case 5:
         return <Escalated />;
+      case 6:
         return 'Logout dialog';
       default:
         break;

@@ -1,6 +1,6 @@
 import { constants } from '../data/constants';
 
-const Category = ({ categories, selectedItem, onItemSelect }) => {
+const Category = ({ categories, selectedItem, onItemSelect, badge }) => {
   return (
     <ul className="list-group cursor-pointer">
       {categories.map((item) => (
@@ -14,9 +14,9 @@ const Category = ({ categories, selectedItem, onItemSelect }) => {
           }
           style={{ cursor: 'pointer' }}
         >
-          {item.description}
-          {item.description !== constants.LOGOUT && (
-            <span class="badge badge-primary badge-pill">14</span>
+          {item.description.toUpperCase()}
+          {item.description !== constants.LOGOUT && badge && (
+            <span className="badge badge-primary badge-pill">14</span>
           )}
         </li>
       ))}

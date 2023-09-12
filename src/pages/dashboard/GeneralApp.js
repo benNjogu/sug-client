@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 import Navbar from '../../components/Navbar';
-import Category from './../../components/Category';
+import Category from '../../components/Category';
 import {
   user_categories,
   admin_categories,
   super_admin_categories,
-} from './../../data/data';
+} from '../../data/data';
 import './general_app.styles.css';
 import SelectedCategory from '../../components/dashboard/SelectedCategory';
 
@@ -41,6 +41,7 @@ const GeneralApp = () => {
             categories={user_categories}
             onItemSelect={handleSelectedCategory}
             selectedItem={selectedCategory}
+            badge={true}
           />
         </div>
         <div className="col select_category">
