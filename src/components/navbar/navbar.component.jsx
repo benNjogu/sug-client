@@ -36,15 +36,6 @@ const Navbar = ({ handleProfileClick }) => {
               </a>
             </li>
           </ul>
-          {/* <div className="profile ml-auto">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-              className="rounded-circle"
-              style={{ width: 48, cursor: 'pointer' }}
-              alt="Avatar"
-              onClick={handleProfileClick}
-            />
-          </div> */}
         </div>
       </nav>
     </div>
