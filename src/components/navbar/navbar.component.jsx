@@ -1,9 +1,10 @@
-import Logo from '../assets/images/logo.png';
+import Logo from '../../assets/images/logo.png';
+import './navbar.styles.css';
 
 const Navbar = ({ handleProfileClick }) => {
   return (
     <div>
-      <nav className="navbar bg-primary navbar-dark navbar-expand-lg">
+      <nav className="navbar nav-bg navbar-dark navbar-expand-lg">
         <a className="navbar-brand">
           <img src={Logo} alt="Logo" style={{ height: 48, width: 240 }} />
         </a>
@@ -20,7 +21,22 @@ const Navbar = ({ handleProfileClick }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <div className="profile ml-auto">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a
+                class="text-primary nav-link cursor-pointer"
+                onClick={handleProfileClick}
+              >
+                <strong>View Profile</strong>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a className="text-danger nav-link cursor-pointer">
+                <strong>Logout</strong>
+              </a>
+            </li>
+          </ul>
+          {/* <div className="profile ml-auto">
             <img
               src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
               className="rounded-circle"
@@ -28,7 +44,7 @@ const Navbar = ({ handleProfileClick }) => {
               alt="Avatar"
               onClick={handleProfileClick}
             />
-          </div>
+          </div> */}
         </div>
       </nav>
     </div>

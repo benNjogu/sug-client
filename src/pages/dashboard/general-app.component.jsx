@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Navbar from '../../components/navbar';
+import Navbar from '../../components/navbar/navbar.component';
 import Category from '../../components/category';
 import {
   user_categories,
