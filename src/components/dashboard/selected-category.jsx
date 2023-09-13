@@ -1,12 +1,12 @@
-import Users from './Users';
-import Admins from './Admins';
-import Applications from './Applications';
-import Escalated from './Escalated';
-import Pending from './Pending';
-import Rejected from './Rejected';
-import Nominees from './Nominees';
-import Profile from './Profile';
-import Approved from './Approved';
+import Users from './users';
+import Admins from './admins';
+import Applications from './applications';
+import Escalated from './escalated';
+import Pending from './pending';
+import Rejected from './rejected';
+import Nominees from './nominees';
+import Profile from './profile';
+import Approved from './approved';
 
 const SelectedCategory = ({ selectedCategory, userType }) => {
   if (userType === 'user') {

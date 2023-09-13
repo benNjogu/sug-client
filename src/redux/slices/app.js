@@ -7,6 +7,7 @@ const initialState = {
     message: null,
     severity: null,
   },
+  //organizations as users
   users: [],
 };
 
@@ -52,6 +53,7 @@ export const CloseSnackbar = () => async (dispatch, getState) => {
   dispatch(slice.actions.closeSnackBar());
 };
 
+//Fetching all organizations for admin panel
 export const FetchUsers = () => {
   return async (dispatch, getState) => {
     await axios

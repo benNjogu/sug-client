@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Eye, EyeSlash } from 'phosphor-react';
 
-import FormProvider from '../../components/hook-form/FormProvider';
+import FormProvider from '../../components/hook-form/form-provider';
 import {
   Alert,
   Button,
@@ -14,7 +14,7 @@ import {
   InputAdornment,
   Stack,
 } from '@mui/material';
-import RHFTextfield from '../../components/hook-form/RHFTextfield';
+import RHFTextfield from '../../components/hook-form/RHF-textfield';
 import { ResetPassword } from '../../redux/slices/auth';
 
 const NewPasswordForm = () => {

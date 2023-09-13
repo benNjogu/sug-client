@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 
 import Navbar from '../../components/navbar/navbar.component';
+<<<<<<< HEAD:src/pages/dashboard/GeneralApp.js
 import Category from '../../components/Category';
+=======
+import Category from '../../components/category';
+>>>>>>> a633266f9794573d0a28b84eca472308ea1c6994:src/pages/dashboard/general-app.component.jsx
 import {
   user_categories,
   admin_categories,
   super_admin_categories,
 } from '../../data/data';
-import './general_app.styles.css';
-import SelectedCategory from '../../components/dashboard/SelectedCategory';
+import './general-app.styles.css';
+import SelectedCategory from '../../components/dashboard/selected-category';
 
 const GeneralApp = () => {
   const [selectedCategory, setSelectedCategory] = useState(1);

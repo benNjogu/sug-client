@@ -4,8 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Button, Stack } from '@mui/material';
 
-import RHFCodes from '../../components/hook-form/RHFCodes';
-import FormProvider from '../../components/hook-form/FormProvider';
+import RHFCodes from '../../components/hook-form/RHF-codes';
+import FormProvider from '../../components/hook-form/form-provider';
 import { VerifyEmail } from '../../redux/slices/auth';
 
 const VerifyForm = () => {
