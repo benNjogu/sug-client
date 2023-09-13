@@ -1,9 +1,5 @@
 import Logo from '../../assets/images/logo.png';
-<<<<<<<< HEAD:src/components/navbar/navbar.component.js
-import './navbar.style.css'
-========
 import './navbar.styles.css';
->>>>>>>> a633266f9794573d0a28b84eca472308ea1c6994:src/components/navbar/navbar.component.jsx
 
 const Navbar = ({ handleProfileClick }) => {
   return (
