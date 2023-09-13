@@ -1,9 +1,10 @@
-import Logo from '../assets/images/logo.png';
+import Logo from '../../assets/images/logo.png';
+import './navbar.style.css'
 
 const Navbar = ({ handleProfileClick }) => {
   return (
     <div>
-      <nav className="navbar bg-primary navbar-dark navbar-expand-lg">
+      <nav className="navbar nav-bg navbar-dark navbar-expand-lg">
         <a className="navbar-brand">
           <img src={Logo} alt="Logo" style={{ height: 48, width: 240 }} />
         </a>

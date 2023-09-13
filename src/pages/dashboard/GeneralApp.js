@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/navbar/navbar.component';
 import Category from '../../components/Category';
 import {
   user_categories,
@@ -34,7 +34,7 @@ const GeneralApp = () => {
 
   return (
     <div className="size">
-      <Navbar handleProfileClick={handleProfileClick} />
+      { <Navbar handleProfileClick={handleProfileClick} /> }
       <div className="row size">
         <div className="col-2 select_category">
           <Category
