@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Link, Stack, Typography } from '@mui/material';
-import RegisterForm from '../../sections/auth/RegisterForm';
+import RegisterForm from '../../sections/auth/register-form';
 
 const Register = () => {
   return (

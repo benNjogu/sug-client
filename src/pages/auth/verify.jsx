@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Stack, Typography } from '@mui/material';
 
-import VerifyForm from '../../sections/auth/VerifyForm';
+import VerifyForm from '../../sections/auth/verify-form';
 import auth from '../../redux/slices/auth';
 
 const Verify = () => {

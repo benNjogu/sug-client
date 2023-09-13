@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
-import DetailsTable from './../table/details_table';
-import { constants } from './../../data/constants';
+import DetailsTable from '../table/details_table';
+import { constants } from '../../data/constants';
 
 const columns = [
   { path: 'id', label: 'ID' },

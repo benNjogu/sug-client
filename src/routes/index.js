@@ -7,7 +7,7 @@ import DashboardLayout from '../layouts/dashboard';
 
 // config
 import { DEFAULT_PATH } from '../config';
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from '../components/loading-screen';
 
 const Loadable = (Component) => (props) => {
   return (
@@ -47,18 +47,18 @@ export default function Router() {
 }
 
 const GeneralApp = Loadable(
-  lazy(() => import('../pages/dashboard/GeneralApp'))
+  lazy(() => import('../pages/dashboard/general-app.component'))
 );
 const Application = Loadable(
-  lazy(() => import('../pages/application/Application'))
+  lazy(() => import('../pages/application/application'))
 );
 
-const Login = Loadable(lazy(() => import('../pages/auth/Login')));
-const Register = Loadable(lazy(() => import('../pages/auth/Register')));
-const Verify = Loadable(lazy(() => import('../pages/auth/Verify')));
+const Login = Loadable(lazy(() => import('../pages/auth/login')));
+const Register = Loadable(lazy(() => import('../pages/auth/register')));
+const Verify = Loadable(lazy(() => import('../pages/auth/verify')));
 const ResetPassword = Loadable(
-  lazy(() => import('../pages/auth/ResetPassword'))
+  lazy(() => import('../pages/auth/reset-password'))
 );
-const NewPassword = Loadable(lazy(() => import('../pages/auth/NewPassword')));
+const NewPassword = Loadable(lazy(() => import('../pages/auth/new-password')));
 
-const Page404 = Loadable(lazy(() => import('../pages/Page404')));
+const Page404 = Loadable(lazy(() => import('../pages/page-404')));

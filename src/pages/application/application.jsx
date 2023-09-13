@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Category from '../../components/Category';
+import Category from '../../components/category';
 import { application_categories } from '../../data/data';
 import './application.style.css';
 

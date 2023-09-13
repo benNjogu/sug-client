@@ -1,12 +1,10 @@
-import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Eye, EyeSlash } from 'phosphor-react';
 
-import FormProvider from '../../components/hook-form/FormProvider';
+import FormProvider from '../../components/hook-form/form-provider';
 import {
   Alert,
   Button,
@@ -14,30 +12,25 @@ import {
   InputAdornment,
   Stack,
 } from '@mui/material';
-import RHFTextfield from '../../components/hook-form/RHFTextfield';
-import { ResetPassword } from '../../redux/slices/auth';
+import RHFTextfield from '../../components/hook-form/RHF-textfield';
+import { Eye, EyeSlash } from 'phosphor-react';
+import { RegisterUser } from '../../redux/slices/auth';
 
-const NewPasswordForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const [queryParameters] = useSearchParams();
 
-  const NewPassWordSchema = Yup.object().shape({
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-    passwordConfirm: Yup.string()
-      .required('Password is required')
-      .oneOf([Yup.ref('password'), null], 'Password must match'),
+  const RegisterSchema = Yup.object().shape({
+    orgsName: Yup.string().required('Name of organization is required.'),
+    levyNumber: Yup.string().required('Levy registration number is required.'),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email must be a valid email address'),
+    password: Yup.string().required('Password is required'),
   });
 
-  const defaultValues = {
-    password: 'my_passWord.',
-    passwordConfirm: 'my_passWord.',
-  };
-
   const methods = useForm({
-    resolver: yupResolver(NewPassWordSchema),
+    resolver: yupResolver(RegisterSchema),
     //defaultValues,
   });
 
@@ -45,13 +38,13 @@ const NewPasswordForm = () => {
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = methods;
 
   const onSubmit = async (data) => {
     try {
       //submit data to backend
-      dispatch(ResetPassword({ ...data, token: queryParameters.get('token') }));
+      dispatch(RegisterUser(data));
     } catch (error) {
       console.log(error);
       reset();
@@ -68,23 +61,16 @@ const NewPasswordForm = () => {
         {!!errors.afterSubmit && (
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
         )}
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTextfield name="orgsName" label="Name of organization" />
+          <RHFTextfield name="levyNumber" label="Levy registration number" />
+        </Stack>
+
+        <RHFTextfield name="email" label="Enter organization's email" />
         <RHFTextfield
           name="password"
-          label="Enter new password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment>
-                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Eye /> : <EyeSlash />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <RHFTextfield
-          name="passwordConfirm"
-          label="Confirm password"
+          label="Create password"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -103,21 +89,21 @@ const NewPasswordForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: 'text.primary',
+            bgcolor: '#0D6EFD',
             color: (theme) =>
               theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
             '&:hover': {
-              bgcolor: 'text.primary',
+              bgcolor: '#0D6EFD',
               color: (theme) =>
                 theme.palette.mode === 'light' ? 'common.white' : 'grey',
             },
           }}
         >
-          {'Submit'}
+          {'Create Account'}
         </Button>
       </Stack>
     </FormProvider>
   );
 };
 
-export default NewPasswordForm;
+export default RegisterForm;
