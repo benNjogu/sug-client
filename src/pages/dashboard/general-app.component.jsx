@@ -44,7 +44,7 @@ const GeneralApp = () => {
             badge={true}
           />
         </div>
-        <div className="col select_category">
+        <div className="col select_category bg ">
           <SelectedCategory
             selectedCategory={selectedCategory}
             userType={'user'}

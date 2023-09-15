@@ -1,5 +1,5 @@
-.size {
-    width: 100vw;
+.application_size {
+    width: 100%;
     height: 100vh;
     overflow: hidden;
 }
