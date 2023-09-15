@@ -12,7 +12,7 @@ const Application = () => {
   };
 
   return (
-    <div className="size row">
+    <div className="application_size row">
       <div className="col-3 steps">
         <Category
           categories={application_categories}
@@ -23,7 +23,7 @@ const Application = () => {
       </div>
       <div className="col steps">
         {selectedCategory === 1 ? (
-          <div className="row">
+          <div className="row well">
             <div className="col-6">
               <fieldset>
                 <legend class="col-form-legend">Select type of training</legend>

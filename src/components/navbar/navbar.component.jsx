@@ -1,7 +1,7 @@
 import Logo from '../../assets/images/logo.png';
 import './navbar.styles.css';
 
-const Navbar = ({ handleProfileClick }) => {
+const Navbar = ({ handleProfileClick, handleLogoutClick }) => {
   return (
     <div>
       <nav className="navbar nav-bg navbar-dark navbar-expand-lg">
@@ -31,7 +31,10 @@ const Navbar = ({ handleProfileClick }) => {
               </a>
             </li>
             <li class="nav-item active">
-              <a className="text-danger nav-link cursor-pointer">
+              <a
+                className="text-danger nav-link cursor-pointer"
+                onClick={handleLogoutClick}
+              >
                 <strong>Logout</strong>
               </a>
             </li>
