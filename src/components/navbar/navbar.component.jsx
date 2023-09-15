@@ -6,7 +6,7 @@ const Navbar = ({ handleProfileClick }) => {
     <div>
       <nav className="navbar nav-bg navbar-dark navbar-expand-lg">
         <a className="navbar-brand">
-          <img src={Logo} alt="Logo" style={{ height: 48, width: 240 }} />
+          <img src={Logo} alt="Logo" style={{ height: 50, width: 240 }} />
         </a>
 
         <button
