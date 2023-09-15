@@ -34,7 +34,7 @@ const GeneralApp = () => {
 
   return (
     <div className="size">
-      <Navbar handleProfileClick={handleProfileClick} />
+      { <Navbar handleProfileClick={handleProfileClick} /> }
       <div className="row size">
         <div className="col-2 select_category">
           <Category
