@@ -14,7 +14,6 @@ const admin_categories = [
   { category_id: 3, description: constants.APPROVED },
   { category_id: 4, description: constants.REJECTED },
   { category_id: 5, description: constants.ESCALATED },
-  { category_id: 6, description: constants.LOGOUT },
 ];
 const super_admin_categories = [
   { category_id: 1, description: constants.USERS },
@@ -25,7 +24,6 @@ const super_admin_categories = [
   { category_id: 6, description: constants.REJECTED },
   { category_id: 7, description: constants.ESCALATED },
   { category_id: 8, description: constants.NOMINEES },
-  { category_id: 9, description: constants.LOGOUT },
 ];
 
 const application_categories = [

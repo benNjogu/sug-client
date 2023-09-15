@@ -23,6 +23,10 @@ const GeneralApp = () => {
     getComponent();
   };
 
+  const handleLogoutClick = () => {
+    setSelectedCategory(6);
+  };
+
   const getComponent = () => {
     if (profileOpen) setSelectedCategory(0);
     else setSelectedCategory(1);
@@ -34,7 +38,12 @@ const GeneralApp = () => {
 
   return (
     <div className="size">
-      { <Navbar handleProfileClick={handleProfileClick} /> }
+      {
+        <Navbar
+          handleProfileClick={handleProfileClick}
+          handleLogoutClick={handleLogoutClick}
+        />
+      }
       <div className="row size">
         <div className="col-2 select_category">
           <Category
@@ -44,7 +53,7 @@ const GeneralApp = () => {
             badge={true}
           />
         </div>
-        <div className="col select_category">
+        <div className="col select_category bg ">
           <SelectedCategory
             selectedCategory={selectedCategory}
             userType={'user'}
