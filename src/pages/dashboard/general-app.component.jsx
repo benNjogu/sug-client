@@ -45,7 +45,7 @@ const GeneralApp = () => {
         />
       }
       <div className="row size">
-        <div className="col-2 select_category">
+        <div className="col-md-2 select_category">
           <Category
             categories={user_categories}
             onItemSelect={handleSelectedCategory}
