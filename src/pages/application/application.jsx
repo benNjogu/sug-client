@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import './application.style.css';
 
-const GroupMemberDetails = ({ id }) => {
+export const GroupMemberDetails = ({ id }) => {
   return (
     <div>
       <div class="form-row">

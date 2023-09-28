@@ -45,9 +45,15 @@ const rows = [
 
 const Applications = () => {
   const navigate = useNavigate();
+
   const handleBtnClick = (e) => {
     e.preventDefault();
     navigate('/app/application');
+  };
+
+  const handleApplicationClick = (e) => {
+    e.preventDefault();
+    navigate('/app/view-application');
   };
 
   return (
@@ -60,7 +66,11 @@ const Applications = () => {
       >
         {constants.NEW_APPLICATION}
       </button>
-      <DetailsTable columns={columns} names={rows} />
+      <DetailsTable
+        columns={columns}
+        names={rows}
+        onClick={handleApplicationClick}
+      />
     </div>
   );
 };
