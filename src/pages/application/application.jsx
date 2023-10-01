@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './application.style.css';
+import { constants } from '../../data/constants';
 
 export const GroupMemberDetails = ({ id }) => {
   return (
@@ -61,13 +62,18 @@ export const GroupMemberDetails = ({ id }) => {
   );
 };
 
-const PrevNextBtn = ({ onClickPrev, onClickNext, prevText='Previous', nextText = 'Next' }) => {
+const PrevNextBtn = ({
+  onClickPrev,
+  onClickNext,
+  prevText = 'Previous',
+  nextText = 'Next',
+}) => {
   return (
     <div className="col-12">
-        <button type="button" class="btn btn-danger " onClick={onClickPrev}>
-          {prevText}
-        </button>
-      
+      <button type="button" class="btn btn-danger " onClick={onClickPrev}>
+        {prevText}
+      </button>
+
       <button type="button" class="btn btn-info next_btn" onClick={onClickNext}>
         {nextText}
       </button>
@@ -77,13 +83,9 @@ const PrevNextBtn = ({ onClickPrev, onClickNext, prevText='Previous', nextText =
 
 const Application = () => {
   const [selectedCategory, setSelectedCategory] = useState(1);
-  const [overseas, setOverseas] = useState(true);
-  const [group, setGroup] = useState(true);
+  const [typeOfTraining, setTypeOfTraining] = useState('');
+  const [number, setNumber] = useState('');
   const navigate = useNavigate();
-
-  const handleSelectedCategory = (category) => {
-    setSelectedCategory(category);
-  };
 
   let formArr = [];
   for (let i = 1; i <= 25; i++) {
@@ -91,22 +93,34 @@ const Application = () => {
   }
 
   const handleClickPrev = () => {
-    if (overseas === false && selectedCategory === 5) setSelectedCategory(3);
+    if (typeOfTraining !== constants._OVERSEAS && selectedCategory === 5)
+      setSelectedCategory(3);
     else setSelectedCategory(selectedCategory - 1);
   };
 
   const handleClickBack = (e) => {
     e.preventDefault();
     navigate('/app');
-  }
+  };
 
   const handleClickNext = () => {
-    if (overseas === false && selectedCategory === 3) setSelectedCategory(5);
+    if (typeOfTraining !== constants._OVERSEAS && selectedCategory === 3)
+      setSelectedCategory(5);
     else setSelectedCategory(selectedCategory + 1);
+    // console.log(typeOfTraining);
+    // console.log('n', number);
   };
 
   const handleSubmit = () => {
     console.log('Submitting application');
+  };
+
+  const onValueChange = (e) => {
+    setTypeOfTraining(e.target.value);
+  };
+
+  const onNumberChange = (e) => {
+    setNumber(e.target.value);
   };
 
   return (
@@ -129,7 +143,9 @@ const Application = () => {
                       name="type"
                       id=""
                       class="form-check-input"
-                      value="yes"
+                      value={constants.LOCAL}
+                      onChange={onValueChange}
+                      checked={typeOfTraining === constants.LOCAL}
                     />
                     Local
                   </label>
@@ -141,7 +157,9 @@ const Application = () => {
                       name="type"
                       id=""
                       class="form-check-input"
-                      value="no"
+                      value={constants._OVERSEAS}
+                      onChange={onValueChange}
+                      checked={typeOfTraining === constants._OVERSEAS}
                     />
                     Overseas
                   </label>
@@ -153,7 +171,9 @@ const Application = () => {
                       name="type"
                       id=""
                       class="form-check-input"
-                      value="no"
+                      value={constants.DISTANCE}
+                      onChange={onValueChange}
+                      checked={typeOfTraining === constants.DISTANCE}
                     />
                     Distance learning
                   </label>
@@ -170,7 +190,9 @@ const Application = () => {
                       name="amount"
                       id=""
                       class="form-check-input"
-                      value="yes"
+                      value={constants.ONE}
+                      onChange={onNumberChange}
+                      checked={number === constants.ONE}
                     />
                     One
                   </label>
@@ -182,7 +204,9 @@ const Application = () => {
                       name="amount"
                       id=""
                       class="form-check-input"
-                      value="no"
+                      value={constants.GROUP}
+                      onChange={onNumberChange}
+                      checked={number === constants.GROUP}
                     />
                     Group
                   </label>
@@ -198,7 +222,7 @@ const Application = () => {
             </div>
           </div>
         ) : selectedCategory === 2 ? (
-          group === false ? (
+          number === constants.ONE ? (
             <div className="row form_div">
               <div className="col-md-12">
                 <legend className="text-info">
@@ -394,7 +418,7 @@ const Application = () => {
                   </div>
                 </div>
               </div>
-              <div className={'ml-auto prev_next_btns'}>
+              <div className={'ml-auto mt-auto prev_next_btns'}>
                 <PrevNextBtn
                   onClickNext={handleClickNext}
                   onClickPrev={handleClickPrev}
@@ -415,7 +439,7 @@ const Application = () => {
                 </legend>
                 {formArr}
               </div>
-              <div className={'ml-auto prev_next_btns'}>
+              <div className={'ml-auto mt-auto prev_next_btns'}>
                 <PrevNextBtn
                   onClickNext={handleClickNext}
                   onClickPrev={handleClickPrev}
@@ -554,7 +578,7 @@ const Application = () => {
             </div>
           </div>
         ) : selectedCategory === 4 ? (
-          overseas === true ? (
+          typeOfTraining === constants._OVERSEAS ? (
             <div className="row form_div">
               <div className="col-md-12">
                 <legend className="text-info">
