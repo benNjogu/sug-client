@@ -1,8 +1,8 @@
 .main_div {
     height: 88%;
-    overflow-y: auto;
+    overflow: auto;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 16px;
     margin-top: 2px;
     padding: 16px;
@@ -23,7 +23,8 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    padding: 16px;
-    padding-left: 16px;
-    background-color: #aebfd5;
+    padding: 8px;
+    /* padding-left: 16px; */
+    padding-top: 0;
+    background-color: #e5eaf5;
 }

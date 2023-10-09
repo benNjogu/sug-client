@@ -9,7 +9,8 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: #aebfd5;
+    /* background-color: #aebfd5; */
+    background-color: #e5eaf5;
 }
 
 .select_category {
