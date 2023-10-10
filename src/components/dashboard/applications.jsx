@@ -48,7 +48,7 @@ const Applications = () => {
 
   const handleBtnClick = (e) => {
     e.preventDefault();
-    navigate('/app/application');
+    navigate('/app/new-application');
   };
 
   const handleApplicationClick = (e) => {
