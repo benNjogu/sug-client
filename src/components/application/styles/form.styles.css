@@ -1,3 +1,12 @@
+.errorMsg {
+  max-width: 350px;
+  color: #f21e08;
+  padding: 2px 0;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
 .form-control.input-error {
   border: 2px solid #f21e08;
 }
@@ -7,11 +16,6 @@
   margin: 3rem auto;
 }
 
-.errorMsg {
-  max-width: 350px;
-  color: #f21e08;
-  padding: 2px 0;
-  margin-top: 2px;
-  font-size: 14px;
-  font-weight: 300;
+.next-btn {
+  /* margin-left: auto; */
 }

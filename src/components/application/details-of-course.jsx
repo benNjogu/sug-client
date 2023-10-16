@@ -1,19 +1,27 @@
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
-import './styles/form.styles.css';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-const CourseDetails = () => {
+import './styles/form.styles.css';
+
+const CourseDetails = ({ user, updateUser }) => {
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      user_email: user.user_email,
+      user_password: user.user_password,
+    },
+  });
 
   const onSubmit = (data) => {
     console.log(data);
+    updateUser(data);
     navigate('/app/new-application/overseas');
   };
 

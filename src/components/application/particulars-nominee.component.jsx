@@ -1,19 +1,27 @@
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
-import './styles/form.styles.css';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-const Nominee = (props) => {
+import './styles/form.styles.css';
+
+const Nominee = ({ user, updateUser }) => {
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      first_name: user.first_name,
+      last_name: user.last_name,
+    },
+  });
 
   const onSubmit = (data) => {
     console.log(data);
+    updateUser(data);
     navigate('/app/new-application/course');
   };
 
@@ -61,7 +69,6 @@ const Nominee = (props) => {
             <p className="errorMsg">{errors.last_name.message}</p>
           )}
         </Form.Group>
-
         <Button variant="primary" type="submit">
           Next
         </Button>

@@ -1,14 +1,12 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import withRouter from '../../../hooks/withRouter';
 import './progressive.styles.scss';
-import { useLocation } from 'react-router-dom';
 
 const Progress = ({}) => {
   let location = useLocation();
   let { pathname } = location;
-  console.log(pathname);
-  console.log(location);
   const isFirstStep = pathname === '/app/new-application';
   const isSecondStep = pathname === '/app/new-application/course';
   const isThirdStep = pathname === '/app/new-application/overseas';
