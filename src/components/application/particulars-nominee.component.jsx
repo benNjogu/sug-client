@@ -410,9 +410,11 @@ const Nominee = ({ user, updateUser }) => {
             </div>
           </div>
         </div>
-        <Button variant="primary" type="submit">
-          Next
-        </Button>
+        <div className={'col-md-12 text-right pb-2 px-0'}>
+          <Button className={'next_btn'} variant="primary" type="submit">
+            Next
+          </Button>
+        </div>
       </div>
     </Form>
   );
