@@ -13,7 +13,7 @@ const Progress = ({}) => {
 
   return (
     <>
-      <div className="steps">
+      <div className="steps fixed-top">
         <div className={`${isFirstStep ? 'step active' : 'step'}`}>
           <div>1</div>
           <div>

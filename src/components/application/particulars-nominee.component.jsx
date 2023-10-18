@@ -42,7 +42,7 @@ const Nominee = ({ user, updateUser }) => {
   };
 
   return (
-    <Form className="" onSubmit={handleSubmit(onSubmit)}>
+    <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="col-md-12">
         <div className="row">
           <div className="col-md-12">
