@@ -1,159 +1,302 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import csc from 'country-state-city';
-import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-const Overseas = () => {
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const Overseas = ({ user, updateUser }) => {
+  const [related, setRelated] = useState(false);
+  const [otherFunds, setOtherFunds] = useState(false);
 
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
 
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        setIsLoading(true);
-        const result = await csc.getAllCountries();
-        let allCountries = [];
-        allCountries = result?.map(({ isoCode, name }) => ({
-          isoCode,
-          name,
-        }));
-        const [{ isoCode: firstCountry } = {}] = allCountries;
-        setCountries(allCountries);
-        setSelectedCountry(firstCountry);
-        setIsLoading(false);
-      } catch (error) {
-        setCountries([]);
-        setIsLoading(false);
-      }
-    };
+  const handleRelated = () => {
+    setRelated(true);
+  };
 
-    getCountries();
-  }, []);
+  const handleNotRelated = () => {
+    setRelated(false);
+  };
 
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const result = await csc.getStatesOfCountry(selectedCountry);
-        let allStates = [];
-        allStates = result?.map(({ isoCode, name }) => ({
-          isoCode,
-          name,
-        }));
-        console.log({ allStates });
-        const [{ isoCode: firstState = '' } = {}] = allStates;
-        setCities([]);
-        setSelectedCity('');
-        setStates(allStates);
-        setSelectedState(firstState);
-      } catch (error) {
-        setStates([]);
-        setCities([]);
-        setSelectedCity('');
-      }
-    };
+  const handleOtherFunds = () => {
+    setOtherFunds(true);
+  };
 
-    getStates();
-  }, [selectedCountry]);
+  const handleNoOtherFunds = () => {
+    setOtherFunds(false);
+  };
 
-  useEffect(() => {
-    const getCities = async () => {
-      try {
-        const result = await csc.getCitiesOfState(
-          selectedCountry,
-          selectedState
-        );
-        let allCities = [];
-        allCities = result?.map(({ name }) => ({
-          name,
-        }));
-        const [{ name: firstCity = '' } = {}] = allCities;
-        setCities(allCities);
-        setSelectedCity(firstCity);
-      } catch (error) {
-        setCities([]);
-      }
-    };
+  // const onSubmit = async (event) => {
+  //   event.preventDefault();
+  // };
 
-    getCities();
-  }, [selectedState]);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = (data) => {
+    console.log(data);
+    // updateUser(data);
+    // navigate('/app/new-application/course');
   };
 
   return (
-    <Form className="input-form" onSubmit={handleSubmit}>
-      <div className="col-md-6 offset-md-3">
-        <Form.Group controlId="country">
-          {isLoading && (
-            <p className="loading">Loading countries. Please wait...</p>
-          )}
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            as="select"
-            name="country"
-            value={selectedCountry}
-            onChange={(event) => setSelectedCountry(event.target.value)}
-          >
-            {countries.map(({ isoCode, name }) => (
-              <option value={isoCode} key={isoCode}>
-                {name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="state">
-          <Form.Label>State</Form.Label>
-          <Form.Control
-            as="select"
-            name="state"
-            value={selectedState}
-            onChange={(event) => setSelectedState(event.target.value)}
-          >
-            {states.length > 0 ? (
-              states.map(({ isoCode, name }) => (
-                <option value={isoCode} key={isoCode}>
-                  {name}
-                </option>
-              ))
-            ) : (
-              <option value="" key="">
-                No state found
-              </option>
-            )}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            as="select"
-            name="city"
-            value={selectedCity}
-            onChange={(event) => setSelectedCity(event.target.value)}
-          >
-            {cities.length > 0 ? (
-              cities.map(({ name }) => (
-                <option value={name} key={name}>
-                  {name}
-                </option>
-              ))
-            ) : (
-              <option value="">No cities found</option>
-            )}
-          </Form.Control>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Register
-        </Button>
+    <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      <div className="row form_div">
+        <div className="col-md-12">
+          <legend className="text-info">
+            Regional/Overseas training additional requirements.
+          </legend>
+          <div class="form-row">
+            <div class="col-md-3">
+              <Form.Group controlId="local_availability">
+                <label for="local_availability">
+                  Is the course available locally?
+                </label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="local_availability"
+                      id="available-yes"
+                      value="yes"
+                      autoComplete="off"
+                      {...register('local_availability', {
+                        required: 'Availability is required.',
+                      })}
+                      className={`${
+                        errors.local_availability ? 'input-error' : ''
+                      }`}
+                    />
+                    <label for="available-yes" class="form-check-label">
+                      Yes
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="local_availability"
+                      id="available-no"
+                      value="No"
+                      autoComplete="off"
+                      {...register('local_availability', {
+                        required: 'Availability is required.',
+                      })}
+                      className={`${
+                        errors.local_availability ? 'input-error' : ''
+                      }`}
+                    />
+                    <label for="available-no" class="form-check-label">
+                      No
+                    </label>
+                  </div>
+                </div>
+                {errors.local_availability && (
+                  <p className="errorMsg">
+                    {errors.local_availability.message}
+                  </p>
+                )}
+              </Form.Group>
+            </div>
+            <div class="col-md-4">
+              <Form.Group controlId="employment_date">
+                <label for="employment_date">Date of employment:</label>
+                <input
+                  type="date"
+                  name="employment_date"
+                  id="employment_date"
+                  class="form-control"
+                  placeholder="mm/dd/yyyy"
+                  autoComplete="off"
+                  {...register('employment_date', {
+                    required: 'Employment date is required.',
+                  })}
+                  className={`${
+                    errors.employment_date
+                      ? 'input-error form-control'
+                      : 'form-control'
+                  }`}
+                />
+                {errors.employment_date && (
+                  <p className="errorMsg">{errors.employment_date.message}</p>
+                )}
+              </Form.Group>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-12 form-group">
+              <Form.Group controlId="trainer_employer_relationship">
+                <label for="trainer_employer_relationship">
+                  Does the trainer have any business connection with the
+                  Employer/Applicant?
+                </label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="trainer_employer_relationship"
+                      id="relationship-no"
+                      value="No"
+                      onClick={handleNotRelated}
+                      autoComplete="off"
+                      {...register('trainer_employer_relationship', {
+                        required: 'Trainer employer relationship is required.',
+                      })}
+                      className={`${
+                        errors.trainer_employer_relationship
+                          ? 'input-error'
+                          : ''
+                      }`}
+                    />
+                    <label for="relationship-no" class="form-check-label">
+                      No
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="trainer_employer_relationship"
+                      id="relationship-yes"
+                      value="yes"
+                      onClick={handleRelated}
+                      autoComplete="off"
+                      {...register('trainer_employer_relationship', {
+                        required: 'Trainer employer relationship is required.',
+                      })}
+                      className={`${
+                        errors.trainer_employer_relationship
+                          ? 'input-error'
+                          : ''
+                      }`}
+                    />
+                    <label for="relationship-yes" class="form-check-label">
+                      Yes
+                    </label>
+                  </div>
+                </div>
+                {errors.trainer_employer_relationship && (
+                  <p className="errorMsg">
+                    {errors.trainer_employer_relationship.message}
+                  </p>
+                )}
+              </Form.Group>
+              <div class="col-md-12">
+                {related && (
+                  <input
+                    type="text"
+                    name="related_to_organization"
+                    id="related_to_organization"
+                    placeholder="If yes, which organization"
+                    autoComplete="off"
+                    {...register('related_to_organization', {
+                      required: 'Please specify.',
+                    })}
+                    className={`${
+                      errors.related_to_organization
+                        ? 'input-error form-control'
+                        : 'form-control'
+                    }`}
+                  />
+                )}
+                {related && errors.related_to_organization && (
+                  <p className="errorMsg">
+                    {errors.related_to_organization.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-12">
+              <Form.Group controlId="other_organization_funds">
+                <label for="other_organization_funds">
+                  Is any other organization funding the training?
+                </label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="other_organization_funds"
+                      id="funds-no"
+                      value="No"
+                      onClick={handleNoOtherFunds}
+                      autoComplete="off"
+                      {...register('other_organization_funds', {
+                        required: 'Funding information required.',
+                      })}
+                      className={`${
+                        errors.other_organization_funds ? 'input-error' : ''
+                      }`}
+                    />
+                    <label for="funds-no" class="form-check-label">
+                      No
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      name="other_organization_funds"
+                      id="funds-yes"
+                      value="yes"
+                      onClick={handleOtherFunds}
+                      autoComplete="off"
+                      {...register('other_organization_funds', {
+                        required: 'Funding information required.',
+                      })}
+                      className={`${
+                        errors.other_organization_funds ? 'input-error' : ''
+                      }`}
+                    />
+                    <label for="funds-yes" class="form-check-label">
+                      Yes
+                    </label>
+                  </div>
+                </div>
+                {errors.other_organization_funds && (
+                  <p className="errorMsg">
+                    {errors.other_organization_funds.message}
+                  </p>
+                )}
+              </Form.Group>
+              <div class="col-md-12">
+                {otherFunds && (
+                  <input
+                    type="text"
+                    name="other_funds"
+                    id="other_funds"
+                    placeholder="If yes, which organization"
+                    autoComplete="off"
+                    {...register('other_funds', {
+                      required: 'Please specify.',
+                    })}
+                    className={`${
+                      errors.other_funds
+                        ? 'input-error form-control'
+                        : 'form-control'
+                    }`}
+                  />
+                )}
+                {otherFunds && errors.related_to_organization && (
+                  <p className="errorMsg">
+                    {errors.related_to_organization.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={'col-md-12 text-right pb-2 px-0 pt-2'}>
+          <Button variant="primary" type="submit">
+            Next
+          </Button>
+        </div>
       </div>
     </Form>
   );
