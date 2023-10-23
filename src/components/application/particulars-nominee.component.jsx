@@ -37,7 +37,9 @@ const Nominee = ({ user, updateUser }) => {
   };
 
   const onSubmit = (data) => {
-    updateUser(data);
+    let users = [];
+    users.push(data);
+    updateUser({ users: users });
     navigate('/app/new-application/course');
   };
 
