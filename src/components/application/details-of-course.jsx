@@ -62,13 +62,12 @@ const CourseDetails = ({ user, updateUser }) => {
   useEffect(() => {
     const getStates = async () => {
       try {
-        const result = await csc.getStatesOfCountry(selectedCountry);
+        const result = csc.getStatesOfCountry(selectedCountry);
         let allStates = [];
         allStates = result?.map(({ isoCode, name }) => ({
           isoCode,
           name,
         }));
-        console.log({ allStates });
         const [{ isoCode: firstState = '' } = {}] = allStates;
         setCities([]);
         setSelectedCity('');
@@ -107,7 +106,6 @@ const CourseDetails = ({ user, updateUser }) => {
   }, [selectedState]);
 
   const onSubmit = (data) => {
-    console.log(data);
     updateUser({
       ...data,
       country: selectedCountry,
