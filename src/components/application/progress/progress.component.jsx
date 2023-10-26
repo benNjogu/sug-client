@@ -10,6 +10,8 @@ const Progress = ({}) => {
   const isFirstStep = pathname === '/app/new-application';
   const isSecondStep = pathname === '/app/new-application/course';
   const isThirdStep = pathname === '/app/new-application/overseas';
+  const isForthStep = pathname === '/app/new-application/training-expenses';
+  const isFifthStep = pathname === '/app/new-application/declaration';
 
   return (
     <>
@@ -17,32 +19,52 @@ const Progress = ({}) => {
         <div className={`${isFirstStep ? 'step active' : 'step'}`}>
           <div>1</div>
           <div>
-            {isSecondStep || isThirdStep ? (
-              <Link to="/app/new-application">Step 1</Link>
+            {isSecondStep || isThirdStep || isForthStep || isFifthStep ? (
+              <Link to="/app/new-application">Nominee</Link>
             ) : (
-              'Step 1'
+              'Nominee'
             )}
           </div>
         </div>
         <div className={`${isSecondStep ? 'step active' : 'step'}`}>
           <div>2</div>
           <div>
-            {isThirdStep ? (
-              <Link to="/app/new-application/course">Step 2</Link>
+            {isThirdStep || isForthStep || isFifthStep ? (
+              <Link to="/app/new-application/course">Course</Link>
             ) : (
-              'Step 2'
+              'Course'
+            )}
+          </div>
+        </div>
+        <div className={`${isThirdStep ? 'step active' : 'step'}`}>
+          <div>3</div>
+          <div>
+            {isForthStep || isFifthStep ? (
+              <Link to="/app/new-application/overseas">Overseas</Link>
+            ) : (
+              'Overseas'
+            )}
+          </div>
+        </div>
+        <div className={`${isForthStep ? 'step active' : 'step'}`}>
+          <div>4</div>
+          <div>
+            {isFifthStep ? (
+              <Link to="/app/new-application/training-expenses">Expenses</Link>
+            ) : (
+              'Expenses'
             )}
           </div>
         </div>
         <div
           className={`${
-            pathname === '/app/new-application/overseas'
+            pathname === '/app/new-application/declaration'
               ? 'step active'
               : 'step'
           }`}
         >
-          <div>3</div>
-          <div>Step 3</div>
+          <div>5</div>
+          <div>Declaration</div>
         </div>
       </div>
     </>
