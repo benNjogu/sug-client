@@ -1,0 +1,22 @@
+.errorMsg {
+  max-width: 350px;
+  color: #f21e08;
+  padding: 2px 0;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.form-control.input-error {
+  border: 2px solid #f21e08;
+}
+
+.input-form {
+  width: 90%;
+  margin: 3rem auto;
+}
+
+.form-container {
+  margin-top: 4.8rem;
+  margin-bottom: 2rem;
+}

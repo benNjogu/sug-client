@@ -96,7 +96,7 @@ const LoginForm = () => {
         type="submit"
         variant="contained"
         sx={{
-          bgcolor: '#f00',
+          bgcolor: '#115581',
           color: (theme) =>
             theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
           '&:hover': {

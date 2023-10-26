@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const TableBody = ({ data, columns }) => {
+const TableBody = ({ data, columns, onClick }) => {
   const renderCell = (item, column) => {
     if (column.content) return column.content(item);
 
@@ -9,6 +9,10 @@ const TableBody = ({ data, columns }) => {
 
   const createKey = (item, column) => {
     return item._id + (column.path || column.key);
+  };
+
+  const handleClick = () => {
+    console.log('clicked');
   };
 
   return (
@@ -26,6 +30,7 @@ const TableBody = ({ data, columns }) => {
               data-toggle="tooltip"
               title={item[column.path]}
               key={createKey(item, column)}
+              onClick={onClick}
             >
               {renderCell(item, column)}
             </td>

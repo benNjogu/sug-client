@@ -19,4 +19,13 @@ export const constants = {
 
   //BTN
   NEW_APPLICATION: 'NEW APPLICATION',
+
+  //TYPE OF TRAINING
+  LOCAL: 'Local',
+  _OVERSEAS: 'Overseas',
+  DISTANCE: 'Distance learning',
+
+  //NUMBER OF PARTICIPANTS
+  ONE: 'One',
+  GROUP: 'Group',
 };

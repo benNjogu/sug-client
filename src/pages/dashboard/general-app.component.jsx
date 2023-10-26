@@ -38,14 +38,12 @@ const GeneralApp = () => {
 
   return (
     <div className="size">
-      {
-        <Navbar
-          handleProfileClick={handleProfileClick}
-          handleLogoutClick={handleLogoutClick}
-        />
-      }
+      <Navbar
+        handleProfileClick={handleProfileClick}
+        handleLogoutClick={handleLogoutClick}
+      />
       <div className="row size">
-        <div className="col-2 select_category">
+        <div className="col-md-2 select_category">
           <Category
             categories={user_categories}
             onItemSelect={handleSelectedCategory}

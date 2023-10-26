@@ -89,7 +89,7 @@ const RegisterForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: '#0D6EFD',
+            bgcolor: '#115581',
             color: (theme) =>
               theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
             '&:hover': {
