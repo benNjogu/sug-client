@@ -6,6 +6,8 @@ import Nominee from '../../components/application/particulars-nominee.component'
 import CourseDetails from '../../components/application/details-of-course';
 import Overseas from '../../components/application/overseas-requirements';
 import './new-application.css';
+import TrainingExpenses from '../../components/application/training-expenses';
+import Declaration from '../../components/application/declaration';
 
 const NewApplication = () => {
   const [user, setUser] = useState({});
@@ -31,7 +33,18 @@ const NewApplication = () => {
           path="/course"
           element={<CourseDetails user={user} updateUser={updateUser} />}
         />
-        <Route path="/overseas" element={<Overseas user={user} />} />
+        <Route
+          path="/overseas"
+          element={<Overseas user={user} updateUser={updateUser} />}
+        />
+        <Route
+          path="/training-expenses"
+          element={<TrainingExpenses user={user} updateUser={updateUser} />}
+        />
+        <Route
+          path="/declaration"
+          element={<Declaration user={user} updateUser={updateUser} />}
+        />
       </Routes>
     </div>
   );
