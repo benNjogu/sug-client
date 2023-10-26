@@ -8,6 +8,7 @@ import './styles/form.styles.css';
 const Nominee = ({ user, updateUser }) => {
   const navigate = useNavigate();
   const [special, setSpecial] = useState(false);
+  let data = user?.users ? user.users[0] : user;
 
   const {
     register,
@@ -15,16 +16,16 @@ const Nominee = ({ user, updateUser }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      sex: user.sex,
-      age: user.age,
-      phone: user.phone,
-      id_photo: user.id_photo,
-      qualifications: user.qualifications,
-      job_level: user.job_level,
-      other_specification: user.other_specification,
-      job_description: user.job_description,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      sex: data.sex,
+      age: data.age,
+      phone: data.phone,
+      id_photo: data.id_photo,
+      qualifications: data.qualifications,
+      job_level: data.job_level,
+      other_specification: data.other_specification,
+      job_description: data.job_description,
     },
   });
 
