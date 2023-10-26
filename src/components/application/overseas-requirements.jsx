@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Overseas = ({ user, updateUser }) => {
+  const navigate = useNavigate();
+
   const [related, setRelated] = useState(false);
   const [otherFunds, setOtherFunds] = useState(false);
 
@@ -12,7 +14,14 @@ const Overseas = ({ user, updateUser }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      local_availability: user.local_availability,
+      employment_date: user.employment_date,
+      trainer_employer_relationship: user.trainer_employer_relationship,
+      related_to_organization: user.related_to_organization,
+      other_organization_funds: user.other_organization_funds,
+      org_funding: user.org_funding,
+    },
   });
 
   const handleRelated = () => {
@@ -31,14 +40,10 @@ const Overseas = ({ user, updateUser }) => {
     setOtherFunds(false);
   };
 
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  // };
-
   const onSubmit = (data) => {
     console.log(data);
-    // updateUser(data);
-    // navigate('/app/new-application/course');
+    updateUser(data);
+    navigate('/app/new-application/training-expenses');
   };
 
   return (
@@ -127,7 +132,7 @@ const Overseas = ({ user, updateUser }) => {
             </div>
           </div>
           <div class="form-row">
-            <div class="col-md-12 form-group">
+            <div class="col-md-12">
               <Form.Group controlId="trainer_employer_relationship">
                 <label for="trainer_employer_relationship">
                   Does the trainer have any business connection with the
@@ -269,15 +274,15 @@ const Overseas = ({ user, updateUser }) => {
                 {otherFunds && (
                   <input
                     type="text"
-                    name="other_funds"
-                    id="other_funds"
+                    name="org_funding"
+                    id="org_funding"
                     placeholder="If yes, which organization"
                     autoComplete="off"
-                    {...register('other_funds', {
+                    {...register('org_funding', {
                       required: 'Please specify.',
                     })}
                     className={`${
-                      errors.other_funds
+                      errors.org_funding
                         ? 'input-error form-control'
                         : 'form-control'
                     }`}
