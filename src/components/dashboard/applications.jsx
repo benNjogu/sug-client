@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import DetailsTable from '../table/details_table';
 import { constants } from '../../data/constants';
+import ModalComponent from '../modal/modal.component';
 
 const columns = [
   { path: 'id', label: 'ID' },
@@ -46,7 +47,7 @@ const rows = [
 const Applications = () => {
   const navigate = useNavigate();
 
-  const handleBtnClick = (e) => {
+  const handleNextClick = (e) => {
     e.preventDefault();
     navigate('/app/new-application');
   };
@@ -58,11 +59,13 @@ const Applications = () => {
 
   return (
     <div>
+      <ModalComponent onClick={handleNextClick} />
       <button
         type="button"
         className="btn btn-primary"
         style={{ marginBottom: 8 }}
-        onClick={handleBtnClick}
+        data-toggle="modal"
+        data-target="#selectItemModal"
       >
         {constants.NEW_APPLICATION}
       </button>

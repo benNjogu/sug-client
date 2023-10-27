@@ -54,7 +54,7 @@ const Overseas = ({ user, updateUser }) => {
             Regional/Overseas training additional requirements.
           </legend>
           <div class="form-row">
-            <div class="col-md-3">
+            <div class="col-md-6">
               <Form.Group controlId="local_availability">
                 <label for="local_availability">
                   Is the course available locally?
@@ -106,7 +106,7 @@ const Overseas = ({ user, updateUser }) => {
                 )}
               </Form.Group>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <Form.Group controlId="employment_date">
                 <label for="employment_date">Date of employment:</label>
                 <input
