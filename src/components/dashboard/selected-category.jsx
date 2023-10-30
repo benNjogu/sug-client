@@ -7,6 +7,7 @@ import Rejected from './rejected';
 import Nominees from './nominees';
 import Profile from './profile';
 import Approved from './approved';
+import Registered from './registered-nominees';
 
 const SelectedCategory = ({ selectedCategory, userType }) => {
   if (userType === 'user') {
@@ -14,17 +15,17 @@ const SelectedCategory = ({ selectedCategory, userType }) => {
       case 0:
         return <Profile />;
       case 1:
-        return <Applications />;
+        return <Registered />;
       case 2:
-        return <Approved />;
+        return <Applications />;
       case 3:
-        return <Pending />;
+        return <Approved />;
       case 4:
-        return <Rejected />;
+        return <Pending />;
       case 5:
-        return <Nominees />;
+        return <Rejected />;
       case 6:
-        return 'Logout dialog';
+        return <Nominees />;
       default:
         break;
     }

@@ -1,6 +1,7 @@
 export const constants = {
   USERS: 'USERS',
   ADMINS: 'ADMINS',
+  REGISTERED: 'REGISTERED',
   APPLICATIONS: 'APPLICATIONS',
   APPROVED: 'APPROVED',
   PENDING: 'PENDING',
@@ -19,6 +20,7 @@ export const constants = {
 
   //BTN
   NEW_APPLICATION: 'NEW APPLICATION',
+  ADD_NEW: 'ADD NEW',
 
   //TYPE OF TRAINING
   LOCAL: 'Local',
