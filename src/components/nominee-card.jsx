@@ -1,4 +1,4 @@
-const NomineeCard = () => {
+const NomineeCard = ({ onEdit }) => {
   return (
     <div>
       <div
@@ -24,19 +24,15 @@ const NomineeCard = () => {
         <div className="card-footer">
           <div className="row">
             <div className="col-4">
-              <a href="#" class="btn btn-sm btn-outline-danger">
-                delete
-              </a>
+              <button class="btn btn-sm btn-outline-danger">delete</button>
             </div>
             <div className="col-4">
-              <a href="#" class="btn btn-sm btn-outline-success">
+              <button class="btn btn-sm btn-outline-success" onClick={onEdit}>
                 edit
-              </a>
+              </button>
             </div>
             <div className="col-4">
-              <a href="#" class="btn btn-sm btn-outline-primary">
-                view
-              </a>
+              <button class="btn btn-sm btn-outline-primary">view</button>
             </div>
           </div>
         </div>

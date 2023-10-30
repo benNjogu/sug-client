@@ -1,11 +1,23 @@
+import { useNavigate } from 'react-router-dom';
 import { Plus } from 'phosphor-react';
 
 import { constants } from '../../data/constants';
 import NomineeCard from '../nominee-card';
 
 const Registered = () => {
-  // let users = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  let users = [];
+  const navigate = useNavigate();
+  let users = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  // let users = [];
+
+  const handleAddNew = () => {
+    navigate('/app/register-nominee');
+  };
+
+  const handleEdit = () => {
+    navigate('/app/register-nominee', {
+      state: { nominee_id: 1 },
+    });
+  };
 
   return (
     <>
@@ -17,6 +29,7 @@ const Registered = () => {
             style={{ marginBottom: 8 }}
             data-toggle="modal"
             data-target="#selectItemModal"
+            onClick={handleAddNew}
           >
             <Plus size={20} /> {constants.ADD_NEW}
           </button>
@@ -51,11 +64,11 @@ const Registered = () => {
           </select>
         </div>
       </div>
-      <div className="row" style={{ height: 436 + 'px', overflowY: 'scroll' }}>
+      <div className="row overflow-auto" style={{ height: 436 + 'px' }}>
         {users.length > 0 ? (
           users.map((u) => (
             <div className="col-md-4">
-              <NomineeCard />
+              <NomineeCard onEdit={handleEdit} />
             </div>
           ))
         ) : (

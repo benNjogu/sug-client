@@ -1,32 +1,35 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
+import { House } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 
 import './styles/form.styles.css';
 
-const Nominee = ({ user, updateUser }) => {
+const Nominee = ({ nominee_id }) => {
   const navigate = useNavigate();
   const [special, setSpecial] = useState(false);
-  let data = user?.users ? user.users[0] : user;
+  // let data = user?.users ? user.users[0] : user;
+
+  console.log(nominee_id);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      first_name: data.first_name,
-      last_name: data.last_name,
-      sex: data.sex,
-      age: data.age,
-      phone: data.phone,
-      id_photo: data.id_photo,
-      qualifications: data.qualifications,
-      job_level: data.job_level,
-      other_specification: data.other_specification,
-      job_description: data.job_description,
-    },
+    // defaultValues: {
+    //   first_name: data.first_name,
+    //   last_name: data.last_name,
+    //   sex: data.sex,
+    //   age: data.age,
+    //   phone: data.phone,
+    //   id_photo: data.id_photo,
+    //   qualifications: data.qualifications,
+    //   job_level: data.job_level,
+    //   other_specification: data.other_specification,
+    //   job_description: data.job_description,
+    // },
   });
 
   const handleOther = () => {
@@ -37,24 +40,38 @@ const Nominee = ({ user, updateUser }) => {
     setSpecial(false);
   };
 
+  const handleHomePage = () => {
+    navigate('/app');
+  };
+
   const onSubmit = (data) => {
     let users = [];
     users.push(data);
-    updateUser({ users: users });
-    navigate('/app/new-application/course');
   };
 
   return (
-    <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <div className="col-md-12">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-9 mr-auto">
             <legend className="text-info">
               Particulars of the nominee.{' '}
               <span className="font-italic">
                 attach documents where required
               </span>
             </legend>
+          </div>
+          <div className="col-md-3 text-right" style={{ paddingTop: 8 + 'px' }}>
+            <button
+              className="btn btn-sm btn-outline-danger d-inline-flex align-items-center font-weight-bold"
+              onClick={handleHomePage}
+            >
+              <House size={16} style={{ marginRight: 4 + 'px' }} /> HOME PAGE
+            </button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
             <div class="form-row">
               <div class="col-md-3">
                 <Form.Group controlId="sex">
@@ -415,7 +432,7 @@ const Nominee = ({ user, updateUser }) => {
         </div>
         <div className={'col-md-12 text-right pb-2 px-0'}>
           <Button variant="primary" type="submit">
-            Next
+            ADD
           </Button>
         </div>
       </div>
