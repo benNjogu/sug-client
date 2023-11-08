@@ -3,15 +3,18 @@ import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 import { House } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import './styles/form.styles.css';
+import { RegisterUser } from '../../redux/slices/nominee';
 
 const Nominee = ({ nominee_id }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [special, setSpecial] = useState(false);
   // let data = user?.users ? user.users[0] : user;
 
-  console.log(nominee_id);
+  // console.log(nominee_id);
 
   const {
     register,
@@ -24,7 +27,7 @@ const Nominee = ({ nominee_id }) => {
     //   sex: data.sex,
     //   age: data.age,
     //   phone: data.phone,
-    //   id_photo: data.id_photo,
+    //   passport: data.passport,
     //   qualifications: data.qualifications,
     //   job_level: data.job_level,
     //   other_specification: data.other_specification,
@@ -45,14 +48,17 @@ const Nominee = ({ nominee_id }) => {
   };
 
   const onSubmit = (data) => {
-    let users = [];
-    users.push(data);
+    data = { ...data, passport: 'passport.jpg' };
+    console.log(data);
+    // let users = [];
+    // users.push(data);
+    dispatch(RegisterUser(data));
   };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <div className="col-md-12">
-        <div className="row">
+        <div className="row" style={{ marginBottom: 12 + 'px' }}>
           <div className="col-md-9 mr-auto">
             <legend className="text-info">
               Particulars of the nominee.{' '}
@@ -83,7 +89,7 @@ const Nominee = ({ nominee_id }) => {
                         class="form-check-input"
                         name="sex"
                         id="sex-male"
-                        value="male"
+                        value="M"
                         autoComplete="off"
                         {...register('sex', {
                           required: 'Gender is required.',
@@ -100,7 +106,7 @@ const Nominee = ({ nominee_id }) => {
                         class="form-check-input"
                         name="sex"
                         id="sex-female"
-                        value="female"
+                        value="F"
                         autoComplete="off"
                         {...register('sex', {
                           required: 'Gender is required.',
@@ -137,7 +143,33 @@ const Nominee = ({ nominee_id }) => {
                   )}
                 </Form.Group>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
+                <Form.Group controlId="idNumber">
+                  <label for="idNumber">National id number:</label>
+                  <input
+                    type="number"
+                    name="idNumber"
+                    id="idNumber"
+                    autoComplete="off"
+                    {...register('idNumber', {
+                      required: 'IdNumber is required.',
+                      minLength: {
+                        value: 8,
+                        message: 'IdNumber should have at-least 8 characters.',
+                      },
+                    })}
+                    className={`${
+                      errors.idNumber
+                        ? 'input-error form-control'
+                        : 'form-control'
+                    }`}
+                  />
+                  {errors.idNumber && (
+                    <p className="errorMsg">{errors.idNumber.message}</p>
+                  )}
+                </Form.Group>
+              </div>
+              <div class="col-md-3">
                 <Form.Group controlId="phone">
                   <label for="phone">Phone:</label>
                   <input
@@ -215,25 +247,46 @@ const Nominee = ({ nominee_id }) => {
                   )}
                 </Form.Group>
               </div>
-              <div class="col-md-6">
-                <Form.Group controlId="id_photo">
-                  <label for="id">ID or Passport:</label>
+              <div class="col-md-3">
+                <Form.Group controlId="passport">
+                  <label for="id">Passport photo:</label>
                   <div>
                     <input
                       type="file"
-                      id="id_photo"
+                      id="passport"
+                      name="image"
                       autoComplete="off"
-                      {...register('id_photo', {
+                      {...register('passport', {
                         required: 'Passport/id is required.',
                       })}
-                      className={`${errors.id_photo ? 'input-error' : ''}`}
+                      className={`${errors.passport ? 'input-error' : ''}`}
                     />
                   </div>
-                  {errors.id_photo && (
-                    <p className="errorMsg">{errors.id_photo.message}</p>
+                  {errors.passport && (
+                    <p className="errorMsg">{errors.passport.message}</p>
                   )}
                 </Form.Group>
               </div>
+              {/*<div class="col-md-3">
+                <Form.Group controlId="passport">
+                  <label for="id">Passport photo:</label>
+                  <div>
+                    <input
+                      type="file"
+                      id="passport"
+                      name="image"
+                      autoComplete="off"
+                      {...register('passport', {
+                        required: 'Passport/id is required.',
+                      })}
+                      className={`${errors.passport ? 'input-error' : ''}`}
+                    />
+                  </div>
+                  {errors.passport && (
+                    <p className="errorMsg">{errors.passport.message}</p>
+                  )}
+                </Form.Group>
+              </div>*/}
             </div>
             <div class="form-row">
               <div class="col-md-12">

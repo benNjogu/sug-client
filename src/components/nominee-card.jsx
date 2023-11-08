@@ -1,4 +1,4 @@
-const NomineeCard = ({ onEdit }) => {
+const NomineeCard = ({ onEdit, nominee }) => {
   return (
     <div>
       <div
@@ -16,8 +16,8 @@ const NomineeCard = ({ onEdit }) => {
               ></img>
             </div>
             <div className="col-md-6">
-              <h5 className="card-title">Name</h5>
-              <p className="card-text">Job level</p>
+              <h5 className="card-title">{nominee.first_name}</h5>
+              <p className="card-text">{nominee.job_level}</p>
             </div>
           </div>
         </div>

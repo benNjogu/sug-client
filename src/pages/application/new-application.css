@@ -1,5 +1,5 @@
 body {
-  color: #e67e22;
+  color: #000;
 }
 
 * {
@@ -25,51 +25,6 @@ h1 {
 .btn {
   letter-spacing: 1px;
 }
-
-/* .steps {
-  display: flex;
-  justify-content: center;
-  letter-spacing: 1px;
-  margin-top: 2rem;
-}
-
-.step {
-    margin: 0.5rem 3rem;
-    display: flex;
-    color: #ccc;
-
-    a {
-      color: #e67e22;
-    }
-
-    div:first-of-type {
-      border: 1px solid #ccc;
-      padding: 5px;
-      border-radius: 50%;
-      margin-right: 0.5rem;
-      width: 2rem;
-      height: 2rem;
-      text-align: center;
-      line-height: 100%;
-      padding-top: 7%;
-    }
-
-    :last-child {
-      margin-top: 3%;
-    }
-
-    &.active {
-      div:first-of-type {
-        background-color: #e67e22;
-        border: 1px solid transparent;
-        color: #fff;
-      }
-
-      div:last-of-type {
-        color: #e67e22;
-      }
-    }
-  } */
 
 .input-form {
   width: 60%;
@@ -102,7 +57,7 @@ h1 {
 }
 
 .user-details {
-  color: #e67e22;
+  color: #000;
   padding: 5px 0;
   margin-bottom: 1rem;
 }

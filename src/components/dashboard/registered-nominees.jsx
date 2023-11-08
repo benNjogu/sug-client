@@ -1,13 +1,20 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'phosphor-react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { constants } from '../../data/constants';
 import NomineeCard from '../nominee-card';
+import { FetchAllRegisteredUsers } from '../../redux/slices/nominee';
 
 const Registered = () => {
   const navigate = useNavigate();
-  let users = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // let users = [];
+  const dispatch = useDispatch();
+  const { nominees } = useSelector((state) => state.nominee);
+
+  useEffect(() => {
+    dispatch(FetchAllRegisteredUsers());
+  }, []);
 
   const handleAddNew = () => {
     navigate('/app/register-nominee');
@@ -65,17 +72,23 @@ const Registered = () => {
         </div>
       </div>
       <div className="row overflow-auto" style={{ height: 436 + 'px' }}>
-        {users.length > 0 ? (
-          users.map((u) => (
-            <div className="col-md-4">
-              <NomineeCard onEdit={handleEdit} />
+        {nominees.length > 0 ? (
+          nominees.map((n) => (
+            <div key={n.id} className="col-md-4">
+              <NomineeCard onEdit={handleEdit} nominee={n} />
             </div>
           ))
         ) : (
           <div className="col-md-12">
             <p className="text-center">
               No Registered nominess.{' '}
-              <span className="text-primary cursor-pointer">Register Now</span>.
+              <span
+                className="text-primary cursor-pointer"
+                onClick={handleAddNew}
+              >
+                Register Now
+              </span>
+              .
             </p>
           </div>
         )}
