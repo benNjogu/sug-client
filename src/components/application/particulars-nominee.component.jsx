@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import './styles/form.styles.css';
 import { RegisterUser } from '../../redux/slices/nominee';
+import HomepageBtn from './homepage-btn';
 
 const Nominee = ({ nominee_id }) => {
   const navigate = useNavigate();
@@ -68,12 +69,7 @@ const Nominee = ({ nominee_id }) => {
             </legend>
           </div>
           <div className="col-md-3 text-right" style={{ paddingTop: 8 + 'px' }}>
-            <button
-              className="btn btn-sm btn-outline-danger d-inline-flex align-items-center font-weight-bold"
-              onClick={handleHomePage}
-            >
-              <House size={16} style={{ marginRight: 4 + 'px' }} /> HOME PAGE
-            </button>
+            <HomepageBtn onClickHome={handleHomePage} />
           </div>
         </div>
         <div className="row">
