@@ -1,7 +1,7 @@
 const NomineeCard = ({ onEdit, nominee }) => {
   return (
     <div>
-      <div className="card" style={{ width: 18 + 'rem' }}>
+      <div className="card mb-2" style={{ width: 18 + 'rem' }}>
         <div class="card-body">
           <div className="row">
             <div className="col-md-6">
