@@ -1,18 +1,19 @@
+import { useDispatch } from 'react-redux';
+
 import CustomButton from '../custom-button/custom-button.component';
+import { AddNewCell } from '../../../../redux/slices/cell';
 import './add-cell.styles.css';
 
-const AddCell = ({ prevCellId, forceVisible }) => {
-  const handleClick = () => {};
+const AddCell = ({ handleClick }) => {
+  const dispatch = useDispatch();
+  // const handleClick = () => {
+  //   dispatch(AddNewCell());
+  // };
 
   return (
-    <div className={`add-cell ${forceVisible && 'force-visible'}`}>
+    <div className={`add-cell`}>
       <div className="add-buttons">
-        <CustomButton
-          style="is-rounded"
-          handleClick={() => handleClick()}
-          size="is-small"
-          text="Add Group"
-        />
+        <CustomButton handleClick={handleClick} text="Add Group" />
       </div>
       <div className="divider"></div>
     </div>

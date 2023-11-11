@@ -8,13 +8,13 @@ import TagFacesIcon from '@mui/icons-material/TagFaces';
 import FaceIcon from '@mui/icons-material/Face';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import './select-nominees.style.css';
-import FilterNominees from '../../filter-component';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { FetchAllRegisteredUsers } from '../../../redux/slices/nominee';
+import FilterNominees from '../../filter-component';
 import NomineeCard from '../../nominee-card';
 import CellList from './cell-list/cell-list.component';
+import './select-nominees.style.css';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
