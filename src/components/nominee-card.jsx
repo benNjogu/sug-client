@@ -1,4 +1,4 @@
-const NomineeCard = ({ onEdit, nominee }) => {
+const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
   return (
     <div>
       <div className="card mb-2" style={{ width: 18 + 'rem' }}>
@@ -19,19 +19,32 @@ const NomineeCard = ({ onEdit, nominee }) => {
           </div>
         </div>
         <div className="card-footer">
-          <div className="row">
-            <div className="col-4">
-              <button class="btn btn-sm btn-outline-danger">delete</button>
+          {component !== 'select_nominee' ? (
+            <div className="row">
+              <div className="col-4">
+                <button class="btn btn-sm btn-outline-danger">delete</button>
+              </div>
+              <div className="col-4">
+                <button class="btn btn-sm btn-outline-success" onClick={onEdit}>
+                  edit
+                </button>
+              </div>
+              <div className="col-4">
+                <button class="btn btn-sm btn-outline-primary">view</button>
+              </div>
             </div>
-            <div className="col-4">
-              <button class="btn btn-sm btn-outline-success" onClick={onEdit}>
-                edit
-              </button>
+          ) : (
+            <div className="row">
+              <div className="col-4">
+                <button
+                  onClick={() => onAdd(nominee.id, nominee.first_name)}
+                  class="btn btn-sm btn-outline-success"
+                >
+                  Add G1
+                </button>
+              </div>
             </div>
-            <div className="col-4">
-              <button class="btn btn-sm btn-outline-primary">view</button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

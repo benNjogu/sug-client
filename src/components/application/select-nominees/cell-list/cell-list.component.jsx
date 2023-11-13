@@ -1,16 +1,11 @@
 import { Fragment, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import AddCell from '../add-cell/add-cell.component';
 import CellItem from '../cell-item/cell-item.component';
 
 const CellList = () => {
   const [cells, setCells] = useState([{ id: 1 }]);
-  //   const cells = useTypedSelector(({ cell: { order, data } }) =>
-  //     order.map((id) => data[id])
-  //   );
 
-  // const cells = useSelector((state) => state.cell).cells;
   const handleClick = () => {
     console.log(cells.length);
     setCells([...cells, { id: cells.length + 1 }]);

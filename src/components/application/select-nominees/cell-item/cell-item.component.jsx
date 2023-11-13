@@ -1,26 +1,24 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import FaceIcon from '@mui/icons-material/Face';
+import { useSelector, useDispatch } from 'react-redux';
+import { AddNominee } from '../../../../redux/slices/cell';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const CellItem = ({ handleClick }) => {
-  const [chipData, setChipData] = React.useState([
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-  ]);
+const CellItem = () => {
+  const dispatch = useDispatch();
+
+  let chipData = useSelector((state) => state.cell.nominees);
 
   const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) =>
-      chips.filter((chip) => chip.key !== chipToDelete.key)
+    dispatch(
+      AddNominee(chipData.filter((chip) => chip.key !== chipToDelete.key))
     );
   };
 
@@ -51,9 +49,7 @@ const CellItem = ({ handleClick }) => {
               <Chip
                 icon={icon}
                 label={data.label}
-                onDelete={
-                  data.label === 'React' ? undefined : handleDelete(data)
-                }
+                onDelete={handleDelete(data)}
               />
             </ListItem>
           );
