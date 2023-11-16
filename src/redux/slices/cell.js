@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  cells: [{ id: 1 }],
+  groups: [{ g_id: 1, label: 'Group 1' }],
   nominees: [],
 };
 
@@ -9,8 +9,8 @@ const slice = createSlice({
   name: 'cell',
   initialState,
   reducers: {
-    updateCells(state, action) {
-      state.cells = action.payload.cells;
+    updateGroups(state, action) {
+      state.groups = action.payload.groups;
     },
     updateNominees(state, action) {
       state.nominees = action.payload.nominees;
@@ -21,9 +21,9 @@ const slice = createSlice({
 //Reducer
 export default slice.reducer;
 
-export function AddNewCell() {
+export function AddNewGroup(data) {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.updateCells({ cells: { id: 2 } }));
+    dispatch(slice.actions.updateGroups({ groups: data }));
   };
 }
 

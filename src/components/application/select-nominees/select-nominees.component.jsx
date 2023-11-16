@@ -9,7 +9,7 @@ import FilterNominees from '../../filter-component';
 import NomineeCard from '../../nominee-card';
 import CellList from './cell-list/cell-list.component';
 import './select-nominees.style.css';
-import { AddNominee } from '../../../redux/slices/cell';
+import { AddNewGroup, AddNominee } from '../../../redux/slices/cell';
 
 const SelectNominees = ({ user, updateUser }) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const SelectNominees = ({ user, updateUser }) => {
   }, []);
 
   const handleAddNew = () => {
-    navigate('/app/register-nominee');
+    // navigate('/app/register-nominee');
   };
 
   const handleEdit = () => {
@@ -38,10 +38,15 @@ const SelectNominees = ({ user, updateUser }) => {
     });
   };
 
-  let group = useSelector((state) => state.cell.nominees);
+  let group_nominees = useSelector((state) => state.cell.nominees);
+  console.log('ns', group_nominees);
   const handleAddNominee = (n_id, n_first_name) => {
-    group = [...group, { key: n_id, label: n_first_name }];
-    dispatch(AddNominee(group));
+    group_nominees = [
+      ...group_nominees,
+      { key: n_id, label: n_first_name, g_id: 1 },
+    ];
+
+    dispatch(AddNominee(group_nominees));
   };
 
   const onSubmit = (data) => {
@@ -51,7 +56,7 @@ const SelectNominees = ({ user, updateUser }) => {
   return (
     <div className="row select-container">
       <Form className=" col-md-3" onSubmit={handleSubmit(onSubmit)}>
-        <CellList group={''} />
+        <CellList />
       </Form>
       <div className="col-md-9 nominees">
         <FilterNominees />

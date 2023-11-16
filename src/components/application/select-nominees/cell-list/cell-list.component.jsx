@@ -1,21 +1,28 @@
 import { Fragment, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import AddCell from '../add-cell/add-cell.component';
 import CellItem from '../cell-item/cell-item.component';
+import { AddNewGroup } from '../../../../redux/slices/cell';
 
 const CellList = () => {
-  const [cells, setCells] = useState([{ id: 1 }]);
+  const dispatch = useDispatch();
 
+  let groups = useSelector((state) => state.cell.groups);
   const handleClick = () => {
-    console.log(cells.length);
-    setCells([...cells, { id: cells.length + 1 }]);
+    let new_group = {
+      g_id: groups.length + 1,
+      label: 'Group ' + (groups.length + 1),
+    };
+
+    dispatch(AddNewGroup([...groups, new_group]));
   };
 
-  console.log(cells);
+  console.log('gis', groups);
 
-  const renderedCells = cells.map((cell) => (
-    <Fragment key={cell.id}>
-      <CellItem />
+  const renderedCells = groups.map((cell) => (
+    <Fragment key={cell.g_id}>
+      <CellItem group_id={cell.g_id} label={cell.label} />
     </Fragment>
   ));
 
@@ -23,8 +30,8 @@ const CellList = () => {
     <div>
       {renderedCells}
       <AddCell
-        forceVisible={cells?.length === 0}
-        prevCellId={cells?.length - 1}
+        forceVisible={groups?.length === 0}
+        prevCellId={groups?.length - 1}
         handleClick={handleClick}
       />
     </div>
