@@ -68,35 +68,41 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
             </div>
           ) : (
             <div className="row">
-              <div
-                className="col-md-12 text-center"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                {a.includes(nominee.id) ? (
+              {!a.includes(nominee.id) ? (
+                <div
+                  className="col-md-12 text-center"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {!isDropdownVisible && (
+                    <button class="btn btn-sm btn-outline-success">
+                      ADD NOMINEE
+                    </button>
+                  )}
+                  {isDropdownVisible && (
+                    <div className="dropy">
+                      <ul>
+                        {groups.map((g) => (
+                          <li
+                            key={g.g_id}
+                            onClick={() =>
+                              onAdd(g.g_id, nominee.id, nominee.first_name)
+                            }
+                          >
+                            {g.label.toUpperCase()}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="col-md-12 text-center">
                   <button class="btn btn-sm btn-outline-danger">
                     {'REMOVE GROUP ' + getNomineeId(nominee.id)}
                   </button>
-                ) : (
-                  <button class="btn btn-sm btn-outline-success">ADD</button>
-                )}
-                {isDropdownVisible && (
-                  <div className="dropy">
-                    <ul>
-                      {groups.map((g) => (
-                        <li
-                          key={g.g_id}
-                          onClick={() =>
-                            onAdd(g.g_id, nominee.id, nominee.first_name)
-                          }
-                        >
-                          {g.label.toUpperCase()}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           )}
         </div>
