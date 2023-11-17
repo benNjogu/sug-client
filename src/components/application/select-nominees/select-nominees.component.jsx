@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FetchAllRegisteredUsers } from '../../../redux/slices/nominee';
 import FilterNominees from '../../filter-component';
-import NomineeCard from '../../nominee-card';
+import NomineeCard from '../../nominee-card/nominee-card.component';
 import CellList from './cell-list/cell-list.component';
 import './select-nominees.style.css';
 import { AddNewGroup, AddNominee } from '../../../redux/slices/cell';
@@ -40,10 +40,10 @@ const SelectNominees = ({ user, updateUser }) => {
 
   let group_nominees = useSelector((state) => state.cell.nominees);
   console.log('ns', group_nominees);
-  const handleAddNominee = (n_id, n_first_name) => {
+  const handleAddNominee = (g_id, n_id, n_first_name) => {
     group_nominees = [
       ...group_nominees,
-      { key: n_id, label: n_first_name, g_id: 1 },
+      { key: n_id, label: n_first_name, g_id },
     ];
 
     dispatch(AddNominee(group_nominees));

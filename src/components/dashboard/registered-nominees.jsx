@@ -4,7 +4,7 @@ import { Plus } from 'phosphor-react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { constants } from '../../data/constants';
-import NomineeCard from '../nominee-card';
+import NomineeCard from '../nominee-card/nominee-card.component';
 import { FetchAllRegisteredUsers } from '../../redux/slices/nominee';
 import FilterNominees from '../filter-component';
 
