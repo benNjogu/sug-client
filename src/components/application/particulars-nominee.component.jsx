@@ -9,7 +9,7 @@ import './styles/form.styles.css';
 import { RegisterUser } from '../../redux/slices/nominee';
 import HomepageBtn from './homepage-btn';
 
-const Nominee = ({ nominee_id }) => {
+const Nominee = ({ nominee_id, prevPage }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [special, setSpecial] = useState(false);
@@ -45,7 +45,8 @@ const Nominee = ({ nominee_id }) => {
   };
 
   const handleHomePage = () => {
-    navigate('/app', { state: { prevPage: 'nominee' } });
+    if (prevPage === 'select') navigate('/app/new-application');
+    else navigate('/app', { state: { prevPage: 'nominee' } });
   };
 
   const onSubmit = (data) => {
@@ -69,7 +70,7 @@ const Nominee = ({ nominee_id }) => {
             </legend>
           </div>
           <div className="col-md-3 text-right" style={{ paddingTop: 8 + 'px' }}>
-            <HomepageBtn onClickHome={handleHomePage} />
+            <HomepageBtn onClickHome={handleHomePage} prevPage={prevPage} />
           </div>
         </div>
         <div className="row">

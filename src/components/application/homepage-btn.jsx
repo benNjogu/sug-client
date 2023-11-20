@@ -1,12 +1,20 @@
-import { House } from 'phosphor-react';
+import { House, CaretLeft } from 'phosphor-react';
 
-const HomepageBtn = ({ onClickHome }) => {
+const HomepageBtn = ({ onClickHome, prevPage }) => {
   return (
     <button
       className="btn btn-sm btn-outline-danger d-inline-flex align-items-center font-weight-bold"
       onClick={onClickHome}
     >
-      <House size={16} style={{ marginRight: 4 + 'px' }} /> HOME PAGE
+      {prevPage === 'select' ? (
+        <div className="d-inline-flex align-items-center font-weight-bold">
+          <CaretLeft size={16} style={{ marginRight: 4 + 'px' }} /> BACK
+        </div>
+      ) : (
+        <div className="d-inline-flex align-items-center font-weight-bold">
+          <House size={16} style={{ marginRight: 4 + 'px' }} /> HOME PAGE
+        </div>
+      )}
     </button>
   );
 };

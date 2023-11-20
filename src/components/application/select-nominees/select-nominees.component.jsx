@@ -29,7 +29,7 @@ const SelectNominees = ({ user, updateUser }) => {
   }, []);
 
   const handleAddNew = () => {
-    // navigate('/app/register-nominee');
+    navigate('/app/register-nominee', { state: { prevPage: 'select' } });
   };
 
   const handleEdit = () => {
@@ -59,7 +59,7 @@ const SelectNominees = ({ user, updateUser }) => {
         <CellList />
       </Form>
       <div className="col-md-9 nominees">
-        <FilterNominees />
+        <FilterNominees onAddNew={handleAddNew} />
         <div className="row">
           {nominees.length > 0 ? (
             nominees.map((n) => (

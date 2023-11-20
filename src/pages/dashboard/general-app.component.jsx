@@ -14,7 +14,6 @@ import SelectedCategory from '../../components/dashboard/selected-category';
 const GeneralApp = () => {
   let location = useLocation();
   let { prevPage } = location.state !== null ? location.state : 1;
-  console.log(prevPage);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [profileOpen, setProfileOpen] = useState(false);
 
