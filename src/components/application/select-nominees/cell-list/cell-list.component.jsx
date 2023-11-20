@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import AddCell from '../add-cell/add-cell.component';

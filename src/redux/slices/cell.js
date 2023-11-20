@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   groups: [{ g_id: 1, label: 'Group 1' }],
   nominees: [],
+  deletedNominee: [],
 };
 
 const slice = createSlice({
@@ -14,6 +15,9 @@ const slice = createSlice({
     },
     updateNominees(state, action) {
       state.nominees = action.payload.nominees;
+    },
+    updateDeletedNominee(state, action) {
+      state.deletedNominee = action.payload.deletedNominee;
     },
   },
 });
@@ -30,5 +34,11 @@ export function AddNewGroup(data) {
 export function AddNominee(data) {
   return async (dispatch, getState) => {
     dispatch(slice.actions.updateNominees({ nominees: data }));
+  };
+}
+
+export function DeletedNominee(data) {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.updateDeletedNominee({ deletedNominee: data }));
   };
 }

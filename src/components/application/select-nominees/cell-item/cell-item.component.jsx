@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
-import FaceIcon from '@mui/icons-material/Face';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { AddNominee } from '../../../../redux/slices/cell';
+import { AddNominee, DeletedNominee } from '../../../../redux/slices/cell';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -15,20 +12,17 @@ const ListItem = styled('li')(({ theme }) => ({
 const CellItem = ({ group_id, label }) => {
   const dispatch = useDispatch();
 
-  console.log('l', label);
-  console.log('gid', group_id);
-  let chipData = useSelector((state) => state.cell.nominees);
-  chipData = chipData.filter((chip) => chip.g_id === group_id);
-  console.log('chipdata', chipData);
+  let original_chipData = useSelector((state) => state.cell.nominees);
+  let chipData = original_chipData.filter((chip) => chip.g_id === group_id);
+  console.log('c', chipData);
 
   const handleDelete = (chipToDelete) => () => {
-    dispatch(
-      AddNominee(
-        chipData.filter(
-          (chip) => chip.key !== chipToDelete.key && chip.g_id === group_id
-        )
-      )
-    );
+    dispatch(DeletedNominee(chipToDelete.key));
+    // dispatch(
+    //   AddNominee(
+    //     original_chipData.filter((chip) => chip.key !== chipToDelete.key)
+    //   )
+    // );
   };
 
   return (

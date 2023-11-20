@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './nominee-card.style.css';
+import { AddNominee } from '../../redux/slices/cell';
 
 const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
+  const dispatch = useDispatch();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const groups = useSelector((state) => state.cell.groups);
   const group_nominees = useSelector((state) => state.cell.nominees);
+  const deletedNominee = useSelector((state) => state.cell.deletedNominee);
 
   const handleMouseEnter = () => {
     setDropdownVisible(true);
   };
 
   const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
+
+  const handleDeleteNominee = (nominee_id) => {
+    dispatch(AddNominee(group_nominees.filter((n) => n.key !== nominee_id)));
     setDropdownVisible(false);
   };
 
@@ -31,6 +39,10 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
       }
     }
   };
+
+  useEffect(() => {
+    handleDeleteNominee(deletedNominee);
+  }, [deletedNominee]);
 
   return (
     <div>
@@ -75,7 +87,10 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
                   onMouseLeave={handleMouseLeave}
                 >
                   {!isDropdownVisible && (
-                    <button class="btn btn-sm btn-outline-success">
+                    <button
+                      class="btn btn-sm btn-outline-success"
+                      onClick={handleMouseEnter}
+                    >
                       ADD NOMINEE
                     </button>
                   )}
@@ -98,7 +113,10 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
                 </div>
               ) : (
                 <div className="col-md-12 text-center">
-                  <button class="btn btn-sm btn-outline-danger">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    onClick={() => handleDeleteNominee(nominee.id)}
+                  >
                     {'REMOVE GROUP ' + getNomineeId(nominee.id)}
                   </button>
                 </div>
