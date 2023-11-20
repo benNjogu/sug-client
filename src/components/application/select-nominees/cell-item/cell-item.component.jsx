@@ -12,17 +12,11 @@ const ListItem = styled('li')(({ theme }) => ({
 const CellItem = ({ group_id, label }) => {
   const dispatch = useDispatch();
 
-  let original_chipData = useSelector((state) => state.cell.nominees);
-  let chipData = original_chipData.filter((chip) => chip.g_id === group_id);
-  console.log('c', chipData);
+  let chipData = useSelector((state) => state.cell.nominees);
+  chipData = chipData.filter((chip) => chip.g_id === group_id);
 
   const handleDelete = (chipToDelete) => () => {
     dispatch(DeletedNominee(chipToDelete.key));
-    // dispatch(
-    //   AddNominee(
-    //     original_chipData.filter((chip) => chip.key !== chipToDelete.key)
-    //   )
-    // );
   };
 
   return (
