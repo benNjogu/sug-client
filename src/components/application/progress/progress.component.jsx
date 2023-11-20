@@ -16,7 +16,7 @@ const Progress = ({}) => {
   const isFifthStep = pathname === '/app/new-application/declaration';
 
   const handleHomePage = () => {
-    navigate('/app');
+    navigate('/app', { state: { prevPage: 'application' } });
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Navbar from '../../components/navbar/navbar.component';
 import Category from '../../components/category';
@@ -11,6 +12,9 @@ import './general-app.styles.css';
 import SelectedCategory from '../../components/dashboard/selected-category';
 
 const GeneralApp = () => {
+  let location = useLocation();
+  let { prevPage } = location.state !== null ? location.state : 1;
+  console.log(prevPage);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -33,7 +37,9 @@ const GeneralApp = () => {
   };
 
   useEffect(() => {
-    setSelectedCategory(1);
+    if (prevPage === 'application') {
+      setSelectedCategory(2);
+    } else setSelectedCategory(1);
   }, []);
 
   return (

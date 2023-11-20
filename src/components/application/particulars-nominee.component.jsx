@@ -45,7 +45,7 @@ const Nominee = ({ nominee_id }) => {
   };
 
   const handleHomePage = () => {
-    navigate('/app');
+    navigate('/app', { state: { prevPage: 'nominee' } });
   };
 
   const onSubmit = (data) => {
