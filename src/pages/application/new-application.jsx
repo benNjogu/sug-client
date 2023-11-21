@@ -15,7 +15,6 @@ const NewApplication = () => {
   const updateUser = (data) => {
     setUser((prevUser) => ({ ...prevUser, ...data }));
   };
-  console.log(user);
 
   const resetUser = () => {
     setUser({});

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import withRouter from '../../../hooks/withRouter';
 import './progressive.styles.scss';
@@ -18,6 +19,11 @@ const Progress = ({}) => {
   const handleHomePage = () => {
     navigate('/app', { state: { prevPage: 'application' } });
   };
+
+  let applicationSpecs = useSelector(
+    (state) => state.application.applicationSpecs
+  );
+  console.log(applicationSpecs);
 
   return (
     <>

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../utils/axios';
-import { dispatch } from '../store';
 
 const initialState = {
+  applicationSpecs: [],
   completeApplication: [],
 };
 
@@ -12,6 +12,9 @@ const slice = createSlice({
   reducers: {
     updateCompleteApplication(state, action) {
       state.application = action.payload.application;
+    },
+    updateApplicationSpecs(state, action) {
+      state.applicationSpecs = action.payload.specs;
     },
   },
 });
@@ -36,5 +39,11 @@ export const PostApplication = ({ formValues }) => {
           })
         );
       });
+  };
+};
+
+export const UpdateApplicationSpecs = ({ data }) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.updateApplicationSpecs({ specs: data }));
   };
 };

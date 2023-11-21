@@ -47,8 +47,7 @@ const rows = [
 const Applications = () => {
   const navigate = useNavigate();
 
-  const handleNextClick = (e) => {
-    e.preventDefault();
+  const handleNextClick = () => {
     navigate('/app/new-application');
   };
 

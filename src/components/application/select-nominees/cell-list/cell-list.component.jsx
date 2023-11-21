@@ -18,8 +18,6 @@ const CellList = () => {
     dispatch(AddNewGroup([new_group, ...groups]));
   };
 
-  console.log('gis', groups);
-
   const renderedCells = groups.map((cell) => (
     <Fragment key={cell.g_id}>
       <CellItem group_id={cell.g_id} label={cell.label} />

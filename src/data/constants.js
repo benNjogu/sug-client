@@ -24,7 +24,7 @@ export const constants = {
 
   //TYPE OF TRAINING
   LOCAL: 'Local',
-  _OVERSEAS: 'Overseas',
+  OVER_SEAS: 'Overseas',
   DISTANCE: 'Distance learning',
 
   //NUMBER OF PARTICIPANTS
