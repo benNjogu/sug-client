@@ -15,7 +15,7 @@ const CellList = () => {
       label: 'Group ' + (groups.length + 1),
     };
 
-    dispatch(AddNewGroup([...groups, new_group]));
+    dispatch(AddNewGroup([new_group, ...groups]));
   };
 
   console.log('gis', groups);
@@ -28,12 +28,12 @@ const CellList = () => {
 
   return (
     <div>
-      {renderedCells}
       <AddCell
         forceVisible={groups?.length === 0}
         prevCellId={groups?.length - 1}
         handleClick={handleClick}
       />
+      {renderedCells}
     </div>
   );
 };

@@ -42,8 +42,8 @@ const SelectNominees = ({ user, updateUser }) => {
   console.log('ns', group_nominees);
   const handleAddNominee = (g_id, n_id, n_first_name) => {
     group_nominees = [
-      ...group_nominees,
       { key: n_id, label: n_first_name, g_id },
+      ...group_nominees,
     ];
 
     dispatch(AddNominee(group_nominees));

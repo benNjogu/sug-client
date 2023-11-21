@@ -2,7 +2,8 @@
     position: relative;
     opacity: 1;
     transition: opacity 0.3s ease-in 0.1s;
-    margin: 8px 0;
+    margin-top: 4px;
+    margin-bottom: 24px;
 }
 
 .divider {
