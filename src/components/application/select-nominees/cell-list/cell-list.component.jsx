@@ -8,6 +8,10 @@ import { AddNewGroup } from '../../../../redux/slices/cell';
 const CellList = () => {
   const dispatch = useDispatch();
 
+  let chipData = useSelector((state) => state.cell.nominees);
+  chipData = chipData.filter((chip) => chip.g_id === 1);
+  let { capacity } = useSelector((state) => state.cell.capacity);
+
   let groups = useSelector((state) => state.cell.groups);
   const handleClick = () => {
     let new_group = {
@@ -26,11 +30,15 @@ const CellList = () => {
 
   return (
     <div>
-      <AddCell
-        forceVisible={groups?.length === 0}
-        prevCellId={groups?.length - 1}
-        handleClick={handleClick}
-      />
+      {chipData.length >= capacity.minCapacity ? (
+        <AddCell
+          forceVisible={groups?.length === 0}
+          prevCellId={groups?.length - 1}
+          handleClick={handleClick}
+        />
+      ) : (
+        ''
+      )}
       {renderedCells}
     </div>
   );

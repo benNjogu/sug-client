@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { AddNominee, DeletedNominee } from '../../../../redux/slices/cell';
+import { DeletedNominee } from '../../../../redux/slices/cell';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -14,6 +14,8 @@ const CellItem = ({ group_id, label }) => {
 
   let chipData = useSelector((state) => state.cell.nominees);
   chipData = chipData.filter((chip) => chip.g_id === group_id);
+  let { capacity } = useSelector((state) => state.cell.capacity);
+  console.log('c', capacity);
 
   const handleDelete = (chipToDelete) => () => {
     dispatch(DeletedNominee(chipToDelete.key));
@@ -21,7 +23,17 @@ const CellItem = ({ group_id, label }) => {
 
   return (
     <div className="group-div">
-      <p className="div-counter">{label}: 0/25</p>
+      <p className="div-counter">
+        {label}:{' '}
+        <span
+          className={
+            chipData.length < capacity.minCapacity ? 'text-danger' : ''
+          }
+        >
+          {chipData.length}
+        </span>
+        /25
+      </p>
       <Paper
         sx={{
           display: 'flex',

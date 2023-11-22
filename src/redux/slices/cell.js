@@ -4,6 +4,12 @@ const initialState = {
   groups: [{ g_id: 1, label: 'Group 1' }],
   nominees: [],
   deletedNominee: [],
+  capacity: {
+    capacity: {
+      minCapacity: 4,
+      maxCapacity: 25,
+    },
+  },
 };
 
 const slice = createSlice({
@@ -18,6 +24,9 @@ const slice = createSlice({
     },
     updateDeletedNominee(state, action) {
       state.deletedNominee = action.payload.deletedNominee;
+    },
+    updateCapacity(state, action) {
+      state.capacity = action.payload.capacity;
     },
   },
 });
@@ -40,5 +49,11 @@ export function AddNominee(data) {
 export function DeletedNominee(data) {
   return async (dispatch, getState) => {
     dispatch(slice.actions.updateDeletedNominee({ deletedNominee: data }));
+  };
+}
+
+export function UpdateCapacity(data) {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.updateCapacity({ capacity: data }));
   };
 }
