@@ -36,6 +36,7 @@ export default function Router() {
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
+        { path: 'app/register-nominee', element: <RegisterNominee /> },
         { path: 'app/application', element: <Application /> },
         { path: 'app/new-application/*', element: <NewApplication /> },
         { path: 'app/view-application', element: <ViewApplication /> },
@@ -52,6 +53,9 @@ const GeneralApp = Loadable(
   lazy(() => import('../pages/dashboard/general-app.component'))
 );
 
+const RegisterNominee = Loadable(
+  lazy(() => import('../pages/register-nominees/register-nominee'))
+);
 const Application = Loadable(
   lazy(() => import('../pages/application/application'))
 );

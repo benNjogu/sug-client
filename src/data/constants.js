@@ -1,6 +1,7 @@
 export const constants = {
   USERS: 'USERS',
   ADMINS: 'ADMINS',
+  REGISTERED: 'REGISTERED',
   APPLICATIONS: 'APPLICATIONS',
   APPROVED: 'APPROVED',
   PENDING: 'PENDING',
@@ -19,13 +20,25 @@ export const constants = {
 
   //BTN
   NEW_APPLICATION: 'NEW APPLICATION',
+  ADD_NEW: 'ADD NEW',
 
   //TYPE OF TRAINING
   LOCAL: 'Local',
-  _OVERSEAS: 'Overseas',
+  STATUTORY: 'Statutory',
+  OVER_SEAS: 'Overseas',
   DISTANCE: 'Distance learning',
 
   //NUMBER OF PARTICIPANTS
   ONE: 'One',
   GROUP: 'Group',
+
+  //GROUPS CAPACITY
+  LOCAL_OVERSEAS_DISTANCE: { minCapacity: 8, maxCapacity: 25 },
+  STATUTORY_CAP: { minCapacity: 3, maxCapacity: 14 },
+  SINGLE_NOMINEE_CAP: { minCapacity: 1, maxCapacity: 1 },
+
+  //LABEL FOR SINGLE USER CELL
+  SINGLE_NOMINEE_LABEL: 'Nominee',
+  FIRST_GROUP_LABEL: 'Group 1',
+  FIRST_GROUP_ID: 1,
 };

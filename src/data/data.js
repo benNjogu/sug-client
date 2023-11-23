@@ -1,11 +1,12 @@
 import { constants } from './constants';
 
 const user_categories = [
-  { category_id: 1, description: constants.APPLICATIONS },
-  { category_id: 2, description: constants.APPROVED },
-  { category_id: 3, description: constants.PENDING },
-  { category_id: 4, description: constants.REJECTED },
-  { category_id: 5, description: constants.NOMINEES },  
+  { category_id: 1, description: constants.REGISTERED },
+  { category_id: 2, description: constants.APPLICATIONS },
+  { category_id: 3, description: constants.APPROVED },
+  { category_id: 4, description: constants.PENDING },
+  { category_id: 5, description: constants.REJECTED },
+  { category_id: 6, description: constants.NOMINEES },
 ];
 const admin_categories = [
   { category_id: 1, description: constants.APPLICATIONS },
