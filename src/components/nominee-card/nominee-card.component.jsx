@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AddNominee } from '../../redux/slices/cell';
 import './nominee-card.style.css';
+import { constants } from '../../data/constants';
 
 const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
   const dispatch = useDispatch();
@@ -105,7 +106,10 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
                               onAdd(g.g_id, nominee.id, nominee.first_name)
                             }
                           >
-                            {g.label.toUpperCase()}
+                            {g.label.toUpperCase() ===
+                            constants.SINGLE_NOMINEE_LABEL.toUpperCase()
+                              ? 'ADD NOMINEE'
+                              : g.label.toUpperCase()}
                           </li>
                         ))}
                       </ul>

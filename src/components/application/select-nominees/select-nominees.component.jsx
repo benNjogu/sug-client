@@ -9,12 +9,15 @@ import FilterNominees from '../../filter-component';
 import NomineeCard from '../../nominee-card/nominee-card.component';
 import CellList from './cell-list/cell-list.component';
 import './select-nominees.style.css';
-import { AddNewGroup, AddNominee } from '../../../redux/slices/cell';
+import { AddNominee } from '../../../redux/slices/cell';
 
 const SelectNominees = ({ user, updateUser }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { nominees } = useSelector((state) => state.nominee);
+  const maxCapacity = useSelector(
+    (state) => state.cell.capacity.capacity.maxCapacity
+  );
 
   const {
     register,
@@ -40,10 +43,14 @@ const SelectNominees = ({ user, updateUser }) => {
 
   let group_nominees = useSelector((state) => state.cell.nominees);
   const handleAddNominee = (g_id, n_id, n_first_name) => {
-    group_nominees = [
-      { key: n_id, label: n_first_name, g_id },
-      ...group_nominees,
-    ];
+    if (maxCapacity > 1) {
+      group_nominees = [
+        { key: n_id, label: n_first_name, g_id },
+        ...group_nominees,
+      ];
+    } else {
+      group_nominees = [{ key: n_id, label: n_first_name, g_id }];
+    }
 
     dispatch(AddNominee(group_nominees));
   };
