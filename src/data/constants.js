@@ -36,4 +36,9 @@ export const constants = {
   LOCAL_OVERSEAS_DISTANCE: { minCapacity: 8, maxCapacity: 25 },
   STATUTORY_CAP: { minCapacity: 3, maxCapacity: 14 },
   SINGLE_NOMINEE_CAP: { minCapacity: 1, maxCapacity: 1 },
+
+  //LABEL FOR SINGLE USER CELL
+  SINGLE_NOMINEE_LABEL: 'Nominee',
+  FIRST_GROUP_LABEL: 'Group 1',
+  FIRST_GROUP_ID: 1,
 };

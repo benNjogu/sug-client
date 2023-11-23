@@ -15,7 +15,6 @@ const CellItem = ({ group_id, label }) => {
   let chipData = useSelector((state) => state.cell.nominees);
   chipData = chipData.filter((chip) => chip.g_id === group_id);
   let { capacity } = useSelector((state) => state.cell.capacity);
-  console.log('c', capacity);
 
   const handleDelete = (chipToDelete) => () => {
     dispatch(DeletedNominee(chipToDelete.key));
@@ -32,7 +31,7 @@ const CellItem = ({ group_id, label }) => {
         >
           {chipData.length}
         </span>
-        /25
+        /{capacity.maxCapacity}
       </p>
       <Paper
         sx={{

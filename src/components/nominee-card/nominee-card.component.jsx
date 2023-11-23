@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import './nominee-card.style.css';
 import { AddNominee } from '../../redux/slices/cell';
+import './nominee-card.style.css';
 
 const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
   };
 
   const handleDeleteNominee = (nominee_id) => {
+    console.log(nominee_id);
     dispatch(AddNominee(group_nominees.filter((n) => n.key !== nominee_id)));
     setDropdownVisible(false);
   };

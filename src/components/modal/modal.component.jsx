@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { constants } from '../../data/constants';
 import './modal.styles.css';
 import { UpdateApplicationSpecs } from '../../redux/slices/application';
-import { UpdateCapacity } from '../../redux/slices/cell';
+import { AddNewGroup, UpdateCapacity } from '../../redux/slices/cell';
 
 const ModalComponent = ({ onClick }) => {
   const dispatch = useDispatch();
@@ -33,12 +33,28 @@ const ModalComponent = ({ onClick }) => {
         typeOfTraining === constants.DISTANCE
       ) {
         dispatch(
+          AddNewGroup([
+            {
+              g_id: constants.FIRST_GROUP_ID,
+              label: constants.FIRST_GROUP_LABEL,
+            },
+          ])
+        );
+        dispatch(
           UpdateCapacity({
             minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
             maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
           })
         );
       } else if (typeOfTraining === constants.STATUTORY) {
+        dispatch(
+          AddNewGroup([
+            {
+              g_id: constants.FIRST_GROUP_ID,
+              label: constants.FIRST_GROUP_LABEL,
+            },
+          ])
+        );
         dispatch(
           UpdateCapacity({
             minCapacity: constants.STATUTORY_CAP.minCapacity,
@@ -47,6 +63,14 @@ const ModalComponent = ({ onClick }) => {
         );
       }
     } else {
+      dispatch(
+        AddNewGroup([
+          {
+            g_id: constants.FIRST_GROUP_ID,
+            label: constants.SINGLE_NOMINEE_LABEL,
+          },
+        ])
+      );
       dispatch(
         UpdateCapacity({
           minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,

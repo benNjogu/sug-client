@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import AddCell from '../add-cell/add-cell.component';
 import CellItem from '../cell-item/cell-item.component';
 import { AddNewGroup } from '../../../../redux/slices/cell';
+import { constants } from '../../../../data/constants';
 
 const CellList = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ const CellList = () => {
 
   return (
     <div>
-      {chipData.length >= capacity.minCapacity ? (
+      {chipData.length >= capacity.minCapacity &&
+      capacity.maxCapacity !== constants.SINGLE_NOMINEE_CAP.maxCapacity ? (
         <AddCell
           forceVisible={groups?.length === 0}
           prevCellId={groups?.length - 1}

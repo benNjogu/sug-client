@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  groups: [{ g_id: 1, label: 'Group 1' }],
+  groups: [],
   nominees: [],
   deletedNominee: [],
   capacity: {
