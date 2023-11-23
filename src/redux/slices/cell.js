@@ -26,7 +26,7 @@ const slice = createSlice({
       state.deletedNominee = action.payload.deletedNominee;
     },
     updateCapacity(state, action) {
-      state.capacity = action.payload.capacity;
+      state.capacity.capacity = action.payload.capacity;
     },
   },
 });

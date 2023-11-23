@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { constants } from '../../data/constants';
 import './modal.styles.css';
 import { UpdateApplicationSpecs } from '../../redux/slices/application';
+import { UpdateCapacity } from '../../redux/slices/cell';
 
 const ModalComponent = ({ onClick }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,36 @@ const ModalComponent = ({ onClick }) => {
     dispatch(
       UpdateApplicationSpecs({ data: { typeOfTraining, numberOfParticipants } })
     );
+
+    if (numberOfParticipants === constants.GROUP) {
+      if (
+        typeOfTraining === constants.LOCAL ||
+        typeOfTraining === constants.OVER_SEAS ||
+        typeOfTraining === constants.DISTANCE
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
+            maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
+          })
+        );
+      } else if (typeOfTraining === constants.STATUTORY) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.STATUTORY_CAP.minCapacity,
+            maxCapacity: constants.STATUTORY_CAP.maxCapacity,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        UpdateCapacity({
+          minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,
+          maxCapacity: constants.SINGLE_NOMINEE_CAP.maxCapacity,
+        })
+      );
+    }
+
     onClick();
   };
 

@@ -31,4 +31,9 @@ export const constants = {
   //NUMBER OF PARTICIPANTS
   ONE: 'One',
   GROUP: 'Group',
+
+  //GROUPS CAPACITY
+  LOCAL_OVERSEAS_DISTANCE: { minCapacity: 8, maxCapacity: 25 },
+  STATUTORY_CAP: { minCapacity: 3, maxCapacity: 14 },
+  SINGLE_NOMINEE_CAP: { minCapacity: 1, maxCapacity: 1 },
 };
