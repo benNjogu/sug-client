@@ -24,6 +24,7 @@ export const constants = {
 
   //TYPE OF TRAINING
   LOCAL: 'Local',
+  STATUTORY: 'Statutory',
   OVER_SEAS: 'Overseas',
   DISTANCE: 'Distance learning',
 

@@ -70,7 +70,23 @@ const ModalComponent = ({ onClick }) => {
                   <label for="" class="form-check-label">
                     <input
                       type="radio"
-                      name="type"
+                      name="type_of_training"
+                      id=""
+                      class="form-check-input"
+                      value={constants.STATUTORY}
+                      autoComplete="off"
+                      onChange={onValueChange}
+                      checked={typeOfTraining === constants.STATUTORY}
+                    />
+                    Statutory{' '}
+                    <span className="font-italic">e.g first aid...</span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label for="" class="form-check-label">
+                    <input
+                      type="radio"
+                      name="type_of_training"
                       id=""
                       class="form-check-input"
                       value={constants.OVER_SEAS}
@@ -85,7 +101,7 @@ const ModalComponent = ({ onClick }) => {
                   <label for="" class="form-check-label">
                     <input
                       type="radio"
-                      name="type"
+                      name="type_of_training"
                       id=""
                       class="form-check-input"
                       value={constants.DISTANCE}
