@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { constants } from '../../data/constants';
+
 const initialState = {
-  groups: [],
+  groups: [
+    {
+      g_id: constants.FIRST_GROUP_ID,
+      label: constants.FIRST_GROUP_LABEL,
+    },
+  ],
   nominees: [],
   deletedNominee: [],
   capacity: {
