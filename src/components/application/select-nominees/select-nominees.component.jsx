@@ -15,17 +15,7 @@ const SelectNominees = ({ user, updateUser }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { nominees } = useSelector((state) => state.nominee);
-  const maxCapacity = useSelector(
-    (state) => state.cell.capacity.capacity.maxCapacity
-  );
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {},
-  });
+  const { capacity } = useSelector((state) => state.cell.capacity);
 
   useEffect(() => {
     dispatch(FetchAllRegisteredUsers());
@@ -43,7 +33,7 @@ const SelectNominees = ({ user, updateUser }) => {
 
   let group_nominees = useSelector((state) => state.cell.nominees);
   const handleAddNominee = (g_id, n_id, n_first_name) => {
-    if (maxCapacity > 1) {
+    if (capacity.maxCapacity > 1) {
       group_nominees = [
         { key: n_id, label: n_first_name, g_id },
         ...group_nominees,
@@ -55,14 +45,36 @@ const SelectNominees = ({ user, updateUser }) => {
     dispatch(AddNominee(group_nominees));
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const checkGroupIsAboveMinimumCapacity = () => {
+    const resultArray = Object.values(
+      group_nominees.reduce((acc, group) => {
+        const g_id = group.g_id;
+        (acc[g_id] = acc[g_id] || []).push(group);
+        return acc;
+      }, {})
+    );
+
+    let sizes = [];
+    for (let i = 0; i < resultArray.length; i++) {
+      sizes.push(resultArray[i].length);
+    }
+
+    return sizes.every((g) => g >= capacity.minCapacity);
+  };
+
+  const handleSubmit = () => {
+    if (checkGroupIsAboveMinimumCapacity()) {
+      updateUser({
+        nominees: group_nominees,
+      });
+      navigate('/app/new-application/course');
+    } else return;
   };
 
   return (
     <div className="row select-container">
-      <Form className=" col-md-3" onSubmit={handleSubmit(onSubmit)}>
-        <CellList />
+      <Form className=" col-md-3">
+        <CellList user={user} />
       </Form>
       <div className="col-md-9 nominees">
         <FilterNominees onAddNew={handleAddNew} />
@@ -95,7 +107,7 @@ const SelectNominees = ({ user, updateUser }) => {
         </div>
       </div>
       <div className={'col-md-12 text-right pb-2 px-20'}>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="button" onClick={handleSubmit}>
           Next
         </Button>
       </div>

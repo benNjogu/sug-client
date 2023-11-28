@@ -1,3 +1,10 @@
+.application_size {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  /* background-color: red; */
+}
+
 body {
   color: #000;
 }
