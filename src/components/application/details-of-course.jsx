@@ -113,7 +113,8 @@ const CourseDetails = ({ user, updateUser }) => {
       state: selectedState,
       city: selectedCity,
     });
-    navigate('/app/new-application/overseas');
+    //TODO: Check if group or one person then route accordingly
+    navigate('/app/new-application/training-expenses');
   };
 
   return (
