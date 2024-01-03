@@ -9,6 +9,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import 'font-awesome/css/font-awesome.css';
 
 import App from './App';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

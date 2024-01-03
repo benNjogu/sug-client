@@ -9,6 +9,13 @@ import DashboardLayout from '../layouts/dashboard';
 import { DEFAULT_PATH } from '../config';
 import LoadingScreen from '../components/loading-screen';
 
+import Approved from '../pages/dashboard/approved/approved';
+import Pending from '../pages/dashboard/pending/pending';
+import Rejected from '../pages/dashboard/rejected/rejected';
+import Registered from '../pages/dashboard/registered/registered-nominees';
+import Nominees from '../pages/dashboard/all-nominees/nominees';
+import Profile from '../pages/dashboard/profile/profile';
+
 const Loadable = (Component) => (props) => {
   return (
     <Suspense fallback={<LoadingScreen />}>
@@ -35,9 +42,14 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-        { path: 'app', element: <GeneralApp /> },
+        { path: 'app', element: <Applications /> },
+        { path: 'app/profile', element: <Profile /> },
+        { path: 'app/approved', element: <Approved /> },
+        { path: 'app/pending', element: <Pending /> },
+        { path: 'app/rejected', element: <Rejected /> },
+        { path: 'app/registered', element: <Registered /> },
+        { path: 'app/nominees', element: <Nominees /> },
         { path: 'app/register-nominee', element: <RegisterNominee /> },
-        { path: 'app/application', element: <Application /> },
         { path: 'app/new-application/*', element: <NewApplication /> },
         { path: 'app/view-application', element: <ViewApplication /> },
 
@@ -49,15 +61,12 @@ export default function Router() {
   ]);
 }
 
-const GeneralApp = Loadable(
-  lazy(() => import('../pages/dashboard/general-app.component'))
+const Applications = Loadable(
+  lazy(() => import('../pages/dashboard/home/applications'))
 );
 
 const RegisterNominee = Loadable(
   lazy(() => import('../pages/register-nominees/register-nominee'))
-);
-const Application = Loadable(
-  lazy(() => import('../pages/application/application'))
 );
 const NewApplication = Loadable(
   lazy(() => import('../pages/application/new-application'))

@@ -10,6 +10,7 @@ import {
 } from '../../data/data';
 import './general-app.styles.css';
 import SelectedCategory from '../../components/dashboard/selected-category';
+import DefaultLayout from '../../components/default-layout/default-layout.component';
 
 const GeneralApp = () => {
   let location = useLocation();
@@ -42,28 +43,30 @@ const GeneralApp = () => {
   }, []);
 
   return (
-    <div className="size">
-      <Navbar
-        handleProfileClick={handleProfileClick}
-        handleLogoutClick={handleLogoutClick}
-      />
-      <div className="row size">
-        <div className="col-md-2 select_category">
-          <Category
-            categories={user_categories}
-            onItemSelect={handleSelectedCategory}
-            selectedItem={selectedCategory}
-            badge={true}
-          />
-        </div>
-        <div className="col select_category bg ">
-          <SelectedCategory
-            selectedCategory={selectedCategory}
-            userType={'user'}
-          />
+    <DefaultLayout>
+      <div className="size">
+        <Navbar
+          handleProfileClick={handleProfileClick}
+          handleLogoutClick={handleLogoutClick}
+        />
+        <div className="row size">
+          <div className="col-md-2 select_category">
+            <Category
+              categories={user_categories}
+              onItemSelect={handleSelectedCategory}
+              selectedItem={selectedCategory}
+              badge={true}
+            />
+          </div>
+          <div className="col select_category bg ">
+            <SelectedCategory
+              selectedCategory={selectedCategory}
+              userType={'user'}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </DefaultLayout>
   );
 };
 

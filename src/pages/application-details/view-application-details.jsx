@@ -1,6 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
-import { GroupMemberDetails } from '../application/application';
 import Navbar from './../../components/navbar/navbar.component';
 import './view-application-details.styles.css';
 
