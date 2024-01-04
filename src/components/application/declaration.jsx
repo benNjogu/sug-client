@@ -1,8 +1,11 @@
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { CreateNewApplication } from '../../redux/slices/application';
 
 const Declaration = ({ user, updateUser }) => {
+  const dispatch = useDispatch();
+
   let applicationSpecs = useSelector(
     (state) => state.application.applicationSpecs
   );
@@ -23,7 +26,7 @@ const Declaration = ({ user, updateUser }) => {
   console.log('others', user);
   const onSubmit = (data) => {
     updateUser({ ...data, ...applicationSpecs });
-    console.log('dec + all', user);
+    dispatch(CreateNewApplication(user));
   };
 
   return (
@@ -62,24 +65,24 @@ const Declaration = ({ user, updateUser }) => {
           </div>
           <div class="form-row">
             <div class="col-md-3">
-              <Form.Group controlId="national_id">
+              <Form.Group controlId="national_id_hr">
                 <input
                   type="text"
-                  name="national_id"
-                  id="national_id"
+                  name="national_id_hr"
+                  id="national_id_hr"
                   placeholder="National ID Number"
                   autoComplete="off"
-                  {...register('national_id', {
+                  {...register('national_id_hr', {
                     required: 'National ID is required.',
                   })}
                   className={`${
-                    errors.national_id
+                    errors.national_id_hr
                       ? 'input-error form-control'
                       : 'form-control'
                   }`}
                 />
-                {errors.national_id && (
-                  <p className="errorMsg">{errors.national_id.message}</p>
+                {errors.national_id_hr && (
+                  <p className="errorMsg">{errors.national_id_hr.message}</p>
                 )}
               </Form.Group>
             </div>

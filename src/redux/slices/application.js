@@ -3,18 +3,19 @@ import axios from '../../utils/axios';
 
 const initialState = {
   applicationSpecs: [],
-  completeApplication: [],
+  applications: [],
 };
 
 const slice = createSlice({
   name: 'application',
   initialState,
   reducers: {
-    updateCompleteApplication(state, action) {
-      state.application = action.payload.application;
-    },
     updateApplicationSpecs(state, action) {
       state.applicationSpecs = action.payload.specs;
+    },
+
+    updateApplications(state, action) {
+      state.applications = action.payload.applications;
     },
   },
 });
@@ -22,28 +23,27 @@ const slice = createSlice({
 //Reducer
 export default slice.reducer;
 
-//Posting the complete application to the database
-export const PostApplication = ({ formValues }) => {
+export const UpdateApplicationSpecs = ({ data }) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.updateApplicationSpecs({ specs: data }));
+  };
+};
+
+export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/applicaton/new-application',
+        '/application/create-new-application',
         { ...formValues },
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then(function (response) {
         console.log(response);
-        dispatch(
-          slice.actions.updateCompleteApplication({
-            completeApplication: response.data,
-          })
-        );
+        // dispatch(
+        //   slice.actions.updateApplications({
+        //     applications: [...response.data],
+        //   })
+        // );
       });
-  };
-};
-
-export const UpdateApplicationSpecs = ({ data }) => {
-  return async (dispatch, getState) => {
-    dispatch(slice.actions.updateApplicationSpecs({ specs: data }));
   };
 };
