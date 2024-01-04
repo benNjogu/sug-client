@@ -1,7 +1,12 @@
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 const Declaration = ({ user, updateUser }) => {
+  let applicationSpecs = useSelector(
+    (state) => state.application.applicationSpecs
+  );
+
   const {
     register,
     handleSubmit,
@@ -15,9 +20,10 @@ const Declaration = ({ user, updateUser }) => {
     },
   });
 
+  console.log('others', user);
   const onSubmit = (data) => {
-    console.log(data);
-    updateUser(data);
+    updateUser({ ...data, ...applicationSpecs });
+    console.log('dec + all', user);
   };
 
   return (
@@ -55,6 +61,28 @@ const Declaration = ({ user, updateUser }) => {
             </div>
           </div>
           <div class="form-row">
+            <div class="col-md-3">
+              <Form.Group controlId="national_id">
+                <input
+                  type="text"
+                  name="national_id"
+                  id="national_id"
+                  placeholder="National ID Number"
+                  autoComplete="off"
+                  {...register('national_id', {
+                    required: 'National ID is required.',
+                  })}
+                  className={`${
+                    errors.national_id
+                      ? 'input-error form-control'
+                      : 'form-control'
+                  }`}
+                />
+                {errors.national_id && (
+                  <p className="errorMsg">{errors.national_id.message}</p>
+                )}
+              </Form.Group>
+            </div>
             <div class="col-md-3">
               <Form.Group controlId="first_name_hr">
                 <input

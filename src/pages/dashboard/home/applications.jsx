@@ -24,10 +24,10 @@ const columns = [
     dataIndex: 'id',
     render: (id, record) => (
       <div className="d-flex justify-content-around">
-        <EditOutlined className="mx-2" onClick={() => handleEditItem(record)} />
+        <EditOutlined className="mx-2" onClick={() => console.log('edit')} />
         <DeleteOutlined
           className="mx-2"
-          onClick={() => handleDeleteItem(record)}
+          onClick={() => console.log('delete')}
         />
       </div>
     ),

@@ -21,7 +21,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   const RegisterSchema = Yup.object().shape({
-    orgsName: Yup.string().required('Name of organization is required.'),
+    userName: Yup.string().required('Name of organization is required.'),
     levyNumber: Yup.string().required('Levy registration number is required.'),
     email: Yup.string()
       .required('Email is required')
@@ -63,7 +63,7 @@ const RegisterForm = () => {
         )}
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextfield name="orgsName" label="Name of organization" />
+          <RHFTextfield name="userName" label="Name of organization" />
           <RHFTextfield name="levyNumber" label="Levy registration number" />
         </Stack>
 

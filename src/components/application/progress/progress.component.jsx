@@ -33,7 +33,7 @@ const Progress = ({}) => {
             <div>1</div>
             <div>
               {isSecondStep || isThirdStep || isForthStep || isFifthStep ? (
-                <Link to="/app/new-application">Nominee</Link>
+                <Link to="/app/new-application">Nominee(s)</Link>
               ) : (
                 'Nominee(s)'
               )}

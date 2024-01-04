@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import csc from 'country-state-city';
 
 import './styles/form.styles.css';
+import { constants } from '../../data/constants';
 
 const CourseDetails = ({ user, updateUser }) => {
   const [countries, setCountries] = useState([]);
@@ -15,6 +17,10 @@ const CourseDetails = ({ user, updateUser }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+
+  let applicationSpecs = useSelector(
+    (state) => state.application.applicationSpecs
+  );
 
   const navigate = useNavigate();
   console.log('cours', user);
@@ -113,8 +119,11 @@ const CourseDetails = ({ user, updateUser }) => {
       state: selectedState,
       city: selectedCity,
     });
-    //TODO: Check if group or one person then route accordingly
-    navigate('/app/new-application/training-expenses');
+    //TODO: Check if group or one person then show start and end date-pickers accordingly
+    console.log('cos', user);
+    applicationSpecs.typeOfTraining === constants.OVER_SEAS
+      ? navigate('/app/new-application/overseas')
+      : navigate('/app/new-application/training-expenses');
   };
 
   return (
