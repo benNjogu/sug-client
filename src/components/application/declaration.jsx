@@ -23,10 +23,8 @@ const Declaration = ({ user, updateUser }) => {
     },
   });
 
-  console.log('others', user);
   const onSubmit = (data) => {
-    updateUser({ ...data, ...applicationSpecs });
-    dispatch(CreateNewApplication(user));
+    dispatch(CreateNewApplication({ ...data, ...applicationSpecs, ...user }));
   };
 
   return (
