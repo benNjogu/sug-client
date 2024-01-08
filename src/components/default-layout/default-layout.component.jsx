@@ -104,7 +104,7 @@ const DefaultLayout = ({ children }) => {
               ),
             },
             {
-              key: '/app/all-nominees',
+              key: '/app/nominees',
               icon: <UserOutlined />,
               label: (
                 <Link to="/app/nominees" style={linkStyle}>
