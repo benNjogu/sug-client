@@ -31,10 +31,11 @@ export const UpdateApplicationSpecs = ({ data }) => {
 
 export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {
+    let org_id = window.localStorage.getItem('user_id');
     await axios
       .post(
         '/application/create-new-application',
-        { ...formValues },
+        { ...formValues, organization_id: org_id },
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then(function (response) {

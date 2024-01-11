@@ -18,12 +18,20 @@ const CourseDetails = ({ user, updateUser }) => {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
 
+  const [dates, setDates] = useState([]);
+  const [error, setError] = useState(true);
+
   let applicationSpecs = useSelector(
     (state) => state.application.applicationSpecs
   );
 
+  let groups = useSelector((state) => state.cell.groups);
+  let reversedArray = [];
+  groups.forEach((element) => {
+    reversedArray.unshift(element);
+  });
+
   const navigate = useNavigate();
-  console.log('cours', user);
 
   const {
     register,
@@ -42,6 +50,16 @@ const CourseDetails = ({ user, updateUser }) => {
       end_date: user.end_date,
     },
   });
+
+  useEffect(() => {
+    let initial_dates = [];
+    for (let i = 0; i < groups.length; i++) {
+      let key1 = 'start_date_' + groups[i].g_id;
+      let key2 = 'end_date_' + groups[i].g_id;
+      initial_dates.push({ group: groups[i].g_id, [key1]: '', [key2]: '' });
+    }
+    if (initial_dates !== null) setDates(initial_dates);
+  }, []);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -112,15 +130,33 @@ const CourseDetails = ({ user, updateUser }) => {
     getCities();
   }, [selectedState]);
 
+  const handleDate = (event) => {
+    for (let i = 0; i < dates.length; i++) {
+      let start_date = `start_date_${dates[i].group}`;
+      let end_date = `end_date_${dates[i].group}`;
+
+      if (start_date === event.target.id) {
+        dates[i]['start_date'] = event.target.value;
+        delete dates[i][`${start_date}`];
+      } else if (end_date === event.target.id) {
+        dates[i]['end_date'] = event.target.value;
+        delete dates[i][`${end_date}`];
+      }
+    }
+    // selected_dates[event.target.id] = event.target.value;
+    setError(false);
+  };
+
   const onSubmit = (data) => {
     updateUser({
       ...data,
       country: selectedCountry,
       state: selectedState,
       city: selectedCity,
+      dates: dates,
     });
+
     //TODO: Check if group or one person then show start and end date-pickers accordingly
-    console.log('cos', user);
     applicationSpecs.typeOfTraining === constants.OVER_SEAS
       ? navigate('/app/new-application/overseas')
       : navigate('/app/new-application/training-expenses');
@@ -313,55 +349,54 @@ const CourseDetails = ({ user, updateUser }) => {
                   </fieldset>
                 </div>
               </div>
-              <div class="form-row">
-                <div class="col-md-6">
-                  <Form.Group controlId="start_date">
-                    <label for="from">Start date:</label>
-                    <input
-                      type="date"
-                      name="from"
-                      id="from"
-                      placeholder="mm/dd/yyyy"
-                      autoComplete="off"
-                      {...register('start_date', {
-                        required: 'Start date is required.',
-                      })}
-                      className={`${
-                        errors.start_date
-                          ? 'input-error form-control'
-                          : 'form-control'
-                      }`}
-                    />
-                    {errors.start_date && (
-                      <p className="errorMsg">{errors.start_date.message}</p>
-                    )}
-                  </Form.Group>
-                </div>
-                <div class="col-md-6 form-group">
-                  <Form.Group controlId="end_date">
-                    <label for="to">End date:</label>
-                    <input
-                      type="date"
-                      name="to"
-                      id="to"
-                      class="form-control"
-                      placeholder="mm/dd/yyyy"
-                      autoComplete="off"
-                      {...register('end_date', {
-                        required: 'End date is required.',
-                      })}
-                      className={`${
-                        errors.end_date
-                          ? 'input-error form-control'
-                          : 'form-control'
-                      }`}
-                    />
-                    {errors.end_date && (
-                      <p className="errorMsg">{errors.end_date.message}</p>
-                    )}
-                  </Form.Group>
-                </div>
-              </div>
+              {reversedArray.map((i) => (
+                <>
+                  <legend>Group {i.g_id} Dates.</legend>
+                  <div key={i} class="form-row">
+                    <div class="col-md-6">
+                      <Form.Group controlId="start_date">
+                        <label for="from">Start date:</label>
+                        <input
+                          type="date"
+                          name={`start_date_${i.g_id}`}
+                          id={`start_date_${i.g_id}`}
+                          placeholder="mm/dd/yyyy"
+                          autoComplete="off"
+                          onChange={handleDate}
+                          className={`${
+                            error ? 'input-error form-control' : 'form-control'
+                          }`}
+                        />
+                        {error && (
+                          <p className="errorMsg">
+                            {'Start date is required.'}
+                          </p>
+                        )}
+                      </Form.Group>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <Form.Group controlId="end_date">
+                        <label for="to">End date:</label>
+                        <input
+                          type="date"
+                          name={`end_date_${i.g_id}`}
+                          id={`end_date_${i.g_id}`}
+                          class="form-control"
+                          placeholder="mm/dd/yyyy"
+                          autoComplete="off"
+                          onChange={handleDate}
+                          className={`${
+                            error ? 'input-error form-control' : 'form-control'
+                          }`}
+                        />
+                        {error && (
+                          <p className="errorMsg">{'End date is required.'}</p>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </>
+              ))}
               <div class="form-row">
                 <div class="col-md-6">
                   <Form.Group controlId="admission_letter">
