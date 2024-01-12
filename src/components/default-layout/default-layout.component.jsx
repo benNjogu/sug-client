@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   MenuFoldOutlined,
@@ -17,12 +17,15 @@ import {
 import { Layout, Menu, Button, theme } from 'antd';
 
 import './default-layout.styles.css';
+import { LogOutUser } from '../../redux/slices/auth';
 
 const { Header, Sider, Content } = Layout;
 const DefaultLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  let loading = false;
 
   const {
     token: { colorBgContainer },
@@ -30,15 +33,21 @@ const DefaultLayout = ({ children }) => {
 
   let linkStyle = { textDecoration: 'none' };
 
-  const handleClickLogo = () => {};
+  const handleClickLogo = () => {
+    navigate('/app');
+  };
 
   const handleViewProfile = () => {
     navigate('/app/profile');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('safe-pos-user');
-    navigate('/login');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(LogOutUser());
+      navigate('/auth/login');
+    }, 2000);
   };
 
   return (
@@ -113,10 +122,10 @@ const DefaultLayout = ({ children }) => {
               ),
             },
             {
-              key: '/app/login',
+              key: '/auth/login',
               icon: <LogoutOutlined />,
               label: (
-                <Link to="/app/login" style={linkStyle} onClick={handleLogout}>
+                <Link style={linkStyle} onClick={handleLogout}>
                   Logout
                 </Link>
               ),

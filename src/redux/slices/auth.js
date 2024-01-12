@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import axios from '../../utils/axios';
+
 import { ShowSnackbar } from './app';
 
 const initialState = {
@@ -94,8 +94,19 @@ export function ForgotPassword(formValues) {
       )
       .then((response) => {
         console.log(response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
+      });
   };
 }
 

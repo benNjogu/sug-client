@@ -9,6 +9,7 @@ import DashboardLayout from '../layouts/dashboard';
 import { DEFAULT_PATH } from '../config';
 import LoadingScreen from '../components/loading-screen';
 
+import Applications from './../pages/dashboard/home/applications';
 import Approved from '../pages/dashboard/approved/approved';
 import Pending from '../pages/dashboard/pending/pending';
 import Rejected from '../pages/dashboard/rejected/rejected';
@@ -60,10 +61,6 @@ export default function Router() {
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
-
-const Applications = Loadable(
-  lazy(() => import('../pages/dashboard/home/applications'))
-);
 
 const RegisterNominee = Loadable(
   lazy(() => import('../pages/register-nominees/register-nominee'))
