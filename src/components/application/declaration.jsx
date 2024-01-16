@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { CreateNewApplication } from '../../redux/slices/application';
 
 const Declaration = ({ user, updateUser }) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   let applicationSpecs = useSelector(
@@ -24,11 +26,22 @@ const Declaration = ({ user, updateUser }) => {
   });
 
   const onSubmit = (data) => {
-    dispatch(CreateNewApplication({ ...data, ...applicationSpecs, ...user }));
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(CreateNewApplication({ ...data, ...applicationSpecs, ...user }));
+    }, 2500);
   };
 
   return (
     <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <div className="row form_div">
         <div className="col-md-12">
           <legend className="text-danger">Certify and submit</legend>

@@ -1,110 +1,56 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
 
 import { Table, Button, Modal } from 'antd';
 import { constants } from '../../../data/constants';
 import ModalComponent from '../../../components/modal/modal.component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
+import { FetchAllApplications } from '../../../redux/slices/application';
 
 const columns = [
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: 'S.No',
+    dataIndex: 's_no',
   },
   {
     title: 'Course',
-    dataIndex: 'course',
+    dataIndex: 'course_title',
   },
   {
     title: 'Provider',
-    dataIndex: 'provider',
+    dataIndex: 'training_provider',
+  },
+  {
+    title: 'Status',
+    dataIndex: '',
   },
   {
     title: 'Action',
     dataIndex: 'id',
     render: (id, record) => (
       <div className="d-flex justify-content-around">
-        <EditOutlined className="mx-2" onClick={() => console.log('edit')} />
-        <DeleteOutlined
-          className="mx-2"
-          onClick={() => console.log('delete')}
-        />
+        <EyeOutlined className="mx-2" onClick={() => console.log('eye')} />
       </div>
     ),
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 2,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Rejected',
-  },
-  {
-    id: 3,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 4,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Pending',
-  },
-  {
-    id: 5,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 6,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 7,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Rejected',
-  },
-  {
-    id: 8,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 9,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Pending',
-  },
-  {
-    id: 10,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-  {
-    id: 11,
-    course: 'Information technology',
-    provider: 'Jommo Kenyatta University of Technology',
-    status: 'Approved',
-  },
-];
-
 const Applications = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { applications } = useSelector((state) => state.application);
+  let application_with_serials = [];
+
+  let num = 0;
+  applications.forEach((application) => {
+    num = num + 1;
+    application_with_serials.push({
+      ...application,
+      s_no: num,
+    });
+  });
 
   const handleNextClick = () => {
     navigate('/app/new-application');
@@ -114,6 +60,10 @@ const Applications = () => {
     e.preventDefault();
     navigate('/app/view-application');
   };
+
+  useEffect(() => {
+    dispatch(FetchAllApplications());
+  }, []);
 
   return (
     <DefaultLayout>
@@ -128,12 +78,7 @@ const Applications = () => {
         >
           {constants.NEW_APPLICATION}
         </button>
-        {/* <DetailsTable
-          columns={columns}
-          names={rows}
-          onClick={handleApplicationClick}
-        /> */}
-        <Table columns={columns} dataSource={rows} />
+        <Table columns={columns} dataSource={application_with_serials} />
       </div>
     </DefaultLayout>
   );

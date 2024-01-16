@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../utils/axios';
 
+import { ShowSnackbar } from './app';
+
 const initialState = {
   applicationSpecs: [],
   applications: [],
@@ -29,6 +31,33 @@ export const UpdateApplicationSpecs = ({ data }) => {
   };
 };
 
+export const FetchAllApplications = () => {
+  return async (dispatch, getState) => {
+    let org_id = window.localStorage.getItem('user_id');
+
+    await axios
+      .get(`/application/get-all-applications?org_id=${org_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateApplications({
+            applications: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: 'error', message: error.data.message })
+        );
+      });
+  };
+};
+
 export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {
     let org_id = window.localStorage.getItem('user_id');
@@ -40,11 +69,9 @@ export const CreateNewApplication = (formValues) => {
       )
       .then(function (response) {
         console.log(response);
-        // dispatch(
-        //   slice.actions.updateApplications({
-        //     applications: [...response.data],
-        //   })
-        // );
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
       });
   };
 };
