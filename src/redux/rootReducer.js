@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
+
+
+import appReducer from './slices/app';
 import authReducer from './slices/auth';
 import applicationReducer from './slices/application';
 import nomineeReducer from './slices/nominee';
@@ -16,6 +19,7 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  app: appReducer,
   auth: authReducer,
   nominee: nomineeReducer,
   application: applicationReducer,

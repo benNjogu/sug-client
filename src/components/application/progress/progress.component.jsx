@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import withRouter from '../../../hooks/withRouter';
 import './progressive.styles.scss';
 import HomepageBtn from '../homepage-btn';
+import { constants } from '../../../data/constants';
 
 const Progress = ({}) => {
   const navigate = useNavigate();
@@ -23,65 +24,116 @@ const Progress = ({}) => {
   let applicationSpecs = useSelector(
     (state) => state.application.applicationSpecs
   );
-  console.log(applicationSpecs);
 
   return (
     <>
-      <div className="steps fixed-top">
-        <div className={`${isFirstStep ? 'step active' : 'step'}`}>
-          <div>1</div>
-          <div>
-            {isSecondStep || isThirdStep || isForthStep || isFifthStep ? (
-              <Link to="/app/new-application">Nominee</Link>
-            ) : (
-              'Nominee(s)'
-            )}
+      {applicationSpecs.typeOfTraining === constants.OVER_SEAS ? (
+        <div className="steps fixed-top">
+          <div className={`${isFirstStep ? 'step active' : 'step'}`}>
+            <div>1</div>
+            <div>
+              {isSecondStep || isThirdStep || isForthStep || isFifthStep ? (
+                <Link to="/app/new-application">Nominee(s)</Link>
+              ) : (
+                'Nominee(s)'
+              )}
+            </div>
+          </div>
+          <div className={`${isSecondStep ? 'step active' : 'step'}`}>
+            <div>2</div>
+            <div>
+              {isThirdStep || isForthStep || isFifthStep ? (
+                <Link to="/app/new-application/course">Course</Link>
+              ) : (
+                'Course'
+              )}
+            </div>
+          </div>
+          <div className={`${isThirdStep ? 'step active' : 'step'}`}>
+            <div>3</div>
+            <div>
+              {isForthStep || isFifthStep ? (
+                <Link to="/app/new-application/overseas">Overseas</Link>
+              ) : (
+                'Overseas'
+              )}
+            </div>
+          </div>
+          <div className={`${isForthStep ? 'step active' : 'step'}`}>
+            <div>4</div>
+            <div>
+              {isFifthStep ? (
+                <Link to="/app/new-application/training-expenses">
+                  Expenses
+                </Link>
+              ) : (
+                'Expenses'
+              )}
+            </div>
+          </div>
+          <div
+            className={`${
+              pathname === '/app/new-application/declaration'
+                ? 'step active'
+                : 'step'
+            }`}
+          >
+            <div>5</div>
+            <div>Declaration</div>
+          </div>
+          <div style={{ paddingTop: 8 + 'px' }}>
+            <HomepageBtn onClickHome={handleHomePage} />
           </div>
         </div>
-        <div className={`${isSecondStep ? 'step active' : 'step'}`}>
-          <div>2</div>
-          <div>
-            {isThirdStep || isForthStep || isFifthStep ? (
-              <Link to="/app/new-application/course">Course</Link>
-            ) : (
-              'Course'
-            )}
+      ) : (
+        <div className="steps fixed-top">
+          <div className={`${isFirstStep ? 'step active' : 'step'}`}>
+            <div>1</div>
+            <div>
+              {isSecondStep || isThirdStep || isForthStep ? (
+                <Link to="/app/new-application">Nominee</Link>
+              ) : (
+                'Nominee(s)'
+              )}
+            </div>
+          </div>
+          <div className={`${isSecondStep ? 'step active' : 'step'}`}>
+            <div>2</div>
+            <div>
+              {isThirdStep || isForthStep ? (
+                <Link to="/app/new-application/course">Course</Link>
+              ) : (
+                'Course'
+              )}
+            </div>
+          </div>
+          <div className={`${isThirdStep ? 'step active' : 'step'}`}>
+            <div>3</div>
+            <div>
+              {isForthStep ? (
+                <Link to="/app/new-application/training-expenses">
+                  Expenses
+                </Link>
+              ) : (
+                'Expenses'
+              )}
+            </div>
+          </div>
+          <div
+            className={`${
+              pathname === '/app/new-application/declaration'
+                ? 'step active'
+                : 'step'
+            }`}
+          >
+            <div>4</div>
+            <div>Declaration</div>
+          </div>
+          <div style={{ paddingTop: 8 + 'px' }}>
+            <HomepageBtn onClickHome={handleHomePage} />
           </div>
         </div>
-        <div className={`${isThirdStep ? 'step active' : 'step'}`}>
-          <div>3</div>
-          <div>
-            {isForthStep || isFifthStep ? (
-              <Link to="/app/new-application/overseas">Overseas</Link>
-            ) : (
-              'Overseas'
-            )}
-          </div>
-        </div>
-        <div className={`${isForthStep ? 'step active' : 'step'}`}>
-          <div>4</div>
-          <div>
-            {isFifthStep ? (
-              <Link to="/app/new-application/training-expenses">Expenses</Link>
-            ) : (
-              'Expenses'
-            )}
-          </div>
-        </div>
-        <div
-          className={`${
-            pathname === '/app/new-application/declaration'
-              ? 'step active'
-              : 'step'
-          }`}
-        >
-          <div>5</div>
-          <div>Declaration</div>
-        </div>
-        <div style={{ paddingTop: 8 + 'px' }}>
-          <HomepageBtn onClickHome={handleHomePage} />
-        </div>
-      </div>
+      )}
     </>
   );
 };

@@ -96,7 +96,8 @@ const TrainingExpenses = ({ user, updateUser }) => {
       console.log(data);
     }
 
-    updateUser(data);
+    updateUser({ ...data });
+    console.log('tex', user);
     navigate('/app/new-application/declaration');
   };
 

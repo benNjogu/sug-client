@@ -41,8 +41,8 @@ const Overseas = ({ user, updateUser }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-    updateUser(data);
+    updateUser({ ...data });
+    console.log('ovs', user);
     navigate('/app/new-application/training-expenses');
   };
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -9,6 +10,7 @@ import RHFTextfield from '../../components/hook-form/RHF-textfield';
 import { ForgotPassword } from '../../redux/slices/auth';
 
 const ResetPasswordForm = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const ResetPasswordSchema = Yup.object().shape({
@@ -34,21 +36,33 @@ const ResetPasswordForm = () => {
   } = methods;
 
   const onSubmit = async (data) => {
-    try {
-      //submit data to backend
-      dispatch(ForgotPassword(data));
-    } catch (error) {
-      console.log(error);
-      reset();
-      setError('afterSubmit', {
-        ...error,
-        message: error.message,
-      });
-    }
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      try {
+        //submit data to backend
+        dispatch(ForgotPassword(data));
+      } catch (error) {
+        console.log(error);
+        reset();
+        setError('afterSubmit', {
+          ...error,
+          message: error.message,
+        });
+      }
+    }, 2000);
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <Stack spacing={3}>
         {!!errors.afterSubmit && (
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
@@ -61,7 +75,7 @@ const ResetPasswordForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: '#0D6EFD',
+            bgcolor: '#115581',
             color: (theme) =>
               theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
             '&:hover': {

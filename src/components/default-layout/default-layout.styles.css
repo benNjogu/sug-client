@@ -1,0 +1,90 @@
+.logo__container {
+  cursor: pointer;
+}
+
+.logo__text {
+  letter-spacing: 0.2rem;
+  transition: letter-spacing 0.3s;
+}
+
+.logo__text:hover {
+  letter-spacing: 0.4rem;
+}
+
+.demo-logo-vertical h3 {
+  color: #05a5a5;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 100px;
+  margin-top: 4px;
+}
+
+.ant-layout-has-sider {
+  padding: 15px !important;
+}
+
+.ant-layout-sider {
+  height: 95vh;
+  border-radius: 10px !important;
+  margin-right: 10px !important;
+}
+
+.ant-layout-sider-children {
+  padding: 15px 0;
+}
+
+.anticon svg {
+  height: 20px;
+  width: 20px;
+  font-size: 25px;
+}
+
+.ant-layout-header {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ant-layout-content {
+  box-shadow: 0 0 3px #ccc;
+  border-radius: 5px;
+  height: 81vh;
+  overflow-y: auto;
+}
+
+.ant-layout-content .ant-row {
+  justify-content: start !important;
+}
+
+.link {
+  text-decoration: 'none';
+}
+
+.ant-menu-item-selected {
+  background-color: #047979 !important;
+}
+
+.avatar__container {
+  cursor: pointer;
+  margin-right: 8px;
+  transition: transform 0.3s;
+}
+
+.avatar__container:hover {
+  transform: scale(1.15);
+}
+
+.spinner {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner-border {
+  height: 100px;
+  width: 100px;
+}

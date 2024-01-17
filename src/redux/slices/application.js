@@ -1,20 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../utils/axios';
 
+import { ShowSnackbar } from './app';
+
 const initialState = {
   applicationSpecs: [],
-  completeApplication: [],
+  applications: [],
 };
 
 const slice = createSlice({
   name: 'application',
   initialState,
   reducers: {
-    updateCompleteApplication(state, action) {
-      state.application = action.payload.application;
-    },
     updateApplicationSpecs(state, action) {
       state.applicationSpecs = action.payload.specs;
+    },
+
+    updateApplications(state, action) {
+      state.applications = action.payload.applications;
     },
   },
 });
@@ -22,28 +25,53 @@ const slice = createSlice({
 //Reducer
 export default slice.reducer;
 
-//Posting the complete application to the database
-export const PostApplication = ({ formValues }) => {
+export const UpdateApplicationSpecs = ({ data }) => {
   return async (dispatch, getState) => {
+    dispatch(slice.actions.updateApplicationSpecs({ specs: data }));
+  };
+};
+
+export const FetchAllApplications = () => {
+  return async (dispatch, getState) => {
+    let org_id = window.localStorage.getItem('user_id');
+
     await axios
-      .post(
-        '/applicaton/new-application',
-        { ...formValues },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
+      .get(`/application/get-all-applications?org_id=${org_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
       .then(function (response) {
-        console.log(response);
         dispatch(
-          slice.actions.updateCompleteApplication({
-            completeApplication: response.data,
+          slice.actions.updateApplications({
+            applications: response.data.result,
           })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: 'error', message: error.data.message })
         );
       });
   };
 };
 
-export const UpdateApplicationSpecs = ({ data }) => {
+export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.updateApplicationSpecs({ specs: data }));
+    let org_id = window.localStorage.getItem('user_id');
+    await axios
+      .post(
+        '/application/create-new-application',
+        { ...formValues, organization_id: org_id },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(function (response) {
+        console.log(response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      });
   };
 };

@@ -1,19 +1,24 @@
+import { useEffect } from 'react';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { DeletedNominee } from '../../../../redux/slices/cell';
+import {
+  DeletedNominee,
+  UpdateSizePerCell,
+} from '../../../../redux/slices/cell';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const CellItem = ({ group_id, label }) => {
+const CellItem = ({ group_id, label, user }) => {
   const dispatch = useDispatch();
 
-  let chipData = useSelector((state) => state.cell.nominees);
-  chipData = chipData.filter((chip) => chip.g_id === group_id);
+  let originalchipData = useSelector((state) => state.cell.nominees);
+  let chipData = originalchipData.filter((chip) => chip.g_id === group_id);
+
   let { capacity } = useSelector((state) => state.cell.capacity);
 
   const handleDelete = (chipToDelete) => () => {
@@ -51,6 +56,11 @@ const CellItem = ({ group_id, label }) => {
           );
         })}
       </Paper>
+      {capacity.minCapacity > chipData.length && (
+        <p className="text-danger">
+          This cell has a minimum capacity of {capacity.minCapacity}
+        </p>
+      )}
     </div>
   );
 };

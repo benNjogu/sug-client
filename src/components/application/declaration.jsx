@@ -1,7 +1,17 @@
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { CreateNewApplication } from '../../redux/slices/application';
 
 const Declaration = ({ user, updateUser }) => {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  let applicationSpecs = useSelector(
+    (state) => state.application.applicationSpecs
+  );
+
   const {
     register,
     handleSubmit,
@@ -16,12 +26,22 @@ const Declaration = ({ user, updateUser }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    updateUser(data);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(CreateNewApplication({ ...data, ...applicationSpecs, ...user }));
+    }, 2500);
   };
 
   return (
     <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <div className="row form_div">
         <div className="col-md-12">
           <legend className="text-danger">Certify and submit</legend>
@@ -55,6 +75,28 @@ const Declaration = ({ user, updateUser }) => {
             </div>
           </div>
           <div class="form-row">
+            <div class="col-md-3">
+              <Form.Group controlId="national_id_hr">
+                <input
+                  type="text"
+                  name="national_id_hr"
+                  id="national_id_hr"
+                  placeholder="National ID Number"
+                  autoComplete="off"
+                  {...register('national_id_hr', {
+                    required: 'National ID is required.',
+                  })}
+                  className={`${
+                    errors.national_id_hr
+                      ? 'input-error form-control'
+                      : 'form-control'
+                  }`}
+                />
+                {errors.national_id_hr && (
+                  <p className="errorMsg">{errors.national_id_hr.message}</p>
+                )}
+              </Form.Group>
+            </div>
             <div class="col-md-3">
               <Form.Group controlId="first_name_hr">
                 <input
