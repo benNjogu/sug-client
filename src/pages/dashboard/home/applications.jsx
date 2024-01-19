@@ -122,7 +122,7 @@ const Applications = () => {
   };
 
   const handleViewApplication = (record) => {
-    navigate('/app/view-application', record);
+    navigate('/app/view-application', { state: { record } });
   };
 
   const handleEditApplication = (record) => {

@@ -1,11 +1,23 @@
-.main_div {
-    height: 88%;
-    overflow: auto;
-    background: #fff;
-    border-radius: 8px;
-    margin: 16px;
-    margin-top: 2px;
-    padding: 16px;
+.main-div {
+  background-image: url('../../assets/images/bg-paper@2x.jpg');
+  height: 100%;
+  width: 100%;
+  padding: 1rem 2rem 1rem 2rem;
+  background-attachment: fixed;
+}
+
+.label {
+  font-weight: bold;
+  margin-right: .5rem;
+}
+
+.inner__label {
+  font-weight: 500;
+  margin-right: .5rem;
+}
+
+.span--block {
+  display: inline-block;
 }
 
 .main_div::-webkit-scrollbar-thumb {
@@ -19,12 +31,3 @@
   width: 16px;
 }
 
-.parent_div {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    padding: 8px;
-    /* padding-left: 16px; */
-    padding-top: 0;
-    background-color: #e5eaf5;
-}
