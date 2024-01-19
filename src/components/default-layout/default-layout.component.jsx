@@ -112,15 +112,15 @@ const DefaultLayout = ({ children }) => {
                 </Link>
               ),
             },
-            {
-              key: '/app/nominees',
-              icon: <UserOutlined />,
-              label: (
-                <Link to="/app/nominees" style={linkStyle}>
-                  All Nominees
-                </Link>
-              ),
-            },
+            // {
+            //   key: '/app/nominees',
+            //   icon: <UserOutlined />,
+            //   label: (
+            //     <Link to="/app/nominees" style={linkStyle}>
+            //       All Nominees
+            //     </Link>
+            //   ),
+            // },
             {
               key: '/auth/login',
               icon: <LogoutOutlined />,
