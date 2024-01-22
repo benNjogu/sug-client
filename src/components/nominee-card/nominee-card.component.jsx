@@ -65,70 +65,73 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
             </div>
           </div>
         </div>
-        <div className="card-footer">
-          {component !== 'select_nominee' ? (
-            <div className="row">
-              <div className="col-md-4">
-                <button class="btn btn-sm btn-outline-danger">delete</button>
-              </div>
-              <div className="col-md-4">
-                <button class="btn btn-sm btn-outline-success" onClick={onEdit}>
-                  edit
-                </button>
-              </div>
-              <div className="col-md-4">
-                <button class="btn btn-sm btn-outline-primary">view</button>
-              </div>
-            </div>
-          ) : (
-            <div className="row">
-              {!a.includes(nominee.id) ? (
-                <div
-                  className="col-md-12 text-center"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {!isDropdownVisible && (
-                    <button
-                      class="btn btn-sm btn-outline-success"
-                      onClick={handleMouseEnter}
-                    >
-                      ADD NOMINEE
-                    </button>
-                  )}
-                  {isDropdownVisible && (
-                    <div className="dropy">
-                      <ul>
-                        {groups.map((g) => (
-                          <li
-                            key={g.g_id}
-                            onClick={() =>
-                              onAdd(g.g_id, nominee.id, nominee.first_name)
-                            }
-                          >
-                            {g.label.toUpperCase() ===
-                            constants.SINGLE_NOMINEE_LABEL.toUpperCase()
-                              ? 'ADD NOMINEE'
-                              : g.label.toUpperCase()}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="col-md-12 text-center">
-                  <button
-                    class="btn btn-sm btn-outline-danger"
-                    onClick={() => handleDeleteNominee(nominee.id)}
+        {component !== 'view_nominee' && (
+          <div className="card-footer">
+            {component === 'select_nominee' ? (
+              <div className="row">
+                {!a.includes(nominee.id) ? (
+                  <div
+                    className="col-md-12 text-center"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                   >
-                    {'REMOVE GROUP ' + getNomineeId(nominee.id)}
+                    {!isDropdownVisible && (
+                      <button
+                        class="btn btn-sm btn-outline-success"
+                        onClick={handleMouseEnter}
+                      >
+                        ADD NOMINEE
+                      </button>
+                    )}
+                    {isDropdownVisible && (
+                      <div className="dropy">
+                        <ul>
+                          {groups.map((g) => (
+                            <li
+                              key={g.g_id}
+                              onClick={() =>
+                                onAdd(g.g_id, nominee.id, nominee.first_name)
+                              }
+                            >
+                              {g.label.toUpperCase() ===
+                              constants.SINGLE_NOMINEE_LABEL.toUpperCase()
+                                ? 'ADD NOMINEE'
+                                : g.label.toUpperCase()}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="col-md-12 text-center">
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      onClick={() => handleDeleteNominee(nominee.id)}
+                    >
+                      {'REMOVE GROUP ' + getNomineeId(nominee.id)}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="row">
+                <div className="col-md-4">
+                  <button
+                    class="btn btn-sm btn-outline-success"
+                    onClick={onEdit}
+                  >
+                    edit
                   </button>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+                <div className="col-md-4"></div>
+                <div className="col-md-4">
+                  <button class="btn btn-sm btn-outline-primary">view</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
