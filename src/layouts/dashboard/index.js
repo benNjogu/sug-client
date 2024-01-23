@@ -1,35 +1,19 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { Stack } from '@mui/material';
+import DefaultLayout from '../../components/default-layout/default-layout.component';
 
 const DashboardLayout = () => {
-  // const { isLoggedIn } = useSelector((state) => state.auth);
-  const isLoggedIn = true;
-
-  const user_id = window.localStorage.getItem('user_id');
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      window.onload = function () {
-        if (!window.location.hash) {
-          window.location = window.location + '#loaded';
-          window.location.reload();
-        }
-      };
-
-      window.onload();
-    }
-  }, [isLoggedIn]);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  console.log(isLoggedIn, 'in');
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
   }
 
   return (
-    <Stack direction="row">
+    <DefaultLayout>
       <Outlet />
-    </Stack>
+    </DefaultLayout>
   );
 };
 

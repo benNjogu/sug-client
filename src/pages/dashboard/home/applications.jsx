@@ -144,7 +144,7 @@ const Applications = () => {
   }, []);
 
   return (
-    <DefaultLayout>
+    <>
       {loading && (
         <div className="spinner">
           <div className="spinner-border" role="status" />
@@ -164,7 +164,7 @@ const Applications = () => {
         </button>
         <Table columns={columns} dataSource={application_with_serials} />
       </div>
-    </DefaultLayout>
+    </>
   );
 };
 

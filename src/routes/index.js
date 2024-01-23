@@ -44,20 +44,21 @@ export default function Router() {
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
         { path: 'app', element: <Applications /> },
-        { path: 'app/profile', element: <Profile /> },
-        { path: 'app/approved', element: <Approved /> },
-        { path: 'app/pending', element: <Pending /> },
-        { path: 'app/rejected', element: <Rejected /> },
-        { path: 'app/registered', element: <Registered /> },
-        { path: 'app/nominees', element: <Nominees /> },
-        { path: 'app/register-nominee', element: <RegisterNominee /> },
-        { path: 'app/new-application/*', element: <NewApplication /> },
-        { path: 'app/view-application', element: <ViewApplication /> },
+        { path: 'profile', element: <Profile /> },
+        { path: 'approved', element: <Approved /> },
+        { path: 'pending', element: <Pending /> },
+        { path: 'rejected', element: <Rejected /> },
+        { path: 'registered', element: <Registered /> },
+        { path: 'nominees', element: <Nominees /> },
 
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" replace /> },
       ],
     },
+
+    { path: 'app/register-nominee', element: <RegisterNominee /> },
+    { path: 'app/new-application/*', element: <NewApplication /> },
+    { path: 'app/view-application', element: <ViewApplication /> },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }

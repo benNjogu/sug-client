@@ -158,6 +158,10 @@ export function RegisterUser(formValues) {
         dispatch(
           slice.actions.updateIsLoading({ isLoading: false, error: false })
         );
+
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
       })
       .catch((e) => {
         console.log(e);
@@ -197,6 +201,10 @@ export function VerifyEmail(formValues) {
         );
 
         window.localStorage.setItem('user_id', response.data.user_id);
+
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
       })
       .catch((e) => console.log(e));
   };
