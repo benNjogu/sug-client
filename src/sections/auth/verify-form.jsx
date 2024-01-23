@@ -7,11 +7,14 @@ import { Button, Stack } from '@mui/material';
 import RHFCodes from '../../components/hook-form/RHF-codes';
 import FormProvider from '../../components/hook-form/form-provider';
 import { VerifyEmail } from '../../redux/slices/auth';
+import { useState } from 'react';
 
 const VerifyForm = () => {
   const dispatch = useDispatch();
   //email => get it from the store
   const { email } = useSelector((state) => state.auth);
+
+  const [loading, setLoading] = useState();
 
   const VerifyCodeSchema = Yup.object().shape({
     code1: Yup.string().required('Code is required'),
@@ -40,21 +43,33 @@ const VerifyForm = () => {
   const { handleSubmit, formState } = methods;
 
   const onSubmit = async (data) => {
-    try {
-      // SEND API REQUEST
-      dispatch(
-        VerifyEmail({
-          email,
-          otp: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`,
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      try {
+        // SEND API REQUEST
+        dispatch(
+          VerifyEmail({
+            email,
+            otp: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`,
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }, 2000);
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <Stack spacing={3}>
         {/* Custom OTP input */}
         <RHFCodes
@@ -68,7 +83,7 @@ const VerifyForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: '#0D6EFD',
+            bgcolor: '#115581',
             color: (theme) =>
               theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
             '&:hover': {

@@ -6,6 +6,8 @@ import { ShowSnackbar } from './app';
 const initialState = {
   applicationSpecs: [],
   applications: [],
+  applicationNominees: [],
+  applicationHR: [],
 };
 
 const slice = createSlice({
@@ -18,6 +20,14 @@ const slice = createSlice({
 
     updateApplications(state, action) {
       state.applications = action.payload.applications;
+    },
+
+    updateApplicationNominees(state, action) {
+      state.applicationNominees = action.payload.applicationNominees;
+    },
+
+    updateApplicationHR(state, action) {
+      state.applicationHR = action.payload.applicationHR;
     },
   },
 });
@@ -71,6 +81,60 @@ export const CreateNewApplication = (formValues) => {
         console.log(response);
         dispatch(
           ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      });
+  };
+};
+
+export const GetApplicationNominees = (application_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        `/application/get-application-nominees?application_id=${application_id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateApplicationNominees({
+            applicationNominees: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: 'error', message: error.data.message })
+        );
+      });
+  };
+};
+
+export const GetApplicationHR = (application_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(`/application/get-application-hr?application_id=${application_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response, 'hr');
+        dispatch(
+          slice.actions.updateApplicationHR({
+            applicationHR: response.data.result1,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: 'error', message: error.data.message })
         );
       });
   };

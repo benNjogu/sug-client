@@ -27,33 +27,31 @@ const Registered = () => {
   };
 
   return (
-    <DefaultLayout>
-      <>
-        <FilterNominees onAddNew={handleAddNew} />
-        <div className="row overflow-auto">
-          {nominees.length > 0 ? (
-            nominees.map((n) => (
-              <div key={n.id} className="col-md-4">
-                <NomineeCard onEdit={handleEdit} nominee={n} />
-              </div>
-            ))
-          ) : (
-            <div className="col-md-12">
-              <p className="text-center">
-                No Registered nominess.{' '}
-                <span
-                  className="text-primary cursor-pointer"
-                  onClick={handleAddNew}
-                >
-                  Register Now
-                </span>
-                .
-              </p>
+    <>
+      <FilterNominees onAddNew={handleAddNew} />
+      <div className="row overflow-auto">
+        {nominees.length > 0 ? (
+          nominees.map((n) => (
+            <div key={n.id} className="col-md-4">
+              <NomineeCard onEdit={handleEdit} nominee={n} />
             </div>
-          )}
-        </div>
-      </>
-    </DefaultLayout>
+          ))
+        ) : (
+          <div className="col-md-12">
+            <p className="text-center">
+              No Registered nominess.{' '}
+              <span
+                className="text-primary cursor-pointer"
+                onClick={handleAddNew}
+              >
+                Register Now
+              </span>
+              .
+            </p>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

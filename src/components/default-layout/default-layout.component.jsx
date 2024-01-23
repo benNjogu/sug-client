@@ -38,7 +38,7 @@ const DefaultLayout = ({ children }) => {
   };
 
   const handleViewProfile = () => {
-    navigate('/app/profile');
+    navigate('/profile');
   };
 
   const handleLogout = () => {
@@ -76,51 +76,42 @@ const DefaultLayout = ({ children }) => {
               ),
             },
             {
-              key: '/app/approved',
+              key: '/approved',
               icon: <CopyOutlined />,
               label: (
-                <Link to="/app/approved" style={linkStyle}>
+                <Link to="/approved" style={linkStyle}>
                   Approved
                 </Link>
               ),
             },
             {
-              key: '/app/pending',
+              key: '/pending',
               icon: <UnorderedListOutlined />,
               label: (
-                <Link to="/app/pending" style={linkStyle}>
+                <Link to="/pending" style={linkStyle}>
                   Pending
                 </Link>
               ),
             },
 
             {
-              key: '/app/rejected',
+              key: '/rejected',
               icon: <CloseCircleOutlined />,
               label: (
-                <Link to="/app/rejected" style={linkStyle}>
+                <Link to="/rejected" style={linkStyle}>
                   Rejected
                 </Link>
               ),
             },
             {
-              key: '/app/registered',
+              key: '/registered',
               icon: <UsergroupAddOutlined />,
               label: (
-                <Link to="/app/registered" style={linkStyle}>
+                <Link to="/registered" style={linkStyle}>
                   Registered
                 </Link>
               ),
             },
-            // {
-            //   key: '/app/nominees',
-            //   icon: <UserOutlined />,
-            //   label: (
-            //     <Link to="/app/nominees" style={linkStyle}>
-            //       All Nominees
-            //     </Link>
-            //   ),
-            // },
             {
               key: '/auth/login',
               icon: <LogoutOutlined />,

@@ -6,9 +6,6 @@ const RegisterNominee = () => {
   const location = useLocation();
   const { nominee_id, prevPage } = location.state !== null ? location.state : 0;
 
-  console.log('rp', prevPage);
-  console.log('ni', nominee_id);
-
   return (
     <div className="container">
       <Nominee nominee_id={nominee_id} prevPage={prevPage} />

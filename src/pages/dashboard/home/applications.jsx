@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -20,6 +20,7 @@ let status = {
 const Applications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.application);
   let application_with_serials = [];
 
@@ -122,7 +123,12 @@ const Applications = () => {
   };
 
   const handleViewApplication = (record) => {
-    navigate('/app/view-application', { state: { record } });
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/app/view-application', { state: { record } });
+    }, 700);
   };
 
   const handleEditApplication = (record) => {
@@ -138,7 +144,13 @@ const Applications = () => {
   }, []);
 
   return (
-    <DefaultLayout>
+    <>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <div>
         <ModalComponent onClick={handleNextClick} />
         <button
@@ -152,7 +164,7 @@ const Applications = () => {
         </button>
         <Table columns={columns} dataSource={application_with_serials} />
       </div>
-    </DefaultLayout>
+    </>
   );
 };
 
