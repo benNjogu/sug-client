@@ -67,7 +67,7 @@ const RegisterNominee = Loadable(
   lazy(() => import('../pages/register-nominees/register-nominee'))
 );
 const NewApplication = Loadable(
-  lazy(() => import('../pages/application/new-application'))
+  lazy(() => import('../pages/application/new-application.component'))
 );
 const ViewApplication = Loadable(
   lazy(() => import('../pages/application-details/view-application-details'))
