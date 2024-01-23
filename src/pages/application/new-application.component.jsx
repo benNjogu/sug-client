@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Header from './Header';
+import Progress from '../../components/application/progress/progress.component';
 import CourseDetails from '../../components/application/details-of-course';
 import Overseas from '../../components/application/overseas-requirements';
-import './new-application.css';
 import TrainingExpenses from '../../components/application/training-expenses';
 import Declaration from '../../components/application/declaration';
 import SelectNominees from '../../components/application/select-nominees/select-nominees.component';
+
+import './new-application.styles.css';
 
 const NewApplication = () => {
   const [user, setUser] = useState({});
@@ -25,7 +26,7 @@ const NewApplication = () => {
       className="application_size"
       style={{ marginLeft: 20 + 'px', marginRight: 20 + 'px' }}
     >
-      <Header />
+      <Progress />
       <Routes>
         <Route
           path="/"
