@@ -124,6 +124,7 @@ export const GetApplicationHR = (application_id) => {
         },
       })
       .then(function (response) {
+        console.log(response, 'hr');
         dispatch(
           slice.actions.updateApplicationHR({
             applicationHR: response.data.result1,

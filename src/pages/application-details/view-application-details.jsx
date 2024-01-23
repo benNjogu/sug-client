@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import './view-application-details.styles.css';
 import { constants } from './../../data/constants';
 import {
   GetApplicationHR,
   GetApplicationNominees,
 } from '../../redux/slices/application';
 import NomineeCard from '../../components/nominee-card/nominee-card.component';
+
+import './view-application-details.styles.css';
 
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
@@ -42,9 +43,10 @@ const ViewApplicationDetails = () => {
 
   useEffect(() => {
     dispatch(GetApplicationNominees(record.id));
-    dispatch(GetApplicationHR(record.id));
+  }, []);
 
-    //TODO: Get HR
+  useEffect(() => {
+    dispatch(GetApplicationHR(record.id));
   }, []);
 
   return (
@@ -103,7 +105,6 @@ const ViewApplicationDetails = () => {
               <legend className="text-info">Selected nominees.</legend>
               <div class="form-row">
                 <div class="col-md-12">
-                  <label for="nominees" className="label"></label>
                   <div className="row overflow-auto mt-0">
                     {getFilteredNominees().map((n) => (
                       <div key={n.id} className="col-md-4">
