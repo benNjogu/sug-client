@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { Table } from 'antd';
+
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 
 const columns = [
@@ -97,7 +98,11 @@ const Rejected = () => {
     }
   });
 
-  return <Table columns={columns} dataSource={application_with_serials} />;
+  return (
+    <DefaultLayout>
+      <Table columns={columns} dataSource={application_with_serials} />
+    </DefaultLayout>
+  );
 };
 
 export default Rejected;

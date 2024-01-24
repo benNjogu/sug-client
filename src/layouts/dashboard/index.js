@@ -1,6 +1,6 @@
+import { Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import DefaultLayout from '../../components/default-layout/default-layout.component';
 
 const DashboardLayout = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -11,9 +11,9 @@ const DashboardLayout = () => {
   }
 
   return (
-    <DefaultLayout>
+    <Stack direction="row">
       <Outlet />
-    </DefaultLayout>
+    </Stack>
   );
 };
 

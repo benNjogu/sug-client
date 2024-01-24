@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import {
   MenuFoldOutlined,
@@ -11,7 +11,6 @@ import {
   CopyOutlined,
   UnorderedListOutlined,
   UsergroupAddOutlined,
-  UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
@@ -43,6 +42,7 @@ const DefaultLayout = ({ children }) => {
 
   const handleLogout = () => {
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
       dispatch(LogOutUser());
@@ -93,7 +93,6 @@ const DefaultLayout = ({ children }) => {
                 </Link>
               ),
             },
-
             {
               key: '/rejected',
               icon: <CloseCircleOutlined />,
@@ -130,6 +129,7 @@ const DefaultLayout = ({ children }) => {
             <div className="spinner-border" role="status" />
           </div>
         )}
+
         <Header
           style={{
             padding: 0,

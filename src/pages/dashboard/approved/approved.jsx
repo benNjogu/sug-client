@@ -97,7 +97,11 @@ const Approved = () => {
     }
   });
 
-  return <Table columns={columns} dataSource={application_with_serials} />;
+  return (
+    <DefaultLayout>
+      <Table columns={columns} dataSource={application_with_serials} />;
+    </DefaultLayout>
+  );
 };
 
 export default Approved;

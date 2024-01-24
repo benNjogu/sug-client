@@ -27,7 +27,7 @@ const Registered = () => {
   };
 
   return (
-    <>
+    <DefaultLayout>
       <FilterNominees onAddNew={handleAddNew} />
       <div className="row overflow-auto">
         {nominees.length > 0 ? (
@@ -51,7 +51,7 @@ const Registered = () => {
           </div>
         )}
       </div>
-    </>
+    </DefaultLayout>
   );
 };
 
