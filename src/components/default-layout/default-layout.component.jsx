@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   MenuFoldOutlined,
@@ -25,6 +25,9 @@ const DefaultLayout = ({ children }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { account_type } = useSelector((state) => state.auth);
+  console.log('type', account_type);
 
   const {
     token: { colorBgContainer },
