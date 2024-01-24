@@ -4,6 +4,7 @@ const Profile = () => {
   return (
     <DefaultLayout>
       <div class="form-row">
+        <legend className="text-info">Profile Details.</legend>
         <div class="col-md-4 form-group">
           <label for="name">Name of the organization:</label>
           <input

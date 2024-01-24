@@ -9,14 +9,6 @@ import DashboardLayout from '../layouts/dashboard';
 import { DEFAULT_PATH } from '../config';
 import LoadingScreen from '../components/loading-screen';
 
-import Applications from './../pages/dashboard/home/applications';
-import Approved from '../pages/dashboard/approved/approved';
-import Pending from '../pages/dashboard/pending/pending';
-import Rejected from '../pages/dashboard/rejected/rejected';
-import Registered from '../pages/dashboard/registered/registered-nominees';
-import Nominees from '../pages/dashboard/all-nominees/nominees';
-import Profile from '../pages/dashboard/profile/profile';
-
 const Loadable = (Component) => (props) => {
   return (
     <Suspense fallback={<LoadingScreen />}>
@@ -62,6 +54,28 @@ export default function Router() {
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
+
+const Applications = Loadable(
+  lazy(() => import('./../pages/dashboard/home/applications'))
+);
+const Approved = Loadable(
+  lazy(() => import('../pages/dashboard/approved/approved'))
+);
+const Pending = Loadable(
+  lazy(() => import('../pages/dashboard/pending/pending'))
+);
+const Rejected = Loadable(
+  lazy(() => import('../pages/dashboard/rejected/rejected'))
+);
+const Registered = Loadable(
+  lazy(() => import('../pages/dashboard/registered/registered-nominees'))
+);
+const Nominees = Loadable(
+  lazy(() => import('../pages/dashboard/all-nominees/nominees'))
+);
+const Profile = Loadable(
+  lazy(() => import('../pages/dashboard/profile/profile'))
+);
 
 const RegisterNominee = Loadable(
   lazy(() => import('../pages/register-nominees/register-nominee'))
