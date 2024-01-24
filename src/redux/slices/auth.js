@@ -9,6 +9,7 @@ const initialState = {
   isLoading: false,
   email: '',
   error: false,
+  account_type: '',
 };
 
 const slice = createSlice({
@@ -29,6 +30,9 @@ const slice = createSlice({
     },
     updateUserEmail(state, action) {
       state.email = action.payload.email;
+    },
+    updateAccountType(state, action) {
+      state.account_type = action.payload.account_type;
     },
   },
 });
@@ -54,6 +58,12 @@ export function LoginUser(formValues) {
           slice.actions.login({
             isLoggedIn: true,
             token: response.data.token,
+          })
+        );
+
+        dispatch(
+          slice.actions.updateAccountType({
+            account_type: response.data.account_type.account_type,
           })
         );
 

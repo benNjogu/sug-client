@@ -2,8 +2,9 @@ import DefaultLayout from '../../../components/default-layout/default-layout.com
 
 const Profile = () => {
   return (
-    <div>
+    <DefaultLayout>
       <div class="form-row">
+        <legend className="text-info">Profile Details.</legend>
         <div class="col-md-4 form-group">
           <label for="name">Name of the organization:</label>
           <input
@@ -97,7 +98,7 @@ const Profile = () => {
       >
         Save
       </button>
-    </div>
+    </DefaultLayout>
   );
 };
 

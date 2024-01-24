@@ -11,7 +11,6 @@ import {
   CopyOutlined,
   UnorderedListOutlined,
   UsergroupAddOutlined,
-  UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
@@ -26,6 +25,9 @@ const DefaultLayout = ({ children }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { account_type } = useSelector((state) => state.auth);
+  console.log('type', account_type);
 
   const {
     token: { colorBgContainer },
@@ -43,6 +45,7 @@ const DefaultLayout = ({ children }) => {
 
   const handleLogout = () => {
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
       dispatch(LogOutUser());
@@ -93,7 +96,6 @@ const DefaultLayout = ({ children }) => {
                 </Link>
               ),
             },
-
             {
               key: '/rejected',
               icon: <CloseCircleOutlined />,
@@ -130,6 +132,7 @@ const DefaultLayout = ({ children }) => {
             <div className="spinner-border" role="status" />
           </div>
         )}
+
         <Header
           style={{
             padding: 0,
