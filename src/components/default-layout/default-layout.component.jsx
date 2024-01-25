@@ -26,7 +26,7 @@ const DefaultLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { account_type } = useSelector((state) => state.auth);
+  let { account_type } = useSelector((state) => state.auth).account_type;
   console.log('type', account_type);
 
   const {
@@ -53,7 +53,11 @@ const DefaultLayout = ({ children }) => {
     }, 2000);
   };
 
-  return (
+  const account_type_3 = process.env.REACT_APP_AccountType3;
+  console.log(account_type_3, '0');
+  console.log(account_type === account_type_3);
+
+  if (account_type === process.env.REACT_APP_AccountType0) {
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div
@@ -167,7 +171,17 @@ const DefaultLayout = ({ children }) => {
           {children}
         </Content>
       </Layout>
-    </Layout>
-  );
+    </Layout>;
+  }
+
+  if (account_type === process.env.REACT_APP_AccountType1) {
+    return <p>Admin</p>;
+  }
+
+  if (account_type === process.env.REACT_APP_AccountType2) {
+    return <p>Super Admin</p>;
+  }
+
+  return <p>Super User DO</p>;
 };
 export default DefaultLayout;
