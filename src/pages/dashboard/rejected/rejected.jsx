@@ -4,6 +4,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
+import { addSerialNumber, status } from './../../../utils/addSerialNumber';
 
 const columns = [
   {
@@ -71,36 +72,15 @@ const columns = [
   },
 ];
 
-let status = {
-  Rejected: -1,
-  Pending: 0,
-  Stage_1: 1,
-  Stage_2: 2,
-  Approved: 3,
-};
-
 const Rejected = () => {
   const { applications } = useSelector((state) => state.application);
-  let application_with_serials = [];
-
-  const getKeyByValue = (object, value) =>
-    Object.keys(object).find((key) => object[key] === value);
-
-  let num = 0;
-  applications.forEach((application) => {
-    if (application.approved === -1) {
-      num = num + 1;
-      application_with_serials.push({
-        ...application,
-        approved: getKeyByValue(status, application.approved),
-        s_no: num,
-      });
-    }
-  });
 
   return (
     <DefaultLayout>
-      <Table columns={columns} dataSource={application_with_serials} />
+      <Table
+        columns={columns}
+        dataSource={addSerialNumber(applications, status.Rejected)}
+      />
     </DefaultLayout>
   );
 };

@@ -6,16 +6,7 @@ import { Table } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 import { FetchAllApplications } from '../../redux/slices/admin';
-import { getKeyByValue } from '../../utils/getObjectKey';
-import { applicationWithSerialNumber } from '../../utils/applicationWithSerialNumber';
-
-let status = {
-  Rejected: -1,
-  Pending: 0,
-  Stage_1: 1,
-  Stage_2: 2,
-  Approved: 3,
-};
+import { addSerialNumber, status } from './../../utils/addSerialNumber';
 
 const PendingApplications = () => {
   const navigate = useNavigate();
@@ -113,7 +104,7 @@ const PendingApplications = () => {
 
       <Table
         columns={columns}
-        dataSource={applicationWithSerialNumber(applications)}
+        dataSource={addSerialNumber(applications, status.Pending)}
       />
     </DefaultLayout>
   );

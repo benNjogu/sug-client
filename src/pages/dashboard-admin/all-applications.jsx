@@ -6,14 +6,7 @@ import { Table } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 import { FetchAllApplications } from '../../redux/slices/admin';
-
-let status = {
-  Rejected: -1,
-  Pending: 0,
-  Stage_1: 1,
-  Stage_2: 2,
-  Approved: 3,
-};
+import { addSerialNumber, status } from './../../utils/addSerialNumber';
 
 const AllApplications = () => {
   const navigate = useNavigate();
@@ -22,20 +15,6 @@ const AllApplications = () => {
   const { applications } = useSelector((state) => state.admin);
   console.log('all', applications);
 
-  const getKeyByValue = (object, value) =>
-    Object.keys(object).find((key) => object[key] === value);
-
-  let application_with_serials = [];
-  let num = 0;
-  applications.forEach((application) => {
-    num = num + 1;
-    application_with_serials.push({
-      ...application,
-      approved: getKeyByValue(status, application.approved),
-      s_no: num,
-    });
-  });
-
   const handleViewApplication = (record) => {
     setLoading(true);
 
@@ -43,14 +22,6 @@ const AllApplications = () => {
       setLoading(false);
       navigate('/app/view-application', { state: { record } });
     }, 700);
-  };
-
-  const handleEditApplication = (record) => {
-    console.log('edit application', record);
-  };
-
-  const handleDeleteApplication = (record) => {
-    console.log('delete application', record);
   };
 
   const columns = [
@@ -131,7 +102,10 @@ const AllApplications = () => {
         </div>
       )}
 
-      <Table columns={columns} dataSource={application_with_serials} />
+      <Table
+        columns={columns}
+        dataSource={addSerialNumber(applications, status.All)}
+      />
     </DefaultLayout>
   );
 };
