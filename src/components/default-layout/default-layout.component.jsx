@@ -287,11 +287,11 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
-          key: '/admin-nominees',
+          key: '/admin-organizations',
           icon: <UsergroupAddOutlined />,
           label: (
-            <Link to="/admin-nominees" style={linkStyle}>
-              Nominees
+            <Link to="/admin-organizations" style={linkStyle}>
+              Organizations
             </Link>
           ),
         },

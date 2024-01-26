@@ -60,7 +60,7 @@ export default function Router() {
             { path: 'admin-pending', element: <PendingApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-all-admins', element: <CreateAdimin /> },
-            { path: 'admin-nominees', element: <AllNominees /> },
+            { path: 'admin-organizations', element: <AllOrganizations /> },
             { path: 'admin-profile', element: <AdminProfile /> },
 
             { path: '404', element: <Page404 /> },
@@ -121,8 +121,8 @@ const PendingApplications = Loadable(
 const RejectedApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/rejected-applications'))
 );
-const AllNominees = Loadable(
-  lazy(() => import('../pages/dashboard-admin/rejected-applications'))
+const AllOrganizations = Loadable(
+  lazy(() => import('../pages/dashboard-admin/all-organizations'))
 );
 const AdminProfile = Loadable(
   lazy(() => import('../pages/dashboard-admin/admin-profile'))
