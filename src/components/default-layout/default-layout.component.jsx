@@ -11,12 +11,13 @@ import {
   CopyOutlined,
   UnorderedListOutlined,
   UsergroupAddOutlined,
+  UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 
-import './default-layout.styles.css';
 import { LogOutUser } from '../../redux/slices/auth';
+import './default-layout.styles.css';
 
 const { Header, Sider, Content } = Layout;
 const DefaultLayout = ({ children }) => {
@@ -26,8 +27,7 @@ const DefaultLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { account_type } = useSelector((state) => state.auth);
-  console.log('type', account_type);
+  let { account_type } = useSelector((state) => state.auth).account_type;
 
   const {
     token: { colorBgContainer },
@@ -40,7 +40,9 @@ const DefaultLayout = ({ children }) => {
   };
 
   const handleViewProfile = () => {
-    navigate('/profile');
+    account_type === process.env.REACT_APP_AccountType0
+      ? navigate('/profile')
+      : navigate('/admin-profile');
   };
 
   const handleLogout = () => {
@@ -53,6 +55,259 @@ const DefaultLayout = ({ children }) => {
     }, 2000);
   };
 
+  const getMenuItems = () => {
+    if (account_type === process.env.REACT_APP_AccountType0) {
+      return [
+        {
+          key: '/app',
+          icon: <HomeOutlined />,
+          label: (
+            <Link to="/app" style={linkStyle}>
+              Home
+            </Link>
+          ),
+        },
+        {
+          key: '/approved',
+          icon: <CopyOutlined />,
+          label: (
+            <Link to="/approved" style={linkStyle}>
+              Approved
+            </Link>
+          ),
+        },
+        {
+          key: '/pending',
+          icon: <UnorderedListOutlined />,
+          label: (
+            <Link to="/pending" style={linkStyle}>
+              Pending
+            </Link>
+          ),
+        },
+        {
+          key: '/rejected',
+          icon: <CloseCircleOutlined />,
+          label: (
+            <Link to="/rejected" style={linkStyle}>
+              Rejected
+            </Link>
+          ),
+        },
+        {
+          key: '/registered',
+          icon: <UsergroupAddOutlined />,
+          label: (
+            <Link to="/registered" style={linkStyle}>
+              Registered
+            </Link>
+          ),
+        },
+        {
+          key: '/auth/login',
+          icon: <LogoutOutlined />,
+          label: (
+            <Link style={linkStyle} onClick={handleLogout}>
+              Logout
+            </Link>
+          ),
+        },
+      ];
+    } else if (account_type === process.env.REACT_APP_AccountType1) {
+      return [
+        {
+          key: '/app',
+          icon: <HomeOutlined />,
+          label: (
+            <Link to="/app" style={linkStyle}>
+              Applications
+            </Link>
+          ),
+        },
+
+        {
+          key: '/admin-approved',
+          icon: <CopyOutlined />,
+          label: (
+            <Link to="/admin-approved" style={linkStyle}>
+              Approved
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-pending',
+          icon: <UnorderedListOutlined />,
+          label: (
+            <Link to="/admin-pending" style={linkStyle}>
+              Pending
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-rejected',
+          icon: <CloseCircleOutlined />,
+          label: (
+            <Link to="/admin-rejected" style={linkStyle}>
+              Rejected
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-nominees',
+          icon: <UsergroupAddOutlined />,
+          label: (
+            <Link to="/admin-nominees" style={linkStyle}>
+              Nominees
+            </Link>
+          ),
+        },
+        {
+          key: '/auth/login',
+          icon: <LogoutOutlined />,
+          label: (
+            <Link style={linkStyle} onClick={handleLogout}>
+              Logout
+            </Link>
+          ),
+        },
+      ];
+    } else if (account_type === process.env.REACT_APP_AccountType2) {
+      return [
+        {
+          key: '/app',
+          icon: <HomeOutlined />,
+          label: (
+            <Link to="/app" style={linkStyle}>
+              Applications
+            </Link>
+          ),
+        },
+
+        {
+          key: '/admin-approved',
+          icon: <CopyOutlined />,
+          label: (
+            <Link to="/admin-approved" style={linkStyle}>
+              Approved
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-pending',
+          icon: <UnorderedListOutlined />,
+          label: (
+            <Link to="/admin-pending" style={linkStyle}>
+              Pending
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-rejected',
+          icon: <CloseCircleOutlined />,
+          label: (
+            <Link to="/admin-rejected" style={linkStyle}>
+              Rejected
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-all-admins',
+          icon: <UserOutlined />,
+          label: (
+            <Link to="/admin-all-admins" style={linkStyle}>
+              Admins
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-nominees',
+          icon: <UsergroupAddOutlined />,
+          label: (
+            <Link to="/admin-nominees" style={linkStyle}>
+              Nominees
+            </Link>
+          ),
+        },
+        {
+          key: '/auth/login',
+          icon: <LogoutOutlined />,
+          label: (
+            <Link style={linkStyle} onClick={handleLogout}>
+              Logout
+            </Link>
+          ),
+        },
+      ];
+    } else if (account_type === process.env.REACT_APP_AccountType3) {
+      return [
+        {
+          key: '/app',
+          icon: <HomeOutlined />,
+          label: (
+            <Link to="/app" style={linkStyle}>
+              Applications
+            </Link>
+          ),
+        },
+
+        {
+          key: '/admin-approved',
+          icon: <CopyOutlined />,
+          label: (
+            <Link to="/admin-approved" style={linkStyle}>
+              Approved
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-pending',
+          icon: <UnorderedListOutlined />,
+          label: (
+            <Link to="/admin-pending" style={linkStyle}>
+              Pending
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-rejected',
+          icon: <CloseCircleOutlined />,
+          label: (
+            <Link to="/admin-rejected" style={linkStyle}>
+              Rejected
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-all-admins',
+          icon: <UserOutlined />,
+          label: (
+            <Link to="/admin-all-admins" style={linkStyle}>
+              Admins
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-organizations',
+          icon: <UsergroupAddOutlined />,
+          label: (
+            <Link to="/admin-organizations" style={linkStyle}>
+              Organizations
+            </Link>
+          ),
+        },
+        {
+          key: '/auth/login',
+          icon: <LogoutOutlined />,
+          label: (
+            <Link style={linkStyle} onClick={handleLogout}>
+              Logout
+            </Link>
+          ),
+        },
+      ];
+    }
+  };
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -60,7 +315,7 @@ const DefaultLayout = ({ children }) => {
           onClick={handleClickLogo}
           className="demo-logo-vertical logo__container"
         >
-          <Link to="/app" style={linkStyle}>
+          <Link to="/admin" style={linkStyle}>
             <h3 className="logo__text">{'NITA'}</h3>
           </Link>
         </div>
@@ -68,62 +323,7 @@ const DefaultLayout = ({ children }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={window.location.pathname}
-          items={[
-            {
-              key: '/app',
-              icon: <HomeOutlined />,
-              label: (
-                <Link to="/app" style={linkStyle}>
-                  Home
-                </Link>
-              ),
-            },
-            {
-              key: '/approved',
-              icon: <CopyOutlined />,
-              label: (
-                <Link to="/approved" style={linkStyle}>
-                  Approved
-                </Link>
-              ),
-            },
-            {
-              key: '/pending',
-              icon: <UnorderedListOutlined />,
-              label: (
-                <Link to="/pending" style={linkStyle}>
-                  Pending
-                </Link>
-              ),
-            },
-            {
-              key: '/rejected',
-              icon: <CloseCircleOutlined />,
-              label: (
-                <Link to="/rejected" style={linkStyle}>
-                  Rejected
-                </Link>
-              ),
-            },
-            {
-              key: '/registered',
-              icon: <UsergroupAddOutlined />,
-              label: (
-                <Link to="/registered" style={linkStyle}>
-                  Registered
-                </Link>
-              ),
-            },
-            {
-              key: '/auth/login',
-              icon: <LogoutOutlined />,
-              label: (
-                <Link style={linkStyle} onClick={handleLogout}>
-                  Logout
-                </Link>
-              ),
-            },
-          ]}
+          items={getMenuItems()}
         />
       </Sider>
       <Layout>
@@ -169,5 +369,6 @@ const DefaultLayout = ({ children }) => {
       </Layout>
     </Layout>
   );
+
 };
 export default DefaultLayout;

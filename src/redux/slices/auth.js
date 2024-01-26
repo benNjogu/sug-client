@@ -63,7 +63,7 @@ export function LoginUser(formValues) {
 
         dispatch(
           slice.actions.updateAccountType({
-            account_type: response.data.account_type.account_type,
+            account_type: response.data.account_type,
           })
         );
 

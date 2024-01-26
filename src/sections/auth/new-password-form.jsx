@@ -19,6 +19,7 @@ import { ResetPassword } from '../../redux/slices/auth';
 
 const NewPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [queryParameters] = useSearchParams();
 
@@ -49,21 +50,33 @@ const NewPasswordForm = () => {
   } = methods;
 
   const onSubmit = async (data) => {
-    try {
-      //submit data to backend
-      dispatch(ResetPassword({ ...data, token: queryParameters.get('token') }));
-    } catch (error) {
-      console.log(error);
-      reset();
-      setError('afterSubmit', {
-        ...error,
-        message: error.message,
-      });
-    }
+    setLoading(true);
+
+    setTimeout(() => {
+      try {
+        //submit data to backend
+        dispatch(
+          ResetPassword({ ...data, token: queryParameters.get('token') })
+        );
+      } catch (error) {
+        console.log(error);
+        reset();
+        setError('afterSubmit', {
+          ...error,
+          message: error.message,
+        });
+      }
+    }, 2000);
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <div className="spinner">
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
       <Stack spacing={3}>
         {!!errors.afterSubmit && (
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
