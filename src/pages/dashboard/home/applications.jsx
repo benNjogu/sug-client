@@ -7,7 +7,7 @@ import { Table } from 'antd';
 import { constants } from '../../../data/constants';
 import ModalComponent from '../../../components/modal/modal.component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
-import { FetchAllApplications } from '../../../redux/slices/application';
+import { FetchOrganizationApplications } from '../../../redux/slices/application';
 
 let status = {
   Rejected: -1,
@@ -22,11 +22,11 @@ const Applications = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.application);
-  let application_with_serials = [];
 
   const getKeyByValue = (object, value) =>
     Object.keys(object).find((key) => object[key] === value);
 
+  let application_with_serials = [];
   let num = 0;
   applications.forEach((application) => {
     num = num + 1;
@@ -140,7 +140,7 @@ const Applications = () => {
   };
 
   useEffect(() => {
-    dispatch(FetchAllApplications());
+    dispatch(FetchOrganizationApplications());
   }, []);
 
   return (

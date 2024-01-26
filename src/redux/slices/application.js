@@ -41,12 +41,12 @@ export const UpdateApplicationSpecs = ({ data }) => {
   };
 };
 
-export const FetchAllApplications = () => {
+export const FetchOrganizationApplications = () => {
   return async (dispatch, getState) => {
     let org_id = window.localStorage.getItem('user_id');
 
     await axios
-      .get(`/application/get-all-applications?org_id=${org_id}`, {
+      .get(`/application/get-organization-applications?org_id=${org_id}`, {
         headers: {
           'Content-Type': 'application/json',
           // Authorization: `Bearer ${getState().auth.token}`,
