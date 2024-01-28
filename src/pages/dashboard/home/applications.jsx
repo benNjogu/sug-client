@@ -9,6 +9,7 @@ import ModalComponent from '../../../components/modal/modal.component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 import { FetchOrganizationApplications } from '../../../redux/slices/application';
 import { addSerialNumber, status } from './../../../utils/addSerialNumber';
+import Spinner from '../../../components/spinner';
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -124,11 +125,7 @@ const Applications = () => {
 
   return (
     <DefaultLayout>
-      {loading && (
-        <div className="spinner">
-          <div className="spinner-border" role="status" />
-        </div>
-      )}
+      <Spinner loading={loading} />
 
       <div>
         <ModalComponent onClick={handleNextClick} />
