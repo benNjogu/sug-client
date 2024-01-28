@@ -4,6 +4,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 import { addSerialNumber, status } from '../../../utils/addSerialNumber';
+import { convertDigitInString } from './../../../utils/convertDigitsInString';
 
 const columns = [
   {
@@ -15,30 +16,27 @@ const columns = [
     dataIndex: 'course_title',
   },
   {
-    title: 'Provider',
-    dataIndex: 'training_provider',
+    title: 'Date Applied',
+    dataIndex: 'date_applied',
+    render(text, record) {
+      return {
+        children: <div>{convertDigitInString(text.split('T')[0])}</div>,
+      };
+    },
   },
   {
-    title: 'Status',
-    dataIndex: 'approved',
+    title: 'Approval Letter',
+    dataIndex: 'approval_letter',
     render(text, record) {
       return {
         props: {
           style: {
-            color:
-              record.approved === 'Rejected'
-                ? 'red'
-                : record.approved === 'Stage_1'
-                ? '#98FB98'
-                : record.approved === 'Stage_2'
-                ? '#32CD32'
-                : record.approved === 'Approved'
-                ? '	#008000'
-                : '',
+            color: '#1e90ff',
             fontWeight: 600,
+            cursor: 'pointer',
           },
         },
-        children: <div>{text}</div>,
+        children: <div onClick={() => console.log('download')}>{text}</div>,
       };
     },
   },
