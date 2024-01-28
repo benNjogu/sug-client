@@ -4,6 +4,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 import { addSerialNumber, status } from '../../../utils/addSerialNumber';
+import { convertDigitInString } from '../../../utils/convertDigitsInString';
 
 const columns = [
   {
@@ -19,26 +20,11 @@ const columns = [
     dataIndex: 'training_provider',
   },
   {
-    title: 'Status',
-    dataIndex: 'approved',
+    title: 'Date Applied',
+    dataIndex: 'date_applied',
     render(text, record) {
       return {
-        props: {
-          style: {
-            color:
-              record.approved === 'Rejected'
-                ? 'red'
-                : record.approved === 'Stage_1'
-                ? '#98FB98'
-                : record.approved === 'Stage_2'
-                ? '#32CD32'
-                : record.approved === 'Approved'
-                ? '	#008000'
-                : '',
-            fontWeight: 600,
-          },
-        },
-        children: <div>{text}</div>,
+        children: <div>{convertDigitInString(text.split('T')[0])}</div>,
       };
     },
   },
