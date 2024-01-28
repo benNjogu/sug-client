@@ -21,6 +21,14 @@
   border-bottom: 1px solid #222;
 }
 
+.nav__item:last-child {
+  padding-right: 0;
+}
+
+.nav__item:last-child a{
+  padding-right: .8rem;
+}
+
 .nav__item-btn {
   border: solid 1px #fff;
   border-radius: .5rem;
