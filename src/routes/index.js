@@ -96,7 +96,7 @@ const Profile = Loadable(
 );
 
 const RegisterNominee = Loadable(
-  lazy(() => import('../pages/register-nominees/register-nominee'))
+  lazy(() => import('../pages/register-nominees/register-nominee.component'))
 );
 const NewApplication = Loadable(
   lazy(() => import('../pages/application/new-application.component'))
