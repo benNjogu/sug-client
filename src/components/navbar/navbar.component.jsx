@@ -19,12 +19,12 @@ const Button = ({ text, text_color, icon }) => {
   );
 };
 
-const Navbar = ({ course }) => {
+const Navbar = ({ title }) => {
   let { account_type } = useSelector((state) => state.auth).account_type;
 
   return (
     <nav className="nav collapsible fixed-top">
-      <label className="nav__brand text-white">{course}</label>
+      <label className="nav__brand text-white">{title}</label>
 
       {account_type === process.env.REACT_APP_AccountType3 ? (
         <ul className="list nav__list collapsible__content">
