@@ -52,7 +52,7 @@ const ViewApplicationDetails = () => {
 
   return (
     <>
-      <Navbar course={record.course_title} />
+      <Navbar title={record.course_title} />
       <div className="main-div">
         {record.approved === 'Rejected' && (
           <div className="main-div--rejection row">
