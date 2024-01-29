@@ -1,21 +1,32 @@
+.cells {
+  height: 79vh;
+  padding-top: .6rem;
+  overflow-y: scroll;
+}
+
 .div-counter {
-    margin-top: -29px;
-    z-index: 1;
-    background-color: #fff;
-    width: 140px;
-    text-align: center;
+  margin-top: -29px;
+  z-index: 1;
+  background-color: #fff;
+  width: 140px;
+  text-align: center;
 }
 
 .group-div {
-    border: 1px solid gray;
-    box-sizing: border-box; 
-    padding: 1rem; 
-    text-align: left; 
-    margin-bottom: 28px;
+  border: 1px solid gray;
+  box-sizing: border-box; 
+  padding: 1rem; 
+  text-align: left; 
+  margin-bottom: 28px;
 }
 
 .select-container {
-  height: 85vh;
+  height: 79vh;
   margin-top: 4.8rem;
   margin-bottom: 2rem;
+}
+
+.nominees {
+  height: 79vh;
+  overflow-y: scroll;
 }

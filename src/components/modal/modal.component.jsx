@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { constants } from '../../data/constants';
-import './modal.styles.css';
 import { UpdateApplicationSpecs } from '../../redux/slices/application';
 import { AddNewGroup, UpdateCapacity } from '../../redux/slices/cell';
+import './modal.styles.css';
 
 const ModalComponent = ({ onClick }) => {
   const dispatch = useDispatch();

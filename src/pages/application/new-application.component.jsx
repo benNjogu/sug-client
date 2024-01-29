@@ -22,10 +22,7 @@ const NewApplication = () => {
   };
 
   return (
-    <div
-      className="application_size"
-      style={{ marginLeft: 20 + 'px', marginRight: 20 + 'px' }}
-    >
+    <div className="application_size">
       <Progress />
       <Routes>
         <Route

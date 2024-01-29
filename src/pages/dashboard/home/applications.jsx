@@ -3,19 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-import { Table } from 'antd';
+import { Modal, Table } from 'antd';
 import { constants } from '../../../data/constants';
-import ModalComponent from '../../../components/modal/modal.component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 import { FetchOrganizationApplications } from '../../../redux/slices/application';
 import { addSerialNumber, status } from './../../../utils/addSerialNumber';
 import Spinner from '../../../components/spinner';
+import NewApplicationModal from '../../../components/modal/new-application-modal';
+
+import './application.styles.css';
 
 const Applications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.application);
+  const [showModal, setShowModal] = useState(false);
 
   const columns = [
     {
@@ -99,7 +102,13 @@ const Applications = () => {
   ];
 
   const handleNextClick = () => {
-    navigate('/app/new-application');
+    setShowModal(false);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/app/new-application');
+    }, 800);
   };
 
   const handleViewApplication = (record) => {
@@ -119,6 +128,14 @@ const Applications = () => {
     console.log('delete application', record);
   };
 
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     dispatch(FetchOrganizationApplications());
   }, []);
@@ -128,16 +145,28 @@ const Applications = () => {
       <Spinner loading={loading} />
 
       <div>
-        <ModalComponent onClick={handleNextClick} />
         <button
-          type="button"
           className="btn btn-primary"
-          style={{ marginBottom: 8 }}
-          data-toggle="modal"
-          data-target="#selectItemModal"
+          style={{ marginBottom: 12 }}
+          onClick={handleShowModal}
         >
           {constants.NEW_APPLICATION}
         </button>
+        {showModal && (
+          <Modal
+            open={showModal}
+            title={`Select appropriately`}
+            onCancel={handleCancel}
+            footer={false}
+          >
+            {
+              <NewApplicationModal
+                handleClose={handleCancel}
+                onClick={handleNextClick}
+              />
+            }
+          </Modal>
+        )}
         <Table
           columns={columns}
           dataSource={addSerialNumber(applications, status.All)}
