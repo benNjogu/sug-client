@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { message } from 'antd';
 
 import { FetchAllRegisteredUsers } from '../../../redux/slices/nominee';
 import FilterNominees from '../../filter-component';
@@ -54,6 +54,7 @@ const SelectNominees = ({ user, updateUser }) => {
       }, {})
     );
 
+    console.log(resultArray);
     let sizes = [];
     for (let i = 0; i < resultArray.length; i++) {
       sizes.push(resultArray[i].length);
@@ -67,8 +68,11 @@ const SelectNominees = ({ user, updateUser }) => {
       updateUser({
         nominees: group_nominees,
       });
+
       navigate('/app/new-application/course');
-    } else return;
+    } else {
+      message.error('Check group size!!');
+    }
   };
 
   return (
