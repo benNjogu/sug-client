@@ -42,3 +42,11 @@ export const constants = {
   FIRST_GROUP_LABEL: 'Group 1',
   FIRST_GROUP_ID: 1,
 };
+
+
+/**
+ * Our spinner has the following durations
+ * 300 - back nav
+ * 700 - to nav
+ * 2000 - login and others like it (should be changed later. let it be determined by the server)
+ */
