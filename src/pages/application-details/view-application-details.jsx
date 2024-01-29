@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { constants } from './../../data/constants';
 import {
@@ -8,12 +8,15 @@ import {
   GetApplicationNominees,
 } from '../../redux/slices/application';
 import NomineeCard from '../../components/nominee-card/nominee-card.component';
+import Navbar from '../../components/navbar/navbar.component';
+import Spinner from './../../components/spinner';
 
 import './view-application-details.styles.css';
-import Navbar from '../../components/navbar/navbar.component';
 
 const ViewApplicationDetails = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { state } = useLocation();
   const record = state.record;
   console.log(record);
@@ -50,10 +53,25 @@ const ViewApplicationDetails = () => {
     dispatch(GetApplicationHR(record.id));
   }, []);
 
+  const handleBackpressed = () => {
+    console.log('click');
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      navigate(-1);
+    }, 300);
+  };
+
   return (
     <>
-      <Navbar title={record.course_title} />
+      <Navbar
+        title={record.course_title}
+        handleBackpressed={handleBackpressed}
+      />
       <div className="main-div">
+        <Spinner loading={loading} />
         {record.approved === 'Rejected' && (
           <div className="main-div--rejection row">
             <div className="col-md-12">

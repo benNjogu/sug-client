@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,8 +6,10 @@ import NomineeCard from '../../../components/nominee-card/nominee-card.component
 import { FetchAllRegisteredUsers } from './../../../redux/slices/nominee';
 import FilterNominees from '../../../components/filter-component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
+import Spinner from '../../../components/spinner';
 
 const Registered = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { nominees } = useSelector((state) => state.nominee);
@@ -17,7 +19,13 @@ const Registered = () => {
   }, []);
 
   const handleAddNew = () => {
-    navigate('/app/register-nominee');
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      navigate('/app/register-nominee');
+    }, 700);
   };
 
   const handleEdit = () => {
@@ -30,6 +38,7 @@ const Registered = () => {
     <DefaultLayout>
       <FilterNominees onAddNew={handleAddNew} />
       <div className="row overflow-auto">
+        <Spinner loading={loading} />
         {nominees.length > 0 ? (
           nominees.map((n) => (
             <div key={n.id} className="col-md-4">

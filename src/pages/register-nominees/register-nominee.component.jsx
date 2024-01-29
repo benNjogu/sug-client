@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 
 import { RegisterUser } from '../../redux/slices/nominee';
 import Navbar from '../../components/navbar/navbar.component';
@@ -10,6 +11,7 @@ import '../../components/application/styles/form.styles.css';
 import './register-nominee.style.css';
 
 const RegisterNominee = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [special, setSpecial] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,14 +41,25 @@ const RegisterNominee = () => {
     }, 2000);
   };
 
+  const handleBackpressed = () => {
+    console.log('click');
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      navigate(-1);
+    }, 300);
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Navbar
         title={'Particulars of the nominee. ATTACH documents where REQUIRED!!!'}
+        handleBackpressed={handleBackpressed}
       />
       <div className="main-div col-md-12">
         <Spinner loading={loading} />
-
         <div className="row">
           <div className="col-md-12">
             <div class="form-row">

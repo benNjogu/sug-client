@@ -1,25 +1,18 @@
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { LeftOutlined } from '@ant-design/icons';
 
 import './navbar.styles.css';
 
-const Button = ({ text, text_color, icon }) => {
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate(-1);
-  };
-
+const Button = ({ text, text_color, icon, handleBackpressed }) => {
   return (
-    <div className="nav__item nav__item-btn" onClick={handleNavigate}>
+    <div className="nav__item nav__item-btn" onClick={handleBackpressed}>
       <span className={`icon ${text_color}`}>{icon}</span>
       <a className={`${text_color}`}>{text}</a>
     </div>
   );
 };
 
-const Navbar = ({ title }) => {
+const Navbar = ({ title, handleBackpressed }) => {
   let { account_type } = useSelector((state) => state.auth).account_type;
 
   return (
@@ -42,7 +35,7 @@ const Navbar = ({ title }) => {
               text={'Back'}
               text_color={'text-danger'}
               icon={<LeftOutlined />}
-              nav_route={'/rejected'}
+              handleBackpressed={handleBackpressed}
             />
           </li>
         </ul>
@@ -53,6 +46,7 @@ const Navbar = ({ title }) => {
               text={'Back'}
               text_color={'text-danger'}
               icon={<LeftOutlined />}
+              handleBackpressed={handleBackpressed}
             />
           </li>
         </ul>
