@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { constants } from '../../data/constants';
 import { UpdateApplicationSpecs } from '../../redux/slices/application';
 import { AddNewGroup, UpdateCapacity } from '../../redux/slices/cell';
-import './modal.styles.css';
+import './new-application-modal.styles.css';
 
 const NewApplicationModal = ({ handleClose, onClick }) => {
   const dispatch = useDispatch();
@@ -192,7 +192,7 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
           class="btn btn-outline-secondary"
           onClick={handleClose}
         >
-          Cancel
+          CANCEL
         </button>
         <button
           type="button"
@@ -200,7 +200,7 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
           class="btn btn-primary"
           data-dismiss="modal"
         >
-          Next
+          NEXT
         </button>
       </div>
     </div>

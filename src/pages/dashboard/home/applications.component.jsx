@@ -7,11 +7,11 @@ import { Modal, Table } from 'antd';
 import { constants } from '../../../data/constants';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
 import { FetchOrganizationApplications } from '../../../redux/slices/application';
-import { addSerialNumber, status } from './../../../utils/addSerialNumber';
+import { addSerialNumber, status } from '../../../utils/addSerialNumber';
 import Spinner from '../../../components/spinner';
-import NewApplicationModal from '../../../components/modal/new-application-modal';
+import NewApplicationModal from '../../../components/modal/new-application-modal.component';
 
-import './application.styles.css';
+import './applications.styles.css';
 
 const Applications = () => {
   const navigate = useNavigate();

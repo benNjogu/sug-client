@@ -76,7 +76,7 @@ export default function Router() {
 }
 
 const Applications = Loadable(
-  lazy(() => import('./../pages/dashboard/home/applications'))
+  lazy(() => import('./../pages/dashboard/home/applications.component'))
 );
 const Approved = Loadable(
   lazy(() => import('../pages/dashboard/approved/approved'))
