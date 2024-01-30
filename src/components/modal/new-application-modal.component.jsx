@@ -115,7 +115,11 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
                   onChange={onValueChange}
                   checked={typeOfTraining === constants.STATUTORY}
                 />
-                Statutory <span className="font-italic">e.g first aid...</span>
+                Statutory{' '}
+                <span className="font-italic">
+                  i.e. First aid, Occupational health and safety and Fire
+                  safety.
+                </span>
               </label>
             </div>
             <div class="form-check">
