@@ -3,16 +3,16 @@ import { LeftOutlined } from '@ant-design/icons';
 
 import './navbar.styles.css';
 
-const Button = ({ text, text_color, icon, handleBackpressed }) => {
+const Button = ({ text, text_color, icon, handleBtnClick }) => {
   return (
-    <div className="nav__item nav__item-btn" onClick={handleBackpressed}>
+    <div className="nav__item nav__item-btn" onClick={handleBtnClick}>
       <span className={`icon ${text_color}`}>{icon}</span>
       <a className={`${text_color}`}>{text}</a>
     </div>
   );
 };
 
-const Navbar = ({ title, handleBackpressed }) => {
+const Navbar = ({ title, handleApprove, handleBackpressed }) => {
   let { account_type } = useSelector((state) => state.auth).account_type;
 
   return (
@@ -22,10 +22,14 @@ const Navbar = ({ title, handleBackpressed }) => {
       {account_type === process.env.REACT_APP_AccountType3 ? (
         <ul className="list nav__list collapsible__content">
           <li className="nav__item">
-            <Button text={'Approve'} text_color={'text-success'} />
+            <Button
+              text={'Approve'}
+              text_color={'text-success'}
+              handleBtnClick={handleApprove}
+            />
           </li>
           <li className="nav__item">
-            <Button text={'Escalate'} text_color={'text-warning'} />
+            <Button text={'Deffer'} text_color={'text-warning'} />
           </li>
           <li className="nav__item">
             <Button text={'Reject'} text_color={'text-danger'} />
@@ -35,7 +39,7 @@ const Navbar = ({ title, handleBackpressed }) => {
               text={'Back'}
               text_color={'text-danger'}
               icon={<LeftOutlined />}
-              handleBackpressed={handleBackpressed}
+              handleBtnClick={handleBackpressed}
             />
           </li>
         </ul>
@@ -46,7 +50,7 @@ const Navbar = ({ title, handleBackpressed }) => {
               text={'Back'}
               text_color={'text-danger'}
               icon={<LeftOutlined />}
-              handleBackpressed={handleBackpressed}
+              handleBtnClick={handleBackpressed}
             />
           </li>
         </ul>

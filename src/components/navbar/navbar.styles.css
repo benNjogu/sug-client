@@ -42,6 +42,7 @@
 
 .nav__item > a {
   color: #d2d0db;
+  font-size: 1.4rem;
   transition: color 0.3s;
 }
 
@@ -81,6 +82,7 @@
   .nav__item {
     border: 0;
   }
+
 }
 
 .icon {
