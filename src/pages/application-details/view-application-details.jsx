@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Modal, message } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 import { constants } from './../../data/constants';
 import {
@@ -53,8 +55,11 @@ const ViewApplicationDetails = () => {
     dispatch(GetApplicationHR(record.id));
   }, []);
 
+  const handleApprove = () => {
+    message.success('Approved');
+  };
+
   const handleBackpressed = () => {
-    console.log('click');
     setLoading(true);
 
     setTimeout(() => {
@@ -64,12 +69,26 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
+  const [modal, contextHolder] = Modal.useModal();
+  const confirm = () => {
+    modal.confirm({
+      title: 'Approve',
+      icon: <CheckCircleOutlined />,
+      content: 'Approve this application? {level 1}',
+      okText: 'OK',
+      cancelText: 'CANCEL',
+      onOk: handleApprove,
+    });
+  };
+
   return (
     <>
       <Navbar
         title={record.course_title}
+        handleApprove={confirm}
         handleBackpressed={handleBackpressed}
       />
+      {contextHolder}
       <div className="main-div">
         <Spinner loading={loading} />
         {record.approved === 'Rejected' && (
