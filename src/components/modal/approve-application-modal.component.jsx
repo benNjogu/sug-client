@@ -14,6 +14,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
   });
 
   const onSubmit = (data) => {
+    console.log(data);
     handleClose();
     handleApprove(data);
   };
