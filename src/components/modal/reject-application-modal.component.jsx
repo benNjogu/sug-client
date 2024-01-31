@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
 import '../application/styles/form.styles.css';
+import SignatureID from '../signature-id.component';
 
 const RejectApplicationModal = ({ handleClose, handleReject }) => {
   const {
@@ -44,6 +45,11 @@ const RejectApplicationModal = ({ handleClose, handleReject }) => {
                   <p className="errorMsg">{errors.rejection_message.message}</p>
                 )}
               </Form.Group>
+              <SignatureID
+                errors={errors}
+                register={register}
+                handleSubmit={handleSubmit}
+              />
             </fieldset>
           </div>
         </div>

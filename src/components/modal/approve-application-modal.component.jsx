@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
 import '../application/styles/form.styles.css';
+import SignatureID from '../signature-id.component';
 
 const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
   const {
@@ -112,6 +112,13 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
             <p className="errorMsg">{errors.open_house.message}</p>
           )}
         </Form.Group>
+      </div>
+      <div class="col-md-12">
+        <SignatureID
+          errors={errors}
+          register={register}
+          handleSubmit={handleSubmit}
+        />
       </div>
       <div className="col-md-12">
         <div class="modal-footer">

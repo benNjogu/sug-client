@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
 import '../application/styles/form.styles.css';
+import SignatureID from '../signature-id.component';
 
 const DefferApplicationModal = ({
   handleClose,
@@ -54,6 +55,11 @@ const DefferApplicationModal = ({
                   <p className="errorMsg">{errors.deffer_message.message}</p>
                 )}
               </Form.Group>
+              <SignatureID
+                errors={errors}
+                register={register}
+                handleSubmit={handleSubmit}
+              />
             </fieldset>
           </div>
         </div>

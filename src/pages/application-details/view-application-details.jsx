@@ -106,18 +106,19 @@ const ViewApplicationDetails = () => {
   const handleAppApprove = (reason) => {
     let in_house = reason.in_house;
     let open_house = reason.open_house;
+    let signature_id = reason.signature_id;
 
-    message.success(in_house + ' ,+, ' + open_house);
+    message.success(in_house, open_house, signature_id);
   };
 
   const handleAppReject = (reason) => {
     console.log(reason);
-    message.success(reason.rejection_message);
+    message.success(reason.rejection_message, reason.signature_id);
   };
 
   const handleAppDeffer = (reason) => {
     console.log(reason);
-    message.success(reason.deffer_message);
+    message.success(reason.deffer_message, reason.signature_id);
   };
 
   return (
