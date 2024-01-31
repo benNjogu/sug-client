@@ -8,15 +8,23 @@ import { constants } from './../../data/constants';
 import {
   GetApplicationHR,
   GetApplicationNominees,
+  UpdateType,
 } from '../../redux/slices/application';
 import NomineeCard from '../../components/nominee-card/nominee-card.component';
 import Navbar from '../../components/navbar/navbar.component';
 import Spinner from './../../components/spinner';
 
 import './view-application-details.styles.css';
+import RejectApplicationModal from '../../components/modal/reject-application-modal.component';
+import ApproveApplicationModal from './../../components/modal/approve-application-modal.component';
+import DefferApplicationModal from '../../components/modal/deffer-application-modal.component';
 
 const ViewApplicationDetails = () => {
   const [loading, setLoading] = useState(false);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showDefferModal, setShowDefferModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -56,7 +64,21 @@ const ViewApplicationDetails = () => {
   }, []);
 
   const handleApprove = () => {
-    message.success('Approved');
+    setShowApproveModal(true);
+  };
+
+  const handleReject = () => {
+    setShowRejectModal(true);
+  };
+
+  const handleDeffer = () => {
+    setShowDefferModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowApproveModal(false);
+    setShowDefferModal(false);
+    setShowRejectModal(false);
   };
 
   const handleBackpressed = () => {
@@ -69,27 +91,91 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
-  const [modal, contextHolder] = Modal.useModal();
-  const confirm = () => {
-    modal.confirm({
-      title: 'Approve',
-      icon: <CheckCircleOutlined />,
-      content: 'Approve this application? {level 1}',
-      okText: 'OK',
-      cancelText: 'CANCEL',
-      onOk: handleApprove,
-    });
+  // const [modal, contextHolder] = Modal.useModal();
+  // const confirm = () => {
+  //   modal.confirm({
+  //     title: 'Approve',
+  //     icon: <CheckCircleOutlined />,
+  //     content: 'Approve this application? {level 1}',
+  //     okText: 'OK',
+  //     cancelText: 'CANCEL',
+  //     onOk: handleApprove,
+  //   });
+  // };
+
+  const handleAppApprove = (reason) => {
+    let in_house = reason.in_house;
+    let open_house = reason.open_house;
+
+    message.success(in_house + ' ,+, ' + open_house);
+  };
+
+  const handleAppReject = (reason) => {
+    console.log(reason);
+    message.success(reason.rejection_message);
+  };
+
+  const handleAppDeffer = (reason) => {
+    console.log(reason);
+    message.success(reason.deffer_message);
   };
 
   return (
     <>
       <Navbar
         title={record.course_title}
-        handleApprove={confirm}
+        handleApprove={handleApprove}
+        handleReject={handleReject}
+        handleDeffer={handleDeffer}
         handleBackpressed={handleBackpressed}
       />
-      {contextHolder}
+      {/* {contextHolder} */}
       <div className="main-div">
+        {showApproveModal && (
+          <Modal
+            open={showApproveModal}
+            title={`Approve application`}
+            onCancel={(reason) => handleCancel(reason)}
+            footer={false}
+          >
+            {
+              <ApproveApplicationModal
+                handleClose={handleCancel}
+                handleApprove={handleAppApprove}
+              />
+            }
+          </Modal>
+        )}
+        {showDefferModal && (
+          <Modal
+            open={showDefferModal}
+            title={`Reason for deffer`}
+            onCancel={(reason) => handleCancel(reason)}
+            footer={false}
+          >
+            {
+              <DefferApplicationModal
+                handleClose={handleCancel}
+                handleDeffer={handleAppDeffer}
+              />
+            }
+          </Modal>
+        )}
+        {showRejectModal && (
+          <Modal
+            open={showRejectModal}
+            title={`Reason for rejection`}
+            onCancel={(reason) => handleCancel(reason)}
+            footer={false}
+          >
+            {
+              <RejectApplicationModal
+                handleClose={handleCancel}
+                handleReject={handleAppReject}
+              />
+            }
+          </Modal>
+        )}
         <Spinner loading={loading} />
         {record.approved === 'Rejected' && (
           <div className="main-div--rejection row">
