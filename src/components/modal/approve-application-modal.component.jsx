@@ -22,7 +22,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
     <Form className="row" onSubmit={handleSubmit(onSubmit)}>
       <div class="col-md-12">
         <Form.Group controlId="in-house-recomedation">
-          <label for="in_house">
+          <label for="in-house">
             <b>In-house:</b>
           </label>
           <div>
@@ -39,7 +39,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
                 })}
                 className={`${errors.in_house ? 'input-error' : ''}`}
               />
-              <label for="in_house" class="form-check-label ml-2">
+              <label for="in-house" class="form-check-label ml-2">
                 At Employers Premises
               </label>
             </div>
@@ -56,7 +56,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
                 })}
                 className={`${errors.in_house ? 'input-error' : ''}`}
               />
-              <label for="in_house" class="form-check-label ml-2">
+              <label for="in-house" class="form-check-label ml-2">
                 Outside Employers Premises
               </label>
             </div>
@@ -68,7 +68,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
       </div>
       <div class="col-md-12">
         <Form.Group controlId="open-house-recomedation">
-          <label for="open_house">
+          <label for="open-house">
             <b>Open-house:</b>
           </label>
           <div>
@@ -85,7 +85,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
                 })}
                 className={`${errors.open_house ? 'input-error' : ''}`}
               />
-              <label for="open_house" class="form-check-label ml-2">
+              <label for="open-house" class="form-check-label ml-2">
                 Residential
               </label>
             </div>
@@ -102,7 +102,7 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
                 })}
                 className={`${errors.open_house ? 'input-error' : ''}`}
               />
-              <label for="open_house" class="form-check-label ml-2">
+              <label for="open-house" class="form-check-label ml-2">
                 Non Residential
               </label>
             </div>
