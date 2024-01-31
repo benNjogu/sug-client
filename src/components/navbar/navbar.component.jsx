@@ -12,7 +12,13 @@ const Button = ({ text, text_color, icon, handleBtnClick }) => {
   );
 };
 
-const Navbar = ({ title, handleApprove, handleBackpressed }) => {
+const Navbar = ({
+  title,
+  handleApprove,
+  handleDeffer,
+  handleReject,
+  handleBackpressed,
+}) => {
   let { account_type } = useSelector((state) => state.auth).account_type;
 
   return (
@@ -29,10 +35,18 @@ const Navbar = ({ title, handleApprove, handleBackpressed }) => {
             />
           </li>
           <li className="nav__item">
-            <Button text={'Deffer'} text_color={'text-warning'} />
+            <Button
+              text={'Deffer'}
+              text_color={'text-warning'}
+              handleBtnClick={handleDeffer}
+            />
           </li>
           <li className="nav__item">
-            <Button text={'Reject'} text_color={'text-danger'} />
+            <Button
+              text={'Reject'}
+              text_color={'text-danger'}
+              handleBtnClick={handleReject}
+            />
           </li>
           <li className="nav__item">
             <Button
