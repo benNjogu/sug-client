@@ -12,7 +12,8 @@ const CreateAdmin = () => {
     'Super Admin',
     'Admin I',
     'Admin II',
-    'Admin I&II',
+    'Admin III',
+    'Admin I&II&III',
   ];
 
   const handleAddNew = () => {
