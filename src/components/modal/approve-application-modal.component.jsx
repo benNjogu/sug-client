@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
-import '../application/styles/form.styles.css';
 import SignatureID from '../signature-id.component';
+import '../application/styles/form.styles.css';
 
 const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
   const {

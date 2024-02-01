@@ -103,22 +103,30 @@ const ViewApplicationDetails = () => {
   //   });
   // };
 
+  let the_message;
   const handleAppApprove = (reason) => {
     let in_house = reason.in_house;
     let open_house = reason.open_house;
     let signature_id = reason.signature_id;
+    the_message = in_house + ' ' + open_house + ' ' + signature_id;
 
-    message.success(in_house, open_house, signature_id);
+    // console.log(in_house, open_house, signature_id);
+    message.success(the_message, [2]);
   };
 
   const handleAppReject = (reason) => {
     console.log(reason);
-    message.success(reason.rejection_message, reason.signature_id);
+    console.log(reason.rejection_message, reason.signature_id);
+    the_message = reason.rejection_message + ' ' + reason.signature_id;
+
+    message.success(the_message, [2]);
   };
 
   const handleAppDeffer = (reason) => {
     console.log(reason);
-    message.success(reason.deffer_message, reason.signature_id);
+    the_message = reason.deffer_message + ' ' + reason.signature_id;
+
+    message.success(the_message, [2]);
   };
 
   return (
@@ -136,7 +144,7 @@ const ViewApplicationDetails = () => {
           <Modal
             open={showApproveModal}
             title={`Approve application`}
-            onCancel={(reason) => handleCancel(reason)}
+            onCancel={handleCancel}
             footer={false}
           >
             {
@@ -151,7 +159,7 @@ const ViewApplicationDetails = () => {
           <Modal
             open={showDefferModal}
             title={`Reason for deffer`}
-            onCancel={(reason) => handleCancel(reason)}
+            onCancel={handleCancel}
             footer={false}
           >
             {
@@ -166,7 +174,7 @@ const ViewApplicationDetails = () => {
           <Modal
             open={showRejectModal}
             title={`Reason for rejection`}
-            onCancel={(reason) => handleCancel(reason)}
+            onCancel={handleCancel}
             footer={false}
           >
             {

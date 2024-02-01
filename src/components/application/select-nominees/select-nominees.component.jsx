@@ -75,6 +75,15 @@ const SelectNominees = ({ user, updateUser }) => {
     }
   };
 
+  let nominee_levels = [
+    'All',
+    'Top management',
+    'Middle level management',
+    'Supervisory',
+    'Operative',
+    'Others',
+  ];
+
   return (
     <>
       <div className="row select-container">
@@ -82,7 +91,7 @@ const SelectNominees = ({ user, updateUser }) => {
           <CellList user={user} />
         </Form>
         <div className="col-md-9 nominees">
-          <FilterNominees onAddNew={handleAddNew} />
+          <FilterNominees onAddNew={handleAddNew} options={nominee_levels} />
           <div className="row">
             {nominees.length > 0 ? (
               nominees.map((n) => (

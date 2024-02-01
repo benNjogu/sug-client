@@ -34,9 +34,18 @@ const Registered = () => {
     });
   };
 
+  let nominee_levels = [
+    'All',
+    'Top management',
+    'Middle level management',
+    'Supervisory',
+    'Operative',
+    'Others',
+  ];
+
   return (
     <DefaultLayout>
-      <FilterNominees onAddNew={handleAddNew} />
+      <FilterNominees onAddNew={handleAddNew} options={nominee_levels} />
       <div className="row overflow-auto">
         <Spinner loading={loading} />
         {nominees.length > 0 ? (
