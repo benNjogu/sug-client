@@ -6,9 +6,9 @@ import DefaultLayout from '../../components/default-layout/default-layout.compon
 import FilterNominees from '../../components/filter-component';
 import AddAdminModal from '../../components/modal/add-admin-modal.component';
 import { CreateNewAdmin } from '../../redux/slices/auth';
+import Spinner from '../../components/spinner';
 
 const CreateAdmin = () => {
-  const [loading, setLoading] = useState(false);
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -27,12 +27,7 @@ const CreateAdmin = () => {
   };
 
   const handleAddAdmin = (data) => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(CreateNewAdmin(data));
-    }, 800);
+    dispatch(CreateNewAdmin(data));
   };
 
   const handleCancel = () => {
