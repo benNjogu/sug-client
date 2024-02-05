@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 import axios from '../../utils/axios';
 
 import { ShowSnackbar } from './app';
@@ -217,5 +218,32 @@ export function VerifyEmail(formValues) {
         );
       })
       .catch((e) => console.log(e));
+  };
+}
+
+export function CreateNewAdmin(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/auth/new-admin',
+        {
+          ...formValues,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        message.success(response.data.message);
+      })
+      .catch((e) => {
+        console.log(e);
+
+        message.error(e.response.data.message);
+      });
   };
 }

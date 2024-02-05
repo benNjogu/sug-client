@@ -1,17 +1,23 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Modal } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 import FilterNominees from '../../components/filter-component';
 import AddAdminModal from '../../components/modal/add-admin-modal.component';
+import { CreateNewAdmin } from '../../redux/slices/auth';
 
 const CreateAdmin = () => {
+  const [loading, setLoading] = useState(false);
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
+  const dispatch = useDispatch();
+
   let type_of_admins = [
     'All',
     'Super Admin',
     'Admin I',
     'Admin II',
+    'Admin I&II',
     'Admin III',
     'Admin I&II&III',
   ];
@@ -20,8 +26,13 @@ const CreateAdmin = () => {
     setShowAddAdminModal(true);
   };
 
-  const handleAddAdmin = () => {
-    // setShowAddAdminModal(true);
+  const handleAddAdmin = (data) => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(CreateNewAdmin(data));
+    }, 800);
   };
 
   const handleCancel = () => {
@@ -40,7 +51,7 @@ const CreateAdmin = () => {
           {
             <AddAdminModal
               handleClose={handleCancel}
-              handleAddAdmin={handleAddAdmin}
+              handleAddAdmin={(data) => handleAddAdmin(data)}
               options={type_of_admins}
             />
           }

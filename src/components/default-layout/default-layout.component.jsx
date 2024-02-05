@@ -29,6 +29,9 @@ const DefaultLayout = ({ children }) => {
   const navigate = useNavigate();
 
   let { account_type } = useSelector((state) => state.auth).account_type;
+  console.log('acc', account_type);
+  console.log('ours', process.env.REACT_APP_AccountType7);
+  console.log(account_type === process.env.REACT_APP_AccountType7);
 
   const {
     token: { colorBgContainer },
@@ -239,7 +242,7 @@ const DefaultLayout = ({ children }) => {
           ),
         },
       ];
-    } else if (account_type === process.env.REACT_APP_AccountType3) {
+    } else if (account_type === process.env.REACT_APP_AccountType7) {
       return [
         {
           key: '/app',
