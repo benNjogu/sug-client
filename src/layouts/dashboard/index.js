@@ -4,7 +4,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const DashboardLayout = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
-  console.log(isLoggedIn, 'in');
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
