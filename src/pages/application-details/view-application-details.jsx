@@ -91,18 +91,6 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
-  // const [modal, contextHolder] = Modal.useModal();
-  // const confirm = () => {
-  //   modal.confirm({
-  //     title: 'Approve',
-  //     icon: <CheckCircleOutlined />,
-  //     content: 'Approve this application? {level 1}',
-  //     okText: 'OK',
-  //     cancelText: 'CANCEL',
-  //     onOk: handleApprove,
-  //   });
-  // };
-
   let the_message;
   const handleAppApprove = (reason) => {
     let in_house = reason.in_house;
@@ -489,7 +477,7 @@ const ViewApplicationDetails = () => {
             </div>
           </div>
         </div>
-        <div className="main-div--hr_manager row mt-4">
+        {/* <div className="main-div--hr_manager row mt-4">
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-12">
@@ -513,7 +501,7 @@ const ViewApplicationDetails = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
