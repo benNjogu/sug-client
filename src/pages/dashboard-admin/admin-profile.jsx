@@ -1,15 +1,23 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 
+import Spinner from './../../components/spinner';
+import { convertDigitInString } from '../../utils/convertDigitsInString';
 //get stylesheet
 import '../../components/application/styles/form.styles.css';
-import Spinner from './../../components/spinner';
 
 const AdminProfile = () => {
   const [loading, setLoading] = useState(false);
+
+  const { user_data } = useSelector((state) => state.auth);
+  console.log('ad_d', user_data);
+  let { user_name, email, created_on } = user_data;
+
+  created_on = convertDigitInString(created_on.split('T')[0]);
 
   const {
     register,
@@ -46,6 +54,7 @@ const AdminProfile = () => {
               id="name"
               class="form-control"
               placeholder="Bernad Njogu"
+              value={user_name}
               readOnly
             />
           </div>
@@ -59,6 +68,7 @@ const AdminProfile = () => {
               id="email"
               class="form-control"
               placeholder="admin@domain.com"
+              value={email}
               readOnly
             />
           </div>
@@ -116,7 +126,8 @@ const AdminProfile = () => {
               name="created"
               id="created"
               class="form-control"
-              placeholder="True"
+              placeholder="Today"
+              value={created_on}
               readOnly
             />
           </div>

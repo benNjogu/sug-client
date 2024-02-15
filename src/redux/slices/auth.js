@@ -36,9 +36,6 @@ const slice = createSlice({
     updateUserData(state, action) {
       state.user_data = action.payload.user_data;
     },
-    updateAccountType(state, action) {
-      state.account_type = action.payload.account_type;
-    },
   },
 });
 
@@ -59,7 +56,7 @@ export function LoginUser(formValues) {
         }
       )
       .then(function (response) {
-        console.log(response);
+        console.log(response.data.data);
 
         dispatch(
           slice.actions.login({
@@ -70,13 +67,7 @@ export function LoginUser(formValues) {
 
         dispatch(
           slice.actions.updateUserData({
-            user_data: response.data.data,
-          })
-        );
-
-        dispatch(
-          slice.actions.updateAccountType({
-            account_type: response.data.data.account_type,
+            user_data: { ...response.data.data },
           })
         );
 

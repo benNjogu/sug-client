@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
@@ -10,6 +11,9 @@ import Spinner from './../../../components/spinner';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
+
+  const { user_data } = useSelector((state) => state.auth);
+  let { user_name, email, levy_no } = user_data;
 
   const {
     register,
@@ -45,6 +49,7 @@ const Profile = () => {
               id="name"
               class="form-control"
               placeholder="Keytech solutions"
+              value={user_name}
               readOnly
             />
           </div>
@@ -56,6 +61,7 @@ const Profile = () => {
               id="email"
               class="form-control"
               placeholder="organization@domain.com"
+              value={email}
               readOnly
             />
           </div>
@@ -67,6 +73,7 @@ const Profile = () => {
               id="regno"
               class="form-control"
               placeholder="ABCD1234"
+              value={levy_no}
               readOnly
             />
           </div>

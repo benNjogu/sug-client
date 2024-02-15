@@ -28,7 +28,11 @@ const DefaultLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  let { account_type } = useSelector((state) => state.auth).account_type;
+  
+  const { user_data } = useSelector((state) => state.auth);
+  console.log('user_d', user_data);
+
+  let { account_type } = user_data;
   console.log('acc', account_type);
 
   const {
@@ -310,7 +314,7 @@ const DefaultLayout = ({ children }) => {
           ),
         },
       ];
-    }
+    } else return '';
   };
 
   const [modal, contextHolder] = Modal.useModal();
