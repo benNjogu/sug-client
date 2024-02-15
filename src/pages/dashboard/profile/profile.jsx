@@ -32,7 +32,7 @@ const Profile = () => {
 
   return (
     <DefaultLayout>
-      <Form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="" onSubmit={handleSubmit(onSubmit)}>
         {loading && (
           <div className="spinner">
             <div className="spinner-border" role="status" />
