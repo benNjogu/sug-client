@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
 import '../application/styles/form.styles.css';
+import { constants } from '../../data/constants';
 
 const AddAdminModal = ({ handleClose, handleAddAdmin, options }) => {
-  const [level, setLevel] = useState('All');
+  const [level, setLevel] = useState(constants.SELECT);
   const [levelErrors, setLevelErrors] = useState(false);
 
   const {
@@ -22,9 +23,8 @@ const AddAdminModal = ({ handleClose, handleAddAdmin, options }) => {
   };
 
   const onSubmit = (data) => {
-    if (level === 'All') {
+    if (level === constants.SELECT) {
       setLevelErrors(true);
-      console.log(levelErrors);
     } else {
       data = { ...data, level };
       console.log(data);
@@ -45,7 +45,9 @@ const AddAdminModal = ({ handleClose, handleAddAdmin, options }) => {
             <option>{o}</option>
           ))}
         </select>
-        {level === 'All' && <p className="errorMsg">{'Select Admin level'}</p>}
+        {level === constants.SELECT && (
+          <p className="errorMsg">{'Select Admin level'}</p>
+        )}
       </div>
       <div class="col-md-12">
         <Form.Group controlId="sex">

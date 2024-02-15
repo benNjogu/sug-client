@@ -240,7 +240,10 @@ const DefaultLayout = ({ children }) => {
           ),
         },
       ];
-    } else if (account_type === process.env.REACT_APP_AccountType7) {
+    } else if (
+      account_type === process.env.REACT_APP_AccountType6 ||
+      account_type === process.env.REACT_APP_AccountType7
+    ) {
       return [
         {
           key: '/app',

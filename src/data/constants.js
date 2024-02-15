@@ -41,6 +41,15 @@ export const constants = {
   SINGLE_NOMINEE_LABEL: 'Nominee',
   FIRST_GROUP_LABEL: 'Group 1',
   FIRST_GROUP_ID: 1,
+
+  //CREATE ADMIN SELECTOR
+  SELECT: 'Select Level',
+  LEVEL_1: 'Admin I',
+  LEVEL_2: 'Admin II',
+  LEVEL_3: 'Admin I&II',
+  LEVEL_4: 'Admin III',
+  LEVEL_5: 'Admin I&II&III',
+  LEVEL_6: 'Super Admin',
 };
 
 

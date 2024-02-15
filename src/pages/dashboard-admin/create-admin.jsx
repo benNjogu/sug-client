@@ -1,26 +1,31 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 import FilterNominees from '../../components/filter-component';
 import AddAdminModal from '../../components/modal/add-admin-modal.component';
 import { CreateNewAdmin } from '../../redux/slices/auth';
-import Spinner from '../../components/spinner';
+import { constants } from '../../data/constants';
 
 const CreateAdmin = () => {
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
   const dispatch = useDispatch();
 
+  let { account_type } = useSelector((state) => state.auth).account_type;
+
   let type_of_admins = [
-    'All',
-    'Super Admin',
-    'Admin I',
-    'Admin II',
-    'Admin I&II',
-    'Admin III',
-    'Admin I&II&III',
+    constants.SELECT,
+    constants.LEVEL_1,
+    constants.LEVEL_2,
+    constants.LEVEL_3,
+    constants.LEVEL_4,
+    constants.LEVEL_5,
   ];
+
+  if (account_type === process.env.REACT_APP_AccountType7) {
+    type_of_admins = [...type_of_admins, constants.LEVEL_6];
+  }
 
   const handleAddNew = () => {
     setShowAddAdminModal(true);

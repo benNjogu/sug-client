@@ -55,6 +55,8 @@ export function LoginUser(formValues) {
         }
       )
       .then(function (response) {
+        console.log(response);
+
         dispatch(
           slice.actions.login({
             isLoggedIn: true,
