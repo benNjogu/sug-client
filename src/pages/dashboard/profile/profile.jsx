@@ -6,6 +6,7 @@ import DefaultLayout from '../../../components/default-layout/default-layout.com
 
 //get stylesheet
 import '../../../components/application/styles/form.styles.css';
+import Spinner from './../../../components/spinner';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const Profile = () => {
     setLoading(true);
 
     setTimeout(() => {
-      console.log(data)
+      console.log(data);
 
       setLoading(false);
     }, 500);
@@ -33,11 +34,7 @@ const Profile = () => {
   return (
     <DefaultLayout>
       <Form className="" onSubmit={handleSubmit(onSubmit)}>
-        {loading && (
-          <div className="spinner">
-            <div className="spinner-border" role="status" />
-          </div>
-        )}
+        <Spinner loading={loading} />
         <div class="form-row">
           <legend className="text-info">Profile Details.</legend>
           <div class="col-md-4 form-group">
