@@ -8,6 +8,7 @@ import applicationReducer from './slices/application';
 import nomineeReducer from './slices/nominee';
 import cellReducer from './slices/cell';
 import adminReducer from './slices/admin';
+import organizationReducer from './slices/organization';
 
 //slices
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   application: applicationReducer,
   cell: cellReducer,
   admin: adminReducer,
+  organization: organizationReducer,
 });
 
 export { rootPersistConfig, rootReducer };

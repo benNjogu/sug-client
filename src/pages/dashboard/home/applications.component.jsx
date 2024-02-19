@@ -12,6 +12,7 @@ import Spinner from '../../../components/spinner';
 import NewApplicationModal from '../../../components/modal/new-application-modal.component';
 
 import './applications.styles.css';
+import { GetOrganizationData } from '../../../redux/slices/organization';
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -138,6 +139,7 @@ const Applications = () => {
 
   useEffect(() => {
     dispatch(FetchOrganizationApplications());
+    dispatch(GetOrganizationData());
   }, []);
 
   return (

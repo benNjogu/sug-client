@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
@@ -8,32 +8,55 @@ import DefaultLayout from '../../../components/default-layout/default-layout.com
 //get stylesheet
 import '../../../components/application/styles/form.styles.css';
 import Spinner from './../../../components/spinner';
+import {
+  GetOrganizationData,
+  PostOrganizationProfileData,
+} from '../../../redux/slices/organization';
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const { user_data } = useSelector((state) => state.auth);
   let { user_name, email, levy_no } = user_data;
+
+  const { organization_profile_data } = useSelector(
+    (state) => state.organization
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      // town,
-    },
+    defaultValues:
+      organization_profile_data === null
+        ? {}
+        : {
+            town: organization_profile_data[0].town,
+            street: organization_profile_data[0].street,
+            building: organization_profile_data[0].building,
+            floor: organization_profile_data[0].floor,
+            box: organization_profile_data[0].box,
+            code: organization_profile_data[0].code,
+            phone: organization_profile_data[0].phone,
+          },
   });
 
   const onSubmit = (data) => {
     setLoading(true);
 
     setTimeout(() => {
-      console.log(data);
+      dispatch(PostOrganizationProfileData(data));
 
       setLoading(false);
     }, 500);
   };
+
+  useEffect(() => {
+    console.log('getting profile data');
+    dispatch(GetOrganizationData());
+  }, []);
 
   return (
     <DefaultLayout>
@@ -137,11 +160,12 @@ const Profile = () => {
           <div class="col-md-3 form-group">
             <label for="floor">Floor:</label>
             <input
-              type="text"
-              name="apartment"
-              id="apartment"
+              type="number"
+              name="floor"
+              id="floor"
               class="form-control"
-              placeholder="2nd Floor"
+              maxLength={2}
+              placeholder="2"
               {...register('floor', {
                 required: 'Floor is required.',
               })}
