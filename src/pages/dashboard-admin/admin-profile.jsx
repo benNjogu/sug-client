@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
@@ -9,35 +9,42 @@ import Spinner from './../../components/spinner';
 import { convertDigitInString } from '../../utils/convertDigitsInString';
 //get stylesheet
 import '../../components/application/styles/form.styles.css';
+import { GetAdminData, PostAdminProfileData } from '../../redux/slices/admin';
 
 const AdminProfile = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const { user_data } = useSelector((state) => state.auth);
-  console.log('ad_d', user_data);
-  let { user_name, email, created_on } = user_data;
+  let { user_name, email, account_type, created_on } = user_data;
 
   created_on = convertDigitInString(created_on.split('T')[0]);
+
+  const { admin_profile_data } = useSelector((state) => state.admin);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      // town,
-    },
+    defaultValues:
+      admin_profile_data === null ? {} : { phone: admin_profile_data[0].phone },
   });
 
   const onSubmit = (data) => {
     setLoading(true);
 
     setTimeout(() => {
-      console.log(data);
+      dispatch(PostAdminProfileData(data));
 
       setLoading(false);
     }, 500);
   };
+
+  useEffect(() => {
+    console.log('getting profile data');
+    dispatch(GetAdminData());
+  }, []);
 
   return (
     <DefaultLayout>
@@ -101,6 +108,7 @@ const AdminProfile = () => {
               id="level"
               class="form-control"
               placeholder="Admin I"
+              value={account_type}
               readOnly
             />
           </div>

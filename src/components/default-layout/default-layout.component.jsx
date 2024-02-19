@@ -30,10 +30,7 @@ const DefaultLayout = ({ children }) => {
 
   
   const { user_data } = useSelector((state) => state.auth);
-  console.log('user_d', user_data);
-
   let { account_type } = user_data;
-  console.log('acc', account_type);
 
   const {
     token: { colorBgContainer },

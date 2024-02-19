@@ -5,7 +5,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
-import { FetchAllApplications } from '../../redux/slices/admin';
+import { FetchAllApplications, GetAdminData } from '../../redux/slices/admin';
 import { addSerialNumber, status } from './../../utils/addSerialNumber';
 
 const AllApplications = () => {
@@ -92,6 +92,7 @@ const AllApplications = () => {
 
   useEffect(() => {
     dispatch(FetchAllApplications());
+    dispatch(GetAdminData());
   }, []);
 
   return (
