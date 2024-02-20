@@ -30,7 +30,7 @@ const DefaultLayout = ({ children }) => {
 
   
   const { user_data } = useSelector((state) => state.auth);
-  let { account_type } = user_data;
+  let { user_name, account_type } = user_data;
 
   const {
     token: { colorBgContainer },
@@ -56,6 +56,10 @@ const DefaultLayout = ({ children }) => {
       dispatch(LogOutUser());
       navigate('/auth/login');
     }, 2000);
+  };
+
+  const getFirstLetterOfUserName = () => {
+    return user_name.charAt(0).toUpperCase();
   };
 
   const getMenuItems = () => {
@@ -373,7 +377,9 @@ const DefaultLayout = ({ children }) => {
               className="avatar__container d-flex align-items-center"
               onClick={handleViewProfile}
             >
-              <Avatar sx={{ bgcolor: '#673ab7' }}>OP</Avatar>
+              <Avatar sx={{ bgcolor: '#673ab7' }}>
+                {getFirstLetterOfUserName()}
+              </Avatar>
             </div>
           </Header>
           <Content
