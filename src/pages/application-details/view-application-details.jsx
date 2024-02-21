@@ -14,10 +14,10 @@ import NomineeCard from '../../components/nominee-card/nominee-card.component';
 import Navbar from '../../components/navbar/navbar.component';
 import Spinner from './../../components/spinner';
 
-import './view-application-details.styles.css';
 import RejectApplicationModal from '../../components/modal/reject-application-modal.component';
 import ApproveApplicationModal from './../../components/modal/approve-application-modal.component';
 import DefferApplicationModal from '../../components/modal/deffer-application-modal.component';
+import './view-application-details.styles.css';
 
 const ViewApplicationDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -93,25 +93,18 @@ const ViewApplicationDetails = () => {
 
   let the_message;
   const handleAppApprove = (reason) => {
-    let in_house = reason.in_house;
-    let open_house = reason.open_house;
-    let signature_id = reason.signature_id;
-    the_message = in_house + ' ' + open_house + ' ' + signature_id;
+    the_message = reason.recommedation;
 
-    // console.log(in_house, open_house, signature_id);
     message.success(the_message, [2]);
   };
 
   const handleAppReject = (reason) => {
-    console.log(reason);
-    console.log(reason.rejection_message, reason.signature_id);
     the_message = reason.rejection_message + ' ' + reason.signature_id;
 
     message.success(the_message, [2]);
   };
 
   const handleAppDeffer = (reason) => {
-    console.log(reason);
     the_message = reason.deffer_message + ' ' + reason.signature_id;
 
     message.success(the_message, [2]);
