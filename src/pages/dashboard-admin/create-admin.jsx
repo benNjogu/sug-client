@@ -12,7 +12,7 @@ const CreateAdmin = () => {
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
   const dispatch = useDispatch();
 
-  let { account_type } = useSelector((state) => state.auth).account_type;
+  let { account_type } = useSelector((state) => state.auth.user_data);
 
   let type_of_admins = [
     constants.SELECT,
