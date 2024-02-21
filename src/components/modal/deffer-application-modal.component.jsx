@@ -11,9 +11,6 @@ const DefferApplicationModal = ({
   handleDeffer,
   handleReject,
 }) => {
-  //   const type = useSelector((state) => state.application);
-  console.log(type);
-
   const {
     register,
     handleSubmit,
@@ -55,11 +52,6 @@ const DefferApplicationModal = ({
                   <p className="errorMsg">{errors.deffer_message.message}</p>
                 )}
               </Form.Group>
-              <SignatureID
-                errors={errors}
-                register={register}
-                handleSubmit={handleSubmit}
-              />
             </fieldset>
           </div>
         </div>

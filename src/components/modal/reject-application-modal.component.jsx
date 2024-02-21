@@ -45,11 +45,6 @@ const RejectApplicationModal = ({ handleClose, handleReject }) => {
                   <p className="errorMsg">{errors.rejection_message.message}</p>
                 )}
               </Form.Group>
-              <SignatureID
-                errors={errors}
-                register={register}
-                handleSubmit={handleSubmit}
-              />
             </fieldset>
           </div>
         </div>
