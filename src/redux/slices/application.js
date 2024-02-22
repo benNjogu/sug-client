@@ -139,3 +139,23 @@ export const GetApplicationHR = (application_id) => {
       });
   };
 };
+
+export const UpdateAdminWorkingOnApplication = (
+  application_id,
+  current_admin_id
+) => {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/application/update-admin-working-on-application',
+        { application_id, current_admin_id },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(function (response) {
+        console.log('admin-on-it', response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      });
+  };
+};

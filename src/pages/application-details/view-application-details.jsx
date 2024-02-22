@@ -8,7 +8,7 @@ import { constants } from './../../data/constants';
 import {
   GetApplicationHR,
   GetApplicationNominees,
-  UpdateType,
+  UpdateAdminWorkingOnApplication,
 } from '../../redux/slices/application';
 import NomineeCard from '../../components/nominee-card/nominee-card.component';
 import Navbar from '../../components/navbar/navbar.component';
@@ -20,16 +20,16 @@ import DefferApplicationModal from '../../components/modal/deffer-application-mo
 import './view-application-details.styles.css';
 
 const ViewApplicationDetails = () => {
-  const [loading, setLoading] = useState(false);
-  const [showApproveModal, setShowApproveModal] = useState(false);
-  const [showDefferModal, setShowDefferModal] = useState(false);
-  const [showRejectModal, setShowRejectModal] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
   const record = state.record;
   console.log(record);
+
+  const [loading, setLoading] = useState(false);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showDefferModal, setShowDefferModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
 
   const addComma = (number) =>
     'KSh. ' + Intl.NumberFormat('en-US').format(number);
@@ -40,6 +40,7 @@ const ViewApplicationDetails = () => {
   console.log(nominees);
   const { applicationHR } = useSelector((state) => state.application);
   console.log(applicationHR);
+  const { account_type } = useSelector((state) => state.auth).user_data;
 
   //filtering nominees based on fetched ids
   let filteredNominees = [];
@@ -63,6 +64,15 @@ const ViewApplicationDetails = () => {
     dispatch(GetApplicationHR(record.id));
   }, []);
 
+  // Update admin working on the application aftet 1 min of opening
+  useEffect(() => {
+    console.log('updating', account_type);
+    if (account_type !== process.env.REACT_APP_AccountType0) {
+      let current_admin_id = Number(window.localStorage.getItem('user_id'));
+      dispatch(UpdateAdminWorkingOnApplication(record.id, current_admin_id));
+    }
+  }, []);
+
   const handleApprove = () => {
     setShowApproveModal(true);
   };
@@ -83,6 +93,9 @@ const ViewApplicationDetails = () => {
 
   const handleBackpressed = () => {
     setLoading(true);
+    if (!account_type !== process.env.REACT_APP_AccountType0) {
+      dispatch(UpdateAdminWorkingOnApplication(record.id, 0));
+    }
 
     setTimeout(() => {
       setLoading(false);
@@ -93,19 +106,19 @@ const ViewApplicationDetails = () => {
 
   let the_message;
   const handleAppApprove = (reason) => {
-    the_message = reason.recommedation;
+    the_message = reason.in_house + ' ' + reason.open_house;
 
     message.success(the_message, [2]);
   };
 
   const handleAppReject = (reason) => {
-    the_message = reason.rejection_message + ' ' + reason.signature_id;
+    the_message = reason.rejection_message;
 
     message.success(the_message, [2]);
   };
 
   const handleAppDeffer = (reason) => {
-    the_message = reason.deffer_message + ' ' + reason.signature_id;
+    the_message = reason.deffer_message;
 
     message.success(the_message, [2]);
   };

@@ -31,14 +31,14 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
               <input
                 type="radio"
                 class="form-check-input"
-                name="recommedation"
+                name="in_house"
                 id="employer-premises"
-                value="In-House,At Employer Premises"
+                value="At Employer Premises"
                 autoComplete="off"
-                {...register('recommedation', {
-                  required: 'Recomedation is required.',
+                {...register('in_house', {
+                  required: 'In-house recomedation is required.',
                 })}
-                className={`${errors.recommedation ? 'input-error' : ''}`}
+                className={`${errors.in_house ? 'input-error' : ''}`}
               />
               <label for="in-house" class="form-check-label ml-2">
                 At Employers Premises
@@ -48,20 +48,23 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
               <input
                 type="radio"
                 class="form-check-input"
-                name="recommedation"
+                name="in_house"
                 id="outside-employer-premises"
-                value="In-House,Outside Employer Premises"
+                value="Outside Employer Premises"
                 autoComplete="off"
-                {...register('recommedation', {
-                  required: 'Recomedation is required.',
+                {...register('in_house', {
+                  required: 'In-house recomedation is required.',
                 })}
-                className={`${errors.recommedation ? 'input-error' : ''}`}
+                className={`${errors.in_house ? 'input-error' : ''}`}
               />
               <label for="in-house" class="form-check-label ml-2">
                 Outside Employers Premises
               </label>
             </div>
           </div>
+          {errors.in_house && (
+            <p className="errorMsg">{errors.in_house.message}</p>
+          )}
         </Form.Group>
       </div>
       <div class="col-md-12">
@@ -74,14 +77,14 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
               <input
                 type="radio"
                 class="form-check-input"
-                name="recommedation"
+                name="open_house"
                 id="residential"
-                value="Open-House,Residential"
+                value="Residential"
                 autoComplete="off"
-                {...register('recommedation', {
-                  required: 'Recomedation is required.',
+                {...register('open_house', {
+                  required: 'Open-house recomedation is required.',
                 })}
-                className={`${errors.recommedation ? 'input-error' : ''}`}
+                className={`${errors.open_house ? 'input-error' : ''}`}
               />
               <label for="open-house" class="form-check-label ml-2">
                 Residential
@@ -91,22 +94,22 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
               <input
                 type="radio"
                 class="form-check-input"
-                name="recommedation"
+                name="open_house"
                 id="non-residential"
-                value="Open-House,Non-Residential"
+                value="Non residential"
                 autoComplete="off"
-                {...register('recommedation', {
-                  required: 'Recomedation is required.',
+                {...register('open_house', {
+                  required: 'Open-house recomedation is required.',
                 })}
-                className={`${errors.recommedation ? 'input-error' : ''}`}
+                className={`${errors.open_house ? 'input-error' : ''}`}
               />
               <label for="open-house" class="form-check-label ml-2">
                 Non Residential
               </label>
             </div>
           </div>
-          {errors.recommedation && (
-            <p className="errorMsg">{errors.recommedation.message}</p>
+          {errors.open_house && (
+            <p className="errorMsg">{errors.open_house.message}</p>
           )}
         </Form.Group>
       </div>
