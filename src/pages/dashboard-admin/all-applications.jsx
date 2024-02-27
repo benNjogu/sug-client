@@ -7,6 +7,8 @@ import { Table } from 'antd';
 import DefaultLayout from '../../components/default-layout/default-layout.component';
 import { FetchAllApplications, GetAdminData } from '../../redux/slices/admin';
 import { addSerialNumber, status } from './../../utils/addSerialNumber';
+import { constants } from '../../data/constants';
+import { convertDigitInString } from '../../utils/convertDigitsInString';
 
 const AllApplications = () => {
   const navigate = useNavigate();
@@ -24,18 +26,40 @@ const AllApplications = () => {
     }, 700);
   };
 
+  const getDate = (string) => {
+    let date = string.split('T')[1].split(':');
+    date = date[0] + ':' + date[1];
+
+    return date;
+  };
+
   const columns = [
     {
       title: 'S.No',
       dataIndex: 's_no',
     },
     {
-      title: 'Course',
-      dataIndex: 'course_title',
+      title: 'Organization',
+      dataIndex: 'organization_id',
     },
     {
-      title: 'Provider',
-      dataIndex: 'training_provider',
+      title: 'Date of application',
+      dataIndex: 'date_applied',
+      render(text, record) {
+        return {
+          children: (
+            <div>
+              {convertDigitInString(record.date_applied.split('T')[0])}
+              {', '}
+              {getDate(record.date_applied)}
+            </div>
+          ),
+        };
+      },
+    },
+    {
+      title: 'Admin',
+      dataIndex: 'admin_on_it',
     },
     {
       title: 'Status',
@@ -45,13 +69,13 @@ const AllApplications = () => {
           props: {
             style: {
               color:
-                record.approved === 'Rejected'
+                record.approved === constants.REJECTED
                   ? 'red'
-                  : record.approved === 'Stage_1'
+                  : record.approved === constants.STAGE_1
                   ? '#98FB98'
-                  : record.approved === 'Stage_2'
+                  : record.approved === constants.STAGE_2
                   ? '#32CD32'
-                  : record.approved === 'Approved'
+                  : record.approved === constants.APPROVED
                   ? '	#008000'
                   : '',
               fontWeight: 600,

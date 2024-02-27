@@ -25,7 +25,9 @@ const Navbar = ({
     <nav className="nav collapsible fixed-top">
       <label className="nav__brand text-white">{title}</label>
 
-      {account_type === process.env.REACT_APP_AccountType7 ? (
+      {account_type === process.env.REACT_APP_AccountType1 ||
+      account_type === process.env.REACT_APP_AccountType2 ||
+      account_type === process.env.REACT_APP_AccountType3 ? (
         <ul className="list nav__list collapsible__content">
           <li className="nav__item">
             <Button

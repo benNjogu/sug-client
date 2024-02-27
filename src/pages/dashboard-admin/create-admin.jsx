@@ -19,12 +19,10 @@ const CreateAdmin = () => {
     constants.LEVEL_1,
     constants.LEVEL_2,
     constants.LEVEL_3,
-    constants.LEVEL_4,
-    constants.LEVEL_5,
   ];
 
-  if (account_type === process.env.REACT_APP_AccountType7) {
-    type_of_admins = [...type_of_admins, constants.LEVEL_6];
+  if (account_type === process.env.REACT_APP_AccountType5) {
+    type_of_admins = [...type_of_admins, constants.LEVEL_4];
   }
 
   const handleAddNew = () => {

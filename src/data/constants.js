@@ -44,12 +44,15 @@ export const constants = {
 
   //CREATE ADMIN SELECTOR
   SELECT: 'Select Level',
-  LEVEL_1: 'Admin I',
-  LEVEL_2: 'Admin II',
-  LEVEL_3: 'Admin I&II',
-  LEVEL_4: 'Admin III',
-  LEVEL_5: 'Admin I&II&III',
-  LEVEL_6: 'Super Admin',
+  LEVEL_1: 'ADMIN I',
+  LEVEL_2: 'ADMIN II',
+  LEVEL_3: 'ADMIN I&II',
+  LEVEL_4: 'SUPER ADMIN',
+
+  // Approval levels
+  STAGE_1: 'Stage_1',
+  APPROVED: 'Approved',
+  REJECTED: 'Rejected',
 };
 
 

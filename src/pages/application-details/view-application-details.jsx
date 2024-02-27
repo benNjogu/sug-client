@@ -62,6 +62,9 @@ const ViewApplicationDetails = () => {
 
   useEffect(() => {
     dispatch(GetApplicationHR(record.id));
+    if (account_type === process.env.REACT_APP_AccountType1)
+      console.log('T', account_type === process.env.REACT_APP_AccountType1);
+
   }, []);
 
   // Update admin working on the application aftet 1 min of opening

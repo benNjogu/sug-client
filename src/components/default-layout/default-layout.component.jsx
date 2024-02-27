@@ -13,11 +13,13 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
   LogoutOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Modal } from 'antd';
 
 import { LogOutUser } from '../../redux/slices/auth';
 import './default-layout.styles.css';
+import { FetchAllApplications } from '../../redux/slices/admin';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,9 +30,9 @@ const DefaultLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
-  const { user_data } = useSelector((state) => state.auth);
-  let { user_name, account_type } = user_data;
+  const { user_name, account_type } = useSelector(
+    (state) => state.auth.user_data
+  );
 
   const {
     token: { colorBgContainer },
@@ -120,7 +122,11 @@ const DefaultLayout = ({ children }) => {
           ),
         },
       ];
-    } else if (account_type === process.env.REACT_APP_AccountType1) {
+    } else if (
+      account_type === process.env.REACT_APP_AccountType1 ||
+      account_type === process.env.REACT_APP_AccountType2 ||
+      account_type === process.env.REACT_APP_AccountType3
+    ) {
       return [
         {
           key: '/app',
@@ -169,69 +175,11 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
-          key: '/auth/login',
-          icon: <LogoutOutlined />,
-          label: (
-            <Link style={linkStyle} onClick={confirm}>
-              Logout
-            </Link>
-          ),
-        },
-      ];
-    } else if (account_type === process.env.REACT_APP_AccountType2) {
-      return [
-        {
-          key: '/app',
-          icon: <HomeOutlined />,
-          label: (
-            <Link to="/app" style={linkStyle}>
-              Applications
-            </Link>
-          ),
-        },
-
-        {
-          key: '/admin-approved',
-          icon: <CopyOutlined />,
-          label: (
-            <Link to="/admin-approved" style={linkStyle}>
-              Approved
-            </Link>
-          ),
-        },
-        {
-          key: '/admin-pending',
-          icon: <UnorderedListOutlined />,
-          label: (
-            <Link to="/admin-pending" style={linkStyle}>
-              Pending
-            </Link>
-          ),
-        },
-        {
-          key: '/admin-rejected',
-          icon: <CloseCircleOutlined />,
-          label: (
-            <Link to="/admin-rejected" style={linkStyle}>
-              Rejected
-            </Link>
-          ),
-        },
-        {
-          key: '/admin-all-admins',
-          icon: <UserOutlined />,
-          label: (
-            <Link to="/admin-all-admins" style={linkStyle}>
-              Admins
-            </Link>
-          ),
-        },
-        {
-          key: '/admin-nominees',
+          key: '/admin-organizations',
           icon: <UsergroupAddOutlined />,
           label: (
-            <Link to="/admin-nominees" style={linkStyle}>
-              Nominees
+            <Link to="/admin-organizations" style={linkStyle}>
+              Organizations
             </Link>
           ),
         },
@@ -246,8 +194,8 @@ const DefaultLayout = ({ children }) => {
         },
       ];
     } else if (
-      account_type === process.env.REACT_APP_AccountType6 ||
-      account_type === process.env.REACT_APP_AccountType7
+      account_type === process.env.REACT_APP_AccountType4 ||
+      account_type === process.env.REACT_APP_AccountType5
     ) {
       return [
         {
@@ -330,6 +278,16 @@ const DefaultLayout = ({ children }) => {
     });
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      dispatch(FetchAllApplications());
+    }, 2000);
+  };
+
   return (
     <>
       {contextHolder}
@@ -373,6 +331,16 @@ const DefaultLayout = ({ children }) => {
                 height: 64,
               }}
             />
+            <div
+              className="avatar__container d-flex align-items-center"
+              onClick={handleRefresh}
+            >
+              {(account_type === process.env.REACT_APP_AccountType1 ||
+                account_type === process.env.REACT_APP_AccountType2 ||
+                account_type === process.env.REACT_APP_AccountType3) && (
+                <ReloadOutlined />
+              )}
+            </div>
             <div
               className="avatar__container d-flex align-items-center"
               onClick={handleViewProfile}
