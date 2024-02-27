@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Modal, message } from 'antd';
-import { CheckCircleOutlined } from '@ant-design/icons';
 
 import { constants } from './../../data/constants';
 import {
@@ -18,6 +17,7 @@ import RejectApplicationModal from '../../components/modal/reject-application-mo
 import ApproveApplicationModal from './../../components/modal/approve-application-modal.component';
 import DefferApplicationModal from '../../components/modal/deffer-application-modal.component';
 import './view-application-details.styles.css';
+import { ApproveApplication } from '../../redux/slices/admin';
 
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
@@ -64,7 +64,6 @@ const ViewApplicationDetails = () => {
     dispatch(GetApplicationHR(record.id));
     if (account_type === process.env.REACT_APP_AccountType1)
       console.log('T', account_type === process.env.REACT_APP_AccountType1);
-
   }, []);
 
   // Update admin working on the application aftet 1 min of opening
@@ -109,9 +108,22 @@ const ViewApplicationDetails = () => {
 
   let the_message;
   const handleAppApprove = (reason) => {
-    the_message = reason.in_house + ' ' + reason.open_house;
-
-    message.success(the_message, [2]);
+    if (account_type === process.env.REACT_APP_AccountType1) {
+      dispatch(
+        ApproveApplication({
+          level: account_type,
+          application_id: record.id,
+          recommedation: reason.in_house + ',' + reason.open_house,
+        })
+      );
+    } else if (account_type === process.env.REACT_APP_AccountType2) {
+      dispatch(
+        ApproveApplication({
+          level: account_type,
+          application_id: record.id,
+        })
+      );
+    }
   };
 
   const handleAppReject = (reason) => {

@@ -102,3 +102,21 @@ export const GetAdminData = () => {
       });
   };
 };
+
+export const ApproveApplication = (data) => {
+  let admin_id = window.localStorage.getItem('user_id');
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/admin/approve-application',
+        { ...data, admin_id },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(function (response) {
+        console.log(response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      });
+  };
+};
