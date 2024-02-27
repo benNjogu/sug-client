@@ -1,14 +1,14 @@
 export const constants = {
-  USERS: 'USERS',
-  ADMINS: 'ADMINS',
-  REGISTERED: 'REGISTERED',
-  APPLICATIONS: 'APPLICATIONS',
-  APPROVED: 'APPROVED',
-  PENDING: 'PENDING',
-  REJECTED: 'REJECTED',
-  NOMINEES: 'NOMINEES',
-  ESCALATED: 'ESCALATED',
-  LOGOUT: 'LOGOUT',
+  // USERS: 'USERS',
+  // ADMINS: 'ADMINS',
+  // REGISTERED: 'REGISTERED',
+  // APPLICATIONS: 'APPLICATIONS',
+  // APPROVED: 'APPROVED',
+  // PENDING: 'PENDING',
+  // REJECTED: 'REJECTED',
+  // NOMINEES: 'NOMINEES',
+  // ESCALATED: 'ESCALATED',
+  // LOGOUT: 'LOGOUT',
 
   //application categories
   TYPE: 'TYPE & NUMBER OF STUDENTS',
@@ -50,6 +50,7 @@ export const constants = {
   LEVEL_4: 'SUPER ADMIN',
 
   // Approval levels
+  PENDING: 'Pending',
   STAGE_1: 'Stage_1',
   APPROVED: 'Approved',
   REJECTED: 'Rejected',

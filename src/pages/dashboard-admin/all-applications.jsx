@@ -72,8 +72,6 @@ const AllApplications = () => {
                 record.approved === constants.REJECTED
                   ? 'red'
                   : record.approved === constants.STAGE_1
-                  ? '#98FB98'
-                  : record.approved === constants.STAGE_2
                   ? '#32CD32'
                   : record.approved === constants.APPROVED
                   ? '	#008000'
@@ -89,14 +87,14 @@ const AllApplications = () => {
       title: 'Action',
       dataIndex: 'id',
       render: (id, record) =>
-        record.approved === 'Rejected' ? (
+        record.approved === constants.REJECTED ? (
           <div className="d-flex justify-content-around">
             <EyeOutlined
               className="mx-2"
               onClick={() => handleViewApplication(record)}
             />
           </div>
-        ) : record.approved === 'Pending' ? (
+        ) : record.approved === constants.PENDING ? (
           <div className="d-flex justify-content-around">
             <EyeOutlined
               className="mx-2"

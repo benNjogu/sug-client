@@ -42,13 +42,11 @@ const Applications = () => {
           props: {
             style: {
               color:
-                record.approved === 'Rejected'
+                record.approved === constants.REJECTED
                   ? 'red'
-                  : record.approved === 'Stage_1'
-                  ? '#98FB98'
-                  : record.approved === 'Stage_2'
+                  : record.approved === constants.STAGE_1
                   ? '#32CD32'
-                  : record.approved === 'Approved'
+                  : record.approved === constants.APPROVED
                   ? '	#008000'
                   : '',
               fontWeight: 600,
