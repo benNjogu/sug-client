@@ -86,6 +86,18 @@ const Applications = () => {
               onClick={() => handleDeleteApplication(record)}
             />
           </div>
+        ) : record.approved === 'Deffered' ? (
+          <div className="d-flex justify-content-around">
+            <EyeOutlined
+              className="mx-2"
+              onClick={() => handleViewApplication(record)}
+            />
+            <EditOutlined
+              className="mx-2"
+              onClick={() => handleEditApplication(record)}
+            />
+            <div className="mx-2" />
+          </div>
         ) : (
           <div className="d-flex justify-content-around">
             <div className="mx-2" />
