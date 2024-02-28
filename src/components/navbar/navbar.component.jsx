@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { LeftOutlined } from '@ant-design/icons';
 
 import './navbar.styles.css';
+import { constants } from '../../data/constants';
 
 const Button = ({ text, text_color, icon, handleBtnClick }) => {
   return (
@@ -15,25 +16,33 @@ const Button = ({ text, text_color, icon, handleBtnClick }) => {
 const Navbar = ({
   title,
   handleApprove,
+  handleApproveLevel2,
   handleDeffer,
   handleReject,
   handleBackpressed,
+  approved,
 }) => {
   const { account_type } = useSelector((state) => state.auth.user_data);
+  console.log('nav_ap', approved);
 
   return (
     <nav className="nav collapsible fixed-top">
       <label className="nav__brand text-white">{title}</label>
 
-      {account_type === process.env.REACT_APP_AccountType1 ||
-      account_type === process.env.REACT_APP_AccountType2 ||
-      account_type === process.env.REACT_APP_AccountType3 ? (
+      {(account_type === process.env.REACT_APP_AccountType1 &&
+        approved === constants.PENDING) ||
+      (account_type === process.env.REACT_APP_AccountType2 &&
+        approved === constants.STAGE_1) ? (
         <ul className="list nav__list collapsible__content">
           <li className="nav__item">
             <Button
               text={'Approve'}
               text_color={'text-success'}
-              handleBtnClick={handleApprove}
+              handleBtnClick={
+                account_type === process.env.REACT_APP_AccountType2
+                  ? handleApproveLevel2
+                  : handleApprove
+              }
             />
           </li>
           <li className="nav__item">

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Modal, message } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 import { constants } from './../../data/constants';
 import {
@@ -79,6 +80,18 @@ const ViewApplicationDetails = () => {
     setShowApproveModal(true);
   };
 
+  const [modal, contextHolder] = Modal.useModal();
+  const handleApproveLevel2 = () => {
+    modal.confirm({
+      title: 'Approve',
+      icon: <CheckCircleOutlined />,
+      content: 'Approve this application?',
+      okText: 'APPROVE',
+      cancelText: 'CANCEL',
+      onOk: handleAppApproveLevel2,
+    });
+  };
+
   const handleReject = () => {
     setShowRejectModal(true);
   };
@@ -108,22 +121,26 @@ const ViewApplicationDetails = () => {
 
   let the_message;
   const handleAppApprove = (reason) => {
-    if (account_type === process.env.REACT_APP_AccountType1) {
+    dispatch(
+      ApproveApplication({
+        level: account_type,
+        application_id: record.id,
+        recommedation: reason.in_house + ',' + reason.open_house,
+      })
+    );
+  };
+
+  const handleAppApproveLevel2 = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
       dispatch(
         ApproveApplication({
           level: account_type,
           application_id: record.id,
-          recommedation: reason.in_house + ',' + reason.open_house,
         })
       );
-    } else if (account_type === process.env.REACT_APP_AccountType2) {
-      dispatch(
-        ApproveApplication({
-          level: account_type,
-          application_id: record.id,
-        })
-      );
-    }
+    }, 300);
   };
 
   const handleAppReject = (reason) => {
@@ -140,12 +157,15 @@ const ViewApplicationDetails = () => {
 
   return (
     <>
+      {contextHolder}
       <Navbar
         title={record.course_title}
         handleApprove={handleApprove}
+        handleApproveLevel2={handleApproveLevel2}
         handleReject={handleReject}
         handleDeffer={handleDeffer}
         handleBackpressed={handleBackpressed}
+        approved={record.approved}
       />
       {/* {contextHolder} */}
       <div className="main-div">
