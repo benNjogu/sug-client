@@ -34,6 +34,7 @@ export default function Router() {
         { path: 'verify-otp', element: <Verify /> },
       ],
     },
+    // organization routes
     account_type === process.env.REACT_APP_AccountType0
       ? {
           path: '/',
@@ -51,14 +52,18 @@ export default function Router() {
             { path: '*', element: <Navigate to="/404" replace /> },
           ],
         }
-      : {
+      : // admin routes
+      account_type === process.env.REACT_APP_AccountType1 ||
+        account_type === process.env.REACT_APP_AccountType2 ||
+        account_type === process.env.REACT_APP_AccountType3
+      ? {
           path: '/',
           element: <DashboardLayout />,
           children: [
             { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-            { path: 'app', element: <AllApplications /> },
+            { path: 'app', element: <PendingApplications /> },
             { path: 'admin-approved', element: <ApprovedApplications /> },
-            { path: 'admin-pending', element: <PendingApplications /> },
+            { path: 'admin-all-applications', element: <AllApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-all-admins', element: <CreateAdimin /> },
             { path: 'admin-organizations', element: <AllOrganizations /> },
@@ -67,7 +72,27 @@ export default function Router() {
             { path: '404', element: <Page404 /> },
             { path: '*', element: <Navigate to="/404" replace /> },
           ],
-        },
+        }
+      : account_type === process.env.REACT_APP_AccountType4 ||
+        account_type === process.env.REACT_APP_AccountType5
+      ? {
+          path: '/',
+          element: <DashboardLayout />,
+          children: [
+            { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
+            { path: 'app', element: <CreateAdimin /> },
+            { path: 'admin-all-applications', element: <AllApplications /> },
+            { path: 'admin-pending', element: <PendingApplications /> },
+            { path: 'admin-approved', element: <ApprovedApplications /> },
+            { path: 'admin-rejected', element: <RejectedApplications /> },
+            { path: 'admin-organizations', element: <AllOrganizations /> },
+            { path: 'admin-profile', element: <AdminProfile /> },
+
+            { path: '404', element: <Page404 /> },
+            { path: '*', element: <Navigate to="/404" replace /> },
+          ],
+        }
+      : '',
 
     { path: 'app/register-nominee', element: <RegisterNominee /> },
     { path: 'app/new-application/*', element: <NewApplication /> },

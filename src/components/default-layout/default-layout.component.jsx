@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MenuOutlined,
+  FileDoneOutlined,
+  FileExcelOutlined,
+  FileExclamationOutlined,
   CloseCircleOutlined,
   HomeOutlined,
   CopyOutlined,
@@ -78,7 +82,7 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: '/approved',
-          icon: <CopyOutlined />,
+          icon: <FileDoneOutlined />,
           label: (
             <Link to="/approved" style={linkStyle}>
               Approved
@@ -87,7 +91,7 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: '/pending',
-          icon: <UnorderedListOutlined />,
+          icon: <FileExclamationOutlined />,
           label: (
             <Link to="/pending" style={linkStyle}>
               Pending
@@ -96,7 +100,7 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: '/rejected',
-          icon: <CloseCircleOutlined />,
+          icon: <FileExcelOutlined />,
           label: (
             <Link to="/rejected" style={linkStyle}>
               Rejected
@@ -108,7 +112,7 @@ const DefaultLayout = ({ children }) => {
           icon: <UsergroupAddOutlined />,
           label: (
             <Link to="/registered" style={linkStyle}>
-              Registered
+              Nominees
             </Link>
           ),
         },
@@ -130,35 +134,27 @@ const DefaultLayout = ({ children }) => {
       return [
         {
           key: '/app',
-          icon: <HomeOutlined />,
+          icon: <FileExclamationOutlined />,
           label: (
             <Link to="/app" style={linkStyle}>
-              Applications
+              Pending
             </Link>
           ),
         },
 
         {
           key: '/admin-approved',
-          icon: <CopyOutlined />,
+          icon: <FileDoneOutlined />,
           label: (
             <Link to="/admin-approved" style={linkStyle}>
               Approved
             </Link>
           ),
         },
-        {
-          key: '/admin-pending',
-          icon: <UnorderedListOutlined />,
-          label: (
-            <Link to="/admin-pending" style={linkStyle}>
-              Pending
-            </Link>
-          ),
-        },
+
         {
           key: '/admin-rejected',
-          icon: <CloseCircleOutlined />,
+          icon: <FileExcelOutlined />,
           label: (
             <Link to="/admin-rejected" style={linkStyle}>
               Rejected
@@ -166,11 +162,11 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
-          key: '/admin-nominees',
-          icon: <UsergroupAddOutlined />,
+          key: '/admin-all-applications',
+          icon: <CopyOutlined />,
           label: (
-            <Link to="/admin-nominees" style={linkStyle}>
-              Nominees
+            <Link to="/admin-all-applications" style={linkStyle}>
+              All applications
             </Link>
           ),
         },
@@ -200,17 +196,26 @@ const DefaultLayout = ({ children }) => {
       return [
         {
           key: '/app',
-          icon: <HomeOutlined />,
+          icon: <UserOutlined />,
           label: (
             <Link to="/app" style={linkStyle}>
-              Applications
+              Admins
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-all-applications',
+          icon: <CopyOutlined />,
+          label: (
+            <Link to="/admin-all-applications" style={linkStyle}>
+              All applications
             </Link>
           ),
         },
 
         {
           key: '/admin-approved',
-          icon: <CopyOutlined />,
+          icon: <FileDoneOutlined />,
           label: (
             <Link to="/admin-approved" style={linkStyle}>
               Approved
@@ -219,7 +224,7 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: '/admin-pending',
-          icon: <UnorderedListOutlined />,
+          icon: <FileExclamationOutlined />,
           label: (
             <Link to="/admin-pending" style={linkStyle}>
               Pending
@@ -228,22 +233,14 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: '/admin-rejected',
-          icon: <CloseCircleOutlined />,
+          icon: <FileExcelOutlined />,
           label: (
             <Link to="/admin-rejected" style={linkStyle}>
               Rejected
             </Link>
           ),
         },
-        {
-          key: '/admin-all-admins',
-          icon: <UserOutlined />,
-          label: (
-            <Link to="/admin-all-admins" style={linkStyle}>
-              Admins
-            </Link>
-          ),
-        },
+
         {
           key: '/admin-organizations',
           icon: <UsergroupAddOutlined />,
