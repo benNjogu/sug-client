@@ -44,6 +44,7 @@ export default function Router() {
             { path: 'app', element: <Applications /> },
             { path: 'approved', element: <Approved /> },
             { path: 'pending', element: <Pending /> },
+            { path: 'deffered', element: <Deffered /> },
             { path: 'rejected', element: <Rejected /> },
             { path: 'registered', element: <Registered /> },
             { path: 'profile', element: <Profile /> },
@@ -64,6 +65,7 @@ export default function Router() {
             { path: 'app', element: <PendingApplications /> },
             { path: 'admin-approved', element: <ApprovedApplications /> },
             { path: 'admin-all-applications', element: <AllApplications /> },
+            { path: 'admin-deffered', element: <DefferedApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-all-admins', element: <CreateAdimin /> },
             { path: 'admin-organizations', element: <AllOrganizations /> },
@@ -84,6 +86,7 @@ export default function Router() {
             { path: 'admin-all-applications', element: <AllApplications /> },
             { path: 'admin-pending', element: <PendingApplications /> },
             { path: 'admin-approved', element: <ApprovedApplications /> },
+            { path: 'admin-deffered', element: <DefferedApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-organizations', element: <AllOrganizations /> },
             { path: 'admin-profile', element: <AdminProfile /> },
@@ -109,6 +112,9 @@ const Approved = Loadable(
 );
 const Pending = Loadable(
   lazy(() => import('../pages/dashboard/pending/pending'))
+);
+const Deffered = Loadable(
+  lazy(() => import('../pages/dashboard/deffered/deffered'))
 );
 const Rejected = Loadable(
   lazy(() => import('../pages/dashboard/rejected/rejected'))
@@ -143,6 +149,9 @@ const ApprovedApplications = Loadable(
 );
 const PendingApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/pending-applications'))
+);
+const DefferedApplications = Loadable(
+  lazy(() => import('../pages/dashboard-admin/deffered-applications'))
 );
 const RejectedApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/rejected-applications'))

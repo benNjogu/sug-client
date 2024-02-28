@@ -9,6 +9,7 @@ import { FetchAllApplications, GetAdminData } from '../../redux/slices/admin';
 import { addSerialNumber, status } from './../../utils/addSerialNumber';
 import { constants } from '../../data/constants';
 import { convertDigitInString } from '../../utils/convertDigitsInString';
+import { getTime } from '../../utils/getTimeFromTimestamp';
 
 const AllApplications = () => {
   const navigate = useNavigate();
@@ -24,13 +25,6 @@ const AllApplications = () => {
       setLoading(false);
       navigate('/app/view-application', { state: { record } });
     }, 700);
-  };
-
-  const getDate = (string) => {
-    let date = string.split('T')[1].split(':');
-    date = date[0] + ':' + date[1];
-
-    return date;
   };
 
   const columns = [
@@ -51,7 +45,7 @@ const AllApplications = () => {
             <div>
               {convertDigitInString(record.date_applied.split('T')[0])}
               {', '}
-              {getDate(record.date_applied)}
+              {getTime(record.date_applied)}
             </div>
           ),
         };

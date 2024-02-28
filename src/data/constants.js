@@ -53,6 +53,7 @@ export const constants = {
   PENDING: 'Pending',
   STAGE_1: 'Stage_1',
   APPROVED: 'Approved',
+  DEFFERED: 'Deffered',
   REJECTED: 'Rejected',
 };
 

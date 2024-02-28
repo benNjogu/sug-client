@@ -1,8 +1,9 @@
 import { getKeyByValue } from './getObjectKey';
 
 export let status = {
-  All: -2, //No such level in the database. It was added for the algorithm to work
-  Rejected: -1,
+  All: -3, //No such level in the database. It was added for the algorithm to work
+  Rejected: -2,
+  Deffered: -1,
   Pending: 0,
   Stage_1: 1,
   Approved: 2,

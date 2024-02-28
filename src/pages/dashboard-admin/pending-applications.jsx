@@ -5,14 +5,18 @@ import { EyeOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 
 import DefaultLayout from '../../components/default-layout/default-layout.component';
+import Spinner from './../../components/spinner';
 import { FetchAllApplications } from '../../redux/slices/admin';
 import { addSerialNumber, status } from './../../utils/addSerialNumber';
+import { convertDigitInString } from '../../utils/convertDigitsInString';
+import { getTime } from '../../utils/getTimeFromTimestamp';
 
 const PendingApplications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.admin);
+  const { account_type } = useSelector((state) => state.auth.user_data);
   console.log('all', applications);
 
   const handleViewApplication = (record) => {
@@ -30,36 +34,27 @@ const PendingApplications = () => {
       dataIndex: 's_no',
     },
     {
-      title: 'Course',
-      dataIndex: 'course_title',
+      title: 'Organization',
+      dataIndex: 'organization_id',
     },
     {
-      title: 'Provider',
-      dataIndex: 'training_provider',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'approved',
+      title: 'Date of application',
+      dataIndex: 'date_applied',
       render(text, record) {
         return {
-          props: {
-            style: {
-              color:
-                record.approved === 'Rejected'
-                  ? 'red'
-                  : record.approved === 'Stage_1'
-                  ? '#98FB98'
-                  : record.approved === 'Stage_2'
-                  ? '#32CD32'
-                  : record.approved === 'Approved'
-                  ? '	#008000'
-                  : '',
-              fontWeight: 600,
-            },
-          },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              {convertDigitInString(record.date_applied.split('T')[0])}
+              {', '}
+              {getTime(record.date_applied)}
+            </div>
+          ),
         };
       },
+    },
+    {
+      title: 'Admin',
+      dataIndex: 'admin_on_it',
     },
     {
       title: 'Action',
@@ -96,15 +91,16 @@ const PendingApplications = () => {
 
   return (
     <DefaultLayout>
-      {loading && (
-        <div className="spinner">
-          <div className="spinner-border" role="status" />
-        </div>
-      )}
+      {<Spinner loading={loading} />}
 
       <Table
         columns={columns}
-        dataSource={addSerialNumber(applications, status.Pending)}
+        dataSource={addSerialNumber(
+          applications,
+          account_type === process.env.REACT_APP_AccountType2
+            ? status.Stage_1
+            : status.Pending
+        )}
       />
     </DefaultLayout>
   );
