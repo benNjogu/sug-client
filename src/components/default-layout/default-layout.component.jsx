@@ -356,13 +356,7 @@ const DefaultLayout = ({ children }) => {
               className="avatar__container d-flex align-items-center"
               onClick={handleRefresh}
             >
-              {(account_type === process.env.REACT_APP_AccountType1 ||
-                account_type === process.env.REACT_APP_AccountType2 ||
-                account_type === process.env.REACT_APP_AccountType3 ||
-                account_type === process.env.REACT_APP_AccountType4 ||
-                account_type === process.env.REACT_APP_AccountType5) && (
-                <ReloadOutlined />
-              )}
+              <ReloadOutlined />
             </div>
             <div
               className="avatar__container d-flex align-items-center"
