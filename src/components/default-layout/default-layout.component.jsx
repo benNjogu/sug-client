@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  MenuOutlined,
   FileDoneOutlined,
   FileExcelOutlined,
   FileExclamationOutlined,
-  CloseCircleOutlined,
+  FileUnknownOutlined,
   HomeOutlined,
   CopyOutlined,
-  UnorderedListOutlined,
   UsergroupAddOutlined,
   UserOutlined,
   LogoutOutlined,
@@ -99,6 +97,15 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
+          key: '/deffered',
+          icon: <FileUnknownOutlined />,
+          label: (
+            <Link to="/deffered" style={linkStyle}>
+              Defferred
+            </Link>
+          ),
+        },
+        {
           key: '/rejected',
           icon: <FileExcelOutlined />,
           label: (
@@ -151,7 +158,15 @@ const DefaultLayout = ({ children }) => {
             </Link>
           ),
         },
-
+        {
+          key: '/admin-deffered',
+          icon: <FileUnknownOutlined />,
+          label: (
+            <Link to="/admin-deffered" style={linkStyle}>
+              Defferred
+            </Link>
+          ),
+        },
         {
           key: '/admin-rejected',
           icon: <FileExcelOutlined />,
@@ -228,6 +243,15 @@ const DefaultLayout = ({ children }) => {
           label: (
             <Link to="/admin-pending" style={linkStyle}>
               Pending
+            </Link>
+          ),
+        },
+        {
+          key: '/admin-deffered',
+          icon: <FileUnknownOutlined />,
+          label: (
+            <Link to="/admin-deffered" style={linkStyle}>
+              Defferred
             </Link>
           ),
         },

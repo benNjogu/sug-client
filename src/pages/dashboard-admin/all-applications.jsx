@@ -69,6 +69,8 @@ const AllApplications = () => {
                   ? '#32CD32'
                   : record.approved === constants.APPROVED
                   ? '	#008000'
+                  : record.approved === constants.DEFFERED
+                  ? '	#FFC107'
                   : '',
               fontWeight: 600,
             },

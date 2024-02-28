@@ -36,10 +36,6 @@ const Rejected = () => {
             className="mx-2"
             onClick={() => handleViewApplication(record)}
           />
-          <EditOutlined
-            className="mx-2"
-            onClick={() => handleEditApplication(record)}
-          />
         </div>
       ),
     },

@@ -63,7 +63,7 @@ const DefferedApplications = () => {
       <Spinner loading={loading} />
       <Table
         columns={columns}
-        dataSource={addSerialNumber(applications, status.Rejected)}
+        dataSource={addSerialNumber(applications, status.Deffered)}
       />
     </DefaultLayout>
   );

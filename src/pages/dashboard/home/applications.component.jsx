@@ -48,6 +48,8 @@ const Applications = () => {
                   ? '#32CD32'
                   : record.approved === constants.APPROVED
                   ? '	#008000'
+                  : record.approved === constants.DEFFERED
+                  ? '	#FFC107'
                   : '',
               fontWeight: 600,
             },
@@ -63,13 +65,10 @@ const Applications = () => {
         record.approved === 'Rejected' ? (
           <div className="d-flex justify-content-around">
             <div className="mx-2" />
+            <div className="mx-2" />
             <EyeOutlined
               className="mx-2"
               onClick={() => handleViewApplication(record)}
-            />
-            <EditOutlined
-              className="mx-2"
-              onClick={() => handleEditApplication(record)}
             />
           </div>
         ) : record.approved === 'Pending' ? (

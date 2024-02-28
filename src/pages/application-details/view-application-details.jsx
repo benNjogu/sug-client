@@ -18,7 +18,11 @@ import RejectApplicationModal from '../../components/modal/reject-application-mo
 import ApproveApplicationModal from './../../components/modal/approve-application-modal.component';
 import DefferApplicationModal from '../../components/modal/deffer-application-modal.component';
 import './view-application-details.styles.css';
-import { ApproveApplication } from '../../redux/slices/admin';
+import {
+  ApproveApplication,
+  DefferOrRejectApplication,
+} from '../../redux/slices/admin';
+import { status } from './../../utils/addSerialNumber';
 
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
@@ -119,7 +123,6 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
-  let the_message;
   const handleAppApprove = (reason) => {
     dispatch(
       ApproveApplication({
@@ -144,15 +147,33 @@ const ViewApplicationDetails = () => {
   };
 
   const handleAppReject = (reason) => {
-    the_message = reason.rejection_message;
-
-    message.success(the_message, [2]);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(
+        DefferOrRejectApplication({
+          level: account_type,
+          application_id: record.id,
+          reason: reason.rejection_message,
+          type: status.Rejected,
+        })
+      );
+    }, 300);
   };
 
   const handleAppDeffer = (reason) => {
-    the_message = reason.deffer_message;
-
-    message.success(the_message, [2]);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(
+        DefferOrRejectApplication({
+          level: account_type,
+          application_id: record.id,
+          reason: reason.deffer_message,
+          type: status.Deffered,
+        })
+      );
+    }, 300);
   };
 
   return (

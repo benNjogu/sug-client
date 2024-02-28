@@ -120,3 +120,21 @@ export const ApproveApplication = (data) => {
       });
   };
 };
+
+export const DefferOrRejectApplication = (data) => {
+  let admin_id = window.localStorage.getItem('user_id');
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/admin/deffer-or-reject-application',
+        { ...data, admin_id },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(function (response) {
+        console.log(response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      });
+  };
+};
