@@ -135,8 +135,7 @@ const DefaultLayout = ({ children }) => {
       ];
     } else if (
       account_type === process.env.REACT_APP_AccountType1 ||
-      account_type === process.env.REACT_APP_AccountType2 ||
-      account_type === process.env.REACT_APP_AccountType3
+      account_type === process.env.REACT_APP_AccountType2
     ) {
       return [
         {
@@ -205,8 +204,8 @@ const DefaultLayout = ({ children }) => {
         },
       ];
     } else if (
-      account_type === process.env.REACT_APP_AccountType4 ||
-      account_type === process.env.REACT_APP_AccountType5
+      account_type === process.env.REACT_APP_AccountType3 ||
+      account_type === process.env.REACT_APP_AccountType4
     ) {
       return [
         {

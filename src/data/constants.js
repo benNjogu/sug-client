@@ -46,8 +46,7 @@ export const constants = {
   SELECT: 'Select Level',
   LEVEL_1: 'ADMIN I',
   LEVEL_2: 'ADMIN II',
-  LEVEL_3: 'ADMIN I&II',
-  LEVEL_4: 'SUPER ADMIN',
+  LEVEL_3: 'SUPER ADMIN',
 
   // Approval levels
   PENDING: 'Pending',
