@@ -117,6 +117,15 @@ export const ApproveApplication = (data) => {
         dispatch(
           ShowSnackbar({ severity: 'success', message: response.data.message })
         );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
       });
   };
 };
@@ -134,6 +143,14 @@ export const DefferOrRejectApplication = (data) => {
         console.log(response);
         dispatch(
           ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      })
+      .catch(function (error) {
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
         );
       });
   };
