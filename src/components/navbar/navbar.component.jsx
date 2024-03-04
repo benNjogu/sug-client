@@ -21,6 +21,7 @@ const Navbar = ({
   handleReject,
   handleBackpressed,
   approved,
+  hideButtons,
 }) => {
   const { account_type } = useSelector((state) => state.auth.user_data);
   console.log('nav_ap', approved);
@@ -34,31 +35,37 @@ const Navbar = ({
       (account_type === process.env.REACT_APP_AccountType2 &&
         approved === constants.STAGE_1) ? (
         <ul className="list nav__list collapsible__content">
-          <li className="nav__item">
-            <Button
-              text={'Approve'}
-              text_color={'text-success'}
-              handleBtnClick={
-                account_type === process.env.REACT_APP_AccountType2
-                  ? handleApproveLevel2
-                  : handleApprove
-              }
-            />
-          </li>
-          <li className="nav__item">
-            <Button
-              text={'Deffer'}
-              text_color={'text-warning'}
-              handleBtnClick={handleDeffer}
-            />
-          </li>
-          <li className="nav__item">
-            <Button
-              text={'Reject'}
-              text_color={'text-danger'}
-              handleBtnClick={handleReject}
-            />
-          </li>
+          {!hideButtons && (
+            <li className="nav__item">
+              <Button
+                text={'Approve'}
+                text_color={'text-success'}
+                handleBtnClick={
+                  account_type === process.env.REACT_APP_AccountType2
+                    ? handleApproveLevel2
+                    : handleApprove
+                }
+              />
+            </li>
+          )}
+          {!hideButtons && (
+            <li className="nav__item">
+              <Button
+                text={'Deffer'}
+                text_color={'text-warning'}
+                handleBtnClick={handleDeffer}
+              />
+            </li>
+          )}
+          {!hideButtons && (
+            <li className="nav__item">
+              <Button
+                text={'Reject'}
+                text_color={'text-danger'}
+                handleBtnClick={handleReject}
+              />
+            </li>
+          )}
           <li className="nav__item">
             <Button
               text={'Back'}

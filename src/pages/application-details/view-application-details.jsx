@@ -32,6 +32,7 @@ const ViewApplicationDetails = () => {
   console.log(record);
 
   const [loading, setLoading] = useState(false);
+  const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDefferModal, setShowDefferModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -131,6 +132,7 @@ const ViewApplicationDetails = () => {
         recommedation: reason.in_house + ',' + reason.open_house,
       })
     );
+    setHideButtons(true);
   };
 
   const handleAppApproveLevel2 = () => {
@@ -187,8 +189,8 @@ const ViewApplicationDetails = () => {
         handleDeffer={handleDeffer}
         handleBackpressed={handleBackpressed}
         approved={record.approved}
+        hideButtons={hideButtons}
       />
-      {/* {contextHolder} */}
       <div className="main-div">
         {showApproveModal && (
           <Modal
