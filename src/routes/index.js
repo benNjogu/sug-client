@@ -67,6 +67,7 @@ export default function Router() {
             { path: 'admin-deffered', element: <DefferedApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-all-admins', element: <CreateAdimin /> },
+            { path: 'admin-all-nominees', element: <AllNominees /> },
             { path: 'admin-organizations', element: <AllOrganizations /> },
             { path: 'admin-profile', element: <AdminProfile /> },
 
@@ -154,6 +155,9 @@ const DefferedApplications = Loadable(
 );
 const RejectedApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/rejected-applications'))
+);
+const AllNominees = Loadable(
+  lazy(() => import('../pages/dashboard-admin/all-nominees'))
 );
 const AllOrganizations = Loadable(
   lazy(() => import('../pages/dashboard-admin/all-organizations'))

@@ -16,6 +16,8 @@ import {
   UserOutlined,
   LogoutOutlined,
   ReloadOutlined,
+  TeamOutlined,
+  LayoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Modal } from 'antd';
 
@@ -147,7 +149,6 @@ const DefaultLayout = ({ children }) => {
             </Link>
           ),
         },
-
         {
           key: '/admin-approved',
           icon: <FileDoneOutlined />,
@@ -185,8 +186,17 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
+          key: '/admin-all-nominees',
+          icon: <TeamOutlined />,
+          label: (
+            <Link to="/admin-all-nominees" style={linkStyle}>
+              All nominees
+            </Link>
+          ),
+        },
+        {
           key: '/admin-organizations',
-          icon: <UsergroupAddOutlined />,
+          icon: <LayoutOutlined />,
           label: (
             <Link to="/admin-organizations" style={linkStyle}>
               Organizations
@@ -226,7 +236,6 @@ const DefaultLayout = ({ children }) => {
             </Link>
           ),
         },
-
         {
           key: '/admin-approved',
           icon: <FileDoneOutlined />,
@@ -263,10 +272,9 @@ const DefaultLayout = ({ children }) => {
             </Link>
           ),
         },
-
         {
           key: '/admin-organizations',
-          icon: <UsergroupAddOutlined />,
+          icon: <LayoutOutlined />,
           label: (
             <Link to="/admin-organizations" style={linkStyle}>
               Organizations
