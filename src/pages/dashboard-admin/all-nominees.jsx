@@ -13,7 +13,8 @@ const AllNominees = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [inactiveBtn, setInactiveBtn] = useState(false);
-  const { nominees } = useSelector((state) => state.admin);
+  const [searchQuery, setSearchQuery] = useState('');
+  let { nominees } = useSelector((state) => state.admin);
   console.log(nominees);
 
   const [modal, contextHolder] = Modal.useModal();
@@ -27,6 +28,25 @@ const AllNominees = () => {
       onOk: () => disableNominee(id),
     });
   };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  if (searchQuery) {
+    nominees = nominees.filter(
+      (n) =>
+        n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+        n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+        (n.first_name + ' ' + n.last_name)
+          .toLowerCase()
+          .startsWith(searchQuery.toLowerCase()) ||
+        n.idNumber
+          .toString()
+          .toLowerCase()
+          .startsWith(searchQuery.toLowerCase())
+    );
+  }
 
   const handleView = (id) => {
     console.log('nv_id', id);
@@ -49,7 +69,11 @@ const AllNominees = () => {
     <DefaultLayout>
       {contextHolder}
       <Spinner loading={loading} />
-      <SearchBox placeholder={'Search nominee by id or name...'} />
+      <SearchBox
+        placeholder={'Search nominee by id or name...'}
+        value={searchQuery}
+        onChange={handleSearch}
+      />
       <div className="row overflow-auto">
         {nominees.length > 0
           ? nominees.map((n) => (
