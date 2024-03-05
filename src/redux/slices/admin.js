@@ -6,6 +6,7 @@ import { ShowSnackbar } from './app';
 const initialState = {
   applications: [],
   admin_profile_data: {},
+  nominees: [],
 };
 
 const slice = createSlice({
@@ -17,6 +18,9 @@ const slice = createSlice({
     },
     updateAdminProfile(state, action) {
       state.admin_profile_data = action.payload.admin_profile_data;
+    },
+    updateNominees(state, action) {
+      state.nominees = action.payload.nominees;
     },
   },
 });
@@ -143,6 +147,30 @@ export const DefferOrRejectApplication = (data) => {
         console.log(response);
         dispatch(
           ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+      })
+      .catch(function (error) {
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const fetchAllNominees = () => {
+  return async (dispatch, getState) => {
+    await axios
+      .post('/nominee/get-all-nominees', {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateNominees({
+            nominees: response.data.result,
+          })
         );
       })
       .catch(function (error) {
