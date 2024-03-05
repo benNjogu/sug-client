@@ -183,3 +183,34 @@ export const fetchAllNominees = () => {
       });
   };
 };
+
+export const DispatchNominee = (nominee_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(`/nominee/disable-nominee/${nominee_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+
+        dispatch(
+          ShowSnackbar({
+            severity: 'success',
+            message: response.data.message,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};

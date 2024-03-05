@@ -1,6 +1,13 @@
 import './users-card.styles.css';
 
-const UsersCard = ({ btn1Text, btn2Text, btn1Click, btn2Click, user }) => {
+const UsersCard = ({
+  btn1Text,
+  btn2Text,
+  btn1Click,
+  btn2Click,
+  deactivateBtn,
+  user,
+}) => {
   return (
     <div className="profile-card">
       {user.sex === 'F' ? (
@@ -24,10 +31,17 @@ const UsersCard = ({ btn1Text, btn2Text, btn1Click, btn2Click, user }) => {
           <li>{user.phone}</li>
         </ul>
         <div className="btns">
-          <button className="btn btn-sm btn-success" onClick={btn1Click}>
+          <button
+            className="btn btn-sm btn-success"
+            onClick={() => btn1Click(user.id)}
+          >
             {btn1Text}
           </button>
-          <button className="btn btn-sm btn-danger" onClick={btn2Click}>
+          <button
+            className="btn btn-sm btn-danger"
+            onClick={() => btn2Click(user.id)}
+            disabled={deactivateBtn || !user.active}
+          >
             {btn2Text}
           </button>
         </div>
