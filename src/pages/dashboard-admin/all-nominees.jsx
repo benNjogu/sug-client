@@ -33,14 +33,17 @@ const AllNominees = () => {
     setSearchQuery(query);
   };
 
+  // Searching from firstName, lastName, both lastName and lastName and national id number.
   if (searchQuery) {
     nominees = nominees.filter(
       (n) =>
         n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
         n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+        // combinines firstName and lastName
         (n.first_name + ' ' + n.last_name)
           .toLowerCase()
           .startsWith(searchQuery.toLowerCase()) ||
+        // converts idNumber to a string first
         n.idNumber
           .toString()
           .toLowerCase()
