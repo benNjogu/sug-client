@@ -49,11 +49,14 @@ const Registered = () => {
       <div className="row overflow-auto">
         <Spinner loading={loading} />
         {nominees.length > 0 ? (
-          nominees.map((n) => (
-            <div key={n.id} className="col-md-4">
-              <NomineeCard onEdit={handleEdit} nominee={n} />
-            </div>
-          ))
+          nominees.map((n) => {
+            if (n.active)
+              return (
+                <div key={n.id} className="col-md-4">
+                  <NomineeCard onEdit={handleEdit} nominee={n} />
+                </div>
+              );
+          })
         ) : (
           <div className="col-md-12">
             <p className="text-center">
