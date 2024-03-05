@@ -1,9 +1,9 @@
 import './users-card.styles.css';
 
-const UsersCard = ({ btn1Text, btn2Text, nominee, onView, onDisable }) => {
+const UsersCard = ({ btn1Text, btn2Text, btn1Click, btn2Click, user }) => {
   return (
     <div className="profile-card">
-      {nominee.sex === 'F' ? (
+      {user.sex === 'F' ? (
         <img
           src={require('../../assets/images/female.jpg')}
           className="profile-img"
@@ -17,17 +17,17 @@ const UsersCard = ({ btn1Text, btn2Text, nominee, onView, onDisable }) => {
         />
       )}
       <div className="info">
-        <h1>{nominee.first_name}</h1>
-        <p>{nominee.organization}</p>
+        <h1>{user.first_name}</h1>
+        <p>{user.organization}</p>
         <ul>
-          <li>{nominee.idNumber}</li>
-          <li>{nominee.phone}</li>
+          <li>{user.idNumber}</li>
+          <li>{user.phone}</li>
         </ul>
         <div className="btns">
-          <button className="btn btn-sm btn-success" onClick={onView}>
+          <button className="btn btn-sm btn-success" onClick={btn1Click}>
             {btn1Text}
           </button>
-          <button className="btn btn-sm btn-danger" onClick={onDisable}>
+          <button className="btn btn-sm btn-danger" onClick={btn2Click}>
             {btn2Text}
           </button>
         </div>
