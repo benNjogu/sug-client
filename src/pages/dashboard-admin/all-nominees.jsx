@@ -22,7 +22,7 @@ const AllNominees = () => {
     modal.confirm({
       title: 'Disable',
       icon: <QuestionCircleOutlined />,
-      content: 'Disable this nominee?',
+      content: 'Disable this nominee? Cannot be reversed!!!',
       okText: 'DISABLE',
       cancelText: 'CANCEL',
       onOk: () => disableNominee(id),
