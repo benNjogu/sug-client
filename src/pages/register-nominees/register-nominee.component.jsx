@@ -36,7 +36,7 @@ const RegisterNominee = () => {
     setTimeout(() => {
       setLoading(false);
 
-      data = { ...data, passport: 'passport.jpg' };
+      data = { ...data, id_pdf: 'id.jpg' };
       dispatch(RegisterUser(data));
     }, 2000);
   };
@@ -232,22 +232,22 @@ const RegisterNominee = () => {
                 </Form.Group>
               </div>
               <div class="col-md-3">
-                <Form.Group controlId="passport">
-                  <label for="id">Passport photo:</label>
+                <Form.Group controlId="id_pdf">
+                  <label for="id">ID PDF:</label>
                   <div>
                     <input
                       type="file"
-                      id="passport"
+                      id="id_pdf"
                       name="image"
                       autoComplete="off"
-                      {...register('passport', {
-                        required: 'Passport/id is required.',
+                      {...register('id_pdf', {
+                        required: 'id_pdf is required.',
                       })}
-                      className={`${errors.passport ? 'input-error' : ''}`}
+                      className={`${errors.id_pdf ? 'input-error' : ''}`}
                     />
                   </div>
-                  {errors.passport && (
-                    <p className="errorMsg">{errors.passport.message}</p>
+                  {errors.id_pdf && (
+                    <p className="errorMsg">{errors.id_pdf.message}</p>
                   )}
                 </Form.Group>
               </div>
