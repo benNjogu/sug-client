@@ -57,7 +57,12 @@ export function RegisterUser(formValues) {
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
       });
   };
 }
@@ -83,7 +88,12 @@ export function FetchAllRegisteredUsers() {
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+        dispatch(
+          ShowSnackbar({
+            severity: 'error',
+            message: error.response.data.message,
+          })
+        );
       });
   };
 }
