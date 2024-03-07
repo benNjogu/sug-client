@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import NomineeCard from '../../../components/nominee-card/nominee-card.component';
-import { FetchAllRegisteredUsers } from './../../../redux/slices/nominee';
-import FilterNominees from '../../../components/filter-component';
-import DefaultLayout from '../../../components/default-layout/default-layout.component';
-import Spinner from '../../../components/spinner';
+import NomineeCard from "../../../components/nominee-card/nominee-card.component";
+import { FetchAllRegisteredUsers } from "./../../../redux/slices/nominee";
+import FilterNominees from "../../../components/filter-component";
+import DefaultLayout from "../../../components/default-layout/default-layout.component";
+import Spinner from "../../../components/spinner";
 
 const Registered = () => {
   const [loading, setLoading] = useState(false);
@@ -24,23 +24,23 @@ const Registered = () => {
     setTimeout(() => {
       setLoading(false);
 
-      navigate('/app/register-nominee');
+      navigate("/app/register-nominee");
     }, 700);
   };
 
   const handleEdit = () => {
-    navigate('/app/register-nominee', {
+    navigate("/app/register-nominee", {
       state: { nominee_id: 1 },
     });
   };
 
   let nominee_levels = [
-    'All',
-    'Top management',
-    'Middle level management',
-    'Supervisory',
-    'Operative',
-    'Others',
+    "All",
+    "Top management",
+    "Middle level management",
+    "Supervisory",
+    "Operative",
+    "Others",
   ];
 
   return (
@@ -60,7 +60,7 @@ const Registered = () => {
         ) : (
           <div className="col-md-12">
             <p className="text-center">
-              No Registered nominess.{' '}
+              No Registered nominess.{" "}
               <span
                 className="text-primary cursor-pointer"
                 onClick={handleAddNew}
