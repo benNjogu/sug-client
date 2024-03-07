@@ -3,39 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-import { Table } from 'antd';
+import { Modal, Table } from 'antd';
 import { constants } from '../../../data/constants';
-import ModalComponent from '../../../components/modal/modal.component';
 import DefaultLayout from '../../../components/default-layout/default-layout.component';
-import { FetchAllApplications } from '../../../redux/slices/application';
+import { FetchOrganizationApplications } from '../../../redux/slices/application';
+import { addSerialNumber, status } from '../../../utils/addSerialNumber';
+import Spinner from '../../../components/spinner';
+import NewApplicationModal from '../../../components/modal/new-application-modal.component';
 
-let status = {
-  Rejected: -1,
-  Pending: 0,
-  Stage_1: 1,
-  Stage_2: 2,
-  Approved: 3,
-};
+import './applications.styles.css';
+import { GetOrganizationData } from '../../../redux/slices/organization';
 
 const Applications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.application);
-  let application_with_serials = [];
-
-  const getKeyByValue = (object, value) =>
-    Object.keys(object).find((key) => object[key] === value);
-
-  let num = 0;
-  applications.forEach((application) => {
-    num = num + 1;
-    application_with_serials.push({
-      ...application,
-      approved: getKeyByValue(status, application.approved),
-      s_no: num,
-    });
-  });
+  const [showModal, setShowModal] = useState(false);
 
   const columns = [
     {
@@ -58,14 +42,14 @@ const Applications = () => {
           props: {
             style: {
               color:
-                record.approved === 'Rejected'
+                record.approved === constants.REJECTED
                   ? 'red'
-                  : record.approved === 'Stage_1'
-                  ? '#98FB98'
-                  : record.approved === 'Stage_2'
+                  : record.approved === constants.STAGE_1
                   ? '#32CD32'
-                  : record.approved === 'Approved'
+                  : record.approved === constants.APPROVED
                   ? '	#008000'
+                  : record.approved === constants.DEFFERED
+                  ? '	#FFC107'
                   : '',
               fontWeight: 600,
             },
@@ -81,13 +65,10 @@ const Applications = () => {
         record.approved === 'Rejected' ? (
           <div className="d-flex justify-content-around">
             <div className="mx-2" />
+            <div className="mx-2" />
             <EyeOutlined
               className="mx-2"
               onClick={() => handleViewApplication(record)}
-            />
-            <EditOutlined
-              className="mx-2"
-              onClick={() => handleEditApplication(record)}
             />
           </div>
         ) : record.approved === 'Pending' ? (
@@ -105,6 +86,18 @@ const Applications = () => {
               onClick={() => handleDeleteApplication(record)}
             />
           </div>
+        ) : record.approved === 'Deffered' ? (
+          <div className="d-flex justify-content-around">
+            <EyeOutlined
+              className="mx-2"
+              onClick={() => handleViewApplication(record)}
+            />
+            <EditOutlined
+              className="mx-2"
+              onClick={() => handleEditApplication(record)}
+            />
+            <div className="mx-2" />
+          </div>
         ) : (
           <div className="d-flex justify-content-around">
             <div className="mx-2" />
@@ -119,7 +112,13 @@ const Applications = () => {
   ];
 
   const handleNextClick = () => {
-    navigate('/app/new-application');
+    setShowModal(false);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/app/new-application');
+    }, 800);
   };
 
   const handleViewApplication = (record) => {
@@ -139,30 +138,50 @@ const Applications = () => {
     console.log('delete application', record);
   };
 
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
-    dispatch(FetchAllApplications());
+    dispatch(FetchOrganizationApplications());
+    dispatch(GetOrganizationData());
   }, []);
 
   return (
     <DefaultLayout>
-      {loading && (
-        <div className="spinner">
-          <div className="spinner-border" role="status" />
-        </div>
-      )}
+      <Spinner loading={loading} />
 
       <div>
-        <ModalComponent onClick={handleNextClick} />
         <button
-          type="button"
           className="btn btn-primary"
-          style={{ marginBottom: 8 }}
-          data-toggle="modal"
-          data-target="#selectItemModal"
+          style={{ marginBottom: 12 }}
+          onClick={handleShowModal}
         >
           {constants.NEW_APPLICATION}
         </button>
-        <Table columns={columns} dataSource={application_with_serials} />
+        {showModal && (
+          <Modal
+            open={showModal}
+            title={`Select appropriately`}
+            onCancel={handleCancel}
+            footer={false}
+          >
+            {
+              <NewApplicationModal
+                handleClose={handleCancel}
+                onClick={handleNextClick}
+              />
+            }
+          </Modal>
+        )}
+        <Table
+          columns={columns}
+          dataSource={addSerialNumber(applications, status.All)}
+        />
       </div>
     </DefaultLayout>
   );

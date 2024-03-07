@@ -41,12 +41,12 @@ export const UpdateApplicationSpecs = ({ data }) => {
   };
 };
 
-export const FetchAllApplications = () => {
+export const FetchOrganizationApplications = () => {
   return async (dispatch, getState) => {
     let org_id = window.localStorage.getItem('user_id');
 
     await axios
-      .get(`/application/get-all-applications?org_id=${org_id}`, {
+      .get(`/application/get-organization-applications?org_id=${org_id}`, {
         headers: {
           'Content-Type': 'application/json',
           // Authorization: `Bearer ${getState().auth.token}`,
@@ -135,6 +135,26 @@ export const GetApplicationHR = (application_id) => {
         console.log(error);
         dispatch(
           ShowSnackbar({ severity: 'error', message: error.data.message })
+        );
+      });
+  };
+};
+
+export const UpdateAdminWorkingOnApplication = (
+  application_id,
+  current_admin_id
+) => {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/application/update-admin-working-on-application',
+        { application_id, current_admin_id },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(function (response) {
+        console.log('admin-on-it', response);
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
         );
       });
   };

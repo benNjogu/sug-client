@@ -5,8 +5,8 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import csc from 'country-state-city';
 
-import './styles/form.styles.css';
 import { constants } from '../../data/constants';
+import './styles/form.styles.css';
 
 const CourseDetails = ({ user, updateUser }) => {
   const [countries, setCountries] = useState([]);
@@ -156,7 +156,6 @@ const CourseDetails = ({ user, updateUser }) => {
       dates: dates,
     });
 
-    //TODO: Check if group or one person then show start and end date-pickers accordingly
     applicationSpecs.typeOfTraining === constants.OVER_SEAS
       ? navigate('/app/new-application/overseas')
       : navigate('/app/new-application/training-expenses');

@@ -2,7 +2,7 @@ import { Plus } from 'phosphor-react';
 
 import { constants } from '../data/constants';
 
-const FilterNominees = ({ onAddNew }) => {
+const FilterNominees = ({ onAddNew, options }) => {
   return (
     <div className="row">
       <div className="col-md-3">
@@ -37,12 +37,9 @@ const FilterNominees = ({ onAddNew }) => {
       </div>
       <div className="col-md-3">
         <select class="form-control form-control-md">
-          <option>All</option>
-          <option>Top management</option>
-          <option>Middle level management</option>
-          <option>Supervisory</option>
-          <option>Operative</option>
-          <option>Others</option>
+          {options.map((o) => (
+            <option>{o}</option>
+          ))}
         </select>
       </div>
     </div>

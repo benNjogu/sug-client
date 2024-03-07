@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AddNominee } from '../../redux/slices/cell';
-import './nominee-card.style.css';
 import { constants } from '../../data/constants';
+import './nominee-card.style.css';
 
 const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
   const dispatch = useDispatch();
@@ -52,12 +52,19 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
         <div class="card-body">
           <div className="row">
             <div className="col-md-6">
-              <img
-                src={require('../../data//images/passport.jpg')}
-                className="rounded-circle"
-                style={{ width: 80 + 'px' }}
-                alt="passport photo"
-              ></img>
+              {nominee.sex === 'F' ? (
+                <img
+                  src={require('../../assets/images/female.jpg')}
+                  className="profile-img"
+                  alt="passport photo"
+                />
+              ) : (
+                <img
+                  src={require('../../assets/images/male.png')}
+                  className="profile-img"
+                  alt="passport photo"
+                />
+              )}
             </div>
             <div className="col-md-6">
               <h5 className="card-title">{nominee.first_name}</h5>

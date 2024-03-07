@@ -19,7 +19,8 @@ const Loadable = (Component) => (props) => {
 };
 
 export default function Router() {
-  let { account_type } = useSelector((state) => state.auth).account_type;
+  const { user_data } = useSelector((state) => state.auth);
+  let { account_type } = user_data;
 
   return useRoutes([
     {
@@ -33,6 +34,7 @@ export default function Router() {
         { path: 'verify-otp', element: <Verify /> },
       ],
     },
+    // organization routes
     account_type === process.env.REACT_APP_AccountType0
       ? {
           path: '/',
@@ -42,6 +44,7 @@ export default function Router() {
             { path: 'app', element: <Applications /> },
             { path: 'approved', element: <Approved /> },
             { path: 'pending', element: <Pending /> },
+            { path: 'deffered', element: <Deffered /> },
             { path: 'rejected', element: <Rejected /> },
             { path: 'registered', element: <Registered /> },
             { path: 'profile', element: <Profile /> },
@@ -50,23 +53,49 @@ export default function Router() {
             { path: '*', element: <Navigate to="/404" replace /> },
           ],
         }
-      : {
+      : // admin routes
+      account_type === process.env.REACT_APP_AccountType1 ||
+        account_type === process.env.REACT_APP_AccountType2
+      ? {
           path: '/',
           element: <DashboardLayout />,
           children: [
             { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-            { path: 'app', element: <AllApplications /> },
+            { path: 'app', element: <PendingApplications /> },
             { path: 'admin-approved', element: <ApprovedApplications /> },
-            { path: 'admin-pending', element: <PendingApplications /> },
+            { path: 'admin-all-applications', element: <AllApplications /> },
+            { path: 'admin-deffered', element: <DefferedApplications /> },
             { path: 'admin-rejected', element: <RejectedApplications /> },
             { path: 'admin-all-admins', element: <CreateAdimin /> },
+            { path: 'admin-all-nominees', element: <AllNominees /> },
             { path: 'admin-organizations', element: <AllOrganizations /> },
             { path: 'admin-profile', element: <AdminProfile /> },
 
             { path: '404', element: <Page404 /> },
             { path: '*', element: <Navigate to="/404" replace /> },
           ],
-        },
+        }
+      : account_type === process.env.REACT_APP_AccountType3 ||
+        account_type === process.env.REACT_APP_AccountType4
+      ? {
+          path: '/',
+          element: <DashboardLayout />,
+          children: [
+            { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
+            { path: 'app', element: <CreateAdimin /> },
+            { path: 'admin-all-applications', element: <AllApplications /> },
+            { path: 'admin-pending', element: <PendingApplications /> },
+            { path: 'admin-approved', element: <ApprovedApplications /> },
+            { path: 'admin-deffered', element: <DefferedApplications /> },
+            { path: 'admin-rejected', element: <RejectedApplications /> },
+            { path: 'admin-organizations', element: <AllOrganizations /> },
+            { path: 'admin-profile', element: <AdminProfile /> },
+
+            { path: '404', element: <Page404 /> },
+            { path: '*', element: <Navigate to="/404" replace /> },
+          ],
+        }
+      : '',
 
     { path: 'app/register-nominee', element: <RegisterNominee /> },
     { path: 'app/new-application/*', element: <NewApplication /> },
@@ -76,13 +105,16 @@ export default function Router() {
 }
 
 const Applications = Loadable(
-  lazy(() => import('./../pages/dashboard/home/applications'))
+  lazy(() => import('./../pages/dashboard/home/applications.component'))
 );
 const Approved = Loadable(
   lazy(() => import('../pages/dashboard/approved/approved'))
 );
 const Pending = Loadable(
   lazy(() => import('../pages/dashboard/pending/pending'))
+);
+const Deffered = Loadable(
+  lazy(() => import('../pages/dashboard/deffered/deffered'))
 );
 const Rejected = Loadable(
   lazy(() => import('../pages/dashboard/rejected/rejected'))
@@ -96,7 +128,7 @@ const Profile = Loadable(
 );
 
 const RegisterNominee = Loadable(
-  lazy(() => import('../pages/register-nominees/register-nominee'))
+  lazy(() => import('../pages/register-nominees/register-nominee.component'))
 );
 const NewApplication = Loadable(
   lazy(() => import('../pages/application/new-application.component'))
@@ -118,8 +150,14 @@ const ApprovedApplications = Loadable(
 const PendingApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/pending-applications'))
 );
+const DefferedApplications = Loadable(
+  lazy(() => import('../pages/dashboard-admin/deffered-applications'))
+);
 const RejectedApplications = Loadable(
   lazy(() => import('../pages/dashboard-admin/rejected-applications'))
+);
+const AllNominees = Loadable(
+  lazy(() => import('../pages/dashboard-admin/all-nominees'))
 );
 const AllOrganizations = Loadable(
   lazy(() => import('../pages/dashboard-admin/all-organizations'))

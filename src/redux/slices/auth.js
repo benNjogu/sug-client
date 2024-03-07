@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 import axios from '../../utils/axios';
 
 import { ShowSnackbar } from './app';
@@ -10,6 +11,7 @@ const initialState = {
   email: '',
   error: false,
   account_type: '',
+  user_data: {},
 };
 
 const slice = createSlice({
@@ -31,8 +33,8 @@ const slice = createSlice({
     updateUserEmail(state, action) {
       state.email = action.payload.email;
     },
-    updateAccountType(state, action) {
-      state.account_type = action.payload.account_type;
+    updateUserData(state, action) {
+      state.user_data = action.payload.user_data;
     },
   },
 });
@@ -54,6 +56,8 @@ export function LoginUser(formValues) {
         }
       )
       .then(function (response) {
+        console.log(response.data.data);
+
         dispatch(
           slice.actions.login({
             isLoggedIn: true,
@@ -62,8 +66,8 @@ export function LoginUser(formValues) {
         );
 
         dispatch(
-          slice.actions.updateAccountType({
-            account_type: response.data.account_type,
+          slice.actions.updateUserData({
+            user_data: { ...response.data.data },
           })
         );
 
@@ -217,5 +221,32 @@ export function VerifyEmail(formValues) {
         );
       })
       .catch((e) => console.log(e));
+  };
+}
+
+export function CreateNewAdmin(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/auth/new-admin',
+        {
+          ...formValues,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        message.success(response.data.message);
+      })
+      .catch((e) => {
+        console.log(e);
+
+        message.error(e.response.data.message);
+      });
   };
 }

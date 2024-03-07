@@ -2,7 +2,7 @@
   background-image: url('../../assets/images/bg-paper@2x.jpg');
   height: 100%;
   width: 100%;
-  padding: 1rem 2rem 3rem 2rem;
+  padding: 5rem 1rem 3rem 1rem;
   background-attachment: fixed;
 }
 
@@ -29,5 +29,10 @@
 
 .main_div::-webkit-scrollbar {
   width: 16px;
+}
+
+.verifier-name {
+  margin-top: 1.2rem;
+  text-align: right;
 }
 

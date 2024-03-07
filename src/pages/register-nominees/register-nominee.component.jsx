@@ -1,40 +1,26 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Form, Button } from 'react-bootstrap';
-import { House } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { Form, Button } from 'react-bootstrap';
 
-import './styles/form.styles.css';
 import { RegisterUser } from '../../redux/slices/nominee';
-import HomepageBtn from './homepage-btn';
+import Navbar from '../../components/navbar/navbar.component';
+import Spinner from '../../components/spinner';
+import '../../components/application/styles/form.styles.css';
+import './register-nominee.style.css';
 
-const Nominee = ({ nominee_id, prevPage }) => {
+const RegisterNominee = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [special, setSpecial] = useState(false);
-  // let data = user?.users ? user.users[0] : user;
-
-  // console.log(nominee_id);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    // defaultValues: {
-    //   first_name: data.first_name,
-    //   last_name: data.last_name,
-    //   sex: data.sex,
-    //   age: data.age,
-    //   phone: data.phone,
-    //   passport: data.passport,
-    //   qualifications: data.qualifications,
-    //   job_level: data.job_level,
-    //   other_specification: data.other_specification,
-    //   job_description: data.job_description,
-    // },
-  });
+  } = useForm({});
 
   const handleOther = () => {
     setSpecial(true);
@@ -44,35 +30,36 @@ const Nominee = ({ nominee_id, prevPage }) => {
     setSpecial(false);
   };
 
-  const handleHomePage = () => {
-    if (prevPage === 'select') navigate('/app/new-application');
-    else navigate('/app', { state: { prevPage: 'nominee' } });
+  const onSubmit = (data) => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      data = { ...data, id_pdf: 'id.jpg' };
+      dispatch(RegisterUser(data));
+    }, 2000);
   };
 
-  const onSubmit = (data) => {
-    data = { ...data, passport: 'passport.jpg' };
-    console.log(data);
-    // let users = [];
-    // users.push(data);
-    dispatch(RegisterUser(data));
+  const handleBackpressed = () => {
+    console.log('click');
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+
+      navigate(-1);
+    }, 300);
   };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <div className="col-md-12">
-        <div className="row" style={{ marginBottom: 12 + 'px' }}>
-          <div className="col-md-9 mr-auto">
-            <legend className="text-info">
-              Particulars of the nominee.{' '}
-              <span className="font-italic">
-                attach documents where required
-              </span>
-            </legend>
-          </div>
-          <div className="col-md-3 text-right" style={{ paddingTop: 8 + 'px' }}>
-            <HomepageBtn onClickHome={handleHomePage} prevPage={prevPage} />
-          </div>
-        </div>
+      <Navbar
+        title={'Particulars of the nominee. ATTACH documents where REQUIRED!!!'}
+        handleBackpressed={handleBackpressed}
+      />
+      <div className="main-div col-md-12">
+        <Spinner loading={loading} />
         <div className="row">
           <div className="col-md-12">
             <div class="form-row">
@@ -245,22 +232,22 @@ const Nominee = ({ nominee_id, prevPage }) => {
                 </Form.Group>
               </div>
               <div class="col-md-3">
-                <Form.Group controlId="passport">
-                  <label for="id">Passport photo:</label>
+                <Form.Group controlId="id_pdf">
+                  <label for="id">ID PDF:</label>
                   <div>
                     <input
                       type="file"
-                      id="passport"
+                      id="id_pdf"
                       name="image"
                       autoComplete="off"
-                      {...register('passport', {
-                        required: 'Passport/id is required.',
+                      {...register('id_pdf', {
+                        required: 'id_pdf is required.',
                       })}
-                      className={`${errors.passport ? 'input-error' : ''}`}
+                      className={`${errors.id_pdf ? 'input-error' : ''}`}
                     />
                   </div>
-                  {errors.passport && (
-                    <p className="errorMsg">{errors.passport.message}</p>
+                  {errors.id_pdf && (
+                    <p className="errorMsg">{errors.id_pdf.message}</p>
                   )}
                 </Form.Group>
               </div>
@@ -490,4 +477,4 @@ const Nominee = ({ nominee_id, prevPage }) => {
   );
 };
 
-export default Nominee;
+export default RegisterNominee;

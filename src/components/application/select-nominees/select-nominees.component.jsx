@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { message } from 'antd';
 
 import { FetchAllRegisteredUsers } from '../../../redux/slices/nominee';
 import FilterNominees from '../../filter-component';
 import NomineeCard from '../../nominee-card/nominee-card.component';
 import CellList from './cell-list/cell-list.component';
-import './select-nominees.style.css';
 import { AddNominee } from '../../../redux/slices/cell';
+import './select-nominees.style.css';
 
 const SelectNominees = ({ user, updateUser }) => {
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const SelectNominees = ({ user, updateUser }) => {
       }, {})
     );
 
+    console.log(resultArray);
     let sizes = [];
     for (let i = 0; i < resultArray.length; i++) {
       sizes.push(resultArray[i].length);
@@ -67,51 +68,68 @@ const SelectNominees = ({ user, updateUser }) => {
       updateUser({
         nominees: group_nominees,
       });
+
       navigate('/app/new-application/course');
-    } else return;
+    } else {
+      message.error('Check group size!!');
+    }
   };
 
+  let nominee_levels = [
+    'All',
+    'Top management',
+    'Middle level management',
+    'Supervisory',
+    'Operative',
+    'Others',
+  ];
+
   return (
-    <div className="row select-container">
-      <Form className=" col-md-3">
-        <CellList user={user} />
-      </Form>
-      <div className="col-md-9 nominees">
-        <FilterNominees onAddNew={handleAddNew} />
-        <div className="row">
-          {nominees.length > 0 ? (
-            nominees.map((n) => (
-              <div key={n.id} className="col-md-4">
-                <NomineeCard
-                  onEdit={handleEdit}
-                  nominee={n}
-                  component="select_nominee"
-                  onAdd={handleAddNominee}
-                />
+    <>
+      <div className="row select-container">
+        <Form className=" col-md-3 cells">
+          <CellList user={user} />
+        </Form>
+        <div className="col-md-9 nominees">
+          <FilterNominees onAddNew={handleAddNew} options={nominee_levels} />
+          <div className="row">
+            {nominees.length > 0 ? (
+              nominees.map((n) => {
+                if (n.active)
+                  return (
+                    <div key={n.id} className="col-md-4">
+                      <NomineeCard
+                        onEdit={handleEdit}
+                        nominee={n}
+                        component="select_nominee"
+                        onAdd={handleAddNominee}
+                      />
+                    </div>
+                  );
+              })
+            ) : (
+              <div className="col-md-12">
+                <p className="text-center">
+                  No Registered nominess.{' '}
+                  <span
+                    className="text-primary cursor-pointer"
+                    onClick={handleAddNew}
+                  >
+                    Register Now
+                  </span>
+                  .
+                </p>
               </div>
-            ))
-          ) : (
-            <div className="col-md-12">
-              <p className="text-center">
-                No Registered nominess.{' '}
-                <span
-                  className="text-primary cursor-pointer"
-                  onClick={handleAddNew}
-                >
-                  Register Now
-                </span>
-                .
-              </p>
-            </div>
-          )}
+            )}
+          </div>
+        </div>
+        <div className={'col-md-12 text-right pb-2 px-20'}>
+          <Button variant="primary" type="button" onClick={handleSubmit}>
+            Next
+          </Button>
         </div>
       </div>
-      <div className={'col-md-12 text-right pb-2 px-20'}>
-        <Button variant="primary" type="button" onClick={handleSubmit}>
-          Next
-        </Button>
-      </div>
-    </div>
+    </>
   );
 };
 
