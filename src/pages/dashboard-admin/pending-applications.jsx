@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { EyeOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { EyeOutlined } from "@ant-design/icons";
+import { Table } from "antd";
 
-import DefaultLayout from '../../components/default-layout/default-layout.component';
-import Spinner from './../../components/spinner';
-import { FetchAllApplications } from '../../redux/slices/admin';
-import { addSerialNumber, status } from './../../utils/addSerialNumber';
-import { convertDigitInString } from '../../utils/convertDigitsInString';
-import { getTime } from '../../utils/getTimeFromTimestamp';
+import DefaultLayout from "../../components/default-layout/default-layout.component";
+import Spinner from "./../../components/spinner";
+import { FetchAllApplications } from "../../redux/slices/admin";
+import { addSerialNumber, status } from "./../../utils/addSerialNumber";
+import { convertDigitInString } from "../../utils/convertDigitsInString";
+import { getTime } from "../../utils/getTimeFromTimestamp";
 
 const PendingApplications = () => {
   const navigate = useNavigate();
@@ -17,35 +17,35 @@ const PendingApplications = () => {
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
-  console.log('all', applications);
+  console.log("all", applications);
 
   const handleViewApplication = (record) => {
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-      navigate('/app/view-application', { state: { record } });
+      navigate("/app/view-application", { state: { record } });
     }, 700);
   };
 
   const columns = [
     {
-      title: 'S.No',
-      dataIndex: 's_no',
+      title: "S.No",
+      dataIndex: "s_no",
     },
     {
-      title: 'Organization',
-      dataIndex: 'organization_id',
+      title: "Organization",
+      dataIndex: "user_name",
     },
     {
-      title: 'Date of application',
-      dataIndex: 'date_applied',
+      title: "Date of application",
+      dataIndex: "date_applied",
       render(text, record) {
         return {
           children: (
             <div>
-              {convertDigitInString(record.date_applied.split('T')[0])}
-              {', '}
+              {convertDigitInString(record.date_applied.split("T")[0])}
+              {", "}
               {getTime(record.date_applied)}
             </div>
           ),
@@ -53,21 +53,21 @@ const PendingApplications = () => {
       },
     },
     {
-      title: 'Admin',
-      dataIndex: 'admin_on_it',
+      title: "Admin",
+      dataIndex: "admin_on_it",
     },
     {
-      title: 'Action',
-      dataIndex: 'id',
+      title: "Action",
+      dataIndex: "id",
       render: (id, record) =>
-        record.approved === 'Rejected' ? (
+        record.approved === "Rejected" ? (
           <div className="d-flex justify-content-around">
             <EyeOutlined
               className="mx-2"
               onClick={() => handleViewApplication(record)}
             />
           </div>
-        ) : record.approved === 'Pending' ? (
+        ) : record.approved === "Pending" ? (
           <div className="d-flex justify-content-around">
             <EyeOutlined
               className="mx-2"
