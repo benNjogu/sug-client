@@ -17,7 +17,6 @@ const PendingApplications = () => {
   const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
-  console.log("all", applications);
 
   const handleViewApplication = (record) => {
     setLoading(true);

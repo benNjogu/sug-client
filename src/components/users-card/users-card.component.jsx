@@ -1,4 +1,4 @@
-import './users-card.styles.css';
+import "./users-card.styles.css";
 
 const UsersCard = ({
   btn1Text,
@@ -10,22 +10,22 @@ const UsersCard = ({
 }) => {
   return (
     <div className="profile-card">
-      {user.sex === 'F' ? (
+      {user.sex === "F" ? (
         <img
-          src={require('../../assets/images/female.jpg')}
+          src={require("../../assets/images/female.jpg")}
           className="profile-img"
           alt="passport photo"
         />
       ) : (
         <img
-          src={require('../../assets/images/male.png')}
+          src={require("../../assets/images/male.png")}
           className="profile-img"
           alt="passport photo"
         />
       )}
       <div className="info">
         <h1>{user.first_name}</h1>
-        <p>{user.organization}</p>
+        <p>{user.user_name}</p>
         <ul>
           <li>{user.idNumber}</li>
           <li>{user.phone}</li>

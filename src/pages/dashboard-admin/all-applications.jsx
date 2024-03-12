@@ -14,11 +14,14 @@ import { addSerialNumber, status } from "./../../utils/addSerialNumber";
 import { constants } from "../../data/constants";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
+import Spinner from "../../components/spinner";
+import SearchBox from "../../components/search-box";
 
 const AllApplications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { applications } = useSelector((state) => state.admin);
   console.log("all", applications);
 
@@ -112,6 +115,28 @@ const AllApplications = () => {
     },
   ];
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Searching from organization and/or course title.
+  if (searchQuery) {
+    // nominees = nominees.filter(
+    //   (n) =>
+    //     n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+    //     n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+    //     // combinines firstName and lastName
+    //     (n.first_name + " " + n.last_name)
+    //       .toLowerCase()
+    //       .startsWith(searchQuery.toLowerCase()) ||
+    //     // converts idNumber to a string first
+    //     n.idNumber
+    //       .toString()
+    //       .toLowerCase()
+    //       .startsWith(searchQuery.toLowerCase())
+    // );
+  }
+
   useEffect(() => {
     dispatch(FetchAllApplications());
     dispatch(FetchAllApprovedApplications());
@@ -121,11 +146,14 @@ const AllApplications = () => {
 
   return (
     <DefaultLayout>
-      {loading && (
-        <div className="spinner">
-          <div className="spinner-border" role="status" />
-        </div>
-      )}
+      <SearchBox
+        placeholder={
+          "Search application by organization and/or course title..."
+        }
+        value={searchQuery}
+        onChange={handleSearch}
+      />
+      <Spinner loading={loading} />
 
       <Table
         columns={columns}
