@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Modal } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
-import DefaultLayout from '../../components/default-layout/default-layout.component';
-import SearchBox from '../../components/search-box';
-import { DispatchNominee, fetchAllNominees } from '../../redux/slices/admin';
-import UsersCard from '../../components/users-card/users-card.component';
-import Spinner from '../../components/spinner';
+import DefaultLayout from "../../components/default-layout/default-layout.component";
+import SearchBox from "../../components/search-box";
+import { DisableNominee, fetchAllNominees } from "../../redux/slices/admin";
+import UsersCard from "../../components/users-card/users-card.component";
+import Spinner from "../../components/spinner";
 
 const AllNominees = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [inactiveBtn, setInactiveBtn] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   let { nominees } = useSelector((state) => state.admin);
   console.log(nominees);
 
   const [modal, contextHolder] = Modal.useModal();
   const handleDisable = (id) => {
     modal.confirm({
-      title: 'Disable',
+      title: "Disable",
       icon: <QuestionCircleOutlined />,
-      content: 'Disable this nominee? Cannot be reversed!!!',
-      okText: 'DISABLE',
-      cancelText: 'CANCEL',
+      content: "Disable this nominee? Cannot be reversed!!!",
+      okText: "DISABLE",
+      cancelText: "CANCEL",
       onOk: () => disableNominee(id),
     });
   };
@@ -40,7 +40,7 @@ const AllNominees = () => {
         n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
         n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
         // combinines firstName and lastName
-        (n.first_name + ' ' + n.last_name)
+        (n.first_name + " " + n.last_name)
           .toLowerCase()
           .startsWith(searchQuery.toLowerCase()) ||
         // converts idNumber to a string first
@@ -52,13 +52,13 @@ const AllNominees = () => {
   }
 
   const handleView = (id) => {
-    console.log('nv_id', id);
+    console.log("nv_id", id);
   };
 
   const disableNominee = (id) => {
     setLoading(true);
     setTimeout(() => {
-      dispatch(DispatchNominee(id));
+      dispatch(DisableNominee(id));
       setLoading(false);
       setInactiveBtn(true);
     }, 500);
@@ -73,7 +73,7 @@ const AllNominees = () => {
       {contextHolder}
       <Spinner loading={loading} />
       <SearchBox
-        placeholder={'Search nominee by id or name...'}
+        placeholder={"Search nominee by id or name..."}
         value={searchQuery}
         onChange={handleSearch}
       />
@@ -82,8 +82,8 @@ const AllNominees = () => {
           ? nominees.map((n) => (
               <div key={n.id} className="col-md-4 mb-3">
                 <UsersCard
-                  btn1Text={'View'}
-                  btn2Text={n.active ? 'Disable' : 'Disabled'}
+                  btn1Text={"View"}
+                  btn2Text={n.active ? "Disable" : "Disabled"}
                   btn1Click={handleView}
                   btn2Click={handleDisable}
                   deactivateBtn={inactiveBtn}
@@ -91,7 +91,7 @@ const AllNominees = () => {
                 />
               </div>
             ))
-          : ''}
+          : ""}
       </div>
     </DefaultLayout>
   );

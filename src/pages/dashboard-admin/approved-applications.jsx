@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
@@ -8,11 +9,14 @@ import MineAllBtns from "../../components/mine-all-btns/mine-all-btns.component"
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
+import Spinner from "../../components/spinner";
 
 const ApprovedApplications = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("btn1");
   const [approvedApplications, setApprovedApplications] = useState([]);
-  const dispatch = useDispatch();
   let my_id = window.localStorage.getItem("user_id");
   let { approved_applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
@@ -24,7 +28,7 @@ const ApprovedApplications = () => {
     },
     {
       title: "Organization",
-      dataIndex: "organization_id",
+      dataIndex: "user_name",
     },
     {
       title: "Date of application",
@@ -58,9 +62,38 @@ const ApprovedApplications = () => {
     },
   ];
 
-  const handleViewApplication = (record) => {};
+  const handleViewApplication = (record) => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/view-application", { state: { record } });
+    }, 700);
+  };
 
   const handleShowMine = () => {
+    // get all of my approved applications
+    if (account_type === process.env.REACT_APP_AccountType1) {
+      approved_applications = approved_applications.filter(
+        (application) => Number(application.level_1) === Number(my_id)
+      );
+      setApprovedApplications(approved_applications);
+    }
+    if (account_type === process.env.REACT_APP_AccountType2) {
+      approved_applications = approved_applications.filter(
+        (application) => Number(application.level_2) === Number(my_id)
+      );
+      setApprovedApplications(approved_applications);
+    }
+    setSelected("btn1");
+  };
+
+  const handleShowAll = () => {
+    setApprovedApplications(approved_applications);
+    setSelected("btn2");
+  };
+
+  useEffect(() => {
     // get all of my approved applications
     if (account_type === process.env.REACT_APP_AccountType1) {
       approved_applications = approved_applications.filter(
@@ -77,27 +110,21 @@ const ApprovedApplications = () => {
 
       setApprovedApplications(approved_applications);
     }
-    setSelected("btn2");
-  };
-
-  const handleShowAll = () => {
-    setApprovedApplications(approved_applications);
     setSelected("btn1");
-  };
-
-  useEffect(() => {
-    setApprovedApplications(approved_applications);
+    // setApprovedApplications(approved_applications);
   }, []);
 
   return (
     <DefaultLayout>
       <MineAllBtns
-        btn1Text={"All"}
-        btn2Text={"Mine"}
+        btn1Text={"Mine"}
+        btn2Text={"All"}
         selected={selected}
-        onClickBtn1={handleShowAll}
-        onClickBtn2={handleShowMine}
+        onClickBtn1={handleShowMine}
+        onClickBtn2={handleShowAll}
       />
+
+      <Spinner loading={loading} />
 
       <Table
         className="mt-3"

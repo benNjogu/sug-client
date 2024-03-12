@@ -5,7 +5,7 @@ const Spinner = ({ loading }) => {
         <div className="spinner-border" role="status" />
       </div>
     );
-  } else return '';
+  } else return "";
 };
 
 export default Spinner;
