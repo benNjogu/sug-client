@@ -41,7 +41,7 @@ const AllApplications = () => {
     },
     {
       title: "Organization",
-      dataIndex: "user_name",
+      dataIndex: "org_name",
     },
     {
       title: "Date of application",
@@ -60,7 +60,9 @@ const AllApplications = () => {
     },
     {
       title: "Admin",
-      dataIndex: "admin_on_it",
+      dataIndex: "admin_name",
+      render: (text, record) =>
+        record.admin_name === null ? 0 : record.admin_name,
     },
     {
       title: "Status",
