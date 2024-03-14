@@ -1,14 +1,14 @@
-import { Suspense, lazy } from 'react';
-import { Navigate, useRoutes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Suspense, lazy } from "react";
+import { Navigate, useRoutes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // layouts
-import AuthLayout from '../layouts/auth/index';
-import DashboardLayout from '../layouts/dashboard';
+import AuthLayout from "../layouts/auth/index";
+import DashboardLayout from "../layouts/dashboard";
 
 // config
-import { DEFAULT_PATH } from '../config';
-import LoadingScreen from '../components/loading-screen';
+import { DEFAULT_PATH } from "../config";
+import LoadingScreen from "../components/loading-screen";
 
 const Loadable = (Component) => (props) => {
   return (
@@ -24,154 +24,158 @@ export default function Router() {
 
   return useRoutes([
     {
-      path: '/auth',
+      path: "/auth",
       element: <AuthLayout />,
       children: [
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: 'reset-password', element: <ResetPassword /> },
-        { path: 'new-password', element: <NewPassword /> },
-        { path: 'verify-otp', element: <Verify /> },
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        { path: "new-password", element: <NewPassword /> },
+        { path: "verify-otp", element: <Verify /> },
       ],
     },
     // organization routes
     account_type === process.env.REACT_APP_AccountType0
       ? {
-          path: '/',
+          path: "/",
           element: <DashboardLayout />,
           children: [
             { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-            { path: 'app', element: <Applications /> },
-            { path: 'approved', element: <Approved /> },
-            { path: 'pending', element: <Pending /> },
-            { path: 'deffered', element: <Deffered /> },
-            { path: 'rejected', element: <Rejected /> },
-            { path: 'registered', element: <Registered /> },
-            { path: 'profile', element: <Profile /> },
+            { path: "app", element: <Applications /> },
+            { path: "approved", element: <Approved /> },
+            { path: "pending", element: <Pending /> },
+            { path: "deffered", element: <Deffered /> },
+            { path: "rejected", element: <Rejected /> },
+            { path: "registered", element: <Registered /> },
+            { path: "profile", element: <Profile /> },
 
-            { path: '404', element: <Page404 /> },
-            { path: '*', element: <Navigate to="/404" replace /> },
+            { path: "404", element: <Page404 /> },
+            { path: "*", element: <Navigate to="/404" replace /> },
           ],
         }
       : // admin routes
       account_type === process.env.REACT_APP_AccountType1 ||
         account_type === process.env.REACT_APP_AccountType2
       ? {
-          path: '/',
+          path: "/",
           element: <DashboardLayout />,
           children: [
             { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-            { path: 'app', element: <PendingApplications /> },
-            { path: 'admin-approved', element: <ApprovedApplications /> },
-            { path: 'admin-all-applications', element: <AllApplications /> },
-            { path: 'admin-deffered', element: <DefferedApplications /> },
-            { path: 'admin-rejected', element: <RejectedApplications /> },
-            { path: 'admin-all-admins', element: <CreateAdimin /> },
-            { path: 'admin-all-nominees', element: <AllNominees /> },
-            { path: 'admin-organizations', element: <AllOrganizations /> },
-            { path: 'admin-profile', element: <AdminProfile /> },
+            { path: "app", element: <PendingApplications /> },
+            { path: "admin-approved", element: <ApprovedApplications /> },
+            { path: "admin-all-applications", element: <AllApplications /> },
+            { path: "admin-deffered", element: <DefferedApplications /> },
+            { path: "admin-rejected", element: <RejectedApplications /> },
+            { path: "admin-all-admins", element: <CreateAdimin /> },
+            { path: "admin-all-nominees", element: <AllNominees /> },
+            { path: "admin-organizations", element: <AllOrganizations /> },
+            { path: "admin-organizations", element: <AllOrganizations /> },
+            { path: "admin-reports", element: <AdminReports /> },
 
-            { path: '404', element: <Page404 /> },
-            { path: '*', element: <Navigate to="/404" replace /> },
+            { path: "404", element: <Page404 /> },
+            { path: "*", element: <Navigate to="/404" replace /> },
           ],
         }
       : account_type === process.env.REACT_APP_AccountType3 ||
         account_type === process.env.REACT_APP_AccountType4
       ? {
-          path: '/',
+          path: "/",
           element: <DashboardLayout />,
           children: [
             { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-            { path: 'app', element: <CreateAdimin /> },
-            { path: 'admin-all-applications', element: <AllApplications /> },
-            { path: 'admin-pending', element: <PendingApplications /> },
-            { path: 'admin-approved', element: <ApprovedApplications /> },
-            { path: 'admin-deffered', element: <DefferedApplications /> },
-            { path: 'admin-rejected', element: <RejectedApplications /> },
-            { path: 'admin-organizations', element: <AllOrganizations /> },
-            { path: 'admin-profile', element: <AdminProfile /> },
+            { path: "app", element: <CreateAdimin /> },
+            { path: "admin-all-applications", element: <AllApplications /> },
+            { path: "admin-pending", element: <PendingApplications /> },
+            { path: "admin-approved", element: <ApprovedApplications /> },
+            { path: "admin-deffered", element: <DefferedApplications /> },
+            { path: "admin-rejected", element: <RejectedApplications /> },
+            { path: "admin-organizations", element: <AllOrganizations /> },
+            { path: "admin-profile", element: <AdminProfile /> },
 
-            { path: '404', element: <Page404 /> },
-            { path: '*', element: <Navigate to="/404" replace /> },
+            { path: "404", element: <Page404 /> },
+            { path: "*", element: <Navigate to="/404" replace /> },
           ],
         }
-      : '',
+      : "",
 
-    { path: 'app/register-nominee', element: <RegisterNominee /> },
-    { path: 'app/new-application/*', element: <NewApplication /> },
-    { path: 'app/view-application', element: <ViewApplication /> },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: "app/register-nominee", element: <RegisterNominee /> },
+    { path: "app/new-application/*", element: <NewApplication /> },
+    { path: "app/view-application", element: <ViewApplication /> },
+    { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
 
 const Applications = Loadable(
-  lazy(() => import('./../pages/dashboard/home/applications.component'))
+  lazy(() => import("./../pages/dashboard/home/applications.component"))
 );
 const Approved = Loadable(
-  lazy(() => import('../pages/dashboard/approved/approved'))
+  lazy(() => import("../pages/dashboard/approved/approved"))
 );
 const Pending = Loadable(
-  lazy(() => import('../pages/dashboard/pending/pending'))
+  lazy(() => import("../pages/dashboard/pending/pending"))
 );
 const Deffered = Loadable(
-  lazy(() => import('../pages/dashboard/deffered/deffered'))
+  lazy(() => import("../pages/dashboard/deffered/deffered"))
 );
 const Rejected = Loadable(
-  lazy(() => import('../pages/dashboard/rejected/rejected'))
+  lazy(() => import("../pages/dashboard/rejected/rejected"))
 );
 const Registered = Loadable(
-  lazy(() => import('../pages/dashboard/registered/registered-nominees'))
+  lazy(() => import("../pages/dashboard/registered/registered-nominees"))
 );
 
 const Profile = Loadable(
-  lazy(() => import('../pages/dashboard/profile/profile'))
+  lazy(() => import("../pages/dashboard/profile/profile"))
 );
 
 const RegisterNominee = Loadable(
-  lazy(() => import('../pages/register-nominees/register-nominee.component'))
+  lazy(() => import("../pages/register-nominees/register-nominee.component"))
 );
 const NewApplication = Loadable(
-  lazy(() => import('../pages/application/new-application.component'))
+  lazy(() => import("../pages/application/new-application.component"))
 );
 const ViewApplication = Loadable(
-  lazy(() => import('../pages/application-details/view-application-details'))
+  lazy(() => import("../pages/application-details/view-application-details"))
 );
 
 // Admin pages
 const CreateAdimin = Loadable(
-  lazy(() => import('../pages/dashboard-admin/create-admin'))
+  lazy(() => import("../pages/dashboard-admin/create-admin"))
 );
 const AllApplications = Loadable(
-  lazy(() => import('../pages/dashboard-admin/all-applications'))
+  lazy(() => import("../pages/dashboard-admin/all-applications"))
 );
 const ApprovedApplications = Loadable(
-  lazy(() => import('../pages/dashboard-admin/approved-applications'))
+  lazy(() => import("../pages/dashboard-admin/approved-applications"))
 );
 const PendingApplications = Loadable(
-  lazy(() => import('../pages/dashboard-admin/pending-applications'))
+  lazy(() => import("../pages/dashboard-admin/pending-applications"))
 );
 const DefferedApplications = Loadable(
-  lazy(() => import('../pages/dashboard-admin/deffered-applications'))
+  lazy(() => import("../pages/dashboard-admin/deffered-applications"))
 );
 const RejectedApplications = Loadable(
-  lazy(() => import('../pages/dashboard-admin/rejected-applications'))
+  lazy(() => import("../pages/dashboard-admin/rejected-applications"))
 );
 const AllNominees = Loadable(
-  lazy(() => import('../pages/dashboard-admin/all-nominees'))
+  lazy(() => import("../pages/dashboard-admin/all-nominees"))
 );
 const AllOrganizations = Loadable(
-  lazy(() => import('../pages/dashboard-admin/all-organizations'))
+  lazy(() => import("../pages/dashboard-admin/all-organizations"))
 );
 const AdminProfile = Loadable(
-  lazy(() => import('../pages/dashboard-admin/admin-profile'))
+  lazy(() => import("../pages/dashboard-admin/admin-profile"))
+);
+const AdminReports = Loadable(
+  lazy(() => import("../pages/dashboard-admin/reports"))
 );
 
-const Login = Loadable(lazy(() => import('../pages/auth/login')));
-const Register = Loadable(lazy(() => import('../pages/auth/register')));
-const Verify = Loadable(lazy(() => import('../pages/auth/verify')));
+const Login = Loadable(lazy(() => import("../pages/auth/login")));
+const Register = Loadable(lazy(() => import("../pages/auth/register")));
+const Verify = Loadable(lazy(() => import("../pages/auth/verify")));
 const ResetPassword = Loadable(
-  lazy(() => import('../pages/auth/reset-password'))
+  lazy(() => import("../pages/auth/reset-password"))
 );
-const NewPassword = Loadable(lazy(() => import('../pages/auth/new-password')));
+const NewPassword = Loadable(lazy(() => import("../pages/auth/new-password")));
 
-const Page404 = Loadable(lazy(() => import('../pages/page-404')));
+const Page404 = Loadable(lazy(() => import("../pages/page-404")));
