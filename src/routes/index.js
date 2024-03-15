@@ -69,7 +69,7 @@ export default function Router() {
             { path: "admin-all-admins", element: <CreateAdimin /> },
             { path: "admin-all-nominees", element: <AllNominees /> },
             { path: "admin-organizations", element: <AllOrganizations /> },
-            { path: "admin-organizations", element: <AllOrganizations /> },
+            { path: "admin-profile", element: <AdminProfile /> },
             { path: "admin-reports", element: <AdminReports /> },
 
             { path: "404", element: <Page404 /> },
@@ -101,6 +101,7 @@ export default function Router() {
     { path: "app/register-nominee", element: <RegisterNominee /> },
     { path: "app/new-application/*", element: <NewApplication /> },
     { path: "app/view-application", element: <ViewApplication /> },
+    { path: "app/view-organization", element: <ViewOrganization /> },
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
@@ -165,6 +166,11 @@ const AllOrganizations = Loadable(
 );
 const AdminProfile = Loadable(
   lazy(() => import("../pages/dashboard-admin/admin-profile"))
+);
+const ViewOrganization = Loadable(
+  lazy(() =>
+    import("../pages/organization-details/view-organization-details.component")
+  )
 );
 const AdminReports = Loadable(
   lazy(() => import("../pages/dashboard-admin/reports"))
