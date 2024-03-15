@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
@@ -30,7 +30,7 @@ const AllApplications = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/app/view-application", { state: { record } });
+      navigate("/app/view-organization", { state: { record } });
     }, 700);
   };
 

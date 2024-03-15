@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Modal, message } from 'antd';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Modal, message } from "antd";
+import { CheckCircleOutlined } from "@ant-design/icons";
 
-import { constants } from './../../data/constants';
+import { constants } from "./../../data/constants";
 import {
   GetApplicationHR,
   GetApplicationNominees,
   UpdateAdminWorkingOnApplication,
-} from '../../redux/slices/application';
-import NomineeCard from '../../components/nominee-card/nominee-card.component';
-import Navbar from '../../components/navbar/navbar.component';
-import Spinner from './../../components/spinner';
+} from "../../redux/slices/application";
+import NomineeCard from "../../components/nominee-card/nominee-card.component";
+import Navbar from "../../components/navbar/navbar.component";
+import Spinner from "./../../components/spinner";
 
-import RejectApplicationModal from '../../components/modal/reject-application-modal.component';
-import ApproveApplicationModal from './../../components/modal/approve-application-modal.component';
-import DefferApplicationModal from '../../components/modal/deffer-application-modal.component';
-import './view-application-details.styles.css';
+import RejectApplicationModal from "../../components/modal/reject-application-modal.component";
+import ApproveApplicationModal from "./../../components/modal/approve-application-modal.component";
+import DefferApplicationModal from "../../components/modal/deffer-application-modal.component";
 import {
   ApproveApplication,
   DefferOrRejectApplication,
-} from '../../redux/slices/admin';
-import { status } from './../../utils/addSerialNumber';
+} from "../../redux/slices/admin";
+import { status } from "./../../utils/addSerialNumber";
+import "./view-application-details.styles.css";
 
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const ViewApplicationDetails = () => {
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   const addComma = (number) =>
-    'KSh. ' + Intl.NumberFormat('en-US').format(number);
+    "KSh. " + Intl.NumberFormat("en-US").format(number);
 
   const { applicationNominees } = useSelector((state) => state.application);
   console.log(applicationNominees);
@@ -69,14 +69,14 @@ const ViewApplicationDetails = () => {
   useEffect(() => {
     dispatch(GetApplicationHR(record.id));
     if (account_type === process.env.REACT_APP_AccountType1)
-      console.log('T', account_type === process.env.REACT_APP_AccountType1);
+      console.log("T", account_type === process.env.REACT_APP_AccountType1);
   }, []);
 
   // Update admin working on the application aftet 1 min of opening
   useEffect(() => {
-    console.log('updating', account_type);
+    console.log("updating", account_type);
     if (account_type !== process.env.REACT_APP_AccountType0) {
-      let current_admin_id = Number(window.localStorage.getItem('user_id'));
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(UpdateAdminWorkingOnApplication(record.id, current_admin_id));
     }
   }, []);
@@ -88,11 +88,11 @@ const ViewApplicationDetails = () => {
   const [modal, contextHolder] = Modal.useModal();
   const handleApproveLevel2 = () => {
     modal.confirm({
-      title: 'Approve',
+      title: "Approve",
       icon: <CheckCircleOutlined />,
-      content: 'Approve this application?',
-      okText: 'APPROVE',
-      cancelText: 'CANCEL',
+      content: "Approve this application?",
+      okText: "APPROVE",
+      cancelText: "CANCEL",
       onOk: handleAppApproveLevel2,
     });
   };
@@ -129,7 +129,7 @@ const ViewApplicationDetails = () => {
       ApproveApplication({
         level: account_type,
         application_id: record.id,
-        recommedation: reason.in_house + ',' + reason.open_house,
+        recommedation: reason.in_house + "," + reason.open_house,
       })
     );
     setHideButtons(true);
@@ -238,7 +238,7 @@ const ViewApplicationDetails = () => {
           </Modal>
         )}
         <Spinner loading={loading} />
-        {record.approved === 'Rejected' && (
+        {record.approved === "Rejected" && (
           <div className="main-div--rejection row">
             <div className="col-md-12">
               <div className="row">
@@ -401,7 +401,7 @@ const ViewApplicationDetails = () => {
                     <label className="label">
                       Is the course available locally?
                     </label>
-                    <span>{record.available_locally === 0 ? 'No' : 'Yes'}</span>
+                    <span>{record.available_locally === 0 ? "No" : "Yes"}</span>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -409,7 +409,7 @@ const ViewApplicationDetails = () => {
                     <label for="employment_date" className="label">
                       Date of employment:
                     </label>
-                    <span>{record.date_of_employment.split('T')[0]}</span>
+                    <span>{record.date_of_employment.split("T")[0]}</span>
                   </div>
                 </div>
               </div>
@@ -425,8 +425,8 @@ const ViewApplicationDetails = () => {
                     </label>
                     <span>
                       {record.trainer_employer_relationship === 0
-                        ? 'No'
-                        : 'Yes'}
+                        ? "No"
+                        : "Yes"}
                     </span>
                   </div>
                   <div class="col-md-12">
@@ -438,7 +438,7 @@ const ViewApplicationDetails = () => {
                     </label>
                     <span>
                       {record.related_organization_name === null
-                        ? 'N/A'
+                        ? "N/A"
                         : record.related_organization_name}
                     </span>
                   </div>
@@ -451,7 +451,7 @@ const ViewApplicationDetails = () => {
                       Is any other organization funding the training?
                     </label>
                     <span>
-                      {record.other_organization_funding === 0 ? 'No' : 'Yes'}
+                      {record.other_organization_funding === 0 ? "No" : "Yes"}
                     </span>
                   </div>
                   <div class="col-md-12">
@@ -463,7 +463,7 @@ const ViewApplicationDetails = () => {
                     </label>
                     <span>
                       {record.organization_funding_name === null
-                        ? 'N/A'
+                        ? "N/A"
                         : record.organization_funding_name}
                     </span>
                   </div>
