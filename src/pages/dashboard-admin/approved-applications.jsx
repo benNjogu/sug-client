@@ -5,11 +5,11 @@ import { Table } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
-import MineAllBtns from "../../components/mine-all-btns/mine-all-btns.component";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import Spinner from "../../components/spinner";
+import CustomTabs from "../../components/tabs/tabs.component";
 
 const ApprovedApplications = () => {
   const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const ApprovedApplications = () => {
 
   return (
     <DefaultLayout>
-      <MineAllBtns
+      <CustomTabs
         btn1Text={"Mine"}
         btn2Text={"All"}
         selected={selected}

@@ -1,4 +1,4 @@
-const MineAllBtns = ({
+const CustomTabs = ({
   btn1Text,
   btn2Text,
   selected = "btn1",
@@ -29,4 +29,4 @@ const MineAllBtns = ({
   );
 };
 
-export default MineAllBtns;
+export default CustomTabs;

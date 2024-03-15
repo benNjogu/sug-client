@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Table } from "antd";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
-import MineAllBtns from "../../components/mine-all-btns/mine-all-btns.component";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
+import CustomTabs from "../../components/tabs/tabs.component";
 
 const RejectedApplication = () => {
   const [selected, setSelected] = useState("btn1");
@@ -59,7 +59,7 @@ const RejectedApplication = () => {
 
   return (
     <DefaultLayout>
-      <MineAllBtns
+      <CustomTabs
         btn1Text={"Mine"}
         btn2Text={"All"}
         selected={selected}
