@@ -39,10 +39,15 @@ const AllOrganization = () => {
       dataIndex: "id",
       render: (id, record) => (
         <div className="d-flex justify-content-around">
-          <EyeOutlined
-            className="mx-2"
+          <button
+            class="btn btn-sm btn-outline-success"
             onClick={() => handleViewOrganization(record)}
-          />
+          >
+            View
+          </button>
+          <button class="btn btn-sm btn-outline-danger" onClick={() => {}}>
+            Disable
+          </button>
         </div>
       ),
     },
