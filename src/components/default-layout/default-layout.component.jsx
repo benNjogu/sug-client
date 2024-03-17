@@ -209,7 +209,7 @@ const DefaultLayout = ({ children }) => {
           icon: <AuditOutlined />,
           label: (
             <Link to="/admin-reports" style={linkStyle}>
-              Reports
+              Analytics
             </Link>
           ),
         },
