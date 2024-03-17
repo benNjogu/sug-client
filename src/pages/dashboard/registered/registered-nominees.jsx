@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import NomineeCard from "../../../components/nominee-card/nominee-card.component";
 import { FetchAllRegisteredUsers } from "./../../../redux/slices/nominee";
-import FilterNominees from "../../../components/filter-component";
+import FilterNominees from "./../../../components/filter-component/filter-component";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import Spinner from "../../../components/spinner";
 

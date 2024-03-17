@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
-import DefaultLayout from '../../components/default-layout/default-layout.component';
+import DefaultLayout from "../../components/default-layout/default-layout.component";
 
-import Spinner from './../../components/spinner';
-import { convertDigitInString } from '../../utils/convertDigitsInString';
+import Spinner from "./../../components/spinner";
+import { convertDigitInString } from "../../utils/convertDigitsInString";
 //get stylesheet
-import '../../components/application/styles/form.styles.css';
-import { GetAdminData, PostAdminProfileData } from '../../redux/slices/admin';
+import "../../components/application/styles/form.styles.css";
+import { GetAdminData, PostAdminProfileData } from "../../redux/slices/admin";
 
 const AdminProfile = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const AdminProfile = () => {
   const { user_data } = useSelector((state) => state.auth);
   let { user_name, email, account_type, created_on } = user_data;
 
-  created_on = convertDigitInString(created_on.split('T')[0]);
+  created_on = convertDigitInString(created_on.split("T")[0]);
 
   const { admin_profile_data } = useSelector((state) => state.admin);
 
@@ -42,7 +42,7 @@ const AdminProfile = () => {
   };
 
   useEffect(() => {
-    console.log('getting profile data');
+    console.log("getting profile data");
     dispatch(GetAdminData());
   }, []);
 
@@ -89,11 +89,11 @@ const AdminProfile = () => {
               id="phone"
               class="form-control"
               placeholder="Enter phone number"
-              {...register('phone', {
-                required: 'Phone is required.',
+              {...register("phone", {
+                required: "Phone is required.",
               })}
               className={`${
-                errors.phone ? 'input-error form-control' : 'form-control'
+                errors.phone ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.phone && <p className="errorMsg">{errors.phone.message}</p>}

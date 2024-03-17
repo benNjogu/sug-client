@@ -8,6 +8,7 @@ const initialState = {
   approved_applications: [],
   admin_profile_data: {},
   nominees: [],
+  admins: [],
 };
 
 const slice = createSlice({
@@ -25,6 +26,9 @@ const slice = createSlice({
     },
     updateNominees(state, action) {
       state.nominees = action.payload.nominees;
+    },
+    updateAdmins(state, action) {
+      state.admins = action.payload.admins;
     },
   },
 });
@@ -235,6 +239,30 @@ export const DisableNominee = (nominee_id) => {
       })
       .catch(function (error) {
         console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const FetchAllAdmins = () => {
+  return async (dispatch, getState) => {
+    await axios
+      .post("/admin/get-all-admins", {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateAdmins({
+            admins: response.data.data,
+          })
+        );
+      })
+      .catch(function (error) {
         dispatch(
           ShowSnackbar({
             severity: "error",

@@ -3,7 +3,7 @@ const SearchBox = ({ placeholder, value, onChange }) => {
     <input
       type="text"
       name="query"
-      className="form-control mb-3"
+      className="form-control"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}

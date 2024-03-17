@@ -77,7 +77,7 @@ const AllNominees = () => {
         value={searchQuery}
         onChange={handleSearch}
       />
-      <div className="row overflow-auto">
+      <div className="row overflow-auto mt-3">
         {nominees.length > 0
           ? nominees.map((n) => (
               <div key={n.id} className="col-md-4 mb-3">

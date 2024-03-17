@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { message } from 'antd';
+import { useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { message } from "antd";
 
-import { FetchAllRegisteredUsers } from '../../../redux/slices/nominee';
-import FilterNominees from '../../filter-component';
-import NomineeCard from '../../nominee-card/nominee-card.component';
-import CellList from './cell-list/cell-list.component';
-import { AddNominee } from '../../../redux/slices/cell';
-import './select-nominees.style.css';
+import { FetchAllRegisteredUsers } from "../../../redux/slices/nominee";
+import FilterNominees from "./../../filter-component/filter-component";
+import NomineeCard from "../../nominee-card/nominee-card.component";
+import CellList from "./cell-list/cell-list.component";
+import { AddNominee } from "../../../redux/slices/cell";
+import "./select-nominees.style.css";
 
 const SelectNominees = ({ user, updateUser }) => {
   const navigate = useNavigate();
@@ -22,11 +22,11 @@ const SelectNominees = ({ user, updateUser }) => {
   }, []);
 
   const handleAddNew = () => {
-    navigate('/app/register-nominee', { state: { prevPage: 'select' } });
+    navigate("/app/register-nominee", { state: { prevPage: "select" } });
   };
 
   const handleEdit = () => {
-    navigate('/app/register-nominee', {
+    navigate("/app/register-nominee", {
       state: { nominee_id: 1 },
     });
   };
@@ -69,19 +69,19 @@ const SelectNominees = ({ user, updateUser }) => {
         nominees: group_nominees,
       });
 
-      navigate('/app/new-application/course');
+      navigate("/app/new-application/course");
     } else {
-      message.error('Check group size!!');
+      message.error("Check group size!!");
     }
   };
 
   let nominee_levels = [
-    'All',
-    'Top management',
-    'Middle level management',
-    'Supervisory',
-    'Operative',
-    'Others',
+    "All",
+    "Top management",
+    "Middle level management",
+    "Supervisory",
+    "Operative",
+    "Others",
   ];
 
   return (
@@ -110,7 +110,7 @@ const SelectNominees = ({ user, updateUser }) => {
             ) : (
               <div className="col-md-12">
                 <p className="text-center">
-                  No Registered nominess.{' '}
+                  No Registered nominess.{" "}
                   <span
                     className="text-primary cursor-pointer"
                     onClick={handleAddNew}
@@ -123,7 +123,7 @@ const SelectNominees = ({ user, updateUser }) => {
             )}
           </div>
         </div>
-        <div className={'col-md-12 text-right pb-2 px-20'}>
+        <div className={"col-md-12 text-right pb-2 px-20"}>
           <Button variant="primary" type="button" onClick={handleSubmit}>
             Next
           </Button>

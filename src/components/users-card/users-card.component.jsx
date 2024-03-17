@@ -1,3 +1,5 @@
+import female from "../../assets/images/female.svg";
+import male from "../../assets/images/male.svg";
 import "./users-card.styles.css";
 
 const UsersCard = ({
@@ -11,28 +13,20 @@ const UsersCard = ({
   return (
     <div className="profile-card">
       {user.sex === "F" ? (
-        <img
-          src={require("../../assets/images/female.jpg")}
-          className="profile-img"
-          alt="passport photo"
-        />
+        <img src={female} className="profile-img" alt="passport photo" />
       ) : (
-        <img
-          src={require("../../assets/images/male.png")}
-          className="profile-img"
-          alt="passport photo"
-        />
+        <img src={male} className="profile-img" alt="passport photo" />
       )}
       <div className="info">
         <h1>{user.first_name}</h1>
         <p>{user.user_name}</p>
         <ul>
-          <li>{user.idNumber}</li>
-          <li>{user.phone}</li>
+          <li>{user.idNumber ? user.idNumber : user.email}</li>
+          <li>{user.email ? "" : user.phone}</li>
         </ul>
         <div className="btns">
           <button
-            className="btn btn-sm btn-success"
+            className="btn btn-sm btn-success mr-4"
             onClick={() => btn1Click(user.id)}
           >
             {btn1Text}

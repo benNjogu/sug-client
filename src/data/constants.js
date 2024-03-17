@@ -45,7 +45,7 @@ export const constants = {
   FIRST_GROUP_ID: 1,
 
   //CREATE ADMIN SELECTOR
-  SELECT: "Select Level",
+  SELECT: "All Levels",
   LEVEL_1: "ADMIN I",
   LEVEL_2: "ADMIN II",
   LEVEL_3: "SUPER ADMIN",

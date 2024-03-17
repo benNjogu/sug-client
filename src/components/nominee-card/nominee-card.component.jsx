@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AddNominee } from '../../redux/slices/cell';
-import { constants } from '../../data/constants';
-import './nominee-card.style.css';
+import { AddNominee } from "../../redux/slices/cell";
+import { constants } from "../../data/constants";
 
-const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
+import female from "../../assets/images/female.svg";
+import male from "../../assets/images/male.svg";
+import "./nominee-card.style.css";
+
+const NomineeCard = ({ onEdit, nominee, component = "", onAdd }) => {
   const dispatch = useDispatch();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const groups = useSelector((state) => state.cell.groups);
@@ -48,22 +51,18 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
 
   return (
     <div>
-      <div className="card mb-2" style={{ width: 18 + 'rem' }}>
+      <div className="card mb-2" style={{ width: 18 + "rem" }}>
         <div class="card-body">
           <div className="row">
             <div className="col-md-6">
-              {nominee.sex === 'F' ? (
+              {nominee.sex === "F" ? (
                 <img
-                  src={require('../../assets/images/female.jpg')}
+                  src={female}
                   className="profile-img"
                   alt="passport photo"
                 />
               ) : (
-                <img
-                  src={require('../../assets/images/male.png')}
-                  className="profile-img"
-                  alt="passport photo"
-                />
+                <img src={male} className="profile-img" alt="passport photo" />
               )}
             </div>
             <div className="col-md-6">
@@ -72,9 +71,9 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
             </div>
           </div>
         </div>
-        {component !== 'view_nominee' && (
+        {component !== "view_nominee" && (
           <div className="card-footer">
-            {component === 'select_nominee' ? (
+            {component === "select_nominee" ? (
               <div className="row">
                 {!a.includes(nominee.id) ? (
                   <div
@@ -102,7 +101,7 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
                             >
                               {g.label.toUpperCase() ===
                               constants.SINGLE_NOMINEE_LABEL.toUpperCase()
-                                ? 'ADD NOMINEE'
+                                ? "ADD NOMINEE"
                                 : g.label.toUpperCase()}
                             </li>
                           ))}
@@ -116,7 +115,7 @@ const NomineeCard = ({ onEdit, nominee, component = '', onAdd }) => {
                       class="btn btn-sm btn-outline-danger"
                       onClick={() => handleDeleteNominee(nominee.id)}
                     >
-                      {'REMOVE GROUP ' + getNomineeId(nominee.id)}
+                      {"REMOVE GROUP " + getNomineeId(nominee.id)}
                     </button>
                   </div>
                 )}
