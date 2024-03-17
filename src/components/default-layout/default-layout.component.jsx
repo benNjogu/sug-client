@@ -247,42 +247,6 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
-          key: "/admin-approved",
-          icon: <FileDoneOutlined />,
-          label: (
-            <Link to="/admin-approved" style={linkStyle}>
-              Approved
-            </Link>
-          ),
-        },
-        {
-          key: "/admin-pending",
-          icon: <FileExclamationOutlined />,
-          label: (
-            <Link to="/admin-pending" style={linkStyle}>
-              Pending
-            </Link>
-          ),
-        },
-        {
-          key: "/admin-deffered",
-          icon: <FileUnknownOutlined />,
-          label: (
-            <Link to="/admin-deffered" style={linkStyle}>
-              Defferred
-            </Link>
-          ),
-        },
-        {
-          key: "/admin-rejected",
-          icon: <FileExcelOutlined />,
-          label: (
-            <Link to="/admin-rejected" style={linkStyle}>
-              Rejected
-            </Link>
-          ),
-        },
-        {
           key: "/admin-organizations",
           icon: <LayoutOutlined />,
           label: (
