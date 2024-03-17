@@ -21,16 +21,17 @@ const AllApplications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const { applications } = useSelector((state) => state.admin);
-  console.log("all", applications);
+  const [searchOrgName, setSearchOrgName] = useState("");
+  const [searchCourse, setSearchCourse] = useState("");
+  const [searchYear, setSearchYear] = useState("");
+  let { applications } = useSelector((state) => state.admin);
 
   const handleViewApplication = (record) => {
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/app/view-organization", { state: { record } });
+      navigate("/app/view-application", { state: { record } });
     }, 700);
   };
 
@@ -117,26 +118,36 @@ const AllApplications = () => {
     },
   ];
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
+  const handleSearchOrgName = (query) => {
+    setSearchOrgName(query);
   };
 
-  // Searching from organization and/or course title.
-  if (searchQuery) {
-    // nominees = nominees.filter(
-    //   (n) =>
-    //     n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-    //     n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-    //     // combinines firstName and lastName
-    //     (n.first_name + " " + n.last_name)
-    //       .toLowerCase()
-    //       .startsWith(searchQuery.toLowerCase()) ||
-    //     // converts idNumber to a string first
-    //     n.idNumber
-    //       .toString()
-    //       .toLowerCase()
-    //       .startsWith(searchQuery.toLowerCase())
-    // );
+  const handleSearchCourse = (query) => {
+    setSearchCourse(query);
+  };
+
+  const handleSearchYear = (query) => {
+    setSearchYear(query);
+  };
+
+  // Searching from organization and/or course title and/or year.
+  if (searchOrgName) {
+    applications = applications.filter((a) =>
+      a.org_name.toLowerCase().startsWith(searchOrgName.toLowerCase())
+    );
+  }
+  if (searchCourse) {
+    applications = applications.filter((a) =>
+      a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase())
+    );
+  }
+  if (searchYear) {
+    applications = applications.filter((a) =>
+      a.date_applied
+        .toString()
+        .toLowerCase()
+        .startsWith(searchYear.toLowerCase())
+    );
   }
 
   useEffect(() => {
@@ -148,16 +159,34 @@ const AllApplications = () => {
 
   return (
     <DefaultLayout>
-      <SearchBox
-        placeholder={
-          "Search application by organization and/or course title..."
-        }
-        value={searchQuery}
-        onChange={handleSearch}
-      />
+      <div className="row d-flex justify-content-between">
+        <div className="col-md-4">
+          <SearchBox
+            placeholder={"Search organization name..."}
+            value={searchOrgName}
+            onChange={handleSearchOrgName}
+          />
+        </div>
+        <div className="col-md-4">
+          <SearchBox
+            placeholder={"Search course title..."}
+            value={searchCourse}
+            onChange={handleSearchCourse}
+          />
+        </div>
+        <div className="col-md-4">
+          <SearchBox
+            placeholder={"Search year..."}
+            value={searchYear}
+            onChange={handleSearchYear}
+          />
+        </div>
+      </div>
+
       <Spinner loading={loading} />
 
       <Table
+        className="mt-3"
         columns={columns}
         dataSource={addSerialNumber(applications, status.All)}
       />
