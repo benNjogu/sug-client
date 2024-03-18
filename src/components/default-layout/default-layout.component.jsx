@@ -18,7 +18,7 @@ import {
   ReloadOutlined,
   TeamOutlined,
   LayoutOutlined,
-  AuditOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Modal } from "antd";
 
@@ -206,7 +206,7 @@ const DefaultLayout = ({ children }) => {
         },
         {
           key: "/admin-reports",
-          icon: <AuditOutlined />,
+          icon: <BarChartOutlined />,
           label: (
             <Link to="/admin-reports" style={linkStyle}>
               Analytics
