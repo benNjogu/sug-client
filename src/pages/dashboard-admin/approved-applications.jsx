@@ -10,6 +10,7 @@ import { getTime } from "../../utils/getTimeFromTimestamp";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import Spinner from "../../components/spinner";
 import CustomTabs from "../../components/tabs/tabs.component";
+import { FetchAllApprovedApplications } from "../../redux/slices/admin";
 
 const ApprovedApplications = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const ApprovedApplications = () => {
   };
 
   useEffect(() => {
+    dispatch(FetchAllApprovedApplications());
     // get all of my approved applications
     if (account_type === process.env.REACT_APP_AccountType1) {
       approved_applications = approved_applications.filter(
@@ -116,6 +118,7 @@ const ApprovedApplications = () => {
 
   return (
     <DefaultLayout>
+      <Spinner loading={loading} />
       <CustomTabs
         btn1Text={"Mine"}
         btn2Text={"All"}
@@ -123,8 +126,6 @@ const ApprovedApplications = () => {
         onClickBtn1={handleShowMine}
         onClickBtn2={handleShowAll}
       />
-
-      <Spinner loading={loading} />
 
       <Table
         className="mt-3"
