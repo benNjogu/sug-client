@@ -6,6 +6,7 @@ import { ShowSnackbar } from "./app";
 const initialState = {
   applications: [],
   approved_applications: [],
+  defferred_rejected_applications: [],
   admin_profile_data: {},
   nominees: [],
   admins: [],
@@ -20,6 +21,10 @@ const slice = createSlice({
     },
     updateApprovedApplications(state, action) {
       state.approved_applications = action.payload.approved_applications;
+    },
+    updateDefferredAndRejectedApplications(state, action) {
+      state.defferred_rejected_applications =
+        action.payload.defferred_rejected_applications;
     },
     updateAdminProfile(state, action) {
       state.admin_profile_data = action.payload.admin_profile_data;
@@ -75,6 +80,31 @@ export const FetchAllApprovedApplications = () => {
         dispatch(
           slice.actions.updateApprovedApplications({
             approved_applications: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: "error", message: error.data.message })
+        );
+      });
+  };
+};
+
+export const FetchAllDefferredAndRejectedApplications = () => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(`/admin/get-defferred-applications`, {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateDefferredAndRejectedApplications({
+            defferred_rejected_applications: response.data.result,
           })
         );
       })
