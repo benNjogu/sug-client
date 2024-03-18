@@ -8,6 +8,7 @@ import DefaultLayout from "../../components/default-layout/default-layout.compon
 import {
   FetchAllApplications,
   FetchAllApprovedApplications,
+  FetchAllDefferredAndRejectedApplications,
   GetAdminData,
 } from "../../redux/slices/admin";
 import { addSerialNumber, status } from "./../../utils/addSerialNumber";
@@ -152,8 +153,6 @@ const AllApplications = () => {
 
   useEffect(() => {
     dispatch(FetchAllApplications());
-    dispatch(FetchAllApprovedApplications());
-    // dispatch(FetchAllDefferedAndRejectedApplications())
     dispatch(GetAdminData());
   }, []);
 
