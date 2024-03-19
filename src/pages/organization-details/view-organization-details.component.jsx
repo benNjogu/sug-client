@@ -218,7 +218,137 @@ const ViewOrganizationDetails = () => {
         <Spinner loading={loading} />
         <Tabs defaultActiveKey="1">
           <TabPane tab="Profile" key={1}>
-            <Table dataSource={[]} columns={[]} className="mt-2" />
+            <div>
+              <Spinner loading={loading} />
+              <div class="form-row">
+                <legend className="text-info">Profile Details.</legend>
+                <div class="col-md-4 form-group">
+                  <label for="name">Name of the organization:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    placeholder="Keytech solutions"
+                    value={record.user_name}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="email">Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="organization@domain.com"
+                    value={record.email}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="regno">Levy Registration Number:</label>
+                  <input
+                    type="text"
+                    name="regno"
+                    id="regno"
+                    class="form-control"
+                    placeholder="ABCD1234"
+                    value={record.levy_no}
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-3 form-group">
+                  <label for="address">Town:</label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="form-control"
+                    placeholder="Nairobi"
+                    value={record.town}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-3 form-group">
+                  <label for="address">Street:</label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="form-control"
+                    placeholder="1234 Grand Avenue"
+                    value={record.address}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-3 form-group">
+                  <label for="apartment">Building:</label>
+                  <input
+                    type="text"
+                    name="apartment"
+                    id="apartment"
+                    class="form-control"
+                    placeholder="Kenda House"
+                    value={record.apartment}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-3 form-group">
+                  <label for="floor">Floor:</label>
+                  <input
+                    type="number"
+                    name="floor"
+                    id="floor"
+                    class="form-control"
+                    maxLength={2}
+                    placeholder="2"
+                    value={record.number}
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6 form-group">
+                  <label for="box">P.O. Box:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="box"
+                    id="box"
+                    placeholder="49 Maragua"
+                    value={record.box}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-2 form-group">
+                  <label for="code">Code:</label>
+                  <input
+                    type="number"
+                    name="code"
+                    id="code"
+                    class="form-control"
+                    placeholder="102005"
+                    value={record.code}
+                    readOnly
+                  />
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="phone">Phone/Fax Number:</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    class="form-control"
+                    placeholder="+254 745 580 333"
+                    value={record.phone}
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
           </TabPane>
           <TabPane tab="Applications" key={2}>
             <Table
