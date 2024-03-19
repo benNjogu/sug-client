@@ -32,6 +32,10 @@ const ApprovedApplications = () => {
       dataIndex: "user_name",
     },
     {
+      title: "Status",
+      dataIndex: "approved",
+    },
+    {
       title: "Date of application",
       dataIndex: "date_applied",
       render(text, record) {
@@ -90,6 +94,18 @@ const ApprovedApplications = () => {
   };
 
   const handleShowAll = () => {
+    if (account_type === process.env.REACT_APP_AccountType1) {
+      approved_applications = approved_applications.filter(
+        (application) =>
+          Number(application.approved) === status.Stage_1 ||
+          Number(application.approved) === status.Approved
+      );
+    }
+    if (account_type === process.env.REACT_APP_AccountType2) {
+      approved_applications = approved_applications.filter(
+        (application) => Number(application.approved) === status.Approved
+      );
+    }
     setApprovedApplications(approved_applications);
     setSelected("btn2");
   };
