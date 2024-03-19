@@ -5,7 +5,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
 import SearchBox from "../../components/search-box";
-import { DisableNominee, fetchAllNominees } from "../../redux/slices/admin";
+import { DisableNominee, FetchAllNominees } from "../../redux/slices/admin";
 import UsersCard from "../../components/users-card/users-card.component";
 import Spinner from "../../components/spinner";
 
@@ -65,7 +65,7 @@ const AllNominees = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllNominees());
+    dispatch(FetchAllNominees());
   }, []);
 
   return (
