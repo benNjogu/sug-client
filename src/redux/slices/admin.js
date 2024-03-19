@@ -9,6 +9,7 @@ const initialState = {
   defferred_rejected_applications: [],
   admin_profile_data: {},
   nominees: [],
+  deleted_nominees: [],
   admins: [],
 };
 
@@ -31,6 +32,9 @@ const slice = createSlice({
     },
     updateNominees(state, action) {
       state.nominees = action.payload.nominees;
+    },
+    updateDeletedNominees(state, action) {
+      state.deleted_nominees = action.payload.deleted_nominees;
     },
     updateAdmins(state, action) {
       state.admins = action.payload.admins;
@@ -224,7 +228,7 @@ export const DefferOrRejectApplication = (data) => {
   };
 };
 
-export const fetchAllNominees = () => {
+export const FetchAllNominees = () => {
   return async (dispatch, getState) => {
     await axios
       .post("/nominee/get-all-nominees", {
@@ -234,6 +238,30 @@ export const fetchAllNominees = () => {
         dispatch(
           slice.actions.updateNominees({
             nominees: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const FetchAllDeletedNominees = () => {
+  return async (dispatch, getState) => {
+    await axios
+      .post("/nominee/get-all-deleted-nominees", {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateDeletedNominees({
+            deleted_nominees: response.data.result,
           })
         );
       })

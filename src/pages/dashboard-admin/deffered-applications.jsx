@@ -21,7 +21,6 @@ const DefferedApplications = () => {
   let my_id = window.localStorage.getItem("user_id");
   let { defferred_rejected_applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
-  console.log("deff1", defferred_rejected_applications);
 
   const columns = [
     {
