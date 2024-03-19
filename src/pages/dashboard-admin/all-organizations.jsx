@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Table } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
 import { GetAllOrganizations } from "../../redux/slices/organization";

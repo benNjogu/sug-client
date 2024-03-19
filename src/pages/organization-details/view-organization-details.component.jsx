@@ -14,6 +14,7 @@ import { constants } from "../../data/constants";
 import UsersCard from "../../components/users-card/users-card.component";
 import {
   FetchAllDeletedNominees,
+  FetchAllManagers,
   FetchAllNominees,
 } from "../../redux/slices/admin";
 import SearchBox from "../../components/search-box";
@@ -32,6 +33,7 @@ const ViewOrganizationDetails = () => {
   const [rejectedApplications, setRejectedApplications] = useState([]);
   let [orgNominees, setOrgNominees] = useState([]);
   let [deletedNominees, setDeletedNominees] = useState([]);
+  let [orgManagers, setOrgManagers] = useState([]);
   const [inactiveBtn, setInactiveBtn] = useState(false);
 
   const [searchNominee, setSearchNominee] = useState("");
@@ -42,6 +44,7 @@ const ViewOrganizationDetails = () => {
   let { defferred_rejected_applications } = useSelector((state) => state.admin);
   let { nominees } = useSelector((state) => state.admin);
   let { deleted_nominees } = useSelector((state) => state.admin);
+  let { all_hr_managers } = useSelector((state) => state.admin);
 
   const application_columns = [
     {
@@ -117,6 +120,45 @@ const ViewOrganizationDetails = () => {
             />
           </div>
         ),
+    },
+  ];
+
+  const managers_columns = [
+    {
+      title: "S.No",
+      dataIndex: "s_no",
+    },
+    {
+      title: "First Name",
+      dataIndex: "first_name",
+    },
+    {
+      title: "Last Name",
+      dataIndex: "last_name",
+    },
+    {
+      title: "ID Number",
+      dataIndex: "national_id_number",
+    },
+    {
+      title: "ID Number",
+      dataIndex: "national_id_number",
+    },
+    {
+      title: "ID Doc",
+      dataIndex: "id_pdf",
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              color: "#1e90ff",
+              fontWeight: 600,
+              cursor: "pointer",
+            },
+          },
+          children: <div onClick={() => console.log("download")}>{text}</div>,
+        };
+      },
     },
   ];
 
@@ -206,6 +248,13 @@ const ViewOrganizationDetails = () => {
     setDeletedNominees(
       deleted_nominees.filter(
         (n) => Number(n.organization) === Number(record.organization_id)
+      )
+    );
+
+    dispatch(FetchAllManagers());
+    setOrgManagers(
+      all_hr_managers.filter(
+        (m) => Number(m.organization) === Number(record.organization_id)
       )
     );
   }, []);
@@ -425,7 +474,11 @@ const ViewOrganizationDetails = () => {
             </div>{" "}
           </TabPane>
           <TabPane tab="HR Managers" key={8}>
-            <Table dataSource={[]} columns={[]} className="mt-2" />
+            <Table
+              dataSource={addSerialNumber(orgManagers, status.All)}
+              columns={managers_columns}
+              className="mt-2"
+            />
           </TabPane>
         </Tabs>
       </div>
