@@ -126,7 +126,6 @@ const DefferedApplications = () => {
       setDeffereddApplications(defferred_rejected_applications);
     }
     setSelected("btn1");
-    console.log("deff", deffereddApplications);
   }, []);
 
   return (
