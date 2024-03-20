@@ -6,3 +6,37 @@
   font-size: 14px;
   font-weight: 300;
 }
+
+/* View user modal */
+.profile-icon {
+  display: flex;
+  justify-content: center;
+}
+
+.container_div {
+  display: flex;
+  justify-content: center;
+}
+
+.container-item {
+  align-items: center;
+}
+
+.name {
+  text-align: center;
+  color: #555;
+  font-weight: 500;
+  font-size: 24px;
+  display: block;
+}
+
+.label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.idPdf {
+  color: #1e90ff;
+  font-weight: 600;
+  cursor: pointer;
+}

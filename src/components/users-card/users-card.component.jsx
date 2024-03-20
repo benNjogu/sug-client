@@ -27,7 +27,7 @@ const UsersCard = ({
         <div className="btns">
           <button
             className="btn btn-sm btn-success mr-4"
-            onClick={() => btn1Click(user.id)}
+            onClick={() => btn1Click(user)}
           >
             {btn1Text}
           </button>

@@ -8,14 +8,16 @@ import SearchBox from "../../components/search-box";
 import { DisableNominee, FetchAllNominees } from "../../redux/slices/admin";
 import UsersCard from "../../components/users-card/users-card.component";
 import Spinner from "../../components/spinner";
+import ViewUser from "../../components/modal/view-user-modal";
 
 const AllNominees = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [showViewNomineeModal, setShowViewNomineeModal] = useState(false);
   const [inactiveBtn, setInactiveBtn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [user, setUser] = useState({});
   let { nominees } = useSelector((state) => state.admin);
-  console.log(nominees);
 
   const [modal, contextHolder] = Modal.useModal();
   const handleDisable = (id) => {
@@ -51,8 +53,13 @@ const AllNominees = () => {
     );
   }
 
-  const handleView = (id) => {
-    console.log("nv_id", id);
+  const handleView = (data) => {
+    setShowViewNomineeModal(true);
+    setUser(data);
+  };
+
+  const handleCancel = () => {
+    setShowViewNomineeModal(false);
   };
 
   const disableNominee = (id) => {
@@ -77,6 +84,16 @@ const AllNominees = () => {
         value={searchQuery}
         onChange={handleSearch}
       />
+      {showViewNomineeModal && (
+        <Modal
+          open={showViewNomineeModal}
+          title={`User Data`}
+          onCancel={handleCancel}
+          footer={false}
+        >
+          {<ViewUser user={user} />}
+        </Modal>
+      )}
       <div className="row overflow-auto mt-3">
         {nominees.length > 0
           ? nominees.map((n) => (
