@@ -141,10 +141,6 @@ const ViewOrganizationDetails = () => {
       dataIndex: "national_id_number",
     },
     {
-      title: "ID Number",
-      dataIndex: "national_id_number",
-    },
-    {
       title: "ID Doc",
       dataIndex: "id_pdf",
       render(text, record) {
@@ -278,7 +274,6 @@ const ViewOrganizationDetails = () => {
                     name="name"
                     id="name"
                     class="form-control"
-                    placeholder="Keytech solutions"
                     value={record.user_name}
                     readOnly
                   />
@@ -290,19 +285,17 @@ const ViewOrganizationDetails = () => {
                     name="email"
                     id="email"
                     class="form-control"
-                    placeholder="organization@domain.com"
                     value={record.email}
                     readOnly
                   />
                 </div>
                 <div class="col-md-4 form-group">
-                  <label for="regno">Levy Registration Number:</label>
+                  <label for="levy_no">Levy Registration Number:</label>
                   <input
                     type="text"
-                    name="regno"
-                    id="regno"
+                    name="levy_no"
+                    id="levy_no"
                     class="form-control"
-                    placeholder="ABCD1234"
                     value={record.levy_no}
                     readOnly
                   />
@@ -316,32 +309,29 @@ const ViewOrganizationDetails = () => {
                     name="address"
                     id="address"
                     class="form-control"
-                    placeholder="Nairobi"
                     value={record.town}
                     readOnly
                   />
                 </div>
                 <div class="col-md-3 form-group">
-                  <label for="address">Street:</label>
+                  <label for="street">Street:</label>
                   <input
                     type="text"
-                    name="address"
-                    id="address"
+                    name="street"
+                    id="street"
                     class="form-control"
-                    placeholder="1234 Grand Avenue"
-                    value={record.address}
+                    value={record.street}
                     readOnly
                   />
                 </div>
                 <div class="col-md-3 form-group">
-                  <label for="apartment">Building:</label>
+                  <label for="building">Building:</label>
                   <input
                     type="text"
-                    name="apartment"
-                    id="apartment"
+                    name="building"
+                    id="building"
                     class="form-control"
-                    placeholder="Kenda House"
-                    value={record.apartment}
+                    value={record.building}
                     readOnly
                   />
                 </div>
@@ -353,8 +343,7 @@ const ViewOrganizationDetails = () => {
                     id="floor"
                     class="form-control"
                     maxLength={2}
-                    placeholder="2"
-                    value={record.number}
+                    value={record.floor}
                     readOnly
                   />
                 </div>
@@ -367,7 +356,6 @@ const ViewOrganizationDetails = () => {
                     class="form-control"
                     name="box"
                     id="box"
-                    placeholder="49 Maragua"
                     value={record.box}
                     readOnly
                   />
@@ -379,7 +367,6 @@ const ViewOrganizationDetails = () => {
                     name="code"
                     id="code"
                     class="form-control"
-                    placeholder="102005"
                     value={record.code}
                     readOnly
                   />
@@ -391,7 +378,6 @@ const ViewOrganizationDetails = () => {
                     name="phone"
                     id="phone"
                     class="form-control"
-                    placeholder="+254 745 580 333"
                     value={record.phone}
                     readOnly
                   />
