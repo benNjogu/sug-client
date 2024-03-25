@@ -102,7 +102,7 @@ const AllNominees = () => {
                   btn1Text={"View"}
                   btn2Text={n.active ? "Disable" : "Disabled"}
                   btn1Click={handleView}
-                  btn2Click={handleDisable}
+                  btn2Click={() => handleDisable(n.id)}
                   deactivateBtn={inactiveBtn}
                   user={n}
                 />

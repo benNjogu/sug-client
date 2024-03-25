@@ -259,12 +259,11 @@ const ViewOrganizationDetails = () => {
     <>
       {contextHolder}
       <Navbar title={record.user_name} handleBackpressed={handleBackpressed} />
-      <div className="main-div">
+      <div className="">
         <Spinner loading={loading} />
         <Tabs defaultActiveKey="1">
           <TabPane tab="Profile" key={1}>
             <div>
-              <Spinner loading={loading} />
               <div class="form-row">
                 <legend className="text-info">Profile Details.</legend>
                 <div class="col-md-4 form-group">

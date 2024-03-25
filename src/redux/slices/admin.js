@@ -367,6 +367,37 @@ export const DisableOrganization = (organization_id) => {
   };
 };
 
+export const DisableAdmin = (admin_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(`/admin/disable-admin/${admin_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+
+        dispatch(
+          ShowSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
 export const FetchAllAdmins = () => {
   return async (dispatch, getState) => {
     await axios
