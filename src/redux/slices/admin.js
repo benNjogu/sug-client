@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 
+import { message } from "antd";
 import { ShowSnackbar } from "./app";
 
 const initialState = {
@@ -421,3 +422,30 @@ export const FetchAllAdmins = () => {
       });
   };
 };
+
+export function EditAdminLevel(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/admin/edit-admin-level",
+        {
+          ...formValues,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        message.success(response.data.message);
+      })
+      .catch((e) => {
+        console.log(e);
+
+        message.error(e.response.data.message);
+      });
+  };
+}

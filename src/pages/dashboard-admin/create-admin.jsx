@@ -7,8 +7,12 @@ import DefaultLayout from "../../components/default-layout/default-layout.compon
 import FilterNominees from "./../../components/filter-component/filter-component";
 import AddAdminModal from "../../components/modal/add-admin-modal.component";
 import { CreateNewAdmin } from "../../redux/slices/auth";
+import {
+  DisableAdmin,
+  EditAdminLevel,
+  FetchAllAdmins,
+} from "../../redux/slices/admin";
 import { constants } from "../../data/constants";
-import { DisableAdmin, FetchAllAdmins } from "../../redux/slices/admin";
 import UsersCard from "../../components/users-card/users-card.component";
 import Spinner from "../../components/spinner";
 
@@ -19,6 +23,7 @@ const CreateAdmin = () => {
   const [inactiveBtn, setInactiveBtn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [level, setLevel] = useState(constants.SELECT);
+  const [adminToEdit, setAdminToEdit] = useState(null);
 
   let { account_type } = useSelector((state) => state.auth.user_data);
   let { admins } = useSelector((state) => state.admin);
@@ -44,6 +49,7 @@ const CreateAdmin = () => {
   }
 
   const handleAddNew = () => {
+    setAdminToEdit(null);
     setShowAddAdminModal(true);
   };
 
@@ -51,11 +57,18 @@ const CreateAdmin = () => {
     dispatch(CreateNewAdmin(data));
   };
 
+  const handleEdit = (a) => {
+    setAdminToEdit(a);
+    setShowAddAdminModal(true);
+  };
+
+  const handleEditAdmin = (data) => {
+    dispatch(EditAdminLevel(data));
+  };
+
   const handleCancel = () => {
     setShowAddAdminModal(false);
   };
-
-  const handleView = () => {};
 
   const [modal, contextHolder] = Modal.useModal();
   const handleDisable = (id) => {
@@ -119,7 +132,9 @@ const CreateAdmin = () => {
             <AddAdminModal
               handleClose={handleCancel}
               handleAddAdmin={(data) => handleAddAdmin(data)}
+              handleEditAdmin={(data) => handleEditAdmin(data)}
               options={type_of_admins}
+              adminToEdit={adminToEdit}
             />
           }
         </Modal>
@@ -139,7 +154,7 @@ const CreateAdmin = () => {
                 <UsersCard
                   btn1Text={"Edit"}
                   btn2Text={a.active ? "Disable" : "Disabled"}
-                  btn1Click={handleView}
+                  btn1Click={() => handleEdit(a)}
                   btn2Click={() => handleDisable(a.id)}
                   deactivateBtn={inactiveBtn}
                   user={a}
