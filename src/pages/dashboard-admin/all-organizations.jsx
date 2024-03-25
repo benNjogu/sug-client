@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
 import { GetAllOrganizations } from "../../redux/slices/organization";
+import { DisableOrganization } from "../../redux/slices/admin";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import SearchBox from "../../components/search-box";
 import Spinner from "../../components/spinner";
@@ -14,6 +16,8 @@ const AllOrganization = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [inactiveBtn, setInactiveBtn] = useState(false);
+
   let { organizations } = useSelector((state) => state.organization);
 
   const columns = [
@@ -44,8 +48,12 @@ const AllOrganization = () => {
           >
             View
           </button>
-          <button class="btn btn-sm btn-outline-danger" onClick={() => {}}>
-            Disable
+          <button
+            class="btn btn-sm btn-outline-danger"
+            onClick={() => handleDisableOrganization(record.id)}
+            disabled={!record.active}
+          >
+            {record.active ? "Disable" : "Disabled"}
           </button>
         </div>
       ),
@@ -75,12 +83,34 @@ const AllOrganization = () => {
     }, 700);
   };
 
+  const [modal, contextHolder] = Modal.useModal();
+  const handleDisableOrganization = (id) => {
+    modal.confirm({
+      title: "Disable",
+      icon: <QuestionCircleOutlined />,
+      content: "Disable this organization? Cannot be reversed!!!",
+      okText: "DISABLE",
+      cancelText: "CANCEL",
+      onOk: () => disableOrganization(id),
+    });
+  };
+
+  const disableOrganization = (id) => {
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(DisableOrganization(id));
+      setLoading(false);
+      setInactiveBtn(true);
+    }, 500);
+  };
+
   useEffect(() => {
     dispatch(GetAllOrganizations());
-  }, []);
+  }, [disableOrganization]);
 
   return (
     <DefaultLayout>
+      {contextHolder}
       <SearchBox
         placeholder={"Search organization by name, email or levy number..."}
         value={searchQuery}
