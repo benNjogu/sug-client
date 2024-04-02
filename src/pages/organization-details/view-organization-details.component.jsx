@@ -17,7 +17,6 @@ import {
   FetchAllManagers,
   FetchAllNominees,
 } from "../../redux/slices/admin";
-import SearchBox from "../../components/search-box";
 
 const { TabPane } = Tabs;
 
@@ -35,9 +34,6 @@ const ViewOrganizationDetails = () => {
   let [deletedNominees, setDeletedNominees] = useState([]);
   let [orgManagers, setOrgManagers] = useState([]);
   const [inactiveBtn, setInactiveBtn] = useState(false);
-
-  const [searchNominee, setSearchNominee] = useState("");
-  const [searchDeletedNominee, setSearchDeletedNominee] = useState("");
 
   let { applications } = useSelector((state) => state.admin);
   let { approved_applications } = useSelector((state) => state.admin);
@@ -165,14 +161,6 @@ const ViewOrganizationDetails = () => {
       setLoading(false);
       navigate("/app/view-application", { state: { record } });
     }, 700);
-  };
-
-  const handleSearchNominee = (query) => {
-    setSearchNominee(query);
-  };
-
-  const handleSearchDeletedNominee = (query) => {
-    setSearchDeletedNominee(query);
   };
 
   const handleBackpressed = () => {
@@ -422,11 +410,6 @@ const ViewOrganizationDetails = () => {
             />
           </TabPane>
           <TabPane tab="Nominees" key={6}>
-            <SearchBox
-              placeholder={"Search nominee by id or name..."}
-              value={searchNominee}
-              onChange={handleSearchNominee}
-            />
             <div className="row overflow-auto mt-3">
               {orgNominees.length > 0
                 ? orgNominees.map((n) => (
@@ -445,11 +428,6 @@ const ViewOrganizationDetails = () => {
             </div>{" "}
           </TabPane>
           <TabPane tab="Deleted Nominees" key={7}>
-            <SearchBox
-              placeholder={"Search nominee by id or name..."}
-              value={searchDeletedNominee}
-              onChange={handleSearchDeletedNominee}
-            />
             <div className="row overflow-auto mt-3">
               {deletedNominees.length > 0
                 ? deletedNominees.map((n) => (
