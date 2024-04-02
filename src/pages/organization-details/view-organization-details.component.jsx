@@ -259,7 +259,7 @@ const ViewOrganizationDetails = () => {
     <>
       {contextHolder}
       <Navbar title={record.user_name} handleBackpressed={handleBackpressed} />
-      <div className="">
+      <div className="main-container">
         <Spinner loading={loading} />
         <Tabs defaultActiveKey="1">
           <TabPane tab="Profile" key={1}>
