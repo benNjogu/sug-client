@@ -158,6 +158,15 @@ const ViewOrganizationDetails = () => {
     },
   ];
 
+  const handleViewApplication = (record) => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/view-application", { state: { record } });
+    }, 700);
+  };
+
   const handleSearchNominee = (query) => {
     setSearchNominee(query);
   };
