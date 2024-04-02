@@ -155,7 +155,7 @@ const CreateAdmin = () => {
                   btn1Text={"Edit"}
                   btn2Text={a.active ? "Disable" : "Disabled"}
                   btn1Click={() => handleEdit(a)}
-                  btn2Click={() => handleDisable(a.id)}
+                  btn2Click={() => handleDisable(a.user_id)}
                   deactivateBtn={inactiveBtn}
                   user={a}
                 />

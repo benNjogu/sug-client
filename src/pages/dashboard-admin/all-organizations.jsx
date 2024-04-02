@@ -50,7 +50,7 @@ const AllOrganization = () => {
           </button>
           <button
             class="btn btn-sm btn-outline-danger"
-            onClick={() => handleDisableOrganization(record.id)}
+            onClick={() => handleDisableOrganization(record.organization_id)}
             disabled={!record.active}
           >
             {record.active ? "Disable" : "Disabled"}
@@ -106,7 +106,7 @@ const AllOrganization = () => {
 
   useEffect(() => {
     dispatch(GetAllOrganizations());
-  }, [disableOrganization]);
+  }, []);
 
   return (
     <DefaultLayout>

@@ -1,21 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { message } from 'antd';
-import axios from '../../utils/axios';
+import { createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
+import axios from "../../utils/axios";
 
-import { ShowSnackbar } from './app';
+import { ShowSnackbar } from "./app";
 
 const initialState = {
   isLoggedIn: false,
-  token: '',
+  token: "",
   isLoading: false,
-  email: '',
+  email: "",
   error: false,
-  account_type: '',
+  account_type: "",
   user_data: {},
 };
 
 const slice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     updateIsLoading(state, action) {
@@ -28,7 +28,7 @@ const slice = createSlice({
     },
     logout(state, action) {
       state.isLoggedIn = false;
-      state.token = '';
+      state.token = "";
     },
     updateUserEmail(state, action) {
       state.email = action.payload.email;
@@ -45,19 +45,28 @@ export function LoginUser(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/auth/login',
+        "/auth/login",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
       .then(function (response) {
         console.log(response.data.data);
+        if (response.data.data.active === 0) {
+          dispatch(
+            ShowSnackbar({
+              severity: "error",
+              message: "Account disabled! Contact NITA.",
+            })
+          );
 
+          return;
+        }
         dispatch(
           slice.actions.login({
             isLoggedIn: true,
@@ -71,22 +80,22 @@ export function LoginUser(formValues) {
           })
         );
 
-        window.localStorage.setItem('user_id', response.data.user_id);
+        window.localStorage.setItem("user_id", response.data.user_id);
 
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
         );
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+        dispatch(ShowSnackbar({ severity: "error", message: error.message }));
       });
   };
 }
 
 export function LogOutUser() {
   return async (dispatch, getState) => {
-    window.localStorage.removeItem('user_id');
+    window.localStorage.removeItem("user_id");
 
     dispatch(slice.actions.logout());
   };
@@ -96,27 +105,27 @@ export function ForgotPassword(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/auth/forgot-password',
+        "/auth/forgot-password",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
       .then((response) => {
         console.log(response);
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
         );
       })
       .catch((error) => {
         console.log(error);
         dispatch(
           ShowSnackbar({
-            severity: 'error',
+            severity: "error",
             message: error.response.data.message,
           })
         );
@@ -128,13 +137,13 @@ export function ResetPassword(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        'auth/reset-password',
+        "auth/reset-password",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
@@ -156,13 +165,13 @@ export function RegisterUser(formValues) {
     dispatch(slice.actions.updateIsLoading({ isLoading: true, error: false }));
     await axios
       .post(
-        '/auth/register',
+        "/auth/register",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
@@ -174,7 +183,7 @@ export function RegisterUser(formValues) {
         );
 
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
         );
       })
       .catch((e) => {
@@ -185,7 +194,7 @@ export function RegisterUser(formValues) {
       })
       .finally(() => {
         if (!getState().auth.error) {
-          window.location.href = '/auth/verify-otp';
+          window.location.href = "/auth/verify-otp";
         }
       });
   };
@@ -195,13 +204,13 @@ export function VerifyEmail(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/auth/verify',
+        "/auth/verify",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
@@ -214,10 +223,10 @@ export function VerifyEmail(formValues) {
           })
         );
 
-        window.localStorage.setItem('user_id', response.data.user_id);
+        window.localStorage.setItem("user_id", response.data.user_id);
 
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
         );
       })
       .catch((e) => console.log(e));
@@ -228,13 +237,13 @@ export function CreateNewAdmin(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/auth/new-admin',
+        "/auth/new-admin",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
