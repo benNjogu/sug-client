@@ -184,4 +184,6 @@ const ResetPassword = Loadable(
 );
 const NewPassword = Loadable(lazy(() => import("../pages/auth/new-password")));
 
-const Page404 = Loadable(lazy(() => import("../pages/page-404")));
+const Page404 = Loadable(
+  lazy(() => import("../pages/error_page/page-404.component"))
+);

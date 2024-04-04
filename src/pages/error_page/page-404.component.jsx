@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-import broken from "../assets/images/broken.svg";
-import "./page-404.css";
+import broken from "../../assets/images/broken.svg";
+import "./page-404.styles.css";
 
 const Page404 = () => {
   const navigate = useNavigate();
