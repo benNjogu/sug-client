@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, message } from "antd";
+import { Modal, Table, message } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 
 import { constants } from "./../../data/constants";
@@ -24,6 +24,14 @@ import {
 import { status } from "./../../utils/addSerialNumber";
 import "./view-application-details.styles.css";
 
+const FetchingData = () => {
+  return (
+    <div class="col-md-6">
+      <p className="font-italic text-success m-3">Fetching data...</p>
+    </div>
+  );
+};
+
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,6 +40,7 @@ const ViewApplicationDetails = () => {
   console.log(record);
 
   const [loading, setLoading] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
   const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDefferModal, setShowDefferModal] = useState(false);
@@ -61,25 +70,6 @@ const ViewApplicationDetails = () => {
 
     return filteredNominees;
   };
-
-  useEffect(() => {
-    dispatch(GetApplicationNominees(record.id));
-  }, []);
-
-  useEffect(() => {
-    dispatch(GetApplicationHR(record.id));
-    if (account_type === process.env.REACT_APP_AccountType1)
-      console.log("T", account_type === process.env.REACT_APP_AccountType1);
-  }, []);
-
-  // Update admin working on the application aftet 1 min of opening
-  useEffect(() => {
-    console.log("updating", account_type);
-    if (account_type !== process.env.REACT_APP_AccountType0) {
-      let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(UpdateAdminWorkingOnApplication(record.id, current_admin_id));
-    }
-  }, []);
 
   const handleApprove = () => {
     setShowApproveModal(true);
@@ -178,6 +168,65 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
+  const columns = [
+    {
+      title: "Item",
+      dataIndex: "item",
+    },
+    {
+      title: "Amount in KSh.",
+      dataIndex: "amount",
+    },
+    // {
+    //   title: "Status",
+    //   dataIndex: "approved",
+    //   render(text, record) {
+    //     return {
+    //       props: {
+    //         style: {
+    //           color:
+    //             record.approved === constants.REJECTED
+    //               ? "red"
+    //               : record.approved === constants.STAGE_1
+    //               ? "#32CD32"
+    //               : record.approved === constants.APPROVED
+    //               ? "	#008000"
+    //               : record.approved === constants.DEFFERED
+    //               ? "	#FFC107"
+    //               : "",
+    //           fontWeight: 600,
+    //         },
+    //       },
+    //       children: <div>{text}</div>,
+    //     };
+    //   },
+    // },
+  ];
+
+  useEffect(() => {
+    dispatch(GetApplicationNominees(record.id));
+
+    setFetchingData(true);
+    setTimeout(() => {
+      setFetchingData(false);
+    }, 300);
+  }, []);
+
+  useEffect(() => {
+    dispatch(GetApplicationHR(record.id));
+    if (account_type === process.env.REACT_APP_AccountType1)
+      console.log("T", account_type === process.env.REACT_APP_AccountType1);
+  }, []);
+
+  // Update admin working on the application aftet 1 min of opening
+  useEffect(() => {
+    console.log("updating", account_type);
+    if (account_type !== process.env.REACT_APP_AccountType0) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      dispatch(UpdateAdminWorkingOnApplication(record.id, current_admin_id));
+    }
+  }, []);
+
   return (
     <>
       {contextHolder}
@@ -265,11 +314,15 @@ const ViewApplicationDetails = () => {
               <div className="col-md-12">
                 <legend className="text-info">Organization Profile.</legend>
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <label for="profile" className="label">
-                      Profile
-                    </label>
-                  </div>
+                  {fetchingData ? (
+                    <div class="col-md-6">
+                      <label for="profile" className="label">
+                        Profile
+                      </label>
+                    </div>
+                  ) : (
+                    <FetchingData />
+                  )}
                 </div>
               </div>
             </div>
@@ -281,15 +334,19 @@ const ViewApplicationDetails = () => {
               <div className="col-md-12">
                 <legend className="text-info">Selected nominees.</legend>
                 <div class="form-row">
-                  <div class="col-md-12">
-                    <div className="row overflow-auto mt-0">
-                      {getFilteredNominees().map((n) => (
-                        <div key={n.id} className="col-md-4">
-                          <NomineeCard nominee={n} component="view_nominee" />
-                        </div>
-                      ))}
+                  {fetchingData ? (
+                    <div class="col-md-12">
+                      <div className="row overflow-auto mt-0">
+                        {getFilteredNominees().map((n) => (
+                          <div key={n.id} className="col-md-4">
+                            <NomineeCard nominee={n} component="view_nominee" />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <FetchingData />
+                  )}
                 </div>
               </div>
             </div>
@@ -349,22 +406,28 @@ const ViewApplicationDetails = () => {
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <label for="course_objectives" className="label">
-                      Group 1 start date:
-                    </label>
-                    <span className="span--block">
-                      {/* TODO: Add group start date */}
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="course_objectives" className="label">
-                      Group 1 end date:
-                    </label>
-                    <span className="span--block">
-                      {/* TODO: Add group end date */}
-                    </span>
-                  </div>
+                  {fetchingData ? (
+                    <>
+                      <div class="col-md-6">
+                        <label for="course_objectives" className="label">
+                          Group 1 start date:
+                        </label>
+                        <span className="span--block">
+                          {/* TODO: Add group start date */}
+                        </span>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="course_objectives" className="label">
+                          Group 1 end date:
+                        </label>
+                        <span className="span--block">
+                          {/* TODO: Add group end date */}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <FetchingData />
+                  )}
                 </div>
                 <div class="form-row">
                   <div class="col-md-6">
@@ -475,97 +538,117 @@ const ViewApplicationDetails = () => {
         <div className="main-div--training-expenses row mt-4">
           <div className="col-md-12">
             <legend className="text-info">Training expenses.</legend>
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="tuition_fees" className="label">
-                  Tuition fees:
-                </label>
-                <span>{addComma(record.tuition_fees)}</span>
+            <>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="tuition_fees" className="label w-50">
+                    Tuition fees:
+                  </label>
+                  <span>{addComma(record.tuition_fees)}</span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6 ">
-                <label for="examination" className="label">
-                  Examination fees:
-                </label>
-                <span>{addComma(record.examination_fees)}</span>
+              <div class="form-row">
+                <div class="col-md-6 ">
+                  <label for="examination" className="label w-50">
+                    Examination fees:
+                  </label>
+                  <span>{addComma(record.examination_fees)}</span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="books" className="label">
-                  Cost of recommended books and study material:
-                </label>
-                <span>{addComma(record.study_materials_fees)}</span>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="books" className="label w-50">
+                    Cost of recommended books and study material:
+                  </label>
+                  <span>{addComma(record.study_materials_fees)}</span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="examination" className="label">
-                  Accomodation and meals:
-                </label>
-                <span>{addComma(record.accomodation_and_meals_fees)}</span>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="examination" className="label w-50">
+                    Accomodation and meals:
+                  </label>
+                  <span>{addComma(record.accomodation_and_meals_fees)}</span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="fare" className="label">
-                  Return economy airfare/bus fare/mileage:
-                </label>
-                <span>{addComma(record.bus_fare_fees)}</span>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="fare" className="label w-50">
+                    Return economy airfare/bus fare/mileage:
+                  </label>
+                  <span>{addComma(record.bus_fare_fees)}</span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6 form-group">
-                <label for="others" className="label">
-                  Others:
-                </label>
-                <span>{addComma(record.other_expenses)}</span>
+              {record.other_expenses && (
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <label for="others" className="label w-50">
+                      Others:
+                    </label>
+                    <span>{addComma(record.other_expenses)}</span>
+                  </div>
+                </div>
+              )}
+              {record.other_expenses && (
+                <div class="form-row">
+                  <div class="col-md-6 form-group">
+                    <label for="others" className="label w-50">
+                      Other expenses details:
+                    </label>
+                    <span>{record.other_expenses_details}</span>
+                  </div>
+                </div>
+              )}
+              <div class="form-row">
+                <div class="col-md-6 form-group">
+                  <label for="others" className="label w-50">
+                    Support document:
+                  </label>
+                  <a href="#">{record.support_document}</a>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6 form-group">
-                <label for="others" className="label">
-                  Support document:
-                </label>
-                <a href="#">{record.support_document}</a>
+              <div class="form-row">
+                <div class="col-md-6 form-group">
+                  <label for="total" className="label w-50">
+                    TOTAL COST :
+                  </label>
+                  <span className="font-weight-bold">
+                    {addComma(record.total_cost)}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-6 form-group">
-                <label for="total" className="label">
-                  TOTAL COST :
-                </label>
-                <span>{addComma(record.total_cost)}</span>
-              </div>
-            </div>
+            </>
           </div>
         </div>
-        {/* <div className="main-div--hr_manager row mt-4">
+        <div className="main-div--hr_manager row mt-4">
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-12">
                 <legend className="text-info">Authorizing officer.</legend>
-                <div class="form-row">
-                  <div class="col-md-3">
-                    <label className="label">ID Number: </label>{' '}
-                    <label>{applicationHR[0].national_id_number}</label>
+                {fetchingData ? (
+                  <div class="form-row">
+                    <div class="col-md-3">
+                      <label className="label">ID Number: </label>{" "}
+                      <label>{applicationHR[0].national_id_number}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label className="label">Names: </label>{" "}
+                      <label>{applicationHR[0].first_name}</label>
+                      {"  "}
+                      <label>{applicationHR[0].last_name}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label className="label">ID PDF: </label>{" "}
+                      <a href="">{applicationHR[0].id_pdf}</a>
+                    </div>
                   </div>
-                  <div class="col-md-3">
-                    <label className="label">Names: </label>{' '}
-                    <label>{applicationHR[0].first_name}</label>
-                    {'  '}
-                    <label>{applicationHR[0].last_name}</label>
-                  </div>
-                  <div class="col-md-3">
-                    <label className="label">ID PDF: </label>{' '}
-                    <a href="">{applicationHR[0].id_pdf}</a>
-                  </div>
-                </div>
+                ) : (
+                  <FetchingData />
+                )}
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );
