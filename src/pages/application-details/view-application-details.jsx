@@ -21,6 +21,7 @@ import {
   ApproveApplication,
   DefferOrRejectApplication,
 } from "../../redux/slices/admin";
+import { GetAllOrganizations } from "../../redux/slices/organization";
 import { status } from "./../../utils/addSerialNumber";
 import "./view-application-details.styles.css";
 
@@ -41,6 +42,7 @@ const ViewApplicationDetails = () => {
 
   const [loading, setLoading] = useState(false);
   const [fetchingData, setFetchingData] = useState(false);
+  const [currentOrganization, setCurrentOrganization] = useState("");
   const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDefferModal, setShowDefferModal] = useState(false);
@@ -49,6 +51,8 @@ const ViewApplicationDetails = () => {
   const addComma = (number) =>
     "KSh. " + Intl.NumberFormat("en-US").format(number);
 
+  const { organizations } = useSelector((state) => state.organization);
+  console.log("orgs", organizations);
   const { applicationNominees } = useSelector((state) => state.application);
   console.log(applicationNominees);
   const { nominees } = useSelector((state) => state.nominee);
@@ -168,48 +172,18 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
-  const columns = [
-    {
-      title: "Item",
-      dataIndex: "item",
-    },
-    {
-      title: "Amount in KSh.",
-      dataIndex: "amount",
-    },
-    // {
-    //   title: "Status",
-    //   dataIndex: "approved",
-    //   render(text, record) {
-    //     return {
-    //       props: {
-    //         style: {
-    //           color:
-    //             record.approved === constants.REJECTED
-    //               ? "red"
-    //               : record.approved === constants.STAGE_1
-    //               ? "#32CD32"
-    //               : record.approved === constants.APPROVED
-    //               ? "	#008000"
-    //               : record.approved === constants.DEFFERED
-    //               ? "	#FFC107"
-    //               : "",
-    //           fontWeight: 600,
-    //         },
-    //       },
-    //       children: <div>{text}</div>,
-    //     };
-    //   },
-    // },
-  ];
-
   useEffect(() => {
-    dispatch(GetApplicationNominees(record.id));
+    if (organizations === null || organizations.length === 0) {
+      dispatch(GetAllOrganizations());
+    }
 
-    setFetchingData(true);
-    setTimeout(() => {
-      setFetchingData(false);
-    }, 300);
+    setCurrentOrganization(
+      organizations.filter(
+        (org) => org.organization_id === record.organization_id
+      )
+    );
+
+    dispatch(GetApplicationNominees(record.id));
   }, []);
 
   useEffect(() => {
@@ -314,11 +288,74 @@ const ViewApplicationDetails = () => {
               <div className="col-md-12">
                 <legend className="text-info">Organization Profile.</legend>
                 <div class="form-row">
-                  {fetchingData ? (
-                    <div class="col-md-6">
-                      <label for="profile" className="label">
-                        Profile
-                      </label>
+                  {currentOrganization.length > 0 ? (
+                    <div class="col-md-12">
+                      <div class="form-row">
+                        <div className="col-md-6">
+                          <div>
+                            <label for="name" className="label w-25">
+                              Name:
+                            </label>
+                            <span>{currentOrganization[0].user_name}</span>
+                          </div>
+                          <div>
+                            <label for="email" className="label w-25">
+                              Email:
+                            </label>
+                            <span>{currentOrganization[0].email}</span>
+                          </div>
+                          <div>
+                            <label for="levy_no" className="label w-25">
+                              Levy RegNo:
+                            </label>
+                            <span>{currentOrganization[0].levy_no}</span>
+                          </div>
+                          <div>
+                            <label for="box" className="label w-25">
+                              P.O. Box:
+                            </label>
+                            <span>{currentOrganization[0].box}</span>
+                          </div>
+                          <div>
+                            <label for="code" className="label w-25">
+                              Code:
+                            </label>
+                            <span>{currentOrganization[0].code}</span>
+                          </div>
+                          <div>
+                            <label for="phone" className="label w-25">
+                              Phone/Fax:
+                            </label>
+                            <span>{currentOrganization[0].phone}</span>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div>
+                            <label for="town" className="label w-25">
+                              Town:
+                            </label>
+                            <span>{currentOrganization[0].town}</span>
+                          </div>
+                          <div>
+                            <label for="street" className="label w-25">
+                              Street:
+                            </label>
+                            <span>{currentOrganization[0].street}</span>
+                          </div>
+                          <div>
+                            <label for="building" className="label w-25">
+                              Building:
+                            </label>
+                            <span>{currentOrganization[0].building}</span>
+                          </div>
+                          <div>
+                            <label for="floor" className="label w-25">
+                              Floor:
+                            </label>
+                            <span>{currentOrganization[0].floor}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <FetchingData />
@@ -362,19 +399,19 @@ const ViewApplicationDetails = () => {
                 <div class="form-row">
                   <div class="col-md-6">
                     <div>
-                      <label for="course_title" className="label">
+                      <label for="course_title" className="label w-25">
                         Course title:
                       </label>
                       <span>{record.course_title}</span>
                     </div>
                     <div>
-                      <label for="provider" className="label">
+                      <label for="provider" className="label w-25">
                         Training provider:
                       </label>
                       <span>{record.training_provider}</span>
                     </div>
                     <div>
-                      <label for="venue" className="label">
+                      <label for="venue" className="label w-25">
                         Specific course venue:
                       </label>
                       <span>{record.course_venue}</span>
@@ -382,15 +419,15 @@ const ViewApplicationDetails = () => {
                   </div>
                   <div class="col-md-6">
                     <div>
-                      <label className="label">Country:</label>
+                      <label className="label w-25">Country:</label>
                       <span>{record.country}</span>
                     </div>
                     <div>
-                      <label className="label">State:</label>
+                      <label className="label w-25">State:</label>
                       <span>{record.state}</span>
                     </div>
                     <div>
-                      <label className="label">City:</label>
+                      <label className="label w-25">City:</label>
                       <span>{record.city}</span>
                     </div>
                   </div>
@@ -558,7 +595,7 @@ const ViewApplicationDetails = () => {
               <div class="form-row">
                 <div class="col-md-6">
                   <label for="books" className="label w-50">
-                    Cost of recommended books and study material:
+                    Study materials:
                   </label>
                   <span>{addComma(record.study_materials_fees)}</span>
                 </div>
@@ -574,7 +611,7 @@ const ViewApplicationDetails = () => {
               <div class="form-row">
                 <div class="col-md-6">
                   <label for="fare" className="label w-50">
-                    Return economy airfare/bus fare/mileage:
+                    Air fare/ bus fare/ mileage:
                   </label>
                   <span>{addComma(record.bus_fare_fees)}</span>
                 </div>
