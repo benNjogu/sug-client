@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
-import { LeftOutlined } from '@ant-design/icons';
+import { useSelector } from "react-redux";
+import { LeftOutlined } from "@ant-design/icons";
 
-import './navbar.styles.css';
-import { constants } from '../../data/constants';
+import "./navbar.styles.css";
+import { constants } from "../../data/constants";
 
-const Button = ({ text, text_color, icon, handleBtnClick }) => {
+export const Button = ({ text, text_color, icon, handleBtnClick }) => {
   return (
     <div className="nav__item nav__item-btn" onClick={handleBtnClick}>
       <span className={`icon ${text_color}`}>{icon}</span>
@@ -24,7 +24,7 @@ const Navbar = ({
   hideButtons,
 }) => {
   const { account_type } = useSelector((state) => state.auth.user_data);
-  console.log('nav_ap', approved);
+  console.log("nav_ap", approved);
 
   return (
     <nav className="nav collapsible fixed-top">
@@ -38,8 +38,8 @@ const Navbar = ({
           {!hideButtons && (
             <li className="nav__item">
               <Button
-                text={'Approve'}
-                text_color={'text-success'}
+                text={"Approve"}
+                text_color={"text-success"}
                 handleBtnClick={
                   account_type === process.env.REACT_APP_AccountType2
                     ? handleApproveLevel2
@@ -51,8 +51,8 @@ const Navbar = ({
           {!hideButtons && (
             <li className="nav__item">
               <Button
-                text={'Deffer'}
-                text_color={'text-warning'}
+                text={"Deffer"}
+                text_color={"text-warning"}
                 handleBtnClick={handleDeffer}
               />
             </li>
@@ -60,16 +60,16 @@ const Navbar = ({
           {!hideButtons && (
             <li className="nav__item">
               <Button
-                text={'Reject'}
-                text_color={'text-danger'}
+                text={"Reject"}
+                text_color={"text-danger"}
                 handleBtnClick={handleReject}
               />
             </li>
           )}
           <li className="nav__item">
             <Button
-              text={'Back'}
-              text_color={'text-danger'}
+              text={"Back"}
+              text_color={"text-danger"}
               icon={<LeftOutlined />}
               handleBtnClick={handleBackpressed}
             />
@@ -79,8 +79,8 @@ const Navbar = ({
         <ul className="list nav__list collapsible__content">
           <li className="nav__item">
             <Button
-              text={'Back'}
-              text_color={'text-danger'}
+              text={"Back"}
+              text_color={"text-danger"}
               icon={<LeftOutlined />}
               handleBtnClick={handleBackpressed}
             />
