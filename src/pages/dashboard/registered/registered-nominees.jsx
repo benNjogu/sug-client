@@ -14,10 +14,6 @@ const Registered = () => {
   const dispatch = useDispatch();
   const { nominees } = useSelector((state) => state.nominee);
 
-  useEffect(() => {
-    dispatch(FetchAllRegisteredUsers());
-  }, []);
-
   const handleAddNew = () => {
     setLoading(true);
 
@@ -42,6 +38,11 @@ const Registered = () => {
     "Operative",
     "Others",
   ];
+
+  useEffect(() => {
+    let org = window.localStorage.getItem("user_id");
+    dispatch(FetchAllRegisteredUsers(org));
+  }, []);
 
   return (
     <DefaultLayout>

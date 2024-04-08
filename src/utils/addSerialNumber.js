@@ -1,4 +1,4 @@
-import { getKeyByValue } from './getObjectKey';
+import { getKeyByValue } from "./getObjectKey";
 
 export let status = {
   All: -3, //No such level in the database. It was added for the algorithm to work
@@ -33,6 +33,6 @@ const getData = (application_with_serials, application, num) =>
   application_with_serials.push({
     ...application,
     approved: getKeyByValue(status, application.approved),
-    approval_letter: 'Download Letter',
+    approval_letter: "Download Letter",
     s_no: num,
   });

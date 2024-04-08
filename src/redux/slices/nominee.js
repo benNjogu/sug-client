@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import axios from '../../utils/axios';
-import { ShowSnackbar } from './app';
+import axios from "../../utils/axios";
+import { ShowSnackbar } from "./app";
 
 const initialState = {
   nominees: [],
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: 'register-nominee',
+  name: "register-nominee",
   initialState,
   reducers: {
     registerUser(state, action) {
@@ -24,18 +24,18 @@ const slice = createSlice({
 export default slice.reducer;
 
 export function RegisterUser(formValues) {
-  let org = window.localStorage.getItem('user_id');
+  let org = window.localStorage.getItem("user_id");
   formValues = { ...formValues, organization: org };
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/nominee/register-nominee',
+        "/nominee/register-nominee",
         {
           ...formValues,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
@@ -50,7 +50,7 @@ export function RegisterUser(formValues) {
 
         dispatch(
           ShowSnackbar({
-            severity: 'success',
+            severity: "success",
             message: response.data.message,
           })
         );
@@ -59,7 +59,7 @@ export function RegisterUser(formValues) {
         console.log(error);
         dispatch(
           ShowSnackbar({
-            severity: 'error',
+            severity: "error",
             message: error.response.data.message,
           })
         );
@@ -67,13 +67,13 @@ export function RegisterUser(formValues) {
   };
 }
 
-export function FetchAllRegisteredUsers() {
-  let org = window.localStorage.getItem('user_id');
+export function FetchAllRegisteredUsers(org) {
+  console.log("org", org);
   return async (dispatch, getState) => {
     await axios
       .get(`/nominee/get-nominees/${org}`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Authorization: `Bearer ${getState().auth.token}`,
         },
       })
@@ -90,7 +90,7 @@ export function FetchAllRegisteredUsers() {
         console.log(error);
         dispatch(
           ShowSnackbar({
-            severity: 'error',
+            severity: "error",
             message: error.response.data.message,
           })
         );

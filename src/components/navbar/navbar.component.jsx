@@ -19,6 +19,7 @@ const Navbar = ({
   handleApproveLevel2,
   handleDeffer,
   handleReject,
+  handleEdit,
   handleBackpressed,
   approved,
   hideButtons,
@@ -63,6 +64,27 @@ const Navbar = ({
                 text={"Reject"}
                 text_color={"text-danger"}
                 handleBtnClick={handleReject}
+              />
+            </li>
+          )}
+          <li className="nav__item">
+            <Button
+              text={"Back"}
+              text_color={"text-danger"}
+              icon={<LeftOutlined />}
+              handleBtnClick={handleBackpressed}
+            />
+          </li>
+        </ul>
+      ) : account_type === process.env.REACT_APP_AccountType0 &&
+        approved === constants.DEFFERED ? (
+        <ul className="list nav__list collapsible__content">
+          {!hideButtons && (
+            <li className="nav__item">
+              <Button
+                text={"Edit"}
+                text_color={"text-warning"}
+                handleBtnClick={handleEdit}
               />
             </li>
           )}

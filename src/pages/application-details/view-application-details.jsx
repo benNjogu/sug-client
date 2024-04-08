@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, Table, message } from "antd";
+import { Modal } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 
 import { constants } from "./../../data/constants";
 import {
+  GetApplicationGroupDates,
   GetApplicationHR,
   GetApplicationNominees,
+  GetBannerData,
   UpdateAdminWorkingOnApplication,
 } from "../../redux/slices/application";
 import NomineeCard from "../../components/nominee-card/nominee-card.component";
 import Navbar from "../../components/navbar/navbar.component";
-import Spinner from "./../../components/spinner";
-
+import Spinner, { FetchingData } from "./../../components/spinner";
 import RejectApplicationModal from "../../components/modal/reject-application-modal.component";
 import ApproveApplicationModal from "./../../components/modal/approve-application-modal.component";
 import DefferApplicationModal from "../../components/modal/deffer-application-modal.component";
@@ -24,25 +25,40 @@ import {
 import { GetAllOrganizations } from "../../redux/slices/organization";
 import { status } from "./../../utils/addSerialNumber";
 import "./view-application-details.styles.css";
+import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
+import { convertDigitInString } from "../../utils/convertDigitsInString";
 
-const FetchingData = () => {
-  return (
-    <div class="col-md-6">
-      <p className="font-italic text-success m-3">Fetching data...</p>
+const Banner = ({ type, title, reason, name, email, phone, date }) => (
+  <div className="col-md-12">
+    <div className="row">
+      <div className="col-md-12">
+        <div className={`alert alert-${type} mb-4`} role="alert">
+          <h2 className="alert-heading">{title}!</h2>
+          <p>
+            {reason}
+            {name && (
+              <p className="verifier-name alert-link">
+                - By {name}, {email}.
+              </p>
+            )}
+            {phone && <p className="verifier-name alert-link">- {phone}.</p>}
+            {date && <p className="verifier-name alert-link">- {date}.</p>}
+          </p>
+        </div>
+      </div>
     </div>
-  );
-};
+  </div>
+);
 
 const ViewApplicationDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
   const record = state.record;
-  console.log(record);
+  console.log("rr", record);
 
   const [loading, setLoading] = useState(false);
-  const [fetchingData, setFetchingData] = useState(false);
-  const [currentOrganization, setCurrentOrganization] = useState("");
+  const [currentOrganization, setCurrentOrganization] = useState([]);
   const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDefferModal, setShowDefferModal] = useState(false);
@@ -54,11 +70,15 @@ const ViewApplicationDetails = () => {
   const { organizations } = useSelector((state) => state.organization);
   console.log("orgs", organizations);
   const { applicationNominees } = useSelector((state) => state.application);
-  console.log(applicationNominees);
-  const { nominees } = useSelector((state) => state.nominee);
-  console.log(nominees);
+  console.log("an", applicationNominees);
+  const { applicationDates } = useSelector((state) => state.application);
+  console.log("ad", applicationDates);
+  let { nominees } = useSelector((state) => state.nominee);
+  console.log("n", nominees);
   const { applicationHR } = useSelector((state) => state.application);
   console.log(applicationHR);
+  const { bannerData } = useSelector((state) => state.application);
+  console.log("bannerd", bannerData);
   const { account_type } = useSelector((state) => state.auth).user_data;
 
   //filtering nominees based on fetched ids
@@ -67,7 +87,10 @@ const ViewApplicationDetails = () => {
     for (let i = 0; i < applicationNominees.length; i++) {
       for (let j = 0; j < nominees.length; j++) {
         if (applicationNominees[i].nominee_id === nominees[j].id) {
-          filteredNominees.push(nominees[j]);
+          // Add group id to each nominee
+          let group_id = applicationNominees[i].group_id;
+          // Add each nominee belonging to this application to a new array
+          filteredNominees.push({ ...nominees[j], group_id });
         } else continue;
       }
     }
@@ -107,8 +130,13 @@ const ViewApplicationDetails = () => {
 
   const handleBackpressed = () => {
     setLoading(true);
-    if (!account_type !== process.env.REACT_APP_AccountType0) {
-      dispatch(UpdateAdminWorkingOnApplication(record.id, 0));
+    if (
+      (account_type === process.env.REACT_APP_AccountType1 ||
+        account_type === process.env.REACT_APP_AccountType2) &&
+      record.approved === constants.PENDING
+    ) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
     }
 
     setTimeout(() => {
@@ -172,7 +200,48 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
+  const handleViewOrganization = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/view-organization", {
+        state: { record: { ...currentOrganization[0] } },
+      });
+    }, 700);
+  };
+
+  const getNumberOfGroups = () => {
+    let size = [];
+    for (let i = 1; i <= applicationDates.length; i++) {
+      size.push(i);
+    }
+
+    return size;
+  };
+
+  const handleEdit = (record) => {
+    console.log("edit", record);
+  };
+
   useEffect(() => {
+    console.log("dispatching stuff");
+    // Update admin working on the application aftet 1 min of opening
+    if (
+      (account_type === process.env.REACT_APP_AccountType1 ||
+        account_type === process.env.REACT_APP_AccountType2) &&
+      record.approved === constants.PENDING
+    ) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      dispatch(
+        UpdateAdminWorkingOnApplication(
+          record.id,
+          current_admin_id,
+          current_admin_id
+        )
+      );
+    }
+
     if (organizations === null || organizations.length === 0) {
       dispatch(GetAllOrganizations());
     }
@@ -183,22 +252,24 @@ const ViewApplicationDetails = () => {
       )
     );
 
+    // get nominees for this application
     dispatch(GetApplicationNominees(record.id));
-  }, []);
 
-  useEffect(() => {
+    // get dates for various groups
+    dispatch(GetApplicationGroupDates(record.id));
+
     dispatch(GetApplicationHR(record.id));
-    if (account_type === process.env.REACT_APP_AccountType1)
-      console.log("T", account_type === process.env.REACT_APP_AccountType1);
-  }, []);
 
-  // Update admin working on the application aftet 1 min of opening
-  useEffect(() => {
-    console.log("updating", account_type);
-    if (account_type !== process.env.REACT_APP_AccountType0) {
-      let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(UpdateAdminWorkingOnApplication(record.id, current_admin_id));
-    }
+    dispatch(FetchAllRegisteredUsers(record.organization_id));
+
+    if (
+      record.approved === constants.DEFFERED ||
+      record.approved === constants.REJECTED
+    )
+      dispatch(GetBannerData(record.id, 0));
+
+    if (record.approved === constants.APPROVED)
+      dispatch(GetBannerData(record.id, 1));
   }, []);
 
   return (
@@ -210,6 +281,7 @@ const ViewApplicationDetails = () => {
         handleApproveLevel2={handleApproveLevel2}
         handleReject={handleReject}
         handleDeffer={handleDeffer}
+        handleEdit={handleEdit}
         handleBackpressed={handleBackpressed}
         approved={record.approved}
         hideButtons={hideButtons}
@@ -261,25 +333,38 @@ const ViewApplicationDetails = () => {
           </Modal>
         )}
         <Spinner loading={loading} />
-        {record.approved === "Rejected" && (
+        {record.approved === constants.APPROVED && (
           <div className="main-div--rejection row">
-            <div className="col-md-12">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="alert alert-danger mb-4" role="alert">
-                    <h2 className="alert-heading">Application rejected!</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quibusdam et quaerat perferendis illo laboriosam officiis
-                      amet quisquam aliquid dolor culpa! Lorem, ipsum dolor sit
-                      amet consectetur adipisicing elit. Recusandae voluptatum
-                      fugiat optio alias quos ab nam, esse beatae iure sunt.
-                      <p className="verifier-name alert-link">- By Edith.</p>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Banner
+              type={"success"}
+              title={"Application Approved"}
+              reason={bannerData[0]?.recommendation}
+              date={convertDigitInString(bannerData[0]?.date.split("T")[0])}
+            />
+          </div>
+        )}
+        {record.approved === constants.DEFFERED && (
+          <div className="main-div--rejection row">
+            <Banner
+              type={"warning"}
+              title={"Application Defferred"}
+              reason={record.reason || bannerData[0]?.reason}
+              name={bannerData[0]?.user_name}
+              email={bannerData[0]?.email}
+              phone={bannerData[0]?.phone}
+            />
+          </div>
+        )}
+        {record.approved === constants.REJECTED && (
+          <div className="main-div--rejection row">
+            <Banner
+              type={"danger"}
+              title={"Application Rejected"}
+              reason={record.reason || bannerData[0]?.reason}
+              name={bannerData[0]?.user_name}
+              email={bannerData[0]?.email}
+              phone={bannerData[0]?.phone}
+            />
           </div>
         )}
         <div className="main-div--profile row">
@@ -296,7 +381,12 @@ const ViewApplicationDetails = () => {
                             <label for="name" className="label w-25">
                               Name:
                             </label>
-                            <span>{currentOrganization[0].user_name}</span>
+                            <span
+                              className="org_name"
+                              onClick={handleViewOrganization}
+                            >
+                              {currentOrganization[0].user_name}
+                            </span>
                           </div>
                           <div>
                             <label for="email" className="label w-25">
@@ -370,21 +460,25 @@ const ViewApplicationDetails = () => {
             <div className="row">
               <div className="col-md-12">
                 <legend className="text-info">Selected nominees.</legend>
-                <div class="form-row">
-                  {fetchingData ? (
+                {getNumberOfGroups().map((idx) => (
+                  <div class="form-row" key={idx}>
+                    {getNumberOfGroups().length > 1 && <p>Group {idx}</p>}
                     <div class="col-md-12">
                       <div className="row overflow-auto mt-0">
-                        {getFilteredNominees().map((n) => (
-                          <div key={n.id} className="col-md-4">
-                            <NomineeCard nominee={n} component="view_nominee" />
-                          </div>
-                        ))}
+                        {getFilteredNominees()
+                          .filter((n) => Number(n?.group_id) === idx)
+                          .map((n) => (
+                            <div key={n.id} className="col-md-4">
+                              <NomineeCard
+                                nominee={n}
+                                component="view_nominee"
+                              />
+                            </div>
+                          ))}
                       </div>
                     </div>
-                  ) : (
-                    <FetchingData />
-                  )}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -412,7 +506,7 @@ const ViewApplicationDetails = () => {
                     </div>
                     <div>
                       <label for="venue" className="label w-25">
-                        Specific course venue:
+                        Course venue:
                       </label>
                       <span>{record.course_venue}</span>
                     </div>
@@ -442,30 +536,40 @@ const ViewApplicationDetails = () => {
                     </span>
                   </div>
                 </div>
-                <div class="form-row">
-                  {fetchingData ? (
-                    <>
-                      <div class="col-md-6">
-                        <label for="course_objectives" className="label">
-                          Group 1 start date:
-                        </label>
-                        <span className="span--block">
-                          {/* TODO: Add group start date */}
-                        </span>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="course_objectives" className="label">
-                          Group 1 end date:
-                        </label>
-                        <span className="span--block">
-                          {/* TODO: Add group end date */}
-                        </span>
-                      </div>
-                    </>
-                  ) : (
-                    <FetchingData />
-                  )}
-                </div>
+                {applicationDates !== null ? (
+                  <div class="form-row">
+                    {getNumberOfGroups().map((idx) => (
+                      <>
+                        <div class="col-md-6">
+                          <label for="course_objectives" className="label">
+                            {getNumberOfGroups().length > 1
+                              ? `Group ${idx} start date:`
+                              : `Start date:`}
+                          </label>
+                          <span className="span--block">
+                            {convertDigitInString(
+                              applicationDates[idx - 1].start_date.split("T")[0]
+                            )}
+                          </span>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="course_objectives" className="label">
+                            {getNumberOfGroups().length > 1
+                              ? `Group ${idx} end date:`
+                              : `End date:`}
+                          </label>
+                          <span className="span--block">
+                            {convertDigitInString(
+                              applicationDates[idx - 1].end_date.split("T")[0]
+                            )}
+                          </span>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                ) : (
+                  <FetchingData />
+                )}
                 <div class="form-row">
                   <div class="col-md-6">
                     <div>
@@ -509,7 +613,11 @@ const ViewApplicationDetails = () => {
                     <label for="employment_date" className="label">
                       Date of employment:
                     </label>
-                    <span>{record.date_of_employment.split("T")[0]}</span>
+                    <span>
+                      {convertDigitInString(
+                        record.date_of_employment.split("T")[0]
+                      )}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -532,7 +640,7 @@ const ViewApplicationDetails = () => {
                   <div class="col-md-12">
                     <label
                       for="trainer_employer_relationship_details"
-                      className="inner__label"
+                      className="label"
                     >
                       The organization name:
                     </label>
@@ -557,7 +665,7 @@ const ViewApplicationDetails = () => {
                   <div class="col-md-12">
                     <label
                       for="other_organization_funds_details"
-                      className="inner__label"
+                      className="label"
                     >
                       The organization name:
                     </label>
@@ -662,21 +770,21 @@ const ViewApplicationDetails = () => {
             <div className="row">
               <div className="col-md-12">
                 <legend className="text-info">Authorizing officer.</legend>
-                {fetchingData ? (
+                {applicationHR !== null ? (
                   <div class="form-row">
                     <div class="col-md-3">
                       <label className="label">ID Number: </label>{" "}
-                      <label>{applicationHR[0].national_id_number}</label>
+                      <label>{applicationHR[0]?.national_id_number}</label>
                     </div>
                     <div class="col-md-3">
                       <label className="label">Names: </label>{" "}
-                      <label>{applicationHR[0].first_name}</label>
+                      <label>{applicationHR[0]?.first_name}</label>
                       {"  "}
-                      <label>{applicationHR[0].last_name}</label>
+                      <label>{applicationHR[0]?.last_name}</label>
                     </div>
                     <div class="col-md-3">
-                      <label className="label">ID PDF: </label>{" "}
-                      <a href="">{applicationHR[0].id_pdf}</a>
+                      <label className="label">His National ID: </label>{" "}
+                      <a href="">{applicationHR[0]?.id_pdf}</a>
                     </div>
                   </div>
                 ) : (

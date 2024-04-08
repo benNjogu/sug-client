@@ -445,7 +445,7 @@ const ViewOrganizationDetails = () => {
                 : ""}
             </div>{" "}
           </TabPane>
-          <TabPane tab="HR Managers" key={8}>
+          <TabPane tab="Authorizing Officer" key={8}>
             <Table
               dataSource={addSerialNumber(orgManagers, status.All)}
               columns={managers_columns}

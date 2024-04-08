@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import { Modal, Table } from 'antd';
-import { constants } from '../../../data/constants';
-import DefaultLayout from '../../../components/default-layout/default-layout.component';
-import { FetchOrganizationApplications } from '../../../redux/slices/application';
-import { addSerialNumber, status } from '../../../utils/addSerialNumber';
-import Spinner from '../../../components/spinner';
-import NewApplicationModal from '../../../components/modal/new-application-modal.component';
+import { Modal, Table } from "antd";
+import { constants } from "../../../data/constants";
+import DefaultLayout from "../../../components/default-layout/default-layout.component";
+import { FetchOrganizationApplications } from "../../../redux/slices/application";
+import { addSerialNumber, status } from "../../../utils/addSerialNumber";
+import Spinner from "../../../components/spinner";
+import NewApplicationModal from "../../../components/modal/new-application-modal.component";
 
-import './applications.styles.css';
-import { GetOrganizationData } from '../../../redux/slices/organization';
+import "./applications.styles.css";
+import { GetOrganizationData } from "../../../redux/slices/organization";
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -23,34 +23,34 @@ const Applications = () => {
 
   const columns = [
     {
-      title: 'S.No',
-      dataIndex: 's_no',
+      title: "S.No",
+      dataIndex: "s_no",
     },
     {
-      title: 'Course',
-      dataIndex: 'course_title',
+      title: "Course",
+      dataIndex: "course_title",
     },
     {
-      title: 'Provider',
-      dataIndex: 'training_provider',
+      title: "Provider",
+      dataIndex: "training_provider",
     },
     {
-      title: 'Status',
-      dataIndex: 'approved',
+      title: "Status",
+      dataIndex: "approved",
       render(text, record) {
         return {
           props: {
             style: {
               color:
                 record.approved === constants.REJECTED
-                  ? 'red'
+                  ? "red"
                   : record.approved === constants.STAGE_1
-                  ? '#32CD32'
+                  ? "#32CD32"
                   : record.approved === constants.APPROVED
-                  ? '	#008000'
+                  ? "	#008000"
                   : record.approved === constants.DEFFERED
-                  ? '	#FFC107'
-                  : '',
+                  ? "	#FFC107"
+                  : "",
               fontWeight: 600,
             },
           },
@@ -59,10 +59,10 @@ const Applications = () => {
       },
     },
     {
-      title: 'Action',
-      dataIndex: 'id',
+      title: "Action",
+      dataIndex: "id",
       render: (id, record) =>
-        record.approved === 'Rejected' ? (
+        record.approved === "Rejected" ? (
           <div className="d-flex justify-content-around">
             <div className="mx-2" />
             <div className="mx-2" />
@@ -71,7 +71,7 @@ const Applications = () => {
               onClick={() => handleViewApplication(record)}
             />
           </div>
-        ) : record.approved === 'Pending' ? (
+        ) : record.approved === "Pending" ? (
           <div className="d-flex justify-content-around">
             <EyeOutlined
               className="mx-2"
@@ -86,8 +86,9 @@ const Applications = () => {
               onClick={() => handleDeleteApplication(record)}
             />
           </div>
-        ) : record.approved === 'Deffered' ? (
+        ) : record.approved === "Deffered" ? (
           <div className="d-flex justify-content-around">
+            <div className="mx-2" />
             <EyeOutlined
               className="mx-2"
               onClick={() => handleViewApplication(record)}
@@ -96,7 +97,6 @@ const Applications = () => {
               className="mx-2"
               onClick={() => handleEditApplication(record)}
             />
-            <div className="mx-2" />
           </div>
         ) : (
           <div className="d-flex justify-content-around">
@@ -117,7 +117,7 @@ const Applications = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate('/app/new-application');
+      navigate("/app/new-application");
     }, 800);
   };
 
@@ -126,16 +126,16 @@ const Applications = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate('/app/view-application', { state: { record } });
+      navigate("/app/view-application", { state: { record } });
     }, 700);
   };
 
   const handleEditApplication = (record) => {
-    console.log('edit application', record);
+    console.log("edit application", record);
   };
 
   const handleDeleteApplication = (record) => {
-    console.log('delete application', record);
+    console.log("delete application", record);
   };
 
   const handleShowModal = () => {

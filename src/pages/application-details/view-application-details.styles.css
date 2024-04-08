@@ -35,3 +35,9 @@
   margin-top: 1.2rem;
   text-align: right;
 }
+
+.org_name {
+  color: #1e90ff;
+  font-weight: 600;
+  cursor: pointer;
+}

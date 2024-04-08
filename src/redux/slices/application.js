@@ -1,17 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../utils/axios';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "../../utils/axios";
 
-import { ShowSnackbar } from './app';
+import { ShowSnackbar } from "./app";
 
 const initialState = {
   applicationSpecs: [],
   applications: [],
   applicationNominees: [],
+  applicationDates: [],
   applicationHR: [],
+  bannerData: [],
 };
 
 const slice = createSlice({
-  name: 'application',
+  name: "application",
   initialState,
   reducers: {
     updateApplicationSpecs(state, action) {
@@ -26,8 +28,16 @@ const slice = createSlice({
       state.applicationNominees = action.payload.applicationNominees;
     },
 
+    updateApplicationDates(state, action) {
+      state.applicationDates = action.payload.applicationDates;
+    },
+
     updateApplicationHR(state, action) {
       state.applicationHR = action.payload.applicationHR;
+    },
+
+    updateBannerData(state, action) {
+      state.bannerData = action.payload.bannerData;
     },
   },
 });
@@ -43,12 +53,12 @@ export const UpdateApplicationSpecs = ({ data }) => {
 
 export const FetchOrganizationApplications = () => {
   return async (dispatch, getState) => {
-    let org_id = window.localStorage.getItem('user_id');
+    let org_id = window.localStorage.getItem("user_id");
 
     await axios
       .get(`/application/get-organization-applications?org_id=${org_id}`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Authorization: `Bearer ${getState().auth.token}`,
         },
       })
@@ -62,7 +72,10 @@ export const FetchOrganizationApplications = () => {
       .catch(function (error) {
         console.log(error);
         dispatch(
-          ShowSnackbar({ severity: 'error', message: error.data.message })
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
         );
       });
   };
@@ -70,17 +83,26 @@ export const FetchOrganizationApplications = () => {
 
 export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {
-    let org_id = window.localStorage.getItem('user_id');
+    let org_id = window.localStorage.getItem("user_id");
     await axios
       .post(
-        '/application/create-new-application',
+        "/application/create-new-application",
         { ...formValues, organization_id: org_id },
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       )
       .then(function (response) {
         console.log(response);
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
         );
       });
   };
@@ -93,7 +115,7 @@ export const GetApplicationNominees = (application_id) => {
         `/application/get-application-nominees?application_id=${application_id}`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             // Authorization: `Bearer ${getState().auth.token}`,
           },
         }
@@ -108,7 +130,35 @@ export const GetApplicationNominees = (application_id) => {
       .catch(function (error) {
         console.log(error);
         dispatch(
-          ShowSnackbar({ severity: 'error', message: error.data.message })
+          ShowSnackbar({ severity: "error", message: error.data.message })
+        );
+      });
+  };
+};
+
+export const GetApplicationGroupDates = (application_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        `/application/get-application-group-dates?application_id=${application_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateApplicationDates({
+            applicationDates: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({ severity: "error", message: error.data.message })
         );
       });
   };
@@ -119,12 +169,12 @@ export const GetApplicationHR = (application_id) => {
     await axios
       .get(`/application/get-application-hr?application_id=${application_id}`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Authorization: `Bearer ${getState().auth.token}`,
         },
       })
       .then(function (response) {
-        console.log(response, 'hr');
+        console.log(response, "hr");
         dispatch(
           slice.actions.updateApplicationHR({
             applicationHR: response.data.result1,
@@ -134,7 +184,10 @@ export const GetApplicationHR = (application_id) => {
       .catch(function (error) {
         console.log(error);
         dispatch(
-          ShowSnackbar({ severity: 'error', message: error.data.message })
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
         );
       });
   };
@@ -142,19 +195,61 @@ export const GetApplicationHR = (application_id) => {
 
 export const UpdateAdminWorkingOnApplication = (
   application_id,
-  current_admin_id
+  current_admin_id,
+  admin_id
 ) => {
   return async (dispatch, getState) => {
     await axios
       .post(
-        '/application/update-admin-working-on-application',
-        { application_id, current_admin_id },
-        { headers: { 'Content-Type': 'application/json' } }
+        "/application/update-admin-working-on-application",
+        { application_id, current_admin_id, admin_id },
+        { headers: { "Content-Type": "application/json" } }
       )
       .then(function (response) {
-        console.log('admin-on-it', response);
         dispatch(
-          ShowSnackbar({ severity: 'success', message: response.data.message })
+          ShowSnackbar({ severity: "success", message: response.data.message })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+/**
+ * @param {*} status
+ * 0 - for Rejected and Deffered applications.
+ * 1 - for Approved applications.
+ */
+export const GetBannerData = (application_id, status) => {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/application/get-banner-data",
+        { application_id, status },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(function (response) {
+        console.log("banner-data", response);
+        dispatch(
+          slice.actions.updateBannerData({
+            bannerData: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
         );
       });
   };
