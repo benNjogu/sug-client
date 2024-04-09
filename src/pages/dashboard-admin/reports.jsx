@@ -25,6 +25,9 @@ const Reports = () => {
   let { nominees } = useSelector((state) => state.admin);
   let { admins } = useSelector((state) => state.admin);
 
+  approved_applications = approved_applications.filter(
+    (application) => Number(application.approved) === status.Approved
+  );
   let defferred_applications = defferred_rejected_applications.filter(
     (application) => Number(application.approved) === status.Deffered
   );
