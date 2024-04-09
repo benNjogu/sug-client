@@ -22,7 +22,7 @@ const UsersCard = ({
         <p>{user.user_name}</p>
         <ul>
           <li>{user.idNumber ? user.idNumber : user.email}</li>
-          <li>{user.email ? "" : user.phone}</li>
+          <li className="_link">{user.email ? "" : user.id_pdf}</li>
         </ul>
         <div className="btns">
           <button

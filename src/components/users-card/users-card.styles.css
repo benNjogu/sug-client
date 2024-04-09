@@ -49,6 +49,12 @@
   margin-top: 10px;
 }
 
+._link {
+  color: #1e90ff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .btns {
   display: flex;
   justify-content: space-between;
