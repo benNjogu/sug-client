@@ -1,1 +1,2 @@
-export const convertDigitInString = (str) => str.split('-').reverse().join('-');
+export const convertDigitInString = (str) =>
+  str?.split("-").reverse().join("-");

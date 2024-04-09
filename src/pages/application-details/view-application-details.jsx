@@ -12,7 +12,6 @@ import {
   GetBannerData,
   UpdateAdminWorkingOnApplication,
 } from "../../redux/slices/application";
-import NomineeCard from "../../components/nominee-card/nominee-card.component";
 import Navbar from "../../components/navbar/navbar.component";
 import Spinner, { FetchingData } from "./../../components/spinner";
 import RejectApplicationModal from "../../components/modal/reject-application-modal.component";
@@ -39,11 +38,11 @@ const Banner = ({ type, title, reason, name, email, phone, date }) => (
             {reason}
             {name && (
               <p className="verifier-name alert-link">
-                - By {name}, {email}.
+                - By {name}, {name ? date : email}.
               </p>
             )}
             {phone && <p className="verifier-name alert-link">- {phone}.</p>}
-            {date && <p className="verifier-name alert-link">- {date}.</p>}
+            {name ? "" : <p className="verifier-name alert-link">- {date}.</p>}
           </p>
         </div>
       </div>
@@ -338,12 +337,13 @@ const ViewApplicationDetails = () => {
     if (record.approved === constants.APPROVED)
       dispatch(GetBannerData(record.id, 2));
 
-    if (
-      account_type === process.env.REACT_APP_AccountType2 &&
-      (record.approved === constants.STAGE_1 ||
-        record.approved === constants.APPROVED)
-    ) {
-      dispatch(GetBannerData(record.id, 1));
+    if (account_type === process.env.REACT_APP_AccountType2) {
+      if (record.approved === constants.STAGE_1) {
+        dispatch(GetBannerData(record.id, 1));
+      }
+      if (record.approved === constants.APPROVED) {
+        dispatch(GetBannerData(record.id, 2));
+      }
     }
   }, []);
 
@@ -419,6 +419,7 @@ const ViewApplicationDetails = () => {
                 type={"success"}
                 title={"Application Approved"}
                 reason={bannerData[0]?.recommendation}
+                name={bannerData[0]?.level_2}
                 date={bannerData[0]?.date_2?.split("T")[0]}
               />
             </div>
@@ -591,7 +592,10 @@ const ViewApplicationDetails = () => {
                               <label for="name" className="label w-25">
                                 Name of recommending officer:
                               </label>
-                              <span>{bannerData[0].user_name}</span>
+                              <span>
+                                {bannerData[0].level_1 ||
+                                  bannerData[0].user_name}
+                              </span>
                             </div>
                             <div>
                               <label for="date" className="label w-25">
@@ -693,6 +697,7 @@ const ViewApplicationDetails = () => {
               type={"success"}
               title={"Application Approved"}
               reason={bannerData[0]?.recommendation}
+              name={bannerData[0]?.level_2}
               date={convertDigitInString(bannerData[0]?.date_2?.split("T")[0])}
             />
           </div>
@@ -706,6 +711,7 @@ const ViewApplicationDetails = () => {
               name={bannerData[0]?.user_name}
               email={bannerData[0]?.email}
               phone={bannerData[0]?.phone}
+              date={convertDigitInString(bannerData[0]?.date.split("T")[0])}
             />
           </div>
         )}
@@ -718,6 +724,7 @@ const ViewApplicationDetails = () => {
               name={bannerData[0]?.user_name}
               email={bannerData[0]?.email}
               phone={bannerData[0]?.phone}
+              date={convertDigitInString(bannerData[0]?.date.split("T")[0])}
             />
           </div>
         )}
