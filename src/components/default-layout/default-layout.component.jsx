@@ -15,7 +15,6 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
   LogoutOutlined,
-  ReloadOutlined,
   TeamOutlined,
   LayoutOutlined,
   BarChartOutlined,
@@ -333,12 +332,6 @@ const DefaultLayout = ({ children }) => {
                 height: 64,
               }}
             />
-            <div
-              className="avatar__container d-flex align-items-center"
-              onClick={handleRefresh}
-            >
-              <ReloadOutlined />
-            </div>
             <div
               className="avatar__container d-flex align-items-center"
               onClick={handleViewProfile}

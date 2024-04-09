@@ -198,9 +198,16 @@ const ViewApplicationDetails = () => {
   const handleBackpressed = () => {
     setLoading(true);
     if (
-      (account_type === process.env.REACT_APP_AccountType1 ||
-        account_type === process.env.REACT_APP_AccountType2) &&
+      account_type === process.env.REACT_APP_AccountType1 &&
       record.approved === constants.PENDING
+    ) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
+    }
+
+    if (
+      account_type === process.env.REACT_APP_AccountType2 &&
+      record.approved === constants.STAGE_1
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
@@ -295,9 +302,22 @@ const ViewApplicationDetails = () => {
     console.log("dispatching stuff");
     // Update admin working on the application aftet 1 min of opening
     if (
-      (account_type === process.env.REACT_APP_AccountType1 ||
-        account_type === process.env.REACT_APP_AccountType2) &&
+      account_type === process.env.REACT_APP_AccountType1 &&
       record.approved === constants.PENDING
+    ) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      dispatch(
+        UpdateAdminWorkingOnApplication(
+          record.id,
+          current_admin_id,
+          current_admin_id
+        )
+      );
+    }
+
+    if (
+      account_type === process.env.REACT_APP_AccountType2 &&
+      record.approved === constants.STAGE_1
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(
