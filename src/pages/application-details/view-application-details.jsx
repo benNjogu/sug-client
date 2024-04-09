@@ -25,8 +25,9 @@ import { GetAllOrganizations } from "../../redux/slices/organization";
 import { addSerialNumber, status } from "./../../utils/addSerialNumber";
 import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
-import "./view-application-details.styles.css";
 import ViewUser from "../../components/modal/view-user-modal";
+
+import "./view-application-details.styles.css";
 
 const Banner = ({ type, title, reason, name, email, phone, date }) => (
   <div className="col-md-12">
@@ -711,7 +712,7 @@ const ViewApplicationDetails = () => {
               name={bannerData[0]?.user_name}
               email={bannerData[0]?.email}
               phone={bannerData[0]?.phone}
-              date={convertDigitInString(bannerData[0]?.date.split("T")[0])}
+              date={convertDigitInString(bannerData[0]?.date?.split("T")[0])}
             />
           </div>
         )}
@@ -724,7 +725,7 @@ const ViewApplicationDetails = () => {
               name={bannerData[0]?.user_name}
               email={bannerData[0]?.email}
               phone={bannerData[0]?.phone}
-              date={convertDigitInString(bannerData[0]?.date.split("T")[0])}
+              date={convertDigitInString(bannerData[0]?.date?.split("T")[0])}
             />
           </div>
         )}
