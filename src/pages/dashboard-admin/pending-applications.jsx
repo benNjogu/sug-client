@@ -10,12 +10,13 @@ import { FetchAllApplications } from "../../redux/slices/admin";
 import { addSerialNumber, status } from "./../../utils/addSerialNumber";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
+import { constants } from "../../data/constants";
 
 const PendingApplications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { applications } = useSelector((state) => state.admin);
+  let { applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
 
   const handleViewApplication = (record) => {
@@ -35,6 +36,32 @@ const PendingApplications = () => {
     {
       title: "Organization",
       dataIndex: "org_name",
+    },
+    {
+      title: "Status",
+      dataIndex: "approved",
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              color:
+                record.approved === constants.REJECTED
+                  ? "red"
+                  : record.approved === constants.STAGE_1
+                  ? "#32CD32"
+                  : record.approved === constants.STAGE_2
+                  ? "#32CD32"
+                  : record.approved === constants.APPROVED
+                  ? "	#008000"
+                  : record.approved === constants.DEFFERED
+                  ? "	#FFC107"
+                  : "",
+              fontWeight: 600,
+            },
+          },
+          children: <div>{text}</div>,
+        };
+      },
     },
     {
       title: "Date of application",
@@ -86,6 +113,11 @@ const PendingApplications = () => {
     },
   ];
 
+  if (account_type === process.env.REACT_APP_AccountType2)
+    applications = applications.filter(
+      (a) => a.approved === status.Stage_1 || a.approved === status.Pending
+    );
+
   useEffect(() => {
     dispatch(FetchAllApplications());
   }, []);
@@ -98,8 +130,10 @@ const PendingApplications = () => {
         columns={columns}
         dataSource={addSerialNumber(
           applications,
-          account_type === process.env.REACT_APP_AccountType2
-            ? status.Stage_1
+          account_type === process.env.REACT_APP_AccountType3
+            ? status.Stage_2
+            : account_type === process.env.REACT_APP_AccountType2
+            ? status.All
             : status.Pending
         )}
       />

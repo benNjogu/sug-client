@@ -48,11 +48,13 @@ export const constants = {
   SELECT: "All Levels",
   LEVEL_1: "ADMIN I",
   LEVEL_2: "ADMIN II",
-  LEVEL_3: "SUPER ADMIN",
+  LEVEL_3: "ADMIN III",
+  LEVEL_4: "SUPER ADMIN",
 
   // Approval levels
   PENDING: "Pending",
   STAGE_1: "Stage_1",
+  STAGE_2: "Stage_2",
   APPROVED: "Approved",
   DEFFERED: "Deffered",
   REJECTED: "Rejected",

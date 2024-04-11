@@ -78,6 +78,8 @@ const AllApplications = () => {
                   ? "red"
                   : record.approved === constants.STAGE_1
                   ? "#32CD32"
+                  : record.approved === constants.STAGE_2
+                  ? "#32CD32"
                   : record.approved === constants.APPROVED
                   ? "	#008000"
                   : record.approved === constants.DEFFERED

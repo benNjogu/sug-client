@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Table } from "antd";
 
-import DefaultLayout from '../../../components/default-layout/default-layout.component';
-import { addSerialNumber, status } from '../../../utils/addSerialNumber';
-import { convertDigitInString } from '../../../utils/convertDigitsInString';
-import Spinner from '../../../components/spinner';
+import DefaultLayout from "../../../components/default-layout/default-layout.component";
+import { addSerialNumber, status } from "../../../utils/addSerialNumber";
+import { convertDigitInString } from "../../../utils/convertDigitsInString";
+import Spinner from "../../../components/spinner";
+import { constants } from "../../../data/constants";
 
 const Pending = () => {
   const [loading, setLoading] = useState(false);
@@ -16,29 +17,55 @@ const Pending = () => {
 
   const columns = [
     {
-      title: 'S.No',
-      dataIndex: 's_no',
+      title: "S.No",
+      dataIndex: "s_no",
     },
     {
-      title: 'Course',
-      dataIndex: 'course_title',
+      title: "Course",
+      dataIndex: "course_title",
     },
     {
-      title: 'Provider',
-      dataIndex: 'training_provider',
+      title: "Provider",
+      dataIndex: "training_provider",
     },
     {
-      title: 'Date Applied',
-      dataIndex: 'date_applied',
+      title: "Date Applied",
+      dataIndex: "date_applied",
       render(text, record) {
         return {
-          children: <div>{convertDigitInString(text.split('T')[0])}</div>,
+          children: <div>{convertDigitInString(text.split("T")[0])}</div>,
         };
       },
     },
     {
-      title: 'Action',
-      dataIndex: 'id',
+      title: "Status",
+      dataIndex: "approved",
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              color:
+                record.approved === constants.REJECTED
+                  ? "red"
+                  : record.approved === constants.STAGE_1
+                  ? "#32CD32"
+                  : record.approved === constants.STAGE_2
+                  ? "#32CD32"
+                  : record.approved === constants.APPROVED
+                  ? "	#008000"
+                  : record.approved === constants.DEFFERED
+                  ? "	#FFC107"
+                  : "",
+              fontWeight: 600,
+            },
+          },
+          children: <div>{text}</div>,
+        };
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
       render: (id, record) => (
         <div className="d-flex justify-content-around">
           <EyeOutlined
@@ -63,16 +90,16 @@ const Pending = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate('/app/view-application', { state: { record } });
+      navigate("/app/view-application", { state: { record } });
     }, 700);
   };
 
   const handleEditApplication = (record) => {
-    console.log('edit application', record);
+    console.log("edit application", record);
   };
 
   const handleDeleteApplication = (record) => {
-    console.log('delete application', record);
+    console.log("delete application", record);
   };
 
   return (

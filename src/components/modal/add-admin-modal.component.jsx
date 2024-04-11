@@ -65,7 +65,7 @@ const AddAdminModal = ({
         <label for="type">Level of administration:</label>
         <select
           class="form-control form-control-md"
-          value={adminToEdit !== null && level}
+          value={adminToEdit !== null ? level : undefined}
           onChange={handleSelectChange}
         >
           {options.map((o) => (
@@ -88,7 +88,9 @@ const AddAdminModal = ({
                 id="sex-male"
                 value="M"
                 checked={
-                  adminToEdit !== null && adminToEdit.sex === "M" ? true : false
+                  adminToEdit !== null && adminToEdit.sex === "M"
+                    ? true
+                    : undefined
                 }
                 autoComplete="off"
                 {...register("sex", {
@@ -108,7 +110,9 @@ const AddAdminModal = ({
                 id="sex-female"
                 value="F"
                 checked={
-                  adminToEdit !== null && adminToEdit.sex === "F" ? true : false
+                  adminToEdit !== null && adminToEdit.sex === "F"
+                    ? true
+                    : undefined
                 }
                 autoComplete="off"
                 {...register("sex", {
@@ -130,7 +134,7 @@ const AddAdminModal = ({
           type="text"
           name="name"
           id="name"
-          value={adminToEdit !== null ? adminToEdit.user_name : ""}
+          value={adminToEdit !== null ? adminToEdit.user_name : undefined}
           class="form-control"
           placeholder="FirstName LastName"
           {...register("name", {
@@ -148,7 +152,7 @@ const AddAdminModal = ({
           type="email"
           name="email"
           id="email"
-          value={adminToEdit !== null ? adminToEdit.email : ""}
+          value={adminToEdit !== null ? adminToEdit.email : undefined}
           class="form-control"
           placeholder="stuff@nita.go.ke"
           {...register("email", {

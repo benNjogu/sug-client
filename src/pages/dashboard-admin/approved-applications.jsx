@@ -10,7 +10,11 @@ import { getTime } from "../../utils/getTimeFromTimestamp";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import Spinner from "../../components/spinner";
 import CustomTabs from "../../components/tabs/tabs.component";
-import { FetchAllApprovedApplications } from "../../redux/slices/admin";
+import {
+  FetchAllApplications,
+  FetchAllApprovedApplications,
+} from "../../redux/slices/admin";
+import { constants } from "../../data/constants";
 
 const ApprovedApplications = () => {
   const dispatch = useDispatch();
@@ -21,6 +25,7 @@ const ApprovedApplications = () => {
   let my_id = window.localStorage.getItem("user_id");
   let { approved_applications } = useSelector((state) => state.admin);
   const { account_type } = useSelector((state) => state.auth.user_data);
+  let { applications } = useSelector((state) => state.admin);
 
   const columns = [
     {
@@ -29,11 +34,36 @@ const ApprovedApplications = () => {
     },
     {
       title: "Organization",
-      dataIndex: "user_name",
+      dataIndex:
+        account_type === process.env.REACT_APP_AccountType1
+          ? "org_name"
+          : "user_name",
     },
     {
       title: "Status",
       dataIndex: "approved",
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              color:
+                record.approved === constants.REJECTED
+                  ? "red"
+                  : record.approved === constants.STAGE_1
+                  ? "#32CD32"
+                  : record.approved === constants.STAGE_2
+                  ? "#32CD32"
+                  : record.approved === constants.APPROVED
+                  ? "	#008000"
+                  : record.approved === constants.DEFFERED
+                  ? "	#FFC107"
+                  : "",
+              fontWeight: 600,
+            },
+          },
+          children: <div>{text}</div>,
+        };
+      },
     },
     {
       title: "Date of application",
@@ -79,12 +109,18 @@ const ApprovedApplications = () => {
   const handleShowMine = () => {
     // get all of my approved applications
     if (account_type === process.env.REACT_APP_AccountType1) {
+      approved_applications = applications.filter(
+        (application) => Number(application.level_a) === Number(status.Stage_1)
+      );
+      setApprovedApplications(approved_applications);
+    }
+    if (account_type === process.env.REACT_APP_AccountType2) {
       approved_applications = approved_applications.filter(
         (application) => Number(application.level_1) === Number(my_id)
       );
       setApprovedApplications(approved_applications);
     }
-    if (account_type === process.env.REACT_APP_AccountType2) {
+    if (account_type === process.env.REACT_APP_AccountType3) {
       approved_applications = approved_applications.filter(
         (application) => Number(application.level_2) === Number(my_id)
       );
@@ -96,12 +132,17 @@ const ApprovedApplications = () => {
   const handleShowAll = () => {
     if (account_type === process.env.REACT_APP_AccountType1) {
       approved_applications = approved_applications.filter(
+        (application) => Number(application.approved) === status.Approved
+      );
+    }
+    if (account_type === process.env.REACT_APP_AccountType2) {
+      approved_applications = approved_applications.filter(
         (application) =>
           Number(application.approved) === status.Stage_1 ||
           Number(application.approved) === status.Approved
       );
     }
-    if (account_type === process.env.REACT_APP_AccountType2) {
+    if (account_type === process.env.REACT_APP_AccountType3) {
       approved_applications = approved_applications.filter(
         (application) => Number(application.approved) === status.Approved
       );
@@ -111,9 +152,20 @@ const ApprovedApplications = () => {
   };
 
   useEffect(() => {
+    if (account_type === process.env.REACT_APP_AccountType1) {
+      dispatch(FetchAllApplications());
+    }
+
     dispatch(FetchAllApprovedApplications());
     // get all of my approved applications
     if (account_type === process.env.REACT_APP_AccountType1) {
+      approved_applications = applications.filter(
+        (application) => Number(application.level_a) === Number(status.Stage_1)
+      );
+      setApprovedApplications(approved_applications);
+    }
+
+    if (account_type === process.env.REACT_APP_AccountType2) {
       approved_applications = approved_applications.filter(
         (application) => Number(application.level_1) === Number(my_id)
       );
@@ -121,7 +173,7 @@ const ApprovedApplications = () => {
       setApprovedApplications(approved_applications);
     }
 
-    if (account_type === process.env.REACT_APP_AccountType2) {
+    if (account_type === process.env.REACT_APP_AccountType3) {
       approved_applications = approved_applications.filter(
         (application) => Number(application.level_2) === Number(my_id)
       );

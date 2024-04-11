@@ -169,14 +169,14 @@ const ViewApplicationDetails = () => {
   };
 
   const [modal, contextHolder] = Modal.useModal();
-  const handleApproveLevel2 = () => {
+  const handleApproveLevel1and3 = () => {
     modal.confirm({
       title: "Approve",
       icon: <CheckCircleOutlined />,
       content: "Approve this application?",
       okText: "APPROVE",
       cancelText: "CANCEL",
-      onOk: handleAppApproveLevel2,
+      onOk: handleAppApproveLevel1and3,
     });
   };
 
@@ -198,16 +198,17 @@ const ViewApplicationDetails = () => {
   const handleBackpressed = () => {
     setLoading(true);
     if (
-      account_type === process.env.REACT_APP_AccountType1 &&
-      record.approved === constants.PENDING
+      account_type === process.env.REACT_APP_AccountType2 &&
+      (record.approved === constants.PENDING ||
+        record.approved === constants.STAGE_1)
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
     }
 
     if (
-      account_type === process.env.REACT_APP_AccountType2 &&
-      record.approved === constants.STAGE_1
+      account_type === process.env.REACT_APP_AccountType3 &&
+      record.approved === constants.STAGE_2
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
@@ -231,7 +232,7 @@ const ViewApplicationDetails = () => {
     setHideButtons(true);
   };
 
-  const handleAppApproveLevel2 = () => {
+  const handleAppApproveLevel1and3 = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -242,6 +243,7 @@ const ViewApplicationDetails = () => {
         })
       );
     }, 300);
+    setHideButtons(true);
   };
 
   const handleAppReject = (reason) => {
@@ -302,8 +304,9 @@ const ViewApplicationDetails = () => {
     console.log("dispatching stuff");
     // Update admin working on the application aftet 1 min of opening
     if (
-      account_type === process.env.REACT_APP_AccountType1 &&
-      record.approved === constants.PENDING
+      account_type === process.env.REACT_APP_AccountType2 &&
+      (record.approved === constants.PENDING ||
+        record.approved === constants.STAGE_1)
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(
@@ -316,8 +319,8 @@ const ViewApplicationDetails = () => {
     }
 
     if (
-      account_type === process.env.REACT_APP_AccountType2 &&
-      record.approved === constants.STAGE_1
+      account_type === process.env.REACT_APP_AccountType3 &&
+      record.approved === constants.STAGE_2
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
       dispatch(
@@ -358,8 +361,8 @@ const ViewApplicationDetails = () => {
     if (record.approved === constants.APPROVED)
       dispatch(GetBannerData(record.id, 2));
 
-    if (account_type === process.env.REACT_APP_AccountType2) {
-      if (record.approved === constants.STAGE_1) {
+    if (account_type === process.env.REACT_APP_AccountType3) {
+      if (record.approved === constants.STAGE_2) {
         dispatch(GetBannerData(record.id, 1));
       }
       if (record.approved === constants.APPROVED) {
@@ -369,8 +372,8 @@ const ViewApplicationDetails = () => {
   }, []);
 
   if (
-    account_type === process.env.REACT_APP_AccountType2 &&
-    (record.approved === constants.STAGE_1 ||
+    account_type === process.env.REACT_APP_AccountType3 &&
+    (record.approved === constants.STAGE_2 ||
       record.approved === constants.APPROVED)
   )
     return (
@@ -379,7 +382,7 @@ const ViewApplicationDetails = () => {
         <Navbar
           title={record.course_title}
           handleApprove={handleApprove}
-          handleApproveLevel2={handleApproveLevel2}
+          handleApproveLevel1and3={handleApproveLevel1and3}
           handleReject={handleReject}
           handleDeffer={handleDeffer}
           handleEdit={handleEdit}
@@ -607,15 +610,15 @@ const ViewApplicationDetails = () => {
                               >
                                 Recomendation:
                               </label>
-                              <span>{bannerData[0].recommendation}</span>
+                              <span>{bannerData[0]?.recommendation}</span>
                             </div>
                             <div>
                               <label for="name" className="label w-25">
                                 Name of recommending officer:
                               </label>
                               <span>
-                                {bannerData[0].level_1 ||
-                                  bannerData[0].user_name}
+                                {bannerData[0]?.level_1 ||
+                                  bannerData[0]?.user_name}
                               </span>
                             </div>
                             <div>
@@ -648,7 +651,7 @@ const ViewApplicationDetails = () => {
       <Navbar
         title={record.course_title}
         handleApprove={handleApprove}
-        handleApproveLevel2={handleApproveLevel2}
+        handleApproveLevel1and3={handleApproveLevel1and3}
         handleReject={handleReject}
         handleDeffer={handleDeffer}
         handleEdit={handleEdit}

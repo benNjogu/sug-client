@@ -42,10 +42,15 @@ const CreateAdmin = () => {
     );
   }
 
-  let type_of_admins = [constants.SELECT, constants.LEVEL_1, constants.LEVEL_2];
+  let type_of_admins = [
+    constants.SELECT,
+    constants.LEVEL_1,
+    constants.LEVEL_2,
+    constants.LEVEL_3,
+  ];
 
-  if (account_type === process.env.REACT_APP_AccountType4) {
-    type_of_admins = [...type_of_admins, constants.LEVEL_3];
+  if (account_type === process.env.REACT_APP_AccountType5) {
+    type_of_admins = [...type_of_admins, constants.LEVEL_4];
   }
 
   const handleAddNew = () => {

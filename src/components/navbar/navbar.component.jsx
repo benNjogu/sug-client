@@ -16,7 +16,7 @@ export const Button = ({ text, text_color, icon, handleBtnClick }) => {
 const Navbar = ({
   title,
   handleApprove,
-  handleApproveLevel2,
+  handleApproveLevel1and3,
   handleDeffer,
   handleReject,
   handleEdit,
@@ -34,7 +34,9 @@ const Navbar = ({
       {(account_type === process.env.REACT_APP_AccountType1 &&
         approved === constants.PENDING) ||
       (account_type === process.env.REACT_APP_AccountType2 &&
-        approved === constants.STAGE_1) ? (
+        (approved === constants.PENDING || approved === constants.STAGE_1)) ||
+      (account_type === process.env.REACT_APP_AccountType3 &&
+        approved === constants.STAGE_2) ? (
         <ul className="list nav__list collapsible__content">
           {!hideButtons && (
             <li className="nav__item">
@@ -42,8 +44,9 @@ const Navbar = ({
                 text={"Approve"}
                 text_color={"text-success"}
                 handleBtnClick={
-                  account_type === process.env.REACT_APP_AccountType2
-                    ? handleApproveLevel2
+                  account_type === process.env.REACT_APP_AccountType1 ||
+                  account_type === process.env.REACT_APP_AccountType3
+                    ? handleApproveLevel1and3
                     : handleApprove
                 }
               />

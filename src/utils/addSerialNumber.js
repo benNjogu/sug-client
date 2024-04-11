@@ -6,7 +6,9 @@ export let status = {
   Deffered: -1,
   Pending: 0,
   Stage_1: 1,
-  Approved: 2,
+  Stage_2: 2,
+  Approved: 3,
+  Both: 0 || 1,
 };
 
 export const addSerialNumber = (applications, approved) => {
