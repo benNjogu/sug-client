@@ -1,8 +1,8 @@
-import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import { useForm } from "react-hook-form";
+import { Form } from "react-bootstrap";
 
-import SignatureID from '../signature-id.component';
-import '../application/styles/form.styles.css';
+import Quotation from "../application-quote";
+import "../application/styles/form.styles.css";
 
 const RejectApplicationModal = ({ handleClose, handleReject }) => {
   const {
@@ -32,13 +32,13 @@ const RejectApplicationModal = ({ handleClose, handleReject }) => {
                   id="rejection_message"
                   rows="6"
                   autoComplete="off"
-                  {...register('rejection_message', {
-                    required: 'A rejection must have a reason!!',
+                  {...register("rejection_message", {
+                    required: "A rejection must have a reason!!",
                   })}
                   className={`${
                     errors.rejection_message
-                      ? 'input-error form-control'
-                      : 'form-control'
+                      ? "input-error form-control"
+                      : "form-control"
                   }`}
                 />
                 {errors.rejection_message && (
@@ -58,7 +58,7 @@ const RejectApplicationModal = ({ handleClose, handleReject }) => {
           >
             CANCEL
           </button>
-          <button type="submit" class={`${'btn btn-danger'}`}>
+          <button type="submit" class={`${"btn btn-danger"}`}>
             REJECT
           </button>
         </div>

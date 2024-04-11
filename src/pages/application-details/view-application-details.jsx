@@ -220,12 +220,12 @@ const ViewApplicationDetails = () => {
     }, 300);
   };
 
-  const handleAppApprove = (reason) => {
+  const handleAppApprove = (recommedation) => {
     dispatch(
       ApproveApplication({
         level: account_type,
         application_id: record.id,
-        recommedation: reason.in_house + "," + reason.open_house,
+        recommedation,
       })
     );
     setHideButtons(true);

@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Form } from "react-bootstrap";
 
-import SignatureID from '../signature-id.component';
-import '../application/styles/form.styles.css';
+import Quotation from "../application-quote";
+import "../application/styles/form.styles.css";
 
 const DefferApplicationModal = ({
   handleClose,
@@ -22,7 +22,7 @@ const DefferApplicationModal = ({
   const onSubmit = (data) => {
     handleClose();
 
-    type === 'rejection' ? handleReject(data) : handleDeffer(data);
+    type === "rejection" ? handleReject(data) : handleDeffer(data);
   };
 
   return (
@@ -39,13 +39,13 @@ const DefferApplicationModal = ({
                   id="deffer_message"
                   rows="6"
                   autoComplete="off"
-                  {...register('deffer_message', {
-                    required: 'A deffer must have a reason!!',
+                  {...register("deffer_message", {
+                    required: "A deffer must have a reason!!",
                   })}
                   className={`${
                     errors.deffer_message
-                      ? 'input-error form-control'
-                      : 'form-control'
+                      ? "input-error form-control"
+                      : "form-control"
                   }`}
                 />
                 {errors.deffer_message && (
@@ -65,7 +65,7 @@ const DefferApplicationModal = ({
           >
             CANCEL
           </button>
-          <button type="submit" class={`${'btn btn-warning text-white'}`}>
+          <button type="submit" class={`${"btn btn-warning text-white"}`}>
             DEFFER
           </button>
         </div>
