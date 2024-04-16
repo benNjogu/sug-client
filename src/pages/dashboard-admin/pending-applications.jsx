@@ -17,6 +17,7 @@ const PendingApplications = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   let { applications } = useSelector((state) => state.admin);
+  console.log("all apps", applications);
   const { account_type } = useSelector((state) => state.auth.user_data);
 
   const handleViewApplication = (record) => {
@@ -113,10 +114,15 @@ const PendingApplications = () => {
     },
   ];
 
+  if (account_type === process.env.REACT_APP_AccountType1)
+    applications = applications.filter((a) => a.level_a === status.Pending);
+
   if (account_type === process.env.REACT_APP_AccountType2)
     applications = applications.filter(
-      (a) => a.approved === status.Stage_1 || a.approved === status.Pending
+      (a) => a.approved === status.Pending || a.approved === status.Stage_1
     );
+
+  console.log("filtered apps", applications);
 
   useEffect(() => {
     dispatch(FetchAllApplications());
@@ -132,9 +138,7 @@ const PendingApplications = () => {
           applications,
           account_type === process.env.REACT_APP_AccountType3
             ? status.Stage_2
-            : account_type === process.env.REACT_APP_AccountType2
-            ? status.All
-            : status.Pending
+            : status.All
         )}
       />
     </DefaultLayout>

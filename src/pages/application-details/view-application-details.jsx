@@ -222,14 +222,18 @@ const ViewApplicationDetails = () => {
   };
 
   const handleAppApprove = (recommedation) => {
-    dispatch(
-      ApproveApplication({
-        level: account_type,
-        application_id: record.id,
-        recommedation,
-      })
-    );
-    setHideButtons(true);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(
+        ApproveApplication({
+          level: account_type,
+          application_id: record.id,
+          recommedation,
+        })
+      );
+      setHideButtons(true);
+    }, 300);
   };
 
   const handleAppApproveLevel1and3 = () => {
@@ -242,8 +246,9 @@ const ViewApplicationDetails = () => {
           application_id: record.id,
         })
       );
+
+      setHideButtons(true);
     }, 300);
-    setHideButtons(true);
   };
 
   const handleAppReject = (reason) => {
@@ -258,6 +263,8 @@ const ViewApplicationDetails = () => {
           type: status.Rejected,
         })
       );
+
+      setHideButtons(true);
     }, 300);
   };
 
@@ -273,6 +280,8 @@ const ViewApplicationDetails = () => {
           type: status.Deffered,
         })
       );
+
+      setHideButtons(true);
     }, 300);
   };
 
