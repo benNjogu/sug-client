@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
-import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { EyeOutlined } from "@ant-design/icons";
 import { Modal, Table } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +10,15 @@ import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import { convertDigitInString } from "./../../../utils/convertDigitsInString";
 import Spinner from "../../../components/spinner";
 import ApprovalLetter from "../../../components/approval-letter/approval-letter.component";
+import { GetApprovedApplicationsByOrg } from "../../../redux/slices/application";
 
 const Approved = () => {
-  const [loading, setLoading] = useState(false);
-  const [showLetterModal, setShowLetterModal] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { applications } = useSelector((state) => state.application);
+  const [loading, setLoading] = useState(false);
+  const [letterData, setLetterData] = useState(null);
+  const [showLetterModal, setShowLetterModal] = useState(false);
+  const { orgApprovedApplications } = useSelector((state) => state.application);
 
   const columns = [
     {
@@ -46,7 +50,7 @@ const Approved = () => {
               cursor: "pointer",
             },
           },
-          children: <div onClick={handleViewLetter}>{text}</div>,
+          children: <div onClick={() => handleViewLetter(record)}>{text}</div>,
         };
       },
     },
@@ -73,14 +77,20 @@ const Approved = () => {
     }, 700);
   };
 
-  const handleViewLetter = () => {
-    console.log("first");
+  const handleViewLetter = (record) => {
+    setLetterData(record);
     setShowLetterModal(true);
   };
 
   const handleCancel = () => {
     setShowLetterModal(false);
   };
+
+  useEffect(() => {
+    dispatch(
+      GetApprovedApplicationsByOrg(window.localStorage.getItem("user_id"))
+    );
+  }, []);
 
   return (
     <DefaultLayout>
@@ -94,13 +104,18 @@ const Approved = () => {
           onCancel={handleCancel}
           footer={false}
         >
-          {<ApprovalLetter handleClose={handleCancel} />}
+          {
+            <ApprovalLetter
+              handleClose={handleCancel}
+              letter_data={letterData}
+            />
+          }
         </Modal>
       )}
 
       <Table
         columns={columns}
-        dataSource={addSerialNumber(applications, status.Approved)}
+        dataSource={addSerialNumber(orgApprovedApplications, status.All)}
       />
     </DefaultLayout>
   );

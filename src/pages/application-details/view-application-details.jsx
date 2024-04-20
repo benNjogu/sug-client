@@ -309,6 +309,24 @@ const ViewApplicationDetails = () => {
     console.log("edit", record);
   };
 
+  const splitRecommendation = () => {
+    let recommendation = bannerData[0]?.recommendation.split(",");
+    let arranged_recommendation_data = {};
+    for (let i = 0; i < recommendation.length; i++) {
+      if (recommendation[i].includes("house")) {
+        arranged_recommendation_data.house = recommendation[i];
+      } else if (recommendation[i].includes("residential")) {
+        arranged_recommendation_data.residential = recommendation[i];
+      } else if (recommendation[i].includes("employers")) {
+        arranged_recommendation_data.employers = recommendation[i];
+      } else {
+        arranged_recommendation_data.quote = recommendation[i];
+      }
+    }
+
+    return arranged_recommendation_data;
+  };
+
   useEffect(() => {
     console.log("dispatching stuff");
     // Update admin working on the application aftet 1 min of opening
@@ -619,7 +637,11 @@ const ViewApplicationDetails = () => {
                               >
                                 Recomendation:
                               </label>
-                              <span>{bannerData[0]?.recommendation}</span>
+                              <span>{`${splitRecommendation().house}, ${
+                                splitRecommendation().residential
+                              } training, ${
+                                splitRecommendation().employers
+                              }`}</span>
                             </div>
                             <div>
                               <label for="name" className="label w-25">
@@ -729,7 +751,9 @@ const ViewApplicationDetails = () => {
             <Banner
               type={"success"}
               title={"Application Approved"}
-              reason={bannerData[0]?.recommendation}
+              reason={`${splitRecommendation().house}, ${
+                splitRecommendation().residential
+              } training, ${splitRecommendation().employers}`}
               name={bannerData[0]?.level_2}
               date={convertDigitInString(bannerData[0]?.date_2?.split("T")[0])}
             />

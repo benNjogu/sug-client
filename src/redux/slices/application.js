@@ -10,6 +10,7 @@ const initialState = {
   applicationDates: [],
   applicationHR: [],
   bannerData: [],
+  orgApprovedApplications: [],
 };
 
 const slice = createSlice({
@@ -38,6 +39,10 @@ const slice = createSlice({
 
     updateBannerData(state, action) {
       state.bannerData = action.payload.bannerData;
+    },
+
+    updateOrgApprovedApplications(state, action) {
+      state.orgApprovedApplications = action.payload.orgApprovedApplications;
     },
   },
 });
@@ -91,7 +96,6 @@ export const CreateNewApplication = (formValues) => {
         { headers: { "Content-Type": "application/json" } }
       )
       .then(function (response) {
-        console.log(response);
         dispatch(
           ShowSnackbar({ severity: "success", message: response.data.message })
         );
@@ -174,7 +178,6 @@ export const GetApplicationHR = (application_id) => {
         },
       })
       .then(function (response) {
-        console.log(response, "hr");
         dispatch(
           slice.actions.updateApplicationHR({
             applicationHR: response.data.result1,
@@ -236,10 +239,36 @@ export const GetBannerData = (application_id, status) => {
         { headers: { "Content-Type": "application/json" } }
       )
       .then(function (response) {
-        console.log("banner-data", response);
         dispatch(
           slice.actions.updateBannerData({
             bannerData: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const GetApprovedApplicationsByOrg = (org_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/application/get-approved-applications-by-org",
+        { org_id },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateOrgApprovedApplications({
+            orgApprovedApplications: response.data.result,
           })
         );
       })
