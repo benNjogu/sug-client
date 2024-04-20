@@ -109,7 +109,7 @@ const ApprovalLetter = ({ letter_data }) => {
           <div className="d-flex justify-content-between pb-2">
             <div>
               <p className="font-weight-bold medium-text">Peter Njiru</p>
-              <p className="font-weight-bold larger-text">
+              <p className="font-weight-bold medium-text">
                 <u>For: DIRECTOR GENERAL</u>
               </p>
               <p className="address-text">PN/MN</p>
@@ -126,7 +126,7 @@ const ApprovalLetter = ({ letter_data }) => {
         </div>
         <div className="div-stamp mb-3">
           <img src={stamp} className="stamp" alt="Stamp" />
-          <p className="stamp-date">2 7 - 0 9 - 2 0 2 2</p>
+          <p className="stamp-date">2 7 - 0 9 - 2022</p>
         </div>
       </div>
 
