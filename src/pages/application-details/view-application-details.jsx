@@ -310,9 +310,9 @@ const ViewApplicationDetails = () => {
   };
 
   const splitRecommendation = () => {
-    let recommendation = bannerData[0]?.recommendation.split(",");
+    let recommendation = bannerData[0]?.recommendation?.split(",");
     let arranged_recommendation_data = {};
-    for (let i = 0; i < recommendation.length; i++) {
+    for (let i = 0; i < recommendation?.length; i++) {
       if (recommendation[i].includes("house")) {
         arranged_recommendation_data.house = recommendation[i];
       } else if (recommendation[i].includes("residential")) {
@@ -469,7 +469,9 @@ const ViewApplicationDetails = () => {
               <Banner
                 type={"success"}
                 title={"Application Approved"}
-                reason={bannerData[0]?.recommendation}
+                reason={`${splitRecommendation().house}, ${
+                  splitRecommendation().residential
+                } training, ${splitRecommendation().employers}`}
                 name={bannerData[0]?.level_2}
                 date={bannerData[0]?.date_2?.split("T")[0]}
               />
@@ -519,14 +521,14 @@ const ViewApplicationDetails = () => {
                                 className="org_name"
                                 onClick={handleViewOrganization}
                               >
-                                {currentOrganization[0].user_name}
+                                {currentOrganization[0]?.user_name}
                               </span>
                             </div>
                             <div>
                               <label for="levy_no" className="label w-25">
                                 Levy RegNo:
                               </label>
-                              <span>{currentOrganization[0].levy_no}</span>
+                              <span>{currentOrganization[0]?.levy_no}</span>
                             </div>
                             <div>
                               <label for="date" className="label w-25">
@@ -802,14 +804,14 @@ const ViewApplicationDetails = () => {
                             {account_type ===
                             process.env.REACT_APP_AccountType0 ? (
                               <span className="org_name">
-                                {currentOrganization[0].user_name}
+                                {currentOrganization[0]?.user_name}
                               </span>
                             ) : (
                               <span
                                 className="org_name"
                                 onClick={handleViewOrganization}
                               >
-                                {currentOrganization[0].user_name}
+                                {currentOrganization[0]?.user_name}
                               </span>
                             )}
                           </div>
@@ -817,31 +819,31 @@ const ViewApplicationDetails = () => {
                             <label for="email" className="label w-25">
                               Email:
                             </label>
-                            <span>{currentOrganization[0].email}</span>
+                            <span>{currentOrganization[0]?.email}</span>
                           </div>
                           <div>
                             <label for="levy_no" className="label w-25">
                               Levy RegNo:
                             </label>
-                            <span>{currentOrganization[0].levy_no}</span>
+                            <span>{currentOrganization[0]?.levy_no}</span>
                           </div>
                           <div>
                             <label for="box" className="label w-25">
                               P.O. Box:
                             </label>
-                            <span>{currentOrganization[0].box}</span>
+                            <span>{currentOrganization[0]?.box}</span>
                           </div>
                           <div>
                             <label for="code" className="label w-25">
                               Code:
                             </label>
-                            <span>{currentOrganization[0].code}</span>
+                            <span>{currentOrganization[0]?.code}</span>
                           </div>
                           <div>
                             <label for="phone" className="label w-25">
                               Phone/Fax:
                             </label>
-                            <span>{currentOrganization[0].phone}</span>
+                            <span>{currentOrganization[0]?.phone}</span>
                           </div>
                         </div>
                         <div className="col-md-6">
@@ -849,25 +851,25 @@ const ViewApplicationDetails = () => {
                             <label for="town" className="label w-25">
                               Town:
                             </label>
-                            <span>{currentOrganization[0].town}</span>
+                            <span>{currentOrganization[0]?.town}</span>
                           </div>
                           <div>
                             <label for="street" className="label w-25">
                               Street:
                             </label>
-                            <span>{currentOrganization[0].street}</span>
+                            <span>{currentOrganization[0]?.street}</span>
                           </div>
                           <div>
                             <label for="building" className="label w-25">
                               Building:
                             </label>
-                            <span>{currentOrganization[0].building}</span>
+                            <span>{currentOrganization[0]?.building}</span>
                           </div>
                           <div>
                             <label for="floor" className="label w-25">
                               Floor:
                             </label>
-                            <span>{currentOrganization[0].floor}</span>
+                            <span>{currentOrganization[0]?.floor}</span>
                           </div>
                         </div>
                       </div>
@@ -945,7 +947,9 @@ const ViewApplicationDetails = () => {
                           </label>
                           <span className="span--block">
                             {convertDigitInString(
-                              applicationDates[idx - 1].start_date.split("T")[0]
+                              applicationDates[idx - 1]?.start_date?.split(
+                                "T"
+                              )[0]
                             )}
                           </span>
                         </div>
@@ -957,7 +961,7 @@ const ViewApplicationDetails = () => {
                           </label>
                           <span className="span--block">
                             {convertDigitInString(
-                              applicationDates[idx - 1].end_date.split("T")[0]
+                              applicationDates[idx - 1]?.end_date?.split("T")[0]
                             )}
                           </span>
                         </div>
@@ -1012,7 +1016,7 @@ const ViewApplicationDetails = () => {
                     </label>
                     <span>
                       {convertDigitInString(
-                        record.date_of_employment.split("T")[0]
+                        record.date_of_employment?.split("T")[0]
                       )}
                     </span>
                   </div>
@@ -1223,16 +1227,6 @@ const ViewApplicationDetails = () => {
                     {getNumberOfGroups().length > 1 && <p>Group {idx}</p>}
                     <div class="col-md-12">
                       <div className="row overflow-auto mt-0">
-                        {/* {getFilteredNominees()
-                          .filter((n) => Number(n?.group_id) === idx)
-                          .map((n) => (
-                            <div key={n.id} className="col-md-4">
-                              <NomineeCard
-                                nominee={n}
-                                component="view_nominee"
-                              />
-                            </div>
-                          ))} */}
                         <div key={idx + 5} className="col-md-9">
                           <Table
                             dataSource={addSerialNumber(

@@ -27,18 +27,20 @@ const CreateAdmin = () => {
 
   let { account_type } = useSelector((state) => state.auth.user_data);
   let { admins } = useSelector((state) => state.admin);
-  if (account_type === process.env.REACT_APP_AccountType3) {
-    admins = admins.filter(
-      (a) =>
-        a.account_type === process.env.REACT_APP_AccountType1 ||
-        a.account_type === process.env.REACT_APP_AccountType2
-    );
-  } else if (account_type === process.env.REACT_APP_AccountType4) {
+  if (account_type === process.env.REACT_APP_AccountType4) {
     admins = admins.filter(
       (a) =>
         a.account_type === process.env.REACT_APP_AccountType1 ||
         a.account_type === process.env.REACT_APP_AccountType2 ||
         a.account_type === process.env.REACT_APP_AccountType3
+    );
+  } else if (account_type === process.env.REACT_APP_AccountType5) {
+    admins = admins.filter(
+      (a) =>
+        a.account_type === process.env.REACT_APP_AccountType1 ||
+        a.account_type === process.env.REACT_APP_AccountType2 ||
+        a.account_type === process.env.REACT_APP_AccountType3 ||
+        a.account_type === process.env.REACT_APP_AccountType4
     );
   }
 

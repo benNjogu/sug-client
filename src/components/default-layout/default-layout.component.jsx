@@ -23,7 +23,6 @@ import { Layout, Menu, Button, theme, Modal } from "antd";
 
 import { LogOutUser } from "../../redux/slices/auth";
 import "./default-layout.styles.css";
-import { FetchAllApplications } from "../../redux/slices/admin";
 
 const { Header, Sider, Content } = Layout;
 
@@ -323,14 +322,17 @@ const DefaultLayout = ({ children }) => {
                 height: 64,
               }}
             />
+            {/* <div className="avatar__wrapper d-flex align-items-center"> */}
             <div
               className="avatar__container d-flex align-items-center"
               onClick={handleViewProfile}
             >
+              <span className="edit_profile_text">EDIT PROFILE</span>
               <Avatar sx={{ bgcolor: "#673ab7" }}>
                 {getFirstLetterOfUserName()}
               </Avatar>
             </div>
+            {/* </div> */}
           </Header>
           <Content
             style={{

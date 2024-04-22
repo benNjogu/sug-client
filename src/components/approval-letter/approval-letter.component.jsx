@@ -18,9 +18,9 @@ const ApprovalLetter = ({ letter_data }) => {
   const componentRef = useRef();
 
   const { applicationDates } = useSelector((state) => state.application);
+  console.log("appld", applicationDates);
   const { applicationNominees } = useSelector((state) => state.application);
   let { nominees } = useSelector((state) => state.nominee);
-  console.log("aadd", applicationDates);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -144,41 +144,60 @@ const ApprovalLetter = ({ letter_data }) => {
         </div>
         <div className="reference my-3">
           <h5 className="font-weight-bold">
-            {`RE: TRAINING ON ${letter_data.course_title.toUpperCase()} BY ${letter_data.training_provider.toUpperCase()} FROM
-             ${moment(applicationDates[0]?.start_date)
+            {applicationDates?.length === 1
+              ? `RE: TRAINING ON ${letter_data.course_title.toUpperCase()} BY ${letter_data.training_provider.toUpperCase()} FROM
+             ${moment(applicationDates[0]?.start_date?.split("T")[0])
                .format("Do MMMM, YYYY")
                .toUpperCase()}
-             TO ${moment(applicationDates[0]?.end_date)
+             TO ${moment(applicationDates[0]?.end_date?.split("T")[0])
                .format("Do MMMM, YYYY")
-               .toUpperCase()} .`}
+               .toUpperCase()} .`
+              : `RE: TRAINING ON ${letter_data.course_title.toUpperCase()} BY ${letter_data.training_provider.toUpperCase()} FROM
+             ${moment(applicationDates[0]?.start_date?.split("T")[0])
+               .format("Do MMMM, YYYY")
+               .toUpperCase()} (GROUP 1)
+             TO ${moment(
+               applicationDates[applicationDates.length - 1]?.end_date?.split(
+                 "T"
+               )[0]
+             )
+               .format("Do MMMM, YYYY")
+               .toUpperCase()} (GROUP ${applicationDates.length}).`}
           </h5>
         </div>
         <div className="letter-body">
           <div className="d-flex justify-content-between pb-2">
             <div>
-              <p className="date-applied medium-text">
-                We acknowledge receipt of your training application on
-                {` ${moment(letter_data.date_applied).format(
-                  "Do MMMM, YYYY"
-                )} `}{" "}
-                on the above subject nominating
-                <b>{` ${getFilteredNominees()[0]?.first_name} ${
-                  getFilteredNominees()[0]?.last_name
-                } `}</b>
-                to attend the course.
-              </p>
-              {/* <p className="date-applied medium-text">
-                {`We acknowledge receipt of your training application on
-                ${
-                  letter_data.date_applied
-                } on the above subject nominating <b>${
-                  getFilteredNominees()[0]?.first_name
-                } ${getFilteredNominees()[0]?.last_name}</b>
-                to attend the course.`}
-              </p> */}
+              {applicationDates.length === 1 ? (
+                <p className="date-applied medium-text">
+                  We acknowledge receipt of your training application on
+                  {` ${moment(letter_data.date_applied).format(
+                    "Do MMMM, YYYY"
+                  )} `}{" "}
+                  on the above subject nominating
+                  <b>{` ${getFilteredNominees()[0]?.first_name} ${
+                    getFilteredNominees()[0]?.last_name
+                  } `}</b>
+                  to attend the course.
+                </p>
+              ) : (
+                <p className="date-applied medium-text">
+                  We acknowledge receipt of your training application on
+                  {` ${moment(letter_data.date_applied).format(
+                    "Do MMMM, YYYY"
+                  )} `}{" "}
+                  on the above subject nominating
+                  <b>{` ${getFilteredNominees()?.length} nominees `}</b>
+                  to attend the course.
+                </p>
+              )}
               <p className="recommendation mt-2 medium-text">
-                Approval was granted for <b>the nominee</b> to attend the course
-                as{" "}
+                Approval was granted for{" "}
+                <b>
+                  the nominee
+                  {`${applicationDates.length === 1 ? "" : "s"}`}
+                </b>{" "}
+                to attend the course as{" "}
                 <b>
                   {`${splitRecommendation().house}, ${
                     splitRecommendation().residential

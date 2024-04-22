@@ -59,7 +59,7 @@
 }
 
 .link {
-  text-decoration: 'none';
+  text-decoration: "none";
 }
 
 .ant-menu-item-selected {
@@ -68,8 +68,20 @@
 
 .avatar__container {
   cursor: pointer;
-  margin-right: 8px;
+  margin-right: 16px;
   transition: transform 0.3s;
+  justify-content: space-between;
+}
+
+.edit_profile_text {
+  margin-right: 16px;
+  font-weight: 500;
+  color: #ff0000;
+}
+
+.edit_profile_text:hover {
+  text-decoration: underline;
+  text-decoration-color: #ff0000;
 }
 
 .avatar__container:hover {
