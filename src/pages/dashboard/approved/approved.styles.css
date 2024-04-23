@@ -1,0 +1,32 @@
+.details p {
+  font-size: large;
+}
+
+.details__list-bold {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.details__sub-title {
+  font-weight: bold;
+}
+
+.details-table {
+  border: 2px solid #000;
+}
+
+.details-th {
+  border: 2px solid #000;
+}
+
+.details-tr {
+  border: 1px solid #000;
+}
+
+.details-td {
+  border: 1px solid #000;
+}
+
+.block__span {
+  display: block;
+}
