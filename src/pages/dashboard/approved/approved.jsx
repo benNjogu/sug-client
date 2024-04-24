@@ -170,7 +170,7 @@ const Approved = () => {
             to make a claim for reimbursement of training expenses. The claim
             for reimbursement should be done in triplicate using the claim form
             for reimbursement <b>(NITA/F&CC/F/02)</b> available in our website{" "}
-            <a href="http://www.nita.go.ke" className="p-text">
+            <a href="http://www.nita.go.ke" target="_blank" className="p-text">
               www.nita.go.ke
             </a>
             . The following documents should be attached:
@@ -419,8 +419,8 @@ const Approved = () => {
                 </tr>
                 <tr className="details-tr">
                   <td className="details-td">October - December {getYear()}</td>
-                  <td className="details-td">31st-January, {getYear() + 1}</td>
-                  <td className="details-td">29th-February, {getYear() + 1}</td>
+                  <td className="details-td">31st January, {getYear() + 1}</td>
+                  <td className="details-td">29th February, {getYear() + 1}</td>
                 </tr>
               </tbody>
             </table>

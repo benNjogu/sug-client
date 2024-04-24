@@ -8,6 +8,7 @@ import {
   GetApplicationGroupDates,
   GetApplicationNominees,
 } from "../../redux/slices/application";
+import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
 import logo from "../../assets/images/logo.png";
 import stamp from "../../assets/images/ibta-stamp.png";
 import "./approval-letter.styles.css";
@@ -106,13 +107,21 @@ const ApprovalLetter = ({ letter_data }) => {
               </p>
               <p className="text-right address-text">
                 Email:{" "}
-                <a href="mailto:directorgeneral@nita.go.ke" className="p-text">
+                <a
+                  href="mailto:directorgeneral@nita.go.ke"
+                  target="_blank"
+                  className="p-text"
+                >
                   directorgeneral@nita.go.ke
                 </a>
               </p>
               <p className="text-right address-text">
                 Website:{" "}
-                <a href="http://www.nita.go.ke" className="p-text">
+                <a
+                  href="http://www.nita.go.ke"
+                  target="_blank"
+                  className="p-text"
+                >
                   http://www.nita.go.ke
                 </a>
               </p>
@@ -212,8 +221,15 @@ const ApprovalLetter = ({ letter_data }) => {
         <div className="font-italic my-3">
           <p>
             Any changes to the course approval particulars should be comunicated
-            to NITA through the email address training@nita.go.ke accompanied by
-            adequate justification to warrant the change.
+            to NITA through the email address{" "}
+            <a
+              href="mailto:training@nita.go.ke"
+              target="_blank"
+              className="p-text"
+            >
+              training@nita.go.ke
+            </a>{" "}
+            accompanied by adequate justification to warrant the change.
           </p>
         </div>
         <div className="my-3  medium-text">
@@ -247,7 +263,6 @@ const ApprovalLetter = ({ letter_data }) => {
           </p>
         </div>
       </div>
-
       <div className="d-flex justify-content-end">
         <Button type="primary" onClick={handlePrint}>
           Print Letter

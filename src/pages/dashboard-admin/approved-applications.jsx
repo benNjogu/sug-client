@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Table } from "antd";
+import { Modal, Table } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
@@ -15,17 +15,23 @@ import {
   FetchAllApprovedApplications,
 } from "../../redux/slices/admin";
 import { constants } from "../../data/constants";
+import ApprovalLetter from "../../components/approval-letter/approval-letter.component";
 
 const ApprovedApplications = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState("btn1");
+  const { account_type } = useSelector((state) => state.auth.user_data);
+  const [selected, setSelected] = useState(
+    account_type === process.env.REACT_APP_AccountType1 ? "btn2" : "btn1"
+  );
   const [approvedApplications, setApprovedApplications] = useState([]);
+  const [showLetterModal, setShowLetterModal] = useState(false);
+  const [letterData, setLetterData] = useState(null);
   let my_id = window.localStorage.getItem("user_id");
   let { approved_applications } = useSelector((state) => state.admin);
-  const { account_type } = useSelector((state) => state.auth.user_data);
   let { applications } = useSelector((state) => state.admin);
+  console.log("all", applications);
 
   const columns = [
     {
@@ -34,10 +40,10 @@ const ApprovedApplications = () => {
     },
     {
       title: "Organization",
-      dataIndex:
-        account_type === process.env.REACT_APP_AccountType1
-          ? "org_name"
-          : "user_name",
+      dataIndex: "org_name",
+      // account_type === process.env.REACT_APP_AccountType1
+      //   ? "org_name"
+      //   : "user_name",
     },
     {
       title: "Status",
@@ -97,13 +103,76 @@ const ApprovedApplications = () => {
     },
   ];
 
+  const approved_application_columns = [
+    {
+      title: "S.No",
+      dataIndex: "s_no",
+    },
+    {
+      title: "Organization",
+      dataIndex: "org_name",
+    },
+    {
+      title: "Course",
+      dataIndex: "course_title",
+    },
+    {
+      title: "Approval Letter",
+      dataIndex: "approval_letter",
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              color: "#1e90ff",
+              fontWeight: 600,
+              cursor: "pointer",
+            },
+          },
+          children: <div onClick={() => handleViewLetter(record)}>{text}</div>,
+        };
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      render: (id, record) => (
+        <div className="d-flex justify-content-around">
+          <EyeOutlined
+            className="mx-2"
+            onClick={() => handleViewApplication(record)}
+          />
+        </div>
+      ),
+    },
+  ];
+
   const handleViewApplication = (record) => {
+    console.log("first,", record);
     setLoading(true);
+    let application = applications.filter(
+      (a) => a.id === record.application_id
+    );
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/app/view-application", { state: { record } });
+      navigate("/app/view-application", {
+        state: {
+          record:
+            application.length === 0
+              ? record
+              : { ...application[0], approved: constants.APPROVED },
+        },
+      });
     }, 700);
+  };
+
+  const handleViewLetter = (record) => {
+    setLetterData(record);
+    setShowLetterModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowLetterModal(false);
   };
 
   const handleShowMine = () => {
@@ -157,8 +226,23 @@ const ApprovedApplications = () => {
     }
 
     dispatch(FetchAllApprovedApplications());
-    // get all of my approved applications
+
     if (account_type === process.env.REACT_APP_AccountType1) {
+      approved_applications = approved_applications.filter(
+        (application) => Number(application.approved) === status.Approved
+      );
+
+      setApprovedApplications(approved_applications);
+      setSelected("btn2");
+    } else {
+      setSelected("btn1");
+    }
+
+    // get all of my approved applications
+    if (
+      account_type === process.env.REACT_APP_AccountType1 &&
+      selected === "btn1"
+    ) {
       approved_applications = applications.filter(
         (application) => Number(application.level_a) === Number(status.Stage_1)
       );
@@ -180,8 +264,6 @@ const ApprovedApplications = () => {
 
       setApprovedApplications(approved_applications);
     }
-    setSelected("btn1");
-    // setApprovedApplications(approved_applications);
   }, []);
 
   return (
@@ -195,9 +277,32 @@ const ApprovedApplications = () => {
         onClickBtn2={handleShowAll}
       />
 
+      {showLetterModal && (
+        <Modal
+          open={showLetterModal}
+          title={`Approval Letter`}
+          width={1000}
+          centered
+          onCancel={handleCancel}
+          footer={false}
+        >
+          {
+            <ApprovalLetter
+              handleClose={handleCancel}
+              letter_data={letterData}
+            />
+          }
+        </Modal>
+      )}
+
       <Table
         className="mt-3"
-        columns={columns}
+        columns={
+          account_type === process.env.REACT_APP_AccountType1 &&
+          selected === "btn2"
+            ? approved_application_columns
+            : columns
+        }
         dataSource={addSerialNumber(approvedApplications, status.All)}
       />
     </DefaultLayout>
