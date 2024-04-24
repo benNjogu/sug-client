@@ -65,22 +65,13 @@ const DefferedApplications = () => {
 
   const handleShowMine = () => {
     // get all of my defferred applications
-    // if (account_type === process.env.REACT_APP_AccountType2) {
     defferred_rejected_applications = defferred_rejected_applications.filter(
       (application) =>
         Number(application.admin_id) === Number(my_id) &&
         Number(application.approved) === status.Deffered
     );
     setDeffereddApplications(defferred_rejected_applications);
-    // }
-    // if (account_type === process.env.REACT_APP_AccountType2) {
-    //   defferred_rejected_applications = defferred_rejected_applications.filter(
-    //     (application) =>
-    //       Number(application.admin_id) === Number(my_id) &&
-    //       Number(application.approved) === status.Deffered
-    //   );
-    //   setDeffereddApplications(defferred_rejected_applications);
-    // }
+
     setSelected("btn1");
   };
 
@@ -106,7 +97,6 @@ const DefferedApplications = () => {
     dispatch(FetchAllDefferredAndRejectedApplications());
 
     // get all of my defferred applications
-    // if (account_type === process.env.REACT_APP_AccountType1) {
     defferred_rejected_applications = defferred_rejected_applications.filter(
       (application) =>
         Number(application.admin_id) === Number(my_id) &&
@@ -114,17 +104,7 @@ const DefferedApplications = () => {
     );
 
     setDeffereddApplications(defferred_rejected_applications);
-    // }
 
-    // if (account_type === process.env.REACT_APP_AccountType2) {
-    //   defferred_rejected_applications = defferred_rejected_applications.filter(
-    //     (application) =>
-    //       Number(application.admin_id) === Number(my_id) &&
-    //       Number(application.approved) === status.Deffered
-    //   );
-
-    //   setDeffereddApplications(defferred_rejected_applications);
-    // }
     setSelected("btn1");
   }, []);
 
