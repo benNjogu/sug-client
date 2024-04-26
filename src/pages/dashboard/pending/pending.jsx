@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
+import moment from "moment";
 
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
@@ -33,7 +34,7 @@ const Pending = () => {
       dataIndex: "date_applied",
       render(text, record) {
         return {
-          children: <div>{convertDigitInString(text.split("T")[0])}</div>,
+          children: <div>{`${moment(text).format("Do MM, YYYY")}`}</div>,
         };
       },
     },

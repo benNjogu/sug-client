@@ -6,6 +6,7 @@ import { ShowSnackbar } from "./app";
 const initialState = {
   organizations: [],
   organization_profile_data: {},
+  defferred_and_rejects: [],
 };
 
 const slice = createSlice({
@@ -15,6 +16,9 @@ const slice = createSlice({
     updateOrganizationProfile(state, action) {
       state.organization_profile_data =
         action.payload.organization_profile_data;
+    },
+    updateDefferredAndRejects(state, action) {
+      state.defferred_and_rejects = action.payload.defferred_and_rejects;
     },
     // for admins
     updateOrganizations(state, action) {
@@ -80,6 +84,34 @@ export const GetOrganizationData = () => {
       .catch(function (error) {
         console.log(error);
         dispatch(ShowSnackbar({ severity: "error", message: error.message }));
+      });
+  };
+};
+
+export const GetDefferredAndRejects = () => {
+  return async (dispatch, getState) => {
+    let org_id = window.localStorage.getItem("user_id");
+    await axios
+      .post(
+        "/application/fetch-defferred-and-rejected-applications-by-id",
+        { org_id },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(function (response) {
+        dispatch(
+          slice.actions.updateDefferredAndRejects({
+            defferred_and_rejects: response.data.result,
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
       });
   };
 };
