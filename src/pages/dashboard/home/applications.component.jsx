@@ -165,6 +165,13 @@ const Applications = () => {
         >
           {constants.NEW_APPLICATION}
         </button>
+        <button
+          className="btn btn-primary"
+          style={{ marginBottom: 12, marginLeft: 70 }}
+          onClick={handleShowModal}
+        >
+          {constants.NEW_APPLICATION_2}
+        </button>
         {showModal && (
           <Modal
             open={showModal}

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import axios from "../../utils/axios";
 import { ShowSnackbar } from "./app";
+import { message } from "antd";
 
 const initialState = {
   nominees: [],
@@ -68,7 +69,6 @@ export function RegisterUser(formValues) {
 }
 
 export function FetchAllRegisteredUsers(org) {
-  console.log("org", org);
   return async (dispatch, getState) => {
     await axios
       .get(`/nominee/get-nominees/${org}`, {
@@ -85,6 +85,36 @@ export function FetchAllRegisteredUsers(org) {
             nominees: response.data.result,
           })
         );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+}
+
+export function EditNominee(data) {
+  console.log("org", data);
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        `/nominee/edit-nominee`,
+        { ...data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+        message.success(response.data.message);
       })
       .catch(function (error) {
         console.log(error);

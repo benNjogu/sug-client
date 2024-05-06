@@ -7,6 +7,7 @@ import { FetchAllRegisteredUsers } from "./../../../redux/slices/nominee";
 import FilterNominees from "./../../../components/filter-component/filter-component";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import Spinner from "../../../components/spinner";
+import { constants } from "../../../data/constants";
 
 const Registered = () => {
   const [loading, setLoading] = useState(false);
@@ -20,14 +21,21 @@ const Registered = () => {
     setTimeout(() => {
       setLoading(false);
 
-      navigate("/app/register-nominee");
+      navigate("/app/register-nominee", {
+        state: { type: constants.ADD_NOMINEE },
+      });
     }, 700);
   };
 
-  const handleEdit = () => {
-    navigate("/app/register-nominee", {
-      state: { nominee_id: 1 },
-    });
+  const handleEdit = (nominee) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+
+      navigate("/app/register-nominee", {
+        state: { nominee, type: constants.EDIT_NOMINEE },
+      });
+    }, 700);
   };
 
   let nominee_levels = [
@@ -54,7 +62,7 @@ const Registered = () => {
             if (n.active)
               return (
                 <div key={n.id} className="col-md-4">
-                  <NomineeCard onEdit={handleEdit} nominee={n} />
+                  <NomineeCard onEdit={() => handleEdit(n)} nominee={n} />
                 </div>
               );
           })

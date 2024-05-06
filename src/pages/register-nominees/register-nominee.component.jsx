@@ -1,26 +1,41 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { Form, Button } from 'react-bootstrap';
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Form, Button } from "react-bootstrap";
 
-import { RegisterUser } from '../../redux/slices/nominee';
-import Navbar from '../../components/navbar/navbar.component';
-import Spinner from '../../components/spinner';
-import '../../components/application/styles/form.styles.css';
-import './register-nominee.style.css';
+import {
+  EditNominee,
+  FetchAllRegisteredUsers,
+  RegisterUser,
+} from "../../redux/slices/nominee";
+import Navbar from "../../components/navbar/navbar.component";
+import Spinner from "../../components/spinner";
+import "../../components/application/styles/form.styles.css";
+import "./register-nominee.style.css";
+import { constants } from "../../data/constants";
 
 const RegisterNominee = () => {
+  let org = window.localStorage.getItem("user_id");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [special, setSpecial] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { state } = useLocation();
+
+  let type = state?.type;
+  let current_nominee;
+  if (state !== null) current_nominee = state.nominee;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm({
+    defaultValues: { ...current_nominee },
+  });
 
   const handleOther = () => {
     setSpecial(true);
@@ -32,17 +47,28 @@ const RegisterNominee = () => {
 
   const onSubmit = (data) => {
     setLoading(true);
+    if (type === constants.ADD_NOMINEE) {
+      setTimeout(() => {
+        setLoading(false);
 
-    setTimeout(() => {
-      setLoading(false);
+        data = { ...data, id_pdf: "id.jpg" };
+        dispatch(RegisterUser(data));
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
 
-      data = { ...data, id_pdf: 'id.jpg' };
-      dispatch(RegisterUser(data));
-    }, 2000);
+        data = { ...data, id_pdf: "id.jpg" };
+        console.log("gend", data);
+        dispatch(EditNominee(data));
+
+        dispatch(FetchAllRegisteredUsers(org));
+      }, 2000);
+    }
   };
 
   const handleBackpressed = () => {
-    console.log('click');
+    console.log("click");
     setLoading(true);
 
     setTimeout(() => {
@@ -55,7 +81,7 @@ const RegisterNominee = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Navbar
-        title={'Particulars of the nominee. ATTACH documents where REQUIRED!!!'}
+        title={"Particulars of the nominee. ATTACH documents where REQUIRED!!!"}
         handleBackpressed={handleBackpressed}
       />
       <div className="main-div col-md-12">
@@ -75,10 +101,10 @@ const RegisterNominee = () => {
                         id="sex-male"
                         value="M"
                         autoComplete="off"
-                        {...register('sex', {
-                          required: 'Gender is required.',
+                        {...register("sex", {
+                          required: "Gender is required.",
                         })}
-                        className={`${errors.sex ? 'input-error' : ''}`}
+                        className={`${errors.sex ? "input-error" : ""}`}
                       />
                       <label for="sex-male" class="form-check-label">
                         Male
@@ -92,10 +118,10 @@ const RegisterNominee = () => {
                         id="sex-female"
                         value="F"
                         autoComplete="off"
-                        {...register('sex', {
-                          required: 'Gender is required.',
+                        {...register("sex", {
+                          required: "Gender is required.",
                         })}
-                        className={`${errors.sex ? 'input-error' : ''}`}
+                        className={`${errors.sex ? "input-error" : ""}`}
                       />
                       <label for="sex-female" class="form-check-label">
                         Female
@@ -115,11 +141,11 @@ const RegisterNominee = () => {
                     name="age"
                     id="age"
                     autoComplete="off"
-                    {...register('age', {
-                      required: 'Age is required.',
+                    {...register("age", {
+                      required: "Age is required.",
                     })}
                     className={`${
-                      errors.age ? 'input-error form-control' : 'form-control'
+                      errors.age ? "input-error form-control" : "form-control"
                     }`}
                   />
                   {errors.age && (
@@ -135,17 +161,17 @@ const RegisterNominee = () => {
                     name="idNumber"
                     id="idNumber"
                     autoComplete="off"
-                    {...register('idNumber', {
-                      required: 'IdNumber is required.',
+                    {...register("idNumber", {
+                      required: "IdNumber is required.",
                       minLength: {
                         value: 8,
-                        message: 'IdNumber should have at-least 8 characters.',
+                        message: "IdNumber should have at-least 8 characters.",
                       },
                     })}
                     className={`${
                       errors.idNumber
-                        ? 'input-error form-control'
-                        : 'form-control'
+                        ? "input-error form-control"
+                        : "form-control"
                     }`}
                   />
                   {errors.idNumber && (
@@ -161,15 +187,15 @@ const RegisterNominee = () => {
                     name="phone"
                     id="phone"
                     autoComplete="off"
-                    {...register('phone', {
-                      required: 'Phone is required.',
+                    {...register("phone", {
+                      required: "Phone is required.",
                       minLength: {
                         value: 10,
-                        message: 'Phone should have at-least 10 characters.',
+                        message: "Phone should have at-least 10 characters.",
                       },
                     })}
                     className={`${
-                      errors.phone ? 'input-error form-control' : 'form-control'
+                      errors.phone ? "input-error form-control" : "form-control"
                     }`}
                   />
                   {errors.phone && (
@@ -187,17 +213,22 @@ const RegisterNominee = () => {
                     name="first_name"
                     placeholder="Enter your first name"
                     autoComplete="off"
-                    {...register('first_name', {
-                      required: 'First name is required.',
+                    value={
+                      current_nominee === null
+                        ? current_nominee?.first_name
+                        : undefined
+                    }
+                    {...register("first_name", {
+                      required: "First name is required.",
                       pattern: {
                         value: /^[a-zA-Z]+$/,
-                        message: 'First name should contain only characters.',
+                        message: "First name should contain only characters.",
                       },
                     })}
                     className={`${
                       errors.first_name
-                        ? 'input-error form-control'
-                        : 'form-control'
+                        ? "input-error form-control"
+                        : "form-control"
                     }`}
                   />
                   {errors.first_name && (
@@ -213,17 +244,17 @@ const RegisterNominee = () => {
                     name="last_name"
                     placeholder="Enter your last name"
                     autoComplete="off"
-                    {...register('last_name', {
-                      required: 'Last name is required.',
+                    {...register("last_name", {
+                      required: "Last name is required.",
                       pattern: {
                         value: /^[a-zA-Z]+$/,
-                        message: 'Last name should contain only characters.',
+                        message: "Last name should contain only characters.",
                       },
                     })}
                     className={`${
                       errors.last_name
-                        ? 'input-error form-control'
-                        : 'form-control'
+                        ? "input-error form-control"
+                        : "form-control"
                     }`}
                   />
                   {errors.last_name && (
@@ -240,10 +271,10 @@ const RegisterNominee = () => {
                       id="id_pdf"
                       name="image"
                       autoComplete="off"
-                      {...register('id_pdf', {
-                        required: 'id_pdf is required.',
+                      {...register("id_pdf", {
+                        required: "id_pdf is required.",
                       })}
-                      className={`${errors.id_pdf ? 'input-error' : ''}`}
+                      className={`${errors.id_pdf ? "input-error" : ""}`}
                     />
                   </div>
                   {errors.id_pdf && (
@@ -282,13 +313,13 @@ const RegisterNominee = () => {
                     id="qualifications"
                     placeholder="Qualifications"
                     autoComplete="off"
-                    {...register('qualifications', {
-                      required: 'Qualifications are required.',
+                    {...register("qualifications", {
+                      required: "Qualifications are required.",
                     })}
                     className={`${
                       errors.qualifications
-                        ? 'input-error form-control'
-                        : 'form-control'
+                        ? "input-error form-control"
+                        : "form-control"
                     }`}
                   />
                   {errors.qualifications && (
@@ -310,13 +341,13 @@ const RegisterNominee = () => {
                         value="top"
                         onClick={handleOtherLevels}
                         autoComplete="off"
-                        {...register('job_level', {
-                          required: 'Job level is required.',
+                        {...register("job_level", {
+                          required: "Job level is required.",
                         })}
                         className={`${
                           errors.job_level
-                            ? 'input-error form-check-input'
-                            : 'form-check-input'
+                            ? "input-error form-check-input"
+                            : "form-check-input"
                         }`}
                       />
                       <label for="top" class="form-check-label">
@@ -331,13 +362,13 @@ const RegisterNominee = () => {
                         value="middle"
                         autoComplete="off"
                         onClick={handleOtherLevels}
-                        {...register('job_level', {
-                          required: 'Job level is required.',
+                        {...register("job_level", {
+                          required: "Job level is required.",
                         })}
                         className={`${
                           errors.job_level
-                            ? 'input-error form-check-input'
-                            : 'form-check-input'
+                            ? "input-error form-check-input"
+                            : "form-check-input"
                         }`}
                       />
                       <label for="middle" class="form-check-label">
@@ -352,13 +383,13 @@ const RegisterNominee = () => {
                         value="supervisor"
                         autoComplete="off"
                         onClick={handleOtherLevels}
-                        {...register('job_level', {
-                          required: 'Job level is required.',
+                        {...register("job_level", {
+                          required: "Job level is required.",
                         })}
                         className={`${
                           errors.job_level
-                            ? 'input-error form-check-input'
-                            : 'form-check-input'
+                            ? "input-error form-check-input"
+                            : "form-check-input"
                         }`}
                       />
                       <label for="supervisor" class="form-check-label">
@@ -373,13 +404,13 @@ const RegisterNominee = () => {
                         value="operatives"
                         autoComplete="off"
                         onClick={handleOtherLevels}
-                        {...register('job_level', {
-                          required: 'Job level is required.',
+                        {...register("job_level", {
+                          required: "Job level is required.",
                         })}
                         className={`${
                           errors.job_level
-                            ? 'input-error form-check-input'
-                            : 'form-check-input'
+                            ? "input-error form-check-input"
+                            : "form-check-input"
                         }`}
                       />
                       <label for="operatives" class="form-check-label">
@@ -396,13 +427,13 @@ const RegisterNominee = () => {
                         value="other"
                         onClick={handleOther}
                         autoComplete="off"
-                        {...register('job_level', {
-                          required: 'Job level is required.',
+                        {...register("job_level", {
+                          required: "Job level is required.",
                         })}
                         className={`${
                           errors.job_level
-                            ? 'input-error form-check-input'
-                            : 'form-check-input'
+                            ? "input-error form-check-input"
+                            : "form-check-input"
                         }`}
                       />
                       <label for="other" class="form-check-label">
@@ -417,13 +448,13 @@ const RegisterNominee = () => {
                           id="specify"
                           placeholder="Specify"
                           autoComplete="off"
-                          {...register('other_specification', {
-                            required: 'Please specify.',
+                          {...register("other_specification", {
+                            required: "Please specify.",
                           })}
                           className={`${
                             errors.other_specification
-                              ? 'input-error form-control'
-                              : 'form-control'
+                              ? "input-error form-control"
+                              : "form-control"
                           }`}
                         />
                       )}
@@ -450,13 +481,13 @@ const RegisterNominee = () => {
                     id="job_description"
                     placeholder="Brief job description"
                     autoComplete="off"
-                    {...register('job_description', {
-                      required: 'Job description is required.',
+                    {...register("job_description", {
+                      required: "Job description is required.",
                     })}
                     className={`${
                       errors.job_description
-                        ? 'input-error form-control'
-                        : 'form-control'
+                        ? "input-error form-control"
+                        : "form-control"
                     }`}
                   />
                   {errors.job_description && (
@@ -467,9 +498,9 @@ const RegisterNominee = () => {
             </div>
           </div>
         </div>
-        <div className={'col-md-12 text-right pb-2 px-0'}>
+        <div className={"col-md-12 text-right pb-2 px-0"}>
           <Button variant="primary" type="submit">
-            ADD
+            {type === constants.ADD_NOMINEE ? "ADD" : "EDIT"}
           </Button>
         </div>
       </div>

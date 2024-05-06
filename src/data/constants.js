@@ -20,6 +20,7 @@ export const constants = {
 
   //BTN
   NEW_APPLICATION: "NEW APPLICATION",
+  NEW_APPLICATION_2: "NEW APPLICATION_2",
   ADD_NEW: "ADD NEW",
   GENERATE_REPORT: "GENERATE REPORT",
   VIEW_REPORT: "VIEW REPORT",
@@ -58,6 +59,8 @@ export const constants = {
   APPROVED: "Approved",
   DEFFERED: "Deffered",
   REJECTED: "Rejected",
+  ADD_NOMINEE: "Add",
+  EDIT_NOMINEE: "Edit",
 };
 
 /**
