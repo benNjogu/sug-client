@@ -37,7 +37,8 @@ const Reports = () => {
   let pending_applications = applications.filter(
     (application) =>
       Number(application.approved) === status.Pending ||
-      Number(application.approved) === status.Stage_1
+      Number(application.approved) === status.Stage_1 ||
+      Number(application.approved) === status.Stage_2
   );
   let IBTA_admins = admins.filter(
     (admin) =>

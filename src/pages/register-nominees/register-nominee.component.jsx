@@ -59,7 +59,6 @@ const RegisterNominee = () => {
         setLoading(false);
 
         data = { ...data, id_pdf: "id.jpg" };
-        console.log("gend", data);
         dispatch(EditNominee(data));
 
         dispatch(FetchAllRegisteredUsers(org));
@@ -282,26 +281,6 @@ const RegisterNominee = () => {
                   )}
                 </Form.Group>
               </div>
-              {/*<div class="col-md-3">
-                <Form.Group controlId="passport">
-                  <label for="id">Passport photo:</label>
-                  <div>
-                    <input
-                      type="file"
-                      id="passport"
-                      name="image"
-                      autoComplete="off"
-                      {...register('passport', {
-                        required: 'Passport/id is required.',
-                      })}
-                      className={`${errors.passport ? 'input-error' : ''}`}
-                    />
-                  </div>
-                  {errors.passport && (
-                    <p className="errorMsg">{errors.passport.message}</p>
-                  )}
-                </Form.Group>
-              </div>*/}
             </div>
             <div class="form-row">
               <div class="col-md-12">

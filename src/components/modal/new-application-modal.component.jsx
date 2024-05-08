@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { constants } from '../../data/constants';
-import { UpdateApplicationSpecs } from '../../redux/slices/application';
-import { AddNewGroup, UpdateCapacity } from '../../redux/slices/cell';
-import './new-application-modal.styles.css';
+import { constants } from "../../data/constants";
+import { UpdateApplicationSpecs } from "../../redux/slices/application";
+import { AddNewGroup, UpdateCapacity } from "../../redux/slices/cell";
+import "./new-application-modal.styles.css";
+import { useForm } from "react-hook-form";
 
 const NewApplicationModal = ({ handleClose, onClick }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,14 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState(
     constants.ONE
   );
+  const [group, setGroup] = useState(false);
+
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
 
   const onValueChange = (e) => {
     setTypeOfTraining(e.target.value);
@@ -82,6 +91,10 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
     onClick();
   };
 
+  const handleGroup = () => {
+    setGroup(!group);
+  };
+
   return (
     <div>
       <div className="modal-body">
@@ -115,10 +128,9 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
                   onChange={onValueChange}
                   checked={typeOfTraining === constants.STATUTORY}
                 />
-                Statutory{' '}
+                Statutory{" "}
                 <span className="font-italic">
-                  i.e. First aid, Occupational health and safety and Fire
-                  safety.
+                  i.e. First aid, Occupational health & safety, Fire safety
                 </span>
               </label>
             </div>
@@ -165,6 +177,7 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
                   id=""
                   class="form-check-input"
                   value={constants.ONE}
+                  onClick={handleGroup}
                   autoComplete="off"
                   onChange={onNumberChange}
                   checked={numberOfParticipants === constants.ONE}
@@ -181,11 +194,34 @@ const NewApplicationModal = ({ handleClose, onClick }) => {
                   class="form-check-input"
                   value={constants.GROUP}
                   autoComplete="off"
+                  onClick={handleGroup}
                   onChange={onNumberChange}
                   checked={numberOfParticipants === constants.GROUP}
                 />
                 Group
               </label>
+            </div>
+            <div class="col-12">
+              {group && (
+                <input
+                  type="number"
+                  name="number-of-groups"
+                  id="groups"
+                  placeholder="number of groups e.g. 2"
+                  autoComplete="off"
+                  {...register("number_of_groups", {
+                    required: "Please specify.",
+                  })}
+                  className={`${
+                    errors.number_of_groups
+                      ? "input-error form-control"
+                      : "form-control"
+                  }`}
+                />
+              )}
+              {group && errors.number_of_groups && (
+                <p className="errorMsg">{errors.number_of_groups.message}</p>
+              )}
             </div>
           </fieldset>
         </div>
