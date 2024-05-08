@@ -317,7 +317,7 @@ const RegisterNominee = () => {
                         type="radio"
                         name="level"
                         id="top-level"
-                        value="top"
+                        value={constants.TOP}
                         onClick={handleOtherLevels}
                         autoComplete="off"
                         {...register("job_level", {
@@ -338,7 +338,7 @@ const RegisterNominee = () => {
                         type="radio"
                         name="level"
                         id="middle-level"
-                        value="middle"
+                        value={constants.MIDDLE}
                         autoComplete="off"
                         onClick={handleOtherLevels}
                         {...register("job_level", {
@@ -359,7 +359,7 @@ const RegisterNominee = () => {
                         type="radio"
                         name="level"
                         id="supervisor-level"
-                        value="supervisor"
+                        value={constants.SUPERVISORY}
                         autoComplete="off"
                         onClick={handleOtherLevels}
                         {...register("job_level", {
@@ -380,7 +380,7 @@ const RegisterNominee = () => {
                         type="radio"
                         name="level"
                         id="operatives-level"
-                        value="operatives"
+                        value={constants.OPERATIVE}
                         autoComplete="off"
                         onClick={handleOtherLevels}
                         {...register("job_level", {
@@ -403,7 +403,7 @@ const RegisterNominee = () => {
                         type="radio"
                         name="level"
                         id="other-level"
-                        value="other"
+                        value={constants.OTHER}
                         onClick={handleOther}
                         autoComplete="off"
                         {...register("job_level", {

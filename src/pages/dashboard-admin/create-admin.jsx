@@ -108,7 +108,9 @@ const CreateAdmin = () => {
   };
 
   if (level !== constants.SELECT) {
-    admins = admins.filter((a) => a.account_type === level);
+    admins = admins.filter(
+      (a) => a.account_type.toLowerCase() === level.toLowerCase()
+    );
   }
 
   // Searching from firstName, lastName, both lastName and lastName and email.

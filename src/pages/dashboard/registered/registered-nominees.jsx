@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
 
-import NomineeCard from "../../../components/nominee-card/nominee-card.component";
 import { FetchAllRegisteredUsers } from "./../../../redux/slices/nominee";
 import FilterNominees from "./../../../components/filter-component/filter-component";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import Spinner from "../../../components/spinner";
 import { constants } from "../../../data/constants";
-import { Modal } from "antd";
 import ViewUser from "../../../components/modal/view-user-modal";
 import UsersCard from "../../../components/users-card/users-card.component";
+import "./registered-nominees.styles.css";
 
 const Registered = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { nominees } = useSelector((state) => state.nominee);
+  let { nominees } = useSelector((state) => state.nominee);
   const [showViewNomineeModal, setShowViewNomineeModal] = useState(false);
   const [user, setUser] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [level, setLevel] = useState(constants.SELECT);
 
   const handleAddNew = () => {
     setLoading(true);
@@ -52,13 +54,46 @@ const Registered = () => {
     }, 700);
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Searching from firstName, lastName, both lastName and lastName and national id number.
+  if (searchQuery) {
+    nominees = nominees.filter(
+      (n) =>
+        n.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+        n.last_name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+        // combinines firstName and lastName
+        (n.first_name + " " + n.last_name)
+          .toLowerCase()
+          .startsWith(searchQuery.toLowerCase()) ||
+        // converts idNumber to a string first
+        n.idNumber
+          .toString()
+          .toLowerCase()
+          .startsWith(searchQuery.toLowerCase())
+    );
+  }
+
+  const handleSort = (e) => {
+    e.preventDefault();
+    setLevel(e.target.value);
+  };
+
+  if (level !== constants.SELECT) {
+    nominees = nominees.filter(
+      (n) => n.job_level.toLowerCase() === level.toLowerCase()
+    );
+  }
+
   let nominee_levels = [
-    "All",
-    "Top management",
-    "Middle level management",
-    "Supervisory",
-    "Operative",
-    "Others",
+    constants.SELECT,
+    constants.TOP,
+    constants.MIDDLE,
+    constants.SUPERVISORY,
+    constants.OPERATIVE,
+    constants.OTHER,
   ];
 
   useEffect(() => {
@@ -78,7 +113,14 @@ const Registered = () => {
           {<ViewUser user={user} />}
         </Modal>
       )}
-      <FilterNominees onAddNew={handleAddNew} options={nominee_levels} />
+      <FilterNominees
+        onAddNew={handleAddNew}
+        options={nominee_levels}
+        placeholder={"Search nominee by name or id..."}
+        searchQuery={searchQuery}
+        onSearch={handleSearch}
+        onSort={handleSort}
+      />
       <div className="row overflow-auto mt-3">
         <Spinner loading={loading} />
         {nominees.length > 0 ? (
@@ -100,10 +142,7 @@ const Registered = () => {
           <div className="col-md-12">
             <p className="text-center">
               No Registered nominess.{" "}
-              <span
-                className="text-primary cursor-pointer"
-                onClick={handleAddNew}
-              >
+              <span className="link" onClick={handleAddNew}>
                 Register Now
               </span>
               .

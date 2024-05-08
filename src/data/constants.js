@@ -52,6 +52,13 @@ export const constants = {
   LEVEL_3: "ADMIN III",
   LEVEL_4: "SUPER ADMIN",
 
+  //NOMINEE LEVELS
+  TOP: "Top management",
+  MIDDLE: "Middle level management",
+  SUPERVISORY: "Supervisory",
+  OPERATIVE: "Operatives",
+  OTHER: "Others",
+
   // Approval levels
   PENDING: "Pending",
   STAGE_1: "Stage_1",
