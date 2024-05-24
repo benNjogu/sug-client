@@ -1,62 +1,56 @@
-import { useEffect } from 'react';
-import Chip from '@mui/material/Chip';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import { useSelector, useDispatch } from 'react-redux';
+import Chip from "@mui/material/Chip";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import { useSelector } from "react-redux";
 
-import {
-  DeletedNominee,
-  UpdateSizePerCell,
-} from '../../../../redux/slices/cell';
-
-const ListItem = styled('li')(({ theme }) => ({
+const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const CellItem = ({ group_id, label, user }) => {
-  const dispatch = useDispatch();
-
-  let originalchipData = useSelector((state) => state.cell.nominees);
-  let chipData = originalchipData.filter((chip) => chip.g_id === group_id);
+const CellItem = ({ group_id, label, onClick, onRemove }) => {
+  let originalchipData = useSelector(
+    (state) => state.cell?.newGroups[group_id]?.nominees
+  );
+  let chipData = originalchipData?.filter((chip) => chip?.g_id === group_id);
 
   let { capacity } = useSelector((state) => state.cell.capacity);
-
-  const handleDelete = (chipToDelete) => () => {
-    dispatch(DeletedNominee(chipToDelete.key));
-  };
 
   return (
     <div className="group-div">
       <p className="div-counter">
-        {label}:{' '}
+        {label}:{" "}
         <span
           className={
-            chipData.length < capacity.minCapacity ? 'text-danger' : ''
+            chipData?.length < capacity?.minCapacity ? "text-danger" : ""
           }
         >
-          {chipData.length}
+          {chipData?.length}
         </span>
-        /{capacity.maxCapacity}
+        /{capacity?.maxCapacity}
       </p>
       <Paper
         sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          listStyle: 'none',
+          display: "flex",
+          flexWrap: "wrap",
+          listStyle: "none",
           p: 0.5,
           m: 0,
         }}
         component="ul"
       >
-        {chipData.map((data) => {
+        {chipData?.map((data) => {
           return (
             <ListItem key={data.key}>
-              <Chip label={data.label} onDelete={handleDelete(data)} />
+              <Chip
+                label={data.label}
+                onClick={() => onClick(data.label)}
+                onDelete={() => onRemove(data.key, data.g_id)}
+              />
             </ListItem>
           );
         })}
       </Paper>
-      {capacity.minCapacity > chipData.length && (
+      {capacity?.minCapacity > chipData?.length && (
         <p className="text-danger">
           This cell has a minimum capacity of {capacity.minCapacity}
         </p>

@@ -27,8 +27,9 @@ const Approved = () => {
   const [letterData, setLetterData] = useState(null);
   const [showLetterModal, setShowLetterModal] = useState(false);
   const [selected, setSelected] = useState("btn1");
-  const { applications } = useSelector((state) => state.application);
-  const { orgApprovedApplications } = useSelector((state) => state.application);
+  const [searchCourse, setSearchCourse] = useState("");
+  let { applications } = useSelector((state) => state.application);
+  let { orgApprovedApplications } = useSelector((state) => state.application);
 
   const columns = [
     {
@@ -78,6 +79,18 @@ const Approved = () => {
     },
   ];
 
+  const handleSearchCourse = (query) => {
+    setSearchCourse(query);
+    console.log("qq", query);
+  };
+
+  console.log("ss", searchCourse);
+  if (searchCourse) {
+    orgApprovedApplications = orgApprovedApplications.filter((a) =>
+      a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase())
+    );
+  }
+
   const handleViewApplication = (record) => {
     setLoading(true);
 
@@ -117,7 +130,7 @@ const Approved = () => {
   };
 
   useEffect(() => {
-    if (orgApprovedApplications.length === 0) {
+    if (orgApprovedApplications?.length === 0) {
       dispatch(
         GetApprovedApplicationsByOrg(window.localStorage.getItem("user_id"))
       );
@@ -138,6 +151,10 @@ const Approved = () => {
           selected={selected}
           onClickBtn1={handleShowApproveApplications}
           onClickBtn2={handleReimbursmentDetails}
+          search={true}
+          placeholder={"Search course..."}
+          searchValue={searchCourse}
+          onChangeValue={handleSearchCourse}
         />
       </div>
 

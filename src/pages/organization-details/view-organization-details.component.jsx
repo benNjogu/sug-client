@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Table, Tabs, message } from "antd";
+import { Modal, Table, Tabs } from "antd";
 import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 import Navbar from "../../components/navbar/navbar.component";

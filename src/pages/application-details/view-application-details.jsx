@@ -298,7 +298,7 @@ const ViewApplicationDetails = () => {
 
   const getNumberOfGroups = () => {
     let size = [];
-    for (let i = 1; i <= applicationDates.length; i++) {
+    for (let i = 1; i <= applicationDates?.length; i++) {
       size.push(i);
     }
 
@@ -359,12 +359,12 @@ const ViewApplicationDetails = () => {
       );
     }
 
-    if (organizations === null || organizations.length === 0) {
+    if (organizations === null || organizations?.length === 0) {
       dispatch(GetAllOrganizations());
     }
 
     setCurrentOrganization(
-      organizations.filter(
+      organizations?.filter(
         (org) => org.organization_id === record.organization_id
       )
     );
@@ -766,7 +766,7 @@ const ViewApplicationDetails = () => {
             <Banner
               type={"warning"}
               title={"Application Defferred"}
-              reason={record.reason || bannerData[0]?.reason}
+              reason={record?.reason || bannerData[0]?.reason}
               name={bannerData[0]?.user_name}
               email={bannerData[0]?.email}
               phone={bannerData[0]?.phone}
@@ -793,7 +793,7 @@ const ViewApplicationDetails = () => {
               <div className="col-md-12">
                 <legend className="text-info">Organization Profile.</legend>
                 <div class="form-row">
-                  {currentOrganization.length > 0 ? (
+                  {currentOrganization?.length > 0 ? (
                     <div class="col-md-12">
                       <div class="form-row">
                         <div className="col-md-6">

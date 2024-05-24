@@ -31,6 +31,12 @@ export const constants = {
   OVER_SEAS: "Overseas",
   DISTANCE: "Distance learning",
 
+  //STATUTORY TRAINING
+  SELECT_COURSE: "Select Course",
+  FIRST_AID: "First Aid",
+  OSHA: "Occupational health & safety",
+  FIRE_SAFETY: "Fire Safety",
+
   //NUMBER OF PARTICIPANTS
   ONE: "One",
   GROUP: "Group",

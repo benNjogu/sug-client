@@ -1,9 +1,15 @@
+import SearchBox from "../search-box";
+
 const CustomTabs = ({
   btn1Text,
   btn2Text,
   selected = "btn1",
   onClickBtn1,
   onClickBtn2,
+  search = false,
+  placeholder,
+  searchValue,
+  onChangeValue,
 }) => {
   return (
     <div className="d-flex justify-content-between">
@@ -16,6 +22,15 @@ const CustomTabs = ({
       >
         {btn1Text}
       </button>
+      {search && (
+        <div className="col-md-4">
+          <SearchBox
+            placeholder={placeholder}
+            value={searchValue}
+            onChange={onChangeValue}
+          />
+        </div>
+      )}
       <button
         type="button"
         className={`btn w-25 ${

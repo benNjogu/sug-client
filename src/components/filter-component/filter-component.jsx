@@ -15,7 +15,7 @@ const FilterNominees = ({
 }) => {
   return (
     <div className="row d-flex justify-content-between">
-      <div className="col-md-2">
+      <div className="col-md-3">
         <button
           type="button"
           className="btn btn-md btn-outline-primary mb-1"
@@ -26,7 +26,7 @@ const FilterNominees = ({
           <Plus size={20} /> {constants.ADD_NEW}
         </button>
       </div>
-      <div className="col-md-7 search-box">
+      <div className="col-md-6 search-box">
         <SearchBox
           placeholder={placeholder}
           value={searchQuery}

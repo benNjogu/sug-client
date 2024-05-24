@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import { Modal, Table } from "antd";
+import { Modal, Table, message } from "antd";
 import { constants } from "../../../data/constants";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import { FetchOrganizationApplications } from "../../../redux/slices/application";
@@ -13,13 +13,17 @@ import NewApplicationModal from "../../../components/modal/new-application-modal
 
 import "./applications.styles.css";
 import { GetOrganizationData } from "../../../redux/slices/organization";
+import NewApplicationModalComponent from "../../../components/modal/new-application-modal-component.component";
+import SearchBox from "../../../components/search-box";
 
 const Applications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { applications } = useSelector((state) => state.application);
+  let { applications } = useSelector((state) => state.application);
   const [showModal, setShowModal] = useState(false);
+  const [searchCourse, setSearchCourse] = useState("");
+  const [searchYear, setSearchYear] = useState("");
 
   const columns = [
     {
@@ -113,13 +117,40 @@ const Applications = () => {
     },
   ];
 
-  const handleNextClick = () => {
+  if (searchCourse) {
+    applications = applications.filter((a) =>
+      a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase())
+    );
+  }
+  if (searchYear) {
+    applications = applications.filter((a) =>
+      a.date_applied
+        .toString()
+        .toLowerCase()
+        .startsWith(searchYear.toLowerCase())
+    );
+  }
+
+  const handleSearchCourse = (query) => {
+    setSearchCourse(query);
+  };
+
+  const handleSearchYear = (query) => {
+    setSearchYear(query);
+  };
+
+  const handleNextClick = (details) => {
+    if (details.number_of_groups !== null && details.number_of_groups > 3) {
+      message.error("We only allow a maximum of 3 groups");
+
+      return;
+    }
     setShowModal(false);
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/app/new-application");
+      navigate("/app/new-application", { state: { details } });
     }, 800);
   };
 
@@ -158,20 +189,32 @@ const Applications = () => {
       <Spinner loading={loading} />
 
       <div>
-        <button
-          className="btn btn-primary"
-          style={{ marginBottom: 12 }}
-          onClick={handleShowModal}
-        >
-          {constants.NEW_APPLICATION}
-        </button>
-        <button
-          className="btn btn-primary"
-          style={{ marginBottom: 12, marginLeft: 70 }}
-          onClick={handleShowModal}
-        >
-          {constants.NEW_APPLICATION_2}
-        </button>
+        <div className="row d-flex justify-content-between">
+          <div className="col-md-4">
+            <button
+              className="btn btn-primary"
+              style={{ marginBottom: 12 }}
+              onClick={handleShowModal}
+            >
+              {constants.NEW_APPLICATION}
+            </button>
+          </div>
+          <div className="col-md-4">
+            <SearchBox
+              placeholder={"Search course title..."}
+              value={searchCourse}
+              onChange={handleSearchCourse}
+            />
+          </div>
+          <div className="col-md-4">
+            <SearchBox
+              placeholder={"Search year..."}
+              value={searchYear}
+              onChange={handleSearchYear}
+            />
+          </div>
+        </div>
+
         {showModal && (
           <Modal
             open={showModal}
@@ -180,7 +223,7 @@ const Applications = () => {
             footer={false}
           >
             {
-              <NewApplicationModal
+              <NewApplicationModalComponent
                 handleClose={handleCancel}
                 onClick={handleNextClick}
               />

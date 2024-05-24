@@ -14,7 +14,7 @@ export let status = {
 export const addSerialNumber = (applications, approved) => {
   let application_with_serials = [];
   let num = 0;
-  applications.forEach((application) => {
+  applications?.forEach((application) => {
     if (approved === status.All) {
       num = num + 1;
       getData(application_with_serials, application, num);

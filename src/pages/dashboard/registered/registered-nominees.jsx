@@ -58,7 +58,7 @@ const Registered = () => {
     setSearchQuery(query);
   };
 
-  // Searching from firstName, lastName, both lastName and lastName and national id number.
+  // Searching from firstName, lastName, both firstName and lastName and national id number.
   if (searchQuery) {
     nominees = nominees.filter(
       (n) =>
