@@ -1,10 +1,14 @@
 .details p {
   font-size: large;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .details__list-bold {
+  padding-left: 3rem;
   font-style: italic;
   font-weight: bold;
+  font-size: medium;
 }
 
 .details__sub-title {
@@ -13,10 +17,12 @@
 
 .details-table {
   border: 2px solid #000;
+  font-size: medium;
 }
 
 .details-th {
   border: 2px solid #000;
+  padding: 0.4rem;
 }
 
 .details-tr {
@@ -25,6 +31,7 @@
 
 .details-td {
   border: 1px solid #000;
+  padding: 0.2rem;
 }
 
 .block__span {
