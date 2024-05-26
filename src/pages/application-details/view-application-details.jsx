@@ -7,7 +7,7 @@ import { CheckCircleOutlined, EyeOutlined } from "@ant-design/icons";
 import { constants } from "./../../data/constants";
 import {
   GetApplicationGroupDates,
-  GetApplicationHR,
+  GetApplicationAuthorizer,
   GetApplicationNominees,
   GetBannerData,
   UpdateAdminWorkingOnApplication,
@@ -78,8 +78,8 @@ const ViewApplicationDetails = () => {
   console.log("ad", applicationDates);
   let { nominees } = useSelector((state) => state.nominee);
   console.log("n", nominees);
-  const { applicationHR } = useSelector((state) => state.application);
-  console.log(applicationHR);
+  const { applicationAuthorizer } = useSelector((state) => state.application);
+  console.log(applicationAuthorizer);
   const { bannerData } = useSelector((state) => state.application);
   console.log("bannerd", bannerData);
   const { account_type } = useSelector((state) => state.auth).user_data;
@@ -375,7 +375,7 @@ const ViewApplicationDetails = () => {
     // get dates for various groups
     dispatch(GetApplicationGroupDates(record.id));
 
-    dispatch(GetApplicationHR(record.id));
+    dispatch(GetApplicationAuthorizer(record.id));
 
     dispatch(FetchAllRegisteredUsers(record.organization_id));
 
@@ -915,14 +915,6 @@ const ViewApplicationDetails = () => {
                       <label className="label w-25">Country:</label>
                       <span>{record.country}</span>
                     </div>
-                    <div>
-                      <label className="label w-25">State:</label>
-                      <span>{record.state}</span>
-                    </div>
-                    <div>
-                      <label className="label w-25">City:</label>
-                      <span>{record.city}</span>
-                    </div>
                   </div>
                 </div>
                 <div class="form-row">
@@ -1171,21 +1163,23 @@ const ViewApplicationDetails = () => {
             <div className="row">
               <div className="col-md-12">
                 <legend className="text-info">Authorizing officer.</legend>
-                {applicationHR !== null ? (
+                {applicationAuthorizer !== null ? (
                   <div class="form-row">
                     <div class="col-md-3">
                       <label className="label">ID Number: </label>{" "}
-                      <label>{applicationHR[0]?.national_id_number}</label>
+                      <label>
+                        {applicationAuthorizer[0]?.national_id_number}
+                      </label>
                     </div>
                     <div class="col-md-3">
                       <label className="label">Names: </label>{" "}
-                      <label>{applicationHR[0]?.first_name}</label>
+                      <label>{applicationAuthorizer[0]?.first_name}</label>
                       {"  "}
-                      <label>{applicationHR[0]?.last_name}</label>
+                      <label>{applicationAuthorizer[0]?.last_name}</label>
                     </div>
                     <div class="col-md-3">
-                      <label className="label">His National ID: </label>{" "}
-                      <a href="">{applicationHR[0]?.id_pdf}</a>
+                      <label className="label">Designation: </label>{" "}
+                      <label>{applicationAuthorizer[0]?.designation}</label>
                     </div>
                   </div>
                 ) : (

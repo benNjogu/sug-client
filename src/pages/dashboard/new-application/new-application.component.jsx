@@ -480,15 +480,15 @@ const NewApplicationComponent = () => {
       };
     }
 
-    data = { ...data, nominees: newGroups };
+    data = { ...data, nominees: newGroups, nominees_array: combinedNominees };
     console.log("form_d", data);
 
-    // setLoading(true);
+    setLoading(true);
 
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   dispatch(CreateNewApplication({ ...data, ...applicationSpecs, ...user }));
-    // }, 2500);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(CreateNewApplication({ ...data, ...applicationSpecs }));
+    }, 2500);
   };
 
   useEffect(() => {

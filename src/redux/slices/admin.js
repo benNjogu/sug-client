@@ -129,7 +129,7 @@ export const FetchAllDefferredAndRejectedApplications = () => {
 export const FetchAllManagers = () => {
   return async (dispatch, getState) => {
     await axios
-      .post(`/admin/get-all-hr-managers`, {
+      .post(`/admin/get-all-authorizers`, {
         headers: {
           "Content-Type": "application/json",
           // Authorization: `Bearer ${getState().auth.token}`,

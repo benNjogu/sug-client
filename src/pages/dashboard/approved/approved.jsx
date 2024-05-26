@@ -27,6 +27,7 @@ const Approved = () => {
   const [letterData, setLetterData] = useState(null);
   const [showLetterModal, setShowLetterModal] = useState(false);
   const [selected, setSelected] = useState("btn1");
+  const [showSearchBox, setShowSearchBox] = useState(true);
   const [searchCourse, setSearchCourse] = useState("");
   let { applications } = useSelector((state) => state.application);
   let { orgApprovedApplications } = useSelector((state) => state.application);
@@ -116,10 +117,12 @@ const Approved = () => {
   };
 
   const handleShowApproveApplications = () => {
+    setShowSearchBox(true);
     setSelected("btn1");
   };
 
   const handleReimbursmentDetails = () => {
+    setShowSearchBox(false);
     setSelected("btn2");
   };
 
@@ -151,7 +154,7 @@ const Approved = () => {
           selected={selected}
           onClickBtn1={handleShowApproveApplications}
           onClickBtn2={handleReimbursmentDetails}
-          search={true}
+          search={showSearchBox}
           placeholder={"Search course..."}
           searchValue={searchCourse}
           onChangeValue={handleSearchCourse}

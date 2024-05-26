@@ -8,7 +8,7 @@ const initialState = {
   applications: [],
   applicationNominees: [],
   applicationDates: [],
-  applicationHR: [],
+  applicationAuthorizer: [],
   bannerData: [],
   orgApprovedApplications: [],
 };
@@ -33,8 +33,8 @@ const slice = createSlice({
       state.applicationDates = action.payload.applicationDates;
     },
 
-    updateApplicationHR(state, action) {
-      state.applicationHR = action.payload.applicationHR;
+    updateApplicationAuthorizer(state, action) {
+      state.applicationAuthorizer = action.payload.applicationAuthorizer;
     },
 
     updateBannerData(state, action) {
@@ -168,19 +168,22 @@ export const GetApplicationGroupDates = (application_id) => {
   };
 };
 
-export const GetApplicationHR = (application_id) => {
+export const GetApplicationAuthorizer = (application_id) => {
   return async (dispatch, getState) => {
     await axios
-      .get(`/application/get-application-hr?application_id=${application_id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${getState().auth.token}`,
-        },
-      })
+      .get(
+        `/application/get-application-authorizer?application_id=${application_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
       .then(function (response) {
         dispatch(
-          slice.actions.updateApplicationHR({
-            applicationHR: response.data.result1,
+          slice.actions.updateApplicationAuthorizer({
+            applicationAuthorizer: response.data.result1,
           })
         );
       })
