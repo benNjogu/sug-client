@@ -8,7 +8,6 @@ import { constants } from "../../data/constants";
 import GenerateReportModal from "../../components/modal/generate-report-modal.component";
 import SearchBox from "../../components/search-box";
 import DataCard from "../../components/analytics-data-items/data-card.component";
-import AnalyticsTable from "./../../components/analytics-data-items/data-table.component";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import { FetchAllAdmins } from "../../redux/slices/admin";
 

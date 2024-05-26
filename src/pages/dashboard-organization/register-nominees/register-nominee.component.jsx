@@ -8,12 +8,12 @@ import {
   EditNominee,
   FetchAllRegisteredUsers,
   RegisterUser,
-} from "../../redux/slices/nominee";
-import Navbar from "../../components/navbar/navbar.component";
-import Spinner from "../../components/spinner";
-import "../../components/application/styles/form.styles.css";
+} from "../../../redux/slices/nominee";
+import Navbar from "../../../components/navbar/navbar.component";
+import Spinner from "../../../components/spinner";
+import { constants } from "../../../data/constants";
+import "../../../components/application/styles/form.styles.css";
 import "./register-nominee.style.css";
-import { constants } from "../../data/constants";
 
 const RegisterNominee = () => {
   let org = window.localStorage.getItem("user_id");

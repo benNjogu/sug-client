@@ -16,9 +16,7 @@ import {
 } from "../../../redux/slices/cell";
 import { constants } from "../../../data/constants";
 import FilterNominees from "../../../components/filter-component/filter-component";
-import NomineeCard from "../../../components/nominee-card/nominee-card.component";
 import CellItem from "../../../components/application/select-nominees/cell-item/cell-item.component";
-import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import "./new-application.styles.css";
 import SelectNomineesTable from "../../../components/application/select-nominees/select-nominees-table";
 

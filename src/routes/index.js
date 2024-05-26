@@ -108,34 +108,44 @@ export default function Router() {
 }
 
 const Applications = Loadable(
-  lazy(() => import("./../pages/dashboard/home/applications.component"))
+  lazy(() =>
+    import("../pages/dashboard-organization/home/applications.component")
+  )
 );
 const Approved = Loadable(
-  lazy(() => import("../pages/dashboard/approved/approved"))
+  lazy(() => import("../pages/dashboard-organization/approved/approved"))
 );
 const Pending = Loadable(
-  lazy(() => import("../pages/dashboard/pending/pending"))
+  lazy(() => import("../pages/dashboard-organization/pending/pending"))
 );
 const Deffered = Loadable(
-  lazy(() => import("../pages/dashboard/deffered/deffered"))
+  lazy(() => import("../pages/dashboard-organization/deffered/deffered"))
 );
 const Rejected = Loadable(
-  lazy(() => import("../pages/dashboard/rejected/rejected"))
+  lazy(() => import("../pages/dashboard-organization/rejected/rejected"))
 );
 const Registered = Loadable(
-  lazy(() => import("../pages/dashboard/registered/registered-nominees"))
+  lazy(() =>
+    import("../pages/dashboard-organization/registered/registered-nominees")
+  )
 );
 
 const Profile = Loadable(
-  lazy(() => import("../pages/dashboard/profile/profile"))
+  lazy(() => import("../pages/dashboard-organization/profile/profile"))
 );
 
 const RegisterNominee = Loadable(
-  lazy(() => import("../pages/register-nominees/register-nominee.component"))
+  lazy(() =>
+    import(
+      "../pages/dashboard-organization/register-nominees/register-nominee.component"
+    )
+  )
 );
 const NewApplication = Loadable(
   lazy(() =>
-    import("../pages/dashboard/new-application/new-application.component")
+    import(
+      "../pages/dashboard-organization/new-application/new-application.component"
+    )
   )
 );
 const ViewApplication = Loadable(
@@ -172,7 +182,9 @@ const AdminProfile = Loadable(
 );
 const ViewOrganization = Loadable(
   lazy(() =>
-    import("../pages/organization-details/view-organization-details.component")
+    import(
+      "../pages/dashboard-admin/organization-details/view-organization-details.component"
+    )
   )
 );
 const AdminReports = Loadable(

@@ -4,19 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal, Table, Tabs } from "antd";
 import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
-import Navbar from "../../components/navbar/navbar.component";
+import Navbar from "../../../components/navbar/navbar.component";
 import "./view-organization-details.styles.css";
-import Spinner from "../../components/spinner";
-import { convertDigitInString } from "../../utils/convertDigitsInString";
-import { getTime } from "../../utils/getTimeFromTimestamp";
-import { addSerialNumber, status } from "../../utils/addSerialNumber";
-import { constants } from "../../data/constants";
-import UsersCard from "../../components/users-card/users-card.component";
+import Spinner from "../../../components/spinner";
+import { convertDigitInString } from "../../../utils/convertDigitsInString";
+import { getTime } from "../../../utils/getTimeFromTimestamp";
+import { addSerialNumber, status } from "../../../utils/addSerialNumber";
+import { constants } from "../../../data/constants";
+import UsersCard from "../../../components/users-card/users-card.component";
 import {
   FetchAllDeletedNominees,
   FetchAllManagers,
   FetchAllNominees,
-} from "../../redux/slices/admin";
+} from "../../../redux/slices/admin";
 
 const { TabPane } = Tabs;
 
