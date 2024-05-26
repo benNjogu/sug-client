@@ -140,11 +140,6 @@ const Applications = () => {
   };
 
   const handleNextClick = (details) => {
-    if (details.number_of_groups !== null && details.number_of_groups > 3) {
-      message.error("We only allow a maximum of 3 groups");
-
-      return;
-    }
     setShowModal(false);
     setLoading(true);
 

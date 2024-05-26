@@ -32,8 +32,22 @@ const NewApplicationModalComponent = ({ handleClose, onClick }) => {
     details.number_of_participants = numberOfParticipants;
 
     if (numberOfParticipants === constants.GROUP) {
-      if (numberOfGroups === null) {
+      if (
+        numberOfGroups === null ||
+        numberOfGroups === "" ||
+        numberOfGroups === undefined
+      ) {
         message.error("Enter number of groups!");
+        return;
+      }
+
+      if (numberOfGroups < 1) {
+        message.error("Groups can't be less than 1 !");
+        return;
+      }
+
+      if (numberOfGroups > 3) {
+        message.error("We only allow a maximum of 3 groups");
         return;
       }
 
