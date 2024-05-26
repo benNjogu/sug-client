@@ -331,17 +331,17 @@ const DefaultLayout = ({ children }) => {
                 height: 64,
               }}
             />
-            {/* <div className="avatar__wrapper d-flex align-items-center"> */}
             <div
               className="avatar__container d-flex align-items-center"
               onClick={handleViewProfile}
             >
               <span className="edit_profile_text">EDIT PROFILE</span>
-              <Avatar sx={{ bgcolor: "#673ab7" }}>
-                {getFirstLetterOfUserName()}
-              </Avatar>
+              <div className="border-wrap d-flex align-items-center">
+                <Avatar sx={{ bgcolor: "#673ab7" }}>
+                  {getFirstLetterOfUserName()}
+                </Avatar>
+              </div>
             </div>
-            {/* </div> */}
           </Header>
           <Content
             style={{

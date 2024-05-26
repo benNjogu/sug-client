@@ -74,14 +74,18 @@
 }
 
 .edit_profile_text {
-  margin-right: 16px;
+  margin-right: -140px;
   font-weight: 500;
   color: #ff0000;
 }
 
-.edit_profile_text:hover {
-  text-decoration: underline;
-  text-decoration-color: #ff0000;
+.border-wrap {
+  width: 160px;
+  border: #673ab7 solid 1px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .avatar__container:hover {
