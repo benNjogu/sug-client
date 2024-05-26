@@ -41,8 +41,8 @@ const Reports = () => {
   );
   let IBTA_admins = admins.filter(
     (admin) =>
-      admin.account_type === process.env.REACT_APP_AccountType1 ||
-      admin.account_type === process.env.REACT_APP_AccountType2
+      admin.account_type === process.env.REACT_APP_AccountType2 ||
+      admin.account_type === process.env.REACT_APP_AccountType3
   );
 
   let data = [
@@ -56,7 +56,7 @@ const Reports = () => {
     let admin_data = {};
     admin_data.name = IBTA_admins[i].user_name;
     admin_data.level = IBTA_admins[i].account_type;
-    if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType1) {
+    if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType2) {
       admin_data.approved_by = approved_applications.filter(
         (application) => application.level_1 === IBTA_admins[i].user_id
       ).length;
@@ -67,7 +67,7 @@ const Reports = () => {
         (application) => application.admin_id === IBTA_admins[i].user_id
       ).length;
     }
-    if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType2) {
+    if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType3) {
       admin_data.approved_by = approved_applications.filter(
         (application) => application.level_2 === IBTA_admins[i].user_id
       ).length;
@@ -243,8 +243,8 @@ const Reports = () => {
           <div className="col-md-12">
             <Table
               style={{ width: 95 + "%" }}
-              columns={admin_columns}
-              dataSource={addSerialNumber(work, status.All)}
+              columns={columns}
+              dataSource={data}
             />
           </div>
         </div>
@@ -253,11 +253,8 @@ const Reports = () => {
           <div className="col-md-12">
             <Table
               style={{ width: 95 + "%" }}
-              columns={columns}
-              dataSource={
-                data
-                // addSerialNumber(applications, status.All)
-              }
+              columns={admin_columns}
+              dataSource={addSerialNumber(work, status.All)}
             />
           </div>
         </div>

@@ -91,6 +91,7 @@ export default function Router() {
             { path: "admin-deffered", element: <DefferedApplications /> },
             { path: "admin-rejected", element: <RejectedApplications /> },
             { path: "admin-organizations", element: <AllOrganizations /> },
+            { path: "admin-reports", element: <AdminReports /> },
             { path: "admin-profile", element: <AdminProfile /> },
 
             { path: "404", element: <Page404 /> },

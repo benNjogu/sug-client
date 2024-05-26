@@ -255,6 +255,15 @@ const DefaultLayout = ({ children }) => {
           ),
         },
         {
+          key: "/admin-reports",
+          icon: <BarChartOutlined />,
+          label: (
+            <Link to="/admin-reports" style={linkStyle}>
+              Analytics
+            </Link>
+          ),
+        },
+        {
           key: "/auth/login",
           icon: <LogoutOutlined />,
           label: (
