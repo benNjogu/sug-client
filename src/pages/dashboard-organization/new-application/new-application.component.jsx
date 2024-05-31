@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, Table, Tabs, message } from "antd";
+import { Modal, Tabs, message } from "antd";
 import { Form, Button } from "react-bootstrap";
 import { WarningOutlined } from "@ant-design/icons";
 
@@ -17,21 +17,89 @@ import {
 import { constants } from "../../../data/constants";
 import FilterNominees from "../../../components/filter-component/filter-component";
 import CellItem from "../../../components/application/select-nominees/cell-item/cell-item.component";
-import "./new-application.styles.css";
 import SelectNomineesTable from "../../../components/application/select-nominees/select-nominees-table";
+
+import { ShowSnackbar } from "../../../redux/slices/app";
+import {
+  FetchApplicationDetails,
+  UpdateFormatedApplicationDetails,
+} from "../../../redux/slices/application";
+import "./new-application.styles.css";
 
 const { TabPane } = Tabs;
 
 const NewApplicationComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
 
   const { state } = useLocation();
   let details;
   if (state.details !== null) details = state.details;
   console.log("details", details);
+
+  //formated application for editing
+  let { formatedApplication } = useSelector((state) => state.application);
+  console.log("formatedApplications, new app", formatedApplication);
+
+  // NOMINEES
+  let { nominees } = useSelector((state) => state.nominee);
+  let newGroups = useSelector((state) => state.cell.newGroups);
+  // As we add and remove a nominee from a group, we combine them in one array to maintain a single source of truth
+  let combinedNominees = useSelector((state) => state.cell?.combinedNominees);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues:
+      state?.type.toString() === constants.EDIT_APPLICATION
+        ? {
+            //COURSE DETAILS
+            course_title: formatedApplication[0]?.course_title,
+            training_provider: formatedApplication[0]?.training_provider,
+            venue: formatedApplication[0]?.venue,
+            country: formatedApplication[0]?.country,
+            state: formatedApplication[0]?.state,
+            city: formatedApplication[0]?.city,
+            course_objectives: formatedApplication[0]?.course_objectives,
+            start_date_1: formatedApplication[0]?.start_date_1?.split("T")[0],
+            end_date_1: formatedApplication[0]?.end_date_1?.split("T")[0],
+            start_date_2: formatedApplication[0]?.start_date_2?.split("T")[0],
+            end_date_2: formatedApplication[0]?.end_date_2?.split("T")[0],
+            start_date_3: formatedApplication[0]?.start_date_3?.split("T")[0],
+            end_date_3: formatedApplication[0]?.end_date_3?.split("T")[0],
+            // OVERSEAS
+            local_availability: formatedApplication[0]?.local_availability,
+            employment_date:
+              formatedApplication[0]?.employment_date?.split("T")[0],
+            trainer_employer_relationship:
+              formatedApplication[0]?.trainer_employer_relationship,
+            related_to_organization:
+              formatedApplication[0]?.related_to_organization,
+            other_organization_funds:
+              formatedApplication[0]?.other_organization_funds,
+            org_funding: formatedApplication[0]?.org_funding,
+            //EXPENSES
+            tuition_fees: formatedApplication[0]?.tuition_fees,
+            examination_fees: formatedApplication[0]?.examination_fees,
+            books_fees: formatedApplication[0]?.books_fees,
+            accomodation_fees: formatedApplication[0]?.accomodation_fees,
+            fare_fees: formatedApplication[0]?.fare_fees,
+            other_fees: formatedApplication[0]?.other_fees,
+            other_fees_notes: formatedApplication[0]?.other_fees_notes,
+            training_expenses_support_doc:
+              formatedApplication[0]?.training_expenses_support_doc,
+            total_cost: formatedApplication[0]?.total_cost,
+            // DECLARATION
+            signature: formatedApplication[0]?.signature,
+            authorizer_id: formatedApplication[0]?.national_id_number,
+            authorizer_first_name: formatedApplication[0]?.first_name,
+            authorizer_last_name: formatedApplication[0]?.last_name,
+            authorizer_designation: formatedApplication[0]?.designation,
+          }
+        : {},
+  });
 
   // get number of groupsArray for mapping
   const getNumberOfGroupsArray = () => {
@@ -51,7 +119,7 @@ const NewApplicationComponent = () => {
 
     for (let i = 1; i <= details?.number_of_groups; i++) {
       new_group = {
-        g_id: i,
+        group_id: i,
         label: "Group " + i,
         start_date: "",
         end_date: "",
@@ -64,120 +132,14 @@ const NewApplicationComponent = () => {
     return groups;
   };
 
-  // NOMINEES
-  let { nominees } = useSelector((state) => state.nominee);
+  const [loading, setLoading] = useState(false);
   const { capacity } = useSelector((state) => state.cell.capacity);
-  let applicationSpecs = useSelector(
-    (state) => state.application.applicationSpecs
-  );
   const [searchQuery, setSearchQuery] = useState("");
   const [level, setLevel] = useState(constants.SELECT);
   const [statutory_course, setStatutoryCourse] = useState(constants.SELECT);
-
-  //   const columns = [
-  //     {
-  //       title: "S.No",
-  //       dataIndex: "s_no",
-  //     },
-  //     {
-  //       title: "First Name",
-  //       dataIndex: "first_name",
-  //     },
-  //     {
-  //       title: "Last Name",
-  //       dataIndex: "last_name",
-  //     },
-  //     {
-  //       title: "Gender",
-  //       dataIndex: "sex",
-  //       render(text, record) {
-  //         return {
-  //           children: <div>{text === "F" ? "Female" : "Male"}</div>,
-  //         };
-  //       },
-  //     },
-  //     {
-  //       title: "Level",
-  //       dataIndex: "job_level",
-  //     },
-  //     {
-  //       title: "Edit",
-  //       dataIndex: "id",
-  //       render: (id, record) => (
-  //         <div className="d-flex justify-content-around">
-  //           <button
-  //             class="btn btn-sm btn-outline-warning"
-  //             onClick={() => handleEdit(record)}
-  //           >
-  //             Edit
-  //           </button>
-  //         </div>
-  //       ),
-  //     },
-  //     {
-  //       title: "Action",
-  //       dataIndex: "id",
-  //       render: (id, record) => (
-  //         <div className="d-flex justify-content-around">
-  //           <button
-  //             class="btn btn-sm btn-outline-success"
-  //             // onClick={() => handleViewOrganization(record)}
-  //           >
-  //             Add Nominee
-  //           </button>
-  //         </div>
-  //       ),
-  //     },
-  //   ];
-
   // OVERSEAS
   const [related, setRelated] = useState(false);
   const [otherFunds, setOtherFunds] = useState(false);
-  // COURSE DETAILS
-  const [dates, setDates] = useState([]);
-
-  let newGroups = useSelector((state) => state.cell.newGroups);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      //COURSE DETAILS
-      //   course_title: user.course_title,
-      //   training_provider: user.training_provider,
-      //   venue: user.venue,
-      //   country: user.country,
-      //   state: user.state,
-      //   city: user.city,
-      //   course_objectives: user.course_objectives,
-      //   start_date: user.start_date,
-      //   end_date: user.end_date,
-      // OVERSEAS
-      //   local_availability: user.local_availability,
-      //   employment_date: user.employment_date,
-      //   trainer_employer_relationship: user.trainer_employer_relationship,
-      //   related_to_organization: user.related_to_organization,
-      //   other_organization_funds: user.other_organization_funds,
-      //   org_funding: user.org_funding,
-      //EXPENSES
-      //   tuition_fees: user.tuition_fees,
-      //   examination_fees: user.examination_fees,
-      //   books_fees: user.books_fees,
-      //   accomodation_fees: user.accomodation_fees,
-      //   fare_fees: user.fare_fees,
-      //   other_fees: user.other_fees,
-      //   other_fees_notes: user.other_fees_notes,
-      //   training_expenses_support_doc: user.training_expenses_support_doc,
-      //   total_cost: user.total_cost,
-      // DECLARATION
-      //   sign: user.sign,
-      //   first_name_hr: user.first_name_hr,
-      //   last_name_hr: user.last_name_hr,
-      //   id_hr: user.id_hr,
-    },
-  });
 
   // NOMINEE
   const handleAddNew = () => {
@@ -239,61 +201,61 @@ const NewApplicationComponent = () => {
     );
   }
 
-  // As we add and remove a nominee from a group, we combine them in one array to maintain a single source of truth
-  let combinedNominees = useSelector((state) => state.cell?.combinedNominees);
-  const handleAddNominee = (g_id, n_id, n_first_name) => {
+  const handleAddNominee = (group_id, nominee_id, first_name) => {
     if (capacity.maxCapacity > 1) {
       newGroups = {
         ...newGroups,
-        [g_id]: {
-          g_id,
-          label: "Group " + g_id,
+        [group_id]: {
+          group_id: group_id,
+          label: "Group " + group_id,
           start_date: "",
           end_date: "",
           nominees: [
-            { key: n_id, label: n_first_name, g_id },
-            ...newGroups[g_id].nominees,
+            { nominee_id, first_name, group_id },
+            ...newGroups[group_id].nominees,
           ],
         },
       };
 
       combinedNominees = [
-        { key: n_id, label: n_first_name, g_id },
+        { nominee_id, first_name, group_id },
         ...combinedNominees,
       ];
     } else {
       newGroups = {
-        [g_id]: {
-          g_id,
-          label: "Group " + g_id,
+        [group_id]: {
+          group_id: group_id,
+          label: "Group " + group_id,
           start_date: "",
           end_date: "",
-          nominees: [{ key: n_id, label: n_first_name, g_id }],
+          nominees: [{ nominee_id, first_name, group_id }],
         },
       };
 
-      combinedNominees = [{ key: n_id, label: n_first_name, g_id }];
+      combinedNominees = [{ nominee_id, first_name, group_id }];
     }
 
     dispatch(AddNominee(newGroups));
     dispatch(UpdateCombinedNominees(combinedNominees));
   };
 
-  const handleRemoveNominee = (nominee_id, g_id) => {
+  const handleRemoveNominee = (nominee_id, group_id) => {
     newGroups = {
       ...newGroups,
-      [g_id]: {
-        g_id,
-        label: "Group " + g_id,
+      [group_id]: {
+        group_id: group_id,
+        label: "Group " + group_id,
         start_date: "",
         end_date: "",
-        nominees: newGroups[g_id].nominees.filter((n) => n.key !== nominee_id),
+        nominees: newGroups[group_id].nominees.filter(
+          (n) => n.nominee_id !== nominee_id
+        ),
       },
     };
     dispatch(AddNominee(newGroups));
     dispatch(
       UpdateCombinedNominees(
-        combinedNominees.filter((n) => n.key !== nominee_id)
+        combinedNominees.filter((n) => n.nominee_id !== nominee_id)
       )
     );
   };
@@ -335,49 +297,36 @@ const NewApplicationComponent = () => {
   };
 
   // EXPENSES
-  const [other_fees, setOther_fees] = useState(
-    user.other_fees === undefined ? "" : user.other_fees
-  );
-  const [tuition_fees, setTuition_fees] = useState(
-    user.tuition_fees === undefined ? "" : user.tuition_fees
-  );
-  const [examination_fees, setExamination_fees] = useState(
-    user.examination_fees === undefined ? "" : user.examination_fees
-  );
-  const [books_fees, setBooks_fees] = useState(
-    user.books_fees === undefined ? "" : user.books_fees
-  );
-  const [accomodation_fees, setAccomodation_fees] = useState(
-    user.accomodation_fees === undefined ? "" : user.accomodation_fees
-  );
-  const [fare_fees, setFare_fees] = useState(
-    user.fare_fees === undefined ? "" : user.fare_fees
-  );
-  const [sum, setSum] = useState(user.sum === undefined ? "" : user.sum);
+  const [otherFees, setOtherFees] = useState(null);
+  const [tuitionFees, setTuitionFees] = useState(null);
+  const [examinationFees, setExaminationFees] = useState(null);
+  const [booksFees, setBooksFees] = useState(null);
+  const [accomodationFees, setAccomodationFees] = useState(null);
+  const [fareFees, setFareFees] = useState(null);
+  const [sum, setSum] = useState(null);
 
   const onChangeTuitionFee = (e) => {
-    setTuition_fees(e.target.value);
+    setTuitionFees(e.target.value);
   };
 
   const onChangeExaminationFee = (e) => {
-    setExamination_fees(e.target.value);
+    setExaminationFees(e.target.value);
   };
 
   const onChangeBooksFees = (e) => {
-    setBooks_fees(e.target.value);
+    setBooksFees(e.target.value);
   };
 
   const onChangeFareFees = (e) => {
-    setFare_fees(e.target.value);
+    setFareFees(e.target.value);
   };
 
   const onChangeAccomodationFees = (e) => {
-    setAccomodation_fees(e.target.value);
+    setAccomodationFees(e.target.value);
   };
 
   const handleChange = (e) => {
-    setOther_fees(e.target.value);
-    setSum(e.target.value);
+    setOtherFees(e.target.value);
   };
 
   const handleBackpressed = () => {
@@ -386,6 +335,8 @@ const NewApplicationComponent = () => {
     dispatch(AddNewGroup([{}]));
     dispatch(AddNominee([]));
     dispatch(UpdateCombinedNominees([]));
+    // dispatch(UpdateFormatedApplicationDetails([]));
+    // window.localStorage.removeItem(constants.RECORD_TO_EDIT_ID);
 
     setTimeout(() => {
       setLoading(false);
@@ -431,10 +382,15 @@ const NewApplicationComponent = () => {
                         failure to which your application will be rejected!`;
 
   const onSubmit = (data) => {
-    if (other_fees !== "") {
-      data = { ...data, total_cost: sum, other_fees };
+    if (otherFees !== "") {
+      data = { ...data, total_cost: sum, other_fees: otherFees };
     } else {
-      data = { ...data, other_fees, total_cost: sum, other_fees_notes: "" };
+      data = {
+        ...data,
+        other_fees: otherFees,
+        total_cost: sum,
+        other_fees_notes: "",
+      };
     }
 
     if (data.course_title === constants.SELECT_COURSE) {
@@ -478,59 +434,29 @@ const NewApplicationComponent = () => {
       };
     }
 
-    data = { ...data, nominees: newGroups, nominees_array: combinedNominees };
+    data = {
+      ...data,
+      nominees: newGroups,
+      nominees_array: combinedNominees,
+      ...details,
+    };
     console.log("form_d", data);
 
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-      dispatch(CreateNewApplication({ ...data, ...applicationSpecs }));
+      if (state?.type.toString() === constants.EDIT_APPLICATION) {
+        message.success("Editor");
+      } else {
+        dispatch(CreateNewApplication({ ...data, ...applicationSpecs }));
+      }
     }, 2500);
   };
 
-  useEffect(() => {
-    if (details?.number_of_participants === constants.ONE)
-      dispatch(
-        AddNewGroup({
-          1: {
-            g_id: 1,
-            label: "Group 1",
-            start_date: "",
-            end_date: "",
-            nominees: [],
-          },
-        })
-      );
-    else dispatch(AddNewGroup(storeGroups()));
-
-    dispatch(UpdateCombinedNominees([]));
-  }, []);
-
-  useEffect(() => {
-    let org = window.localStorage.getItem("user_id");
-    dispatch(FetchAllRegisteredUsers(org));
-
-    let total =
-      Number(tuition_fees) +
-      Number(examination_fees) +
-      Number(books_fees) +
-      Number(accomodation_fees) +
-      Number(fare_fees) +
-      Number(other_fees);
-    setSum(total);
-  }, [
-    tuition_fees,
-    examination_fees,
-    books_fees,
-    accomodation_fees,
-    fare_fees,
-    other_fees,
-  ]);
-
   const getTitle = (key) => {
     if (details?.number_of_participants === constants.GROUP) {
-      for (let i = 1; i <= details?.number_of_groups; i++) {
+      for (let i = 1; i <= Number(details?.number_of_groups); i++) {
         if (key === i) {
           let g_nominees = newGroups[i]?.nominees?.length;
           if (g_nominees < capacity?.minCapacity) {
@@ -599,10 +525,77 @@ const NewApplicationComponent = () => {
     } else return ` )`;
   };
 
+  useEffect(() => {
+    if (state?.type.toString() === constants.EDIT_APPLICATION) {
+      if (formatedApplication !== null) {
+        dispatch(AddNewGroup({ ...formatedApplication[0]?.nominees }));
+        dispatch(
+          UpdateCombinedNominees(formatedApplication[0]?.nominees_array)
+        );
+
+        setTuitionFees(formatedApplication[0]?.tuition_fees);
+        setExaminationFees(formatedApplication[0]?.examination_fees);
+        setBooksFees(formatedApplication[0]?.books_fees);
+        setFareFees(formatedApplication[0]?.fare_fees);
+        setAccomodationFees(formatedApplication[0]?.accomodation_fees);
+        setOtherFees(formatedApplication[0]?.other_fees);
+
+        let initial_total =
+          formatedApplication[0]?.tuition_fees +
+          formatedApplication[0]?.examination_fees +
+          formatedApplication[0]?.books_fees +
+          formatedApplication[0]?.accomodation_fees +
+          formatedApplication[0]?.fare_fees +
+          formatedApplication[0]?.other_fees;
+        setSum(initial_total);
+      }
+    } else {
+      console.log("no rendering this");
+      if (details?.number_of_participants === constants.ONE)
+        dispatch(
+          AddNewGroup({
+            1: {
+              group_id: 1,
+              label: "Group 1",
+              start_date: "",
+              end_date: "",
+              nominees: [],
+            },
+          })
+        );
+      else dispatch(AddNewGroup(storeGroups()));
+
+      dispatch(UpdateCombinedNominees([]));
+    }
+  }, []);
+
+  useEffect(() => {
+    let org = window.localStorage.getItem("user_id");
+    dispatch(FetchAllRegisteredUsers(org));
+
+    let total =
+      Number(tuitionFees) +
+      Number(examinationFees) +
+      Number(booksFees) +
+      Number(accomodationFees) +
+      Number(fareFees) +
+      Number(otherFees);
+    setSum(total);
+  }, [
+    tuitionFees,
+    examinationFees,
+    booksFees,
+    accomodationFees,
+    fareFees,
+    otherFees,
+  ]);
+
   return (
     <div>
       <Navbar
-        title={`New Application ( ${details?.type_of_training},  ${
+        title={`${
+          state?.type.toString() === constants.EDIT_APPLICATION ? "Edit" : "New"
+        } Application ( ${details?.type_of_training},  ${
           details?.number_of_participants
         } ${getGroups()}`}
         handleBackpressed={confirm}
@@ -619,7 +612,7 @@ const NewApplicationComponent = () => {
                     <CellItem
                       group_id={i}
                       label={`Group ${i}`}
-                      user={user}
+                      user={formatedApplication}
                       onClick={handleSearch}
                       onRemove={handleRemoveNominee}
                     />
@@ -672,7 +665,7 @@ const NewApplicationComponent = () => {
                   <CellItem
                     group_id={1}
                     label={"Nominee"}
-                    user={user}
+                    user={formatedApplication}
                     onClick={handleSearch}
                     onRemove={handleRemoveNominee}
                   />
@@ -1234,7 +1227,7 @@ const NewApplicationComponent = () => {
                                   class="form-check-input"
                                   name="local_availability"
                                   id="available-no"
-                                  value="No"
+                                  value="no"
                                   autoComplete="off"
                                   {...register("local_availability", {
                                     required: "Availability is required.",
@@ -1332,7 +1325,7 @@ const NewApplicationComponent = () => {
                                   class="form-check-input"
                                   name="trainer_employer_relationship"
                                   id="relationship-no"
-                                  value="No"
+                                  value="no"
                                   onClick={handleNotRelated}
                                   autoComplete="off"
                                   {...register(
@@ -1423,7 +1416,7 @@ const NewApplicationComponent = () => {
                                   class="form-check-input"
                                   name="other_organization_funds"
                                   id="funds-no"
-                                  value="No"
+                                  value="no"
                                   onClick={handleNoOtherFunds}
                                   autoComplete="off"
                                   {...register("other_organization_funds", {
@@ -1504,7 +1497,7 @@ const NewApplicationComponent = () => {
                             id="tuition_fees"
                             placeholder="0.00"
                             autoComplete="off"
-                            value={tuition_fees}
+                            value={tuitionFees}
                             step="0.01"
                             {...register("tuition_fees", {
                               required: "Tuition fees required.",
@@ -1538,7 +1531,7 @@ const NewApplicationComponent = () => {
                             placeholder="0.00"
                             autoComplete="off"
                             step="0.01"
-                            value={examination_fees}
+                            value={examinationFees}
                             {...register("examination_fees", {
                               required: "Examination fees required.",
                             })}
@@ -1572,7 +1565,7 @@ const NewApplicationComponent = () => {
                             id="books_fees"
                             placeholder="0.00"
                             autoComplete="off"
-                            value={books_fees}
+                            value={booksFees}
                             step="0.01"
                             {...register("books_fees", {
                               required: "Study material fees required.",
@@ -1605,7 +1598,7 @@ const NewApplicationComponent = () => {
                             id="accomodation_fees"
                             placeholder="0.00"
                             autoComplete="off"
-                            value={accomodation_fees}
+                            value={accomodationFees}
                             step="0.01"
                             {...register("accomodation_fees", {
                               required: "Accomodation fees required.",
@@ -1640,7 +1633,7 @@ const NewApplicationComponent = () => {
                             id="fare_fees"
                             placeholder="0.00"
                             autoComplete="off"
-                            value={fare_fees}
+                            value={fareFees}
                             step="0.01"
                             {...register("fare_fees", {
                               required: "Fare fees required.",
@@ -1662,7 +1655,7 @@ const NewApplicationComponent = () => {
                     </div>
                     <div class="form-row">
                       <div class="col-md-4 form-group">
-                        <label for="others">Others:</label>
+                        <label for="others">Others (Optional) :</label>
                       </div>
                       <div class="col-md-8">
                         <Form.Group controlId="other_fees">
@@ -1670,16 +1663,17 @@ const NewApplicationComponent = () => {
                             type="number"
                             id="other_fees"
                             name="other_fees"
-                            value={other_fees}
+                            value={otherFees}
                             placeholder="0.00"
                             autoComplete="off"
                             step="0.01"
-                            className="form-control"
+                            {...register("other_fees")}
+                            className={"form-control"}
                             onChange={handleChange}
                           />
                         </Form.Group>
                       </div>
-                      {other_fees > 0 && (
+                      {otherFees > 0 && (
                         <div class="col-md-12 form-group">
                           <input
                             type="text"
@@ -1738,7 +1732,6 @@ const NewApplicationComponent = () => {
                       </div>
                       <div class="col-md-9 form-group">
                         <input
-                          {...register("total_cost")}
                           type="number"
                           name="total_cost"
                           class="form-control"
@@ -1747,6 +1740,7 @@ const NewApplicationComponent = () => {
                           placeholder="0.00"
                           disabled
                           step="0.01"
+                          {...register("total_cost")}
                         />
                       </div>
                     </div>
@@ -1805,6 +1799,10 @@ const NewApplicationComponent = () => {
                             id="authorizer_id"
                             placeholder="National ID Number"
                             autoComplete="off"
+                            readOnly={
+                              state?.type.toString() ===
+                              constants.EDIT_APPLICATION
+                            }
                             {...register("authorizer_id", {
                               required: "National ID is required.",
                             })}

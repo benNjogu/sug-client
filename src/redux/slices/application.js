@@ -6,6 +6,8 @@ import { ShowSnackbar } from "./app";
 const initialState = {
   applicationSpecs: [],
   applications: [],
+  // The below are applications with data formatted properly
+  formatedApplication: [],
   applicationNominees: [],
   applicationDates: [],
   applicationAuthorizer: [],
@@ -23,6 +25,10 @@ const slice = createSlice({
 
     updateApplications(state, action) {
       state.applications = action.payload.applications;
+    },
+
+    updateFormatedApplications(state, action) {
+      state.formatedApplication = action.payload.formatedApplications;
     },
 
     updateApplicationNominees(state, action) {
@@ -85,6 +91,49 @@ export const FetchOrganizationApplications = () => {
       });
   };
 };
+
+export const FetchApplicationDetails = (application_id) => {
+  console.log("This method is being called from somewhere", application_id);
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        `/application/get-applications-details`,
+        { application_id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log("application slice form detals", response.data.result);
+        dispatch(
+          slice.actions.updateFormatedApplications({
+            formatedApplications: [response.data.result],
+          })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const UpdateFormatedApplicationDetails =
+  (data) => async (dispatch, getState) => {
+    dispatch(
+      slice.actions.updateFormatedApplications({
+        formatedApplications: data,
+      })
+    );
+  };
 
 export const CreateNewApplication = (formValues) => {
   return async (dispatch, getState) => {

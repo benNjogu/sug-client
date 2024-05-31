@@ -6,24 +6,27 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Modal, Table, message } from "antd";
 import { constants } from "../../../data/constants";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
-import { FetchOrganizationApplications } from "../../../redux/slices/application";
+import {
+  FetchApplicationDetails,
+  FetchOrganizationApplications,
+} from "../../../redux/slices/application";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
-import NewApplicationModal from "../../../components/modal/new-application-modal.component";
 
 import "./applications.styles.css";
 import { GetOrganizationData } from "../../../redux/slices/organization";
 import NewApplicationModalComponent from "../../../components/modal/new-application-modal-component.component";
 import SearchBox from "../../../components/search-box";
+import { UpdateCapacity } from "../../../redux/slices/cell";
 
 const Applications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  let { applications } = useSelector((state) => state.application);
   const [showModal, setShowModal] = useState(false);
   const [searchCourse, setSearchCourse] = useState("");
   const [searchYear, setSearchYear] = useState("");
+  let { applications } = useSelector((state) => state.application);
 
   const columns = [
     {
@@ -145,7 +148,9 @@ const Applications = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/app/new-application", { state: { details } });
+      navigate("/app/new-application", {
+        state: { details, type: constants.NEW_APPLICATION },
+      });
     }, 800);
   };
 
@@ -159,7 +164,60 @@ const Applications = () => {
   };
 
   const handleEditApplication = (record) => {
-    console.log("edit application", record);
+    setLoading(true);
+    let thisApplicationDetails = {
+      number_of_participants: record.number_of_participants,
+      type_of_training: record.type_of_training,
+    };
+    if (record.number_of_groups !== null) {
+      thisApplicationDetails = {
+        ...thisApplicationDetails,
+        number_of_groups: record.number_of_groups,
+      };
+    }
+
+    if (record.number_of_participants === constants.GROUP) {
+      if (
+        record.type_of_training === constants.LOCAL ||
+        record.type_of_training === constants.OVER_SEAS ||
+        record.type_of_training === constants.DISTANCE
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
+            maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
+          })
+        );
+      } else if (record.type_of_training === constants.STATUTORY) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.STATUTORY_CAP.minCapacity,
+            maxCapacity: constants.STATUTORY_CAP.maxCapacity,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        UpdateCapacity({
+          minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,
+          maxCapacity: constants.SINGLE_NOMINEE_CAP.maxCapacity,
+        })
+      );
+    }
+
+    window.localStorage.setItem(constants.RECORD_TO_EDIT_ID, record.id);
+    dispatch(FetchApplicationDetails(record.id));
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/new-application", {
+        state: {
+          record,
+          type: constants.EDIT_APPLICATION,
+          details: { ...thisApplicationDetails },
+        },
+      });
+    }, 700);
   };
 
   const handleDeleteApplication = (record) => {

@@ -2,16 +2,16 @@ import Chip from "@mui/material/Chip";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useSelector } from "react-redux";
+import { constants } from "../../../../data/constants";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
 const CellItem = ({ group_id, label, onClick, onRemove }) => {
-  let originalchipData = useSelector(
+  let chipData = useSelector(
     (state) => state.cell?.newGroups[group_id]?.nominees
   );
-  let chipData = originalchipData?.filter((chip) => chip?.g_id === group_id);
 
   let { capacity } = useSelector((state) => state.cell.capacity);
 
@@ -40,11 +40,11 @@ const CellItem = ({ group_id, label, onClick, onRemove }) => {
       >
         {chipData?.map((data) => {
           return (
-            <ListItem key={data.key}>
+            <ListItem key={data.nominee_id}>
               <Chip
-                label={data.label}
-                onClick={() => onClick(data.label)}
-                onDelete={() => onRemove(data.key, data.g_id)}
+                label={data.first_name}
+                onClick={() => onClick(data.first_name)}
+                onDelete={() => onRemove(data.nominee_id, data.group_id)}
               />
             </ListItem>
           );

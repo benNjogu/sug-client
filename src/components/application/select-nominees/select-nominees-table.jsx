@@ -21,7 +21,7 @@ const SelectNomineesTable = ({
     let a = [];
 
     for (let i = 0; i < combinedNominees?.length; i++) {
-      a.push(combinedNominees[i].key);
+      a.push(combinedNominees[i].nominee_id);
     }
 
     return a;
@@ -93,8 +93,8 @@ const SelectNomineesTable = ({
 
   const getNomineeId = (id) => {
     for (let i = 0; i < combinedNominees?.length; i++) {
-      if (combinedNominees[i].key === id) {
-        return combinedNominees[i].g_id;
+      if (combinedNominees[i].nominee_id === id) {
+        return combinedNominees[i].group_id;
       }
     }
   };

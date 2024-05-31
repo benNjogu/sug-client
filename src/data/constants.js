@@ -62,6 +62,10 @@ export const constants = {
   REJECTED: "Rejected",
   ADD_NOMINEE: "Add",
   EDIT_NOMINEE: "Edit",
+  EDIT_APPLICATION: "Edit",
+
+  // LOCAL STORAGE KEYS
+  RECORD_TO_EDIT_ID: "sug_record_edit_sug",
 };
 
 /**
