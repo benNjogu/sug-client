@@ -11,6 +11,7 @@ const FilterNominees = ({
   placeholder,
   searchQuery,
   onSearch,
+  level,
   onSort,
 }) => {
   return (
@@ -34,7 +35,11 @@ const FilterNominees = ({
         />
       </div>
       <div className="col-md-3">
-        <select class="form-control form-control-md" onChange={onSort}>
+        <select
+          class="form-control form-control-md"
+          value={level}
+          onChange={onSort}
+        >
           {options.map((o) => (
             <option>{o}</option>
           ))}

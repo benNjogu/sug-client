@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
-import DefaultLayout from '../../../components/default-layout/default-layout.component';
+import DefaultLayout from "../../../components/default-layout/default-layout.component";
 
 //get stylesheet
-import '../../../components/application/styles/form.styles.css';
-import Spinner from './../../../components/spinner';
+import "../../../components/application/styles/form.styles.css";
+import Spinner from "../../../components/spinner";
 import {
   GetOrganizationData,
   PostOrganizationProfileData,
-} from '../../../redux/slices/organization';
+} from "../../../redux/slices/organization";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log('getting profile data');
+    console.log("getting profile data");
     dispatch(GetOrganizationData());
   }, []);
 
@@ -110,11 +110,11 @@ const Profile = () => {
               id="address"
               class="form-control"
               placeholder="Nairobi"
-              {...register('town', {
-                required: 'Town is required.',
+              {...register("town", {
+                required: "Town is required.",
               })}
               className={`${
-                errors.town ? 'input-error form-control' : 'form-control'
+                errors.town ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.town && <p className="errorMsg">{errors.town.message}</p>}
@@ -127,11 +127,11 @@ const Profile = () => {
               id="address"
               class="form-control"
               placeholder="1234 Grand Avenue"
-              {...register('street', {
-                required: 'Street is required.',
+              {...register("street", {
+                required: "Street is required.",
               })}
               className={`${
-                errors.street ? 'input-error form-control' : 'form-control'
+                errors.street ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.street && (
@@ -146,11 +146,11 @@ const Profile = () => {
               id="apartment"
               class="form-control"
               placeholder="Kenda House"
-              {...register('building', {
-                required: 'Building is required.',
+              {...register("building", {
+                required: "Building is required.",
               })}
               className={`${
-                errors.building ? 'input-error form-control' : 'form-control'
+                errors.building ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.building && (
@@ -166,11 +166,11 @@ const Profile = () => {
               class="form-control"
               maxLength={2}
               placeholder="2"
-              {...register('floor', {
-                required: 'Floor is required.',
+              {...register("floor", {
+                required: "Floor is required.",
               })}
               className={`${
-                errors.floor ? 'input-error form-control' : 'form-control'
+                errors.floor ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.floor && <p className="errorMsg">{errors.floor.message}</p>}
@@ -185,11 +185,11 @@ const Profile = () => {
               name="box"
               id="box"
               placeholder="49 Maragua"
-              {...register('box', {
-                required: 'Box is required.',
+              {...register("box", {
+                required: "Box is required.",
               })}
               className={`${
-                errors.box ? 'input-error form-control' : 'form-control'
+                errors.box ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.box && <p className="errorMsg">{errors.box.message}</p>}
@@ -202,11 +202,11 @@ const Profile = () => {
               id="code"
               class="form-control"
               placeholder="102005"
-              {...register('code', {
-                required: 'Code is required.',
+              {...register("code", {
+                required: "Code is required.",
               })}
               className={`${
-                errors.code ? 'input-error form-control' : 'form-control'
+                errors.code ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.code && <p className="errorMsg">{errors.code.message}</p>}
@@ -219,11 +219,11 @@ const Profile = () => {
               id="phone"
               class="form-control"
               placeholder="+254 745 580 333"
-              {...register('phone', {
-                required: 'Phone/Fax is required.',
+              {...register("phone", {
+                required: "Phone/Fax is required.",
               })}
               className={`${
-                errors.phone ? 'input-error form-control' : 'form-control'
+                errors.phone ? "input-error form-control" : "form-control"
               }`}
             />
             {errors.phone && <p className="errorMsg">{errors.phone.message}</p>}

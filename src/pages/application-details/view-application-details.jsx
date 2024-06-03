@@ -70,6 +70,11 @@ const ViewApplicationDetails = () => {
   const addComma = (number) =>
     "KSh. " + Intl.NumberFormat("en-US").format(number);
 
+  let { formatedApplication } = useSelector((state) => state.application);
+  console.log(
+    "view application details formated application",
+    formatedApplication
+  );
   const { organizations } = useSelector((state) => state.organization);
   console.log("orgs", organizations);
   const { applicationNominees } = useSelector((state) => state.application);

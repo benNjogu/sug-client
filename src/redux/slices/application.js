@@ -161,6 +161,32 @@ export const CreateNewApplication = (formValues) => {
   };
 };
 
+export const EditApplication = (formValues) => {
+  return async (dispatch, getState) => {
+    // let org_id = window.localStorage.getItem("user_id");
+    await axios
+      .post(
+        "/application/edit-application",
+        { ...formValues },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(function (response) {
+        dispatch(
+          ShowSnackbar({ severity: "success", message: response.data.message })
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
 export const GetApplicationNominees = (application_id) => {
   return async (dispatch, getState) => {
     await axios

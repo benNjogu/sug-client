@@ -8,7 +8,7 @@ import moment from "moment";
 
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
-import { convertDigitInString } from "./../../../utils/convertDigitsInString";
+import { convertDigitInString } from "../../../utils/convertDigitsInString";
 import Spinner from "../../../components/spinner";
 import ApprovalLetter from "../../../components/approval-letter/approval-letter.component";
 import {

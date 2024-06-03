@@ -12,7 +12,7 @@ const initialState = {
   nominees: [],
   deleted_nominees: [],
   admins: [],
-  all_hr_managers: [],
+  all_authorizers: [],
 };
 
 const slice = createSlice({
@@ -38,8 +38,8 @@ const slice = createSlice({
     updateDeletedNominees(state, action) {
       state.deleted_nominees = action.payload.deleted_nominees;
     },
-    updateAllManagers(state, action) {
-      state.all_hr_managers = action.payload.all_hr_managers;
+    updateAllAuthorizers(state, action) {
+      state.all_authorizers = action.payload.all_authorizers;
     },
     updateAdmins(state, action) {
       state.admins = action.payload.admins;
@@ -126,19 +126,23 @@ export const FetchAllDefferredAndRejectedApplications = () => {
   };
 };
 
-export const FetchAllManagers = () => {
+export const FetchOrganizationAuthorizers = (org_id) => {
   return async (dispatch, getState) => {
     await axios
-      .post(`/admin/get-all-authorizers`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${getState().auth.token}`,
-        },
-      })
+      .post(
+        `/admin/get-all-authorizers`,
+        { org_id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
       .then(function (response) {
         dispatch(
-          slice.actions.updateAllManagers({
-            all_hr_managers: response.data.data,
+          slice.actions.updateAllAuthorizers({
+            all_authorizers: response.data.data,
           })
         );
       })

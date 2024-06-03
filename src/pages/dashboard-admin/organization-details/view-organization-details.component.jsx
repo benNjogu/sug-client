@@ -14,7 +14,7 @@ import { constants } from "../../../data/constants";
 import UsersCard from "../../../components/users-card/users-card.component";
 import {
   FetchAllDeletedNominees,
-  FetchAllManagers,
+  FetchOrganizationAuthorizers,
   FetchAllNominees,
 } from "../../../redux/slices/admin";
 
@@ -32,7 +32,6 @@ const ViewOrganizationDetails = () => {
   const [rejectedApplications, setRejectedApplications] = useState([]);
   let [orgNominees, setOrgNominees] = useState([]);
   let [deletedNominees, setDeletedNominees] = useState([]);
-  let [orgManagers, setOrgManagers] = useState([]);
   const [inactiveBtn, setInactiveBtn] = useState(false);
 
   let { applications } = useSelector((state) => state.admin);
@@ -40,7 +39,7 @@ const ViewOrganizationDetails = () => {
   let { defferred_rejected_applications } = useSelector((state) => state.admin);
   let { nominees } = useSelector((state) => state.admin);
   let { deleted_nominees } = useSelector((state) => state.admin);
-  let { all_hr_managers } = useSelector((state) => state.admin);
+  let { all_authorizers } = useSelector((state) => state.admin);
 
   const application_columns = [
     {
@@ -119,7 +118,7 @@ const ViewOrganizationDetails = () => {
     },
   ];
 
-  const managers_columns = [
+  const authorizers_columns = [
     {
       title: "S.No",
       dataIndex: "s_no",
@@ -137,20 +136,8 @@ const ViewOrganizationDetails = () => {
       dataIndex: "national_id_number",
     },
     {
-      title: "ID Doc",
-      dataIndex: "id_pdf",
-      render(text, record) {
-        return {
-          props: {
-            style: {
-              color: "#1e90ff",
-              fontWeight: 600,
-              cursor: "pointer",
-            },
-          },
-          children: <div onClick={() => console.log("download")}>{text}</div>,
-        };
-      },
+      title: "Designation",
+      dataIndex: "designation",
     },
   ];
 
@@ -244,12 +231,7 @@ const ViewOrganizationDetails = () => {
       )
     );
 
-    dispatch(FetchAllManagers());
-    setOrgManagers(
-      all_hr_managers.filter(
-        (m) => Number(m.organization) === Number(record.organization_id)
-      )
-    );
+    dispatch(FetchOrganizationAuthorizers(record.organization_id));
   }, []);
 
   return (
@@ -447,8 +429,8 @@ const ViewOrganizationDetails = () => {
           </TabPane>
           <TabPane tab="Authorizing Officer" key={8}>
             <Table
-              dataSource={addSerialNumber(orgManagers, status.All)}
-              columns={managers_columns}
+              dataSource={addSerialNumber(all_authorizers, status.All)}
+              columns={authorizers_columns}
               className="mt-2"
             />
           </TabPane>

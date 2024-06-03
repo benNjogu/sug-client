@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, Tabs, message } from "antd";
+import { Modal, Table, Tabs, message } from "antd";
 import { Form, Button } from "react-bootstrap";
 import { WarningOutlined } from "@ant-design/icons";
 
@@ -19,12 +19,15 @@ import FilterNominees from "../../../components/filter-component/filter-componen
 import CellItem from "../../../components/application/select-nominees/cell-item/cell-item.component";
 import SelectNomineesTable from "../../../components/application/select-nominees/select-nominees-table";
 
-import { ShowSnackbar } from "../../../redux/slices/app";
 import {
+  EditApplication,
   FetchApplicationDetails,
   UpdateFormatedApplicationDetails,
 } from "../../../redux/slices/application";
 import "./new-application.styles.css";
+import RefreshErrorModal from "../../../components/modal/refresh-error-modal.component";
+import { addSerialNumber, status } from "../../../utils/addSerialNumber";
+import { FetchOrganizationAuthorizers } from "../../../redux/slices/admin";
 
 const { TabPane } = Tabs;
 
@@ -40,12 +43,15 @@ const NewApplicationComponent = () => {
   //formated application for editing
   let { formatedApplication } = useSelector((state) => state.application);
   console.log("formatedApplications, new app", formatedApplication);
+  console.log("formatedApplications, STATE TYPE", state.type);
 
   // NOMINEES
   let { nominees } = useSelector((state) => state.nominee);
   let newGroups = useSelector((state) => state.cell.newGroups);
   // As we add and remove a nominee from a group, we combine them in one array to maintain a single source of truth
   let combinedNominees = useSelector((state) => state.cell?.combinedNominees);
+  let { all_authorizers } = useSelector((state) => state.admin);
+  console.log("new application, authorizers", all_authorizers);
 
   const {
     register,
@@ -61,7 +67,6 @@ const NewApplicationComponent = () => {
             venue: formatedApplication[0]?.venue,
             country: formatedApplication[0]?.country,
             state: formatedApplication[0]?.state,
-            city: formatedApplication[0]?.city,
             course_objectives: formatedApplication[0]?.course_objectives,
             start_date_1: formatedApplication[0]?.start_date_1?.split("T")[0],
             end_date_1: formatedApplication[0]?.end_date_1?.split("T")[0],
@@ -133,6 +138,7 @@ const NewApplicationComponent = () => {
   };
 
   const [loading, setLoading] = useState(false);
+  const [showRefreshErrorModal, setShowRefreshErrorModal] = useState(false);
   const { capacity } = useSelector((state) => state.cell.capacity);
   const [searchQuery, setSearchQuery] = useState("");
   const [level, setLevel] = useState(constants.SELECT);
@@ -140,6 +146,8 @@ const NewApplicationComponent = () => {
   // OVERSEAS
   const [related, setRelated] = useState(false);
   const [otherFunds, setOtherFunds] = useState(false);
+
+  const handleSelectAuthorizer = () => {};
 
   // NOMINEE
   const handleAddNew = () => {
@@ -335,8 +343,8 @@ const NewApplicationComponent = () => {
     dispatch(AddNewGroup([{}]));
     dispatch(AddNominee([]));
     dispatch(UpdateCombinedNominees([]));
-    // dispatch(UpdateFormatedApplicationDetails([]));
-    // window.localStorage.removeItem(constants.RECORD_TO_EDIT_ID);
+    dispatch(UpdateFormatedApplicationDetails([]));
+    window.localStorage.removeItem(constants.RECORD_TO_EDIT_ID);
 
     setTimeout(() => {
       setLoading(false);
@@ -411,6 +419,7 @@ const NewApplicationComponent = () => {
       details?.number_of_participants === constants.GROUP &&
       details?.number_of_groups > 1
     ) {
+      console.log("want to know numberofgroups", details.number_of_groups);
       for (let i = 1; i <= details?.number_of_groups; i++) {
         let key1 = "start_date_" + i;
         let key2 = "end_date_" + i;
@@ -447,9 +456,18 @@ const NewApplicationComponent = () => {
     setTimeout(() => {
       setLoading(false);
       if (state?.type.toString() === constants.EDIT_APPLICATION) {
-        message.success("Editor");
+        if (
+          formatedApplication[0].id !==
+          localStorage.getItem(constants.RECORD_TO_EDIT_ID)
+        ) {
+          setShowRefreshErrorModal(true);
+          return;
+        }
+        data = { ...data, application_id: formatedApplication[0]?.id };
+        console.log("edit_d", data);
+        dispatch(EditApplication({ ...data }));
       } else {
-        dispatch(CreateNewApplication({ ...data, ...applicationSpecs }));
+        dispatch(CreateNewApplication({ ...data }));
       }
     }, 2500);
   };
@@ -525,6 +543,10 @@ const NewApplicationComponent = () => {
     } else return ` )`;
   };
 
+  const handleCancel = () => {
+    setShowRefreshErrorModal(false);
+  };
+
   useEffect(() => {
     if (state?.type.toString() === constants.EDIT_APPLICATION) {
       if (formatedApplication !== null) {
@@ -548,9 +570,17 @@ const NewApplicationComponent = () => {
           formatedApplication[0]?.fare_fees +
           formatedApplication[0]?.other_fees;
         setSum(initial_total);
+      } else {
+        dispatch(
+          FetchApplicationDetails(
+            localStorage.getItem(constants.RECORD_TO_EDIT_ID)
+          )
+        );
       }
     } else {
-      console.log("no rendering this");
+      dispatch(
+        FetchOrganizationAuthorizers(window.localStorage.getItem("user_id"))
+      );
       if (details?.number_of_participants === constants.ONE)
         dispatch(
           AddNewGroup({
@@ -603,6 +633,21 @@ const NewApplicationComponent = () => {
       {contextHolder}
       <div className="main-container">
         <Spinner loading={loading} />
+        {showRefreshErrorModal && (
+          <Modal
+            open={showRefreshErrorModal}
+            title={`Errors occured!!!`}
+            onCancel={handleCancel}
+            footer={false}
+          >
+            {
+              <RefreshErrorModal
+                handleClose={handleCancel}
+                onClick={handleBackpressed}
+              />
+            }
+          </Modal>
+        )}
         <Tabs defaultActiveKey="1">
           {details?.number_of_participants === constants.GROUP ? (
             getNumberOfGroupsArray().map((i) => (
@@ -624,6 +669,7 @@ const NewApplicationComponent = () => {
                       placeholder={"Search nominee by name or id..."}
                       searchQuery={searchQuery}
                       onSearch={handleSearch}
+                      level={level}
                       onSort={handleSort}
                     />
                     <div className="row">

@@ -5,7 +5,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
-import { addSerialNumber, status } from "./../../../utils/addSerialNumber";
+import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 import { GetDefferredAndRejects } from "../../../redux/slices/organization";
 import { constants } from "../../../data/constants";

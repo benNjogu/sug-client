@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 
-import { FetchAllRegisteredUsers } from "./../../../redux/slices/nominee";
-import FilterNominees from "./../../../components/filter-component/filter-component";
+import { FetchAllRegisteredUsers } from "../../../redux/slices/nominee";
+import FilterNominees from "../../../components/filter-component/filter-component";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import Spinner from "../../../components/spinner";
 import { constants } from "../../../data/constants";
