@@ -11,6 +11,7 @@ import {
   GetApplicationNominees,
   GetBannerData,
   UpdateAdminWorkingOnApplication,
+  UpdateFormatedApplicationDetails,
 } from "../../redux/slices/application";
 import Navbar from "../../components/navbar/navbar.component";
 import Spinner, { FetchingData } from "./../../components/spinner";
@@ -28,6 +29,7 @@ import { convertDigitInString } from "../../utils/convertDigitsInString";
 import ViewUser from "../../components/modal/view-user-modal";
 
 import "./view-application-details.styles.css";
+import { UpdateCapacity } from "../../redux/slices/cell";
 
 const Banner = ({ type, title, reason, name, email, phone, date }) => (
   <div className="col-md-12">
@@ -75,36 +77,10 @@ const ViewApplicationDetails = () => {
     "view application details formated application",
     formatedApplication
   );
-  const { organizations } = useSelector((state) => state.organization);
-  console.log("orgs", organizations);
-  const { applicationNominees } = useSelector((state) => state.application);
-  console.log("an", applicationNominees);
-  const { applicationDates } = useSelector((state) => state.application);
-  console.log("ad", applicationDates);
-  let { nominees } = useSelector((state) => state.nominee);
-  console.log("n", nominees);
-  const { applicationAuthorizer } = useSelector((state) => state.application);
-  console.log(applicationAuthorizer);
+
   const { bannerData } = useSelector((state) => state.application);
   console.log("bannerd", bannerData);
   const { account_type } = useSelector((state) => state.auth).user_data;
-
-  //filtering nominees based on fetched ids
-  const getFilteredNominees = () => {
-    let filteredNominees = [];
-    for (let i = 0; i < applicationNominees.length; i++) {
-      for (let j = 0; j < nominees.length; j++) {
-        if (applicationNominees[i].nominee_id === nominees[j].id) {
-          // Add group id to each nominee
-          let group_id = applicationNominees[i].group_id;
-          // Add each nominee belonging to this application to a new array
-          filteredNominees.push({ ...nominees[j], group_id });
-        } else continue;
-      }
-    }
-
-    return filteredNominees;
-  };
 
   const columns = [
     {
@@ -296,22 +272,84 @@ const ViewApplicationDetails = () => {
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-organization", {
-        state: { record: { ...currentOrganization[0] } },
+        state: { record: { ...formatedApplication[0] } },
       });
     }, 700);
   };
 
   const getNumberOfGroups = () => {
     let size = [];
-    for (let i = 1; i <= applicationDates?.length; i++) {
+    for (
+      let i = 1;
+      i <= Object.keys(formatedApplication[0]?.nominees)?.length;
+      i++
+    ) {
       size.push(i);
     }
 
     return size;
   };
 
-  const handleEdit = (record) => {
-    console.log("edit", record);
+  const handleEdit = () => {
+    setLoading(true);
+    let thisApplicationDetails = {
+      number_of_participants: formatedApplication[0]?.number_of_participants,
+      type_of_training: formatedApplication[0]?.type_of_training,
+      previous: constants.VIEW_APPLICATION,
+    };
+    if (formatedApplication[0]?.number_of_groups !== null) {
+      thisApplicationDetails = {
+        ...thisApplicationDetails,
+        number_of_groups: formatedApplication[0]?.number_of_groups,
+      };
+    }
+
+    if (formatedApplication[0]?.number_of_participants === constants.GROUP) {
+      if (
+        formatedApplication[0]?.type_of_training === constants.LOCAL ||
+        formatedApplication[0]?.type_of_training === constants.OVER_SEAS ||
+        formatedApplication[0]?.type_of_training === constants.DISTANCE
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
+            maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
+          })
+        );
+      } else if (
+        formatedApplication[0]?.type_of_training === constants.STATUTORY
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.STATUTORY_CAP.minCapacity,
+            maxCapacity: constants.STATUTORY_CAP.maxCapacity,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        UpdateCapacity({
+          minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,
+          maxCapacity: constants.SINGLE_NOMINEE_CAP.maxCapacity,
+        })
+      );
+    }
+
+    window.localStorage.setItem(
+      constants.RECORD_TO_EDIT_ID,
+      formatedApplication[0]?.id
+    );
+    dispatch(UpdateFormatedApplicationDetails(formatedApplication));
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/new-application", {
+        state: {
+          type: constants.EDIT_APPLICATION,
+          details: { ...thisApplicationDetails },
+        },
+      });
+    }, 700);
   };
 
   const splitRecommendation = () => {
@@ -333,8 +371,6 @@ const ViewApplicationDetails = () => {
   };
 
   useEffect(() => {
-    console.log("dispatching stuff");
-    // Update admin working on the application aftet 1 min of opening
     if (
       account_type === process.env.REACT_APP_AccountType2 &&
       (record.approved === constants.PENDING ||
@@ -363,26 +399,6 @@ const ViewApplicationDetails = () => {
         )
       );
     }
-
-    if (organizations === null || organizations?.length === 0) {
-      dispatch(GetAllOrganizations());
-    }
-
-    setCurrentOrganization(
-      organizations?.filter(
-        (org) => org.organization_id === record.organization_id
-      )
-    );
-
-    // get nominees for this application
-    dispatch(GetApplicationNominees(record.id));
-
-    // get dates for various groups
-    dispatch(GetApplicationGroupDates(record.id));
-
-    dispatch(GetApplicationAuthorizer(record.id));
-
-    dispatch(FetchAllRegisteredUsers(record.organization_id));
 
     if (
       record.approved === constants.DEFFERED ||
@@ -514,7 +530,7 @@ const ViewApplicationDetails = () => {
                     TRAINING APPLICATION ANALYSIS.
                   </legend>
                   <div class="form-row">
-                    {currentOrganization.length > 0 ? (
+                    {formatedApplication?.length > 0 ? (
                       <div class="col-md-12">
                         <div class="form-row">
                           <div className="col-md-6">
@@ -526,14 +542,14 @@ const ViewApplicationDetails = () => {
                                 className="org_name"
                                 onClick={handleViewOrganization}
                               >
-                                {currentOrganization[0]?.user_name}
+                                {formatedApplication[0]?.user_name}
                               </span>
                             </div>
                             <div>
                               <label for="levy_no" className="label w-25">
                                 Levy RegNo:
                               </label>
-                              <span>{currentOrganization[0]?.levy_no}</span>
+                              <span>{formatedApplication[0]?.levy_no}</span>
                             </div>
                             <div>
                               <label for="date" className="label w-25">
@@ -583,13 +599,18 @@ const ViewApplicationDetails = () => {
                               <label for="total" className="label w-25">
                                 No. of Nominees :
                               </label>
-                              <span>{getFilteredNominees().length}</span>
+                              <span>
+                                {
+                                  Object.keys(formatedApplication[0]?.nominees)
+                                    ?.length
+                                }
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div class="form-row mt-3">
                           <div className="col-md-12">
-                            {applicationDates !== null ? (
+                            {formatedApplication !== null ? (
                               <div class="form-row">
                                 {getNumberOfGroups().map((idx) => (
                                   <>
@@ -604,9 +625,9 @@ const ViewApplicationDetails = () => {
                                       </label>
                                       <span className="span--block">
                                         {convertDigitInString(
-                                          applicationDates[
-                                            idx - 1
-                                          ].start_date.split("T")[0]
+                                          formatedApplication[0]?.nominees[
+                                            idx
+                                          ]?.start_date?.split("T")[0]
                                         )}
                                       </span>
                                     </div>
@@ -621,9 +642,9 @@ const ViewApplicationDetails = () => {
                                       </label>
                                       <span className="span--block">
                                         {convertDigitInString(
-                                          applicationDates[
-                                            idx - 1
-                                          ].end_date.split("T")[0]
+                                          formatedApplication[0]?.nominees[
+                                            idx
+                                          ]?.end_date?.split("T")[0]
                                         )}
                                       </span>
                                     </div>
@@ -798,7 +819,7 @@ const ViewApplicationDetails = () => {
               <div className="col-md-12">
                 <legend className="text-info">Organization Profile.</legend>
                 <div class="form-row">
-                  {currentOrganization?.length > 0 ? (
+                  {formatedApplication?.length > 0 ? (
                     <div class="col-md-12">
                       <div class="form-row">
                         <div className="col-md-6">
@@ -809,14 +830,14 @@ const ViewApplicationDetails = () => {
                             {account_type ===
                             process.env.REACT_APP_AccountType0 ? (
                               <span className="org_name">
-                                {currentOrganization[0]?.user_name}
+                                {formatedApplication[0]?.user_name}
                               </span>
                             ) : (
                               <span
                                 className="org_name"
                                 onClick={handleViewOrganization}
                               >
-                                {currentOrganization[0]?.user_name}
+                                {formatedApplication[0]?.user_name}
                               </span>
                             )}
                           </div>
@@ -824,31 +845,31 @@ const ViewApplicationDetails = () => {
                             <label for="email" className="label w-25">
                               Email:
                             </label>
-                            <span>{currentOrganization[0]?.email}</span>
+                            <span>{formatedApplication[0]?.email}</span>
                           </div>
                           <div>
                             <label for="levy_no" className="label w-25">
                               Levy RegNo:
                             </label>
-                            <span>{currentOrganization[0]?.levy_no}</span>
+                            <span>{formatedApplication[0]?.levy_no}</span>
                           </div>
                           <div>
                             <label for="box" className="label w-25">
                               P.O. Box:
                             </label>
-                            <span>{currentOrganization[0]?.box}</span>
+                            <span>{formatedApplication[0]?.box}</span>
                           </div>
                           <div>
                             <label for="code" className="label w-25">
                               Code:
                             </label>
-                            <span>{currentOrganization[0]?.code}</span>
+                            <span>{formatedApplication[0]?.code}</span>
                           </div>
                           <div>
                             <label for="phone" className="label w-25">
                               Phone/Fax:
                             </label>
-                            <span>{currentOrganization[0]?.phone}</span>
+                            <span>{formatedApplication[0]?.phone}</span>
                           </div>
                         </div>
                         <div className="col-md-6">
@@ -856,25 +877,25 @@ const ViewApplicationDetails = () => {
                             <label for="town" className="label w-25">
                               Town:
                             </label>
-                            <span>{currentOrganization[0]?.town}</span>
+                            <span>{formatedApplication[0]?.town}</span>
                           </div>
                           <div>
                             <label for="street" className="label w-25">
                               Street:
                             </label>
-                            <span>{currentOrganization[0]?.street}</span>
+                            <span>{formatedApplication[0]?.street}</span>
                           </div>
                           <div>
                             <label for="building" className="label w-25">
                               Building:
                             </label>
-                            <span>{currentOrganization[0]?.building}</span>
+                            <span>{formatedApplication[0]?.building}</span>
                           </div>
                           <div>
                             <label for="floor" className="label w-25">
                               Floor:
                             </label>
-                            <span>{currentOrganization[0]?.floor}</span>
+                            <span>{formatedApplication[0]?.floor}</span>
                           </div>
                         </div>
                       </div>
@@ -920,6 +941,16 @@ const ViewApplicationDetails = () => {
                       <label className="label w-25">Country:</label>
                       <span>{record.country}</span>
                     </div>
+                    <div>
+                      <label className="label w-25">Type:</label>
+                      <span>{`${formatedApplication[0]?.type_of_training}, ${formatedApplication[0]?.number_of_participants}`}</span>
+                    </div>
+                    {formatedApplication[0]?.number_of_groups !== null && (
+                      <div>
+                        <label className="label w-25">Groups:</label>
+                        <span>{formatedApplication[0]?.number_of_groups}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div class="form-row">
@@ -932,7 +963,7 @@ const ViewApplicationDetails = () => {
                     </span>
                   </div>
                 </div>
-                {applicationDates !== null ? (
+                {formatedApplication !== null ? (
                   <div class="form-row">
                     {getNumberOfGroups().map((idx) => (
                       <>
@@ -944,9 +975,9 @@ const ViewApplicationDetails = () => {
                           </label>
                           <span className="span--block">
                             {convertDigitInString(
-                              applicationDates[idx - 1]?.start_date?.split(
-                                "T"
-                              )[0]
+                              formatedApplication[0]?.nominees[
+                                idx
+                              ]?.start_date?.split("T")[0]
                             )}
                           </span>
                         </div>
@@ -958,7 +989,9 @@ const ViewApplicationDetails = () => {
                           </label>
                           <span className="span--block">
                             {convertDigitInString(
-                              applicationDates[idx - 1]?.end_date?.split("T")[0]
+                              formatedApplication[0]?.nominees[
+                                idx
+                              ]?.end_date?.split("T")[0]
                             )}
                           </span>
                         </div>
@@ -1168,23 +1201,23 @@ const ViewApplicationDetails = () => {
             <div className="row">
               <div className="col-md-12">
                 <legend className="text-info">Authorizing officer.</legend>
-                {applicationAuthorizer !== null ? (
+                {formatedApplication.length > 0 ? (
                   <div class="form-row">
                     <div class="col-md-3">
                       <label className="label">ID Number: </label>{" "}
                       <label>
-                        {applicationAuthorizer[0]?.national_id_number}
+                        {formatedApplication[0]?.national_id_number}
                       </label>
                     </div>
                     <div class="col-md-3">
                       <label className="label">Names: </label>{" "}
-                      <label>{applicationAuthorizer[0]?.first_name}</label>
+                      <label>{formatedApplication[0]?.first_name}</label>
                       {"  "}
-                      <label>{applicationAuthorizer[0]?.last_name}</label>
+                      <label>{formatedApplication[0]?.last_name}</label>
                     </div>
                     <div class="col-md-3">
                       <label className="label">Designation: </label>{" "}
-                      <label>{applicationAuthorizer[0]?.designation}</label>
+                      <label>{formatedApplication[0]?.designation}</label>
                     </div>
                   </div>
                 ) : (
@@ -1207,16 +1240,15 @@ const ViewApplicationDetails = () => {
                             Group {idx}
                             {", "}
                             {
-                              getFilteredNominees().filter(
-                                (n) => Number(n?.group_id) === idx
-                              ).length
+                              formatedApplication[0]?.nominees[idx]?.nominees
+                                ?.length
                             }
                             {" nominees"}
                           </a>
                         </Tag>
                       ))}
                     <Tag>
-                      <a>{`All Nominees, (${getFilteredNominees().length})`}</a>
+                      <a>{`All Nominees, (${formatedApplication[0]?.nominees_array?.length})`}</a>
                     </Tag>
                   </div>
                 </div>
@@ -1229,9 +1261,7 @@ const ViewApplicationDetails = () => {
                         <div key={idx + 5} className="col-md-9">
                           <Table
                             dataSource={addSerialNumber(
-                              getFilteredNominees().filter(
-                                (n) => Number(n?.group_id) === idx
-                              ),
+                              formatedApplication[0]?.nominees[idx]?.nominees,
                               status.All
                             )}
                             columns={columns}

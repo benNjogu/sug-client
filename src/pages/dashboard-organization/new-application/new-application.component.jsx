@@ -117,6 +117,8 @@ const NewApplicationComponent = () => {
     return numberOfGroups;
   };
 
+  console.log("first number of gruops ", getNumberOfGroupsArray());
+
   // store refers to redux for lack of a better variable name. its my code after all
   const storeGroups = () => {
     let groups = {};
@@ -345,6 +347,9 @@ const NewApplicationComponent = () => {
     dispatch(UpdateCombinedNominees([]));
     dispatch(UpdateFormatedApplicationDetails([]));
     window.localStorage.removeItem(constants.RECORD_TO_EDIT_ID);
+    if (details?.previous === constants.VIEW_APPLICATION) {
+      dispatch(UpdateFormatedApplicationDetails(formatedApplication));
+    }
 
     setTimeout(() => {
       setLoading(false);

@@ -156,6 +156,7 @@ const Applications = () => {
 
   const handleViewApplication = (record) => {
     setLoading(true);
+    dispatch(FetchApplicationDetails(record.id));
 
     setTimeout(() => {
       setLoading(false);

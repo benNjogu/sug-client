@@ -28,6 +28,7 @@ export const constants = {
   //NUMBER OF PARTICIPANTS
   ONE: "One",
   GROUP: "Group",
+  VIEW_APPLICATION: "View Application",
 
   //GROUPS CAPACITY
   LOCAL_OVERSEAS_DISTANCE: { minCapacity: 8, maxCapacity: 25 },

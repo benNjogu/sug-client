@@ -11,6 +11,7 @@ import { addSerialNumber, status } from "./../../utils/addSerialNumber";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
 import { constants } from "../../data/constants";
+import { FetchApplicationDetails } from "../../redux/slices/application";
 
 const PendingApplications = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const PendingApplications = () => {
 
   const handleViewApplication = (record) => {
     setLoading(true);
+    dispatch(FetchApplicationDetails(record.id));
 
     setTimeout(() => {
       setLoading(false);

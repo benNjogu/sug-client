@@ -27,8 +27,8 @@ const slice = createSlice({
       state.applications = action.payload.applications;
     },
 
-    updateFormatedApplications(state, action) {
-      state.formatedApplication = action.payload.formatedApplications;
+    updateFormatedApplication(state, action) {
+      state.formatedApplication = action.payload.formatedApplication;
     },
 
     updateApplicationNominees(state, action) {
@@ -109,8 +109,8 @@ export const FetchApplicationDetails = (application_id) => {
       .then(function (response) {
         console.log("application slice form detals", response.data.result);
         dispatch(
-          slice.actions.updateFormatedApplications({
-            formatedApplications: [response.data.result],
+          slice.actions.updateFormatedApplication({
+            formatedApplication: [response.data.result],
           })
         );
       })
@@ -129,8 +129,8 @@ export const FetchApplicationDetails = (application_id) => {
 export const UpdateFormatedApplicationDetails =
   (data) => async (dispatch, getState) => {
     dispatch(
-      slice.actions.updateFormatedApplications({
-        formatedApplications: data,
+      slice.actions.updateFormatedApplication({
+        formatedApplication: data,
       })
     );
   };
