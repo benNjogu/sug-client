@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import { Modal, Table, message } from "antd";
+import { Modal, Table } from "antd";
 import { constants } from "../../../data/constants";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import {
@@ -14,7 +14,6 @@ import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 
 import "./applications.styles.css";
-import { GetOrganizationData } from "../../../redux/slices/organization";
 import NewApplicationModalComponent from "../../../components/modal/new-application-modal-component.component";
 import SearchBox from "../../../components/search-box";
 import { UpdateCapacity } from "../../../redux/slices/cell";
@@ -235,7 +234,6 @@ const Applications = () => {
 
   useEffect(() => {
     dispatch(FetchOrganizationApplications());
-    dispatch(GetOrganizationData());
   }, []);
 
   return (

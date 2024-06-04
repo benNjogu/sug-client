@@ -9,6 +9,7 @@ import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 import { GetDefferredAndRejects } from "../../../redux/slices/organization";
 import { constants } from "../../../data/constants";
+import { FetchApplicationDetails } from "../../../redux/slices/application";
 
 const Rejected = () => {
   const navigate = useNavigate();
@@ -52,16 +53,14 @@ const Rejected = () => {
       (a) => a.id === record.application_id
     );
 
+    dispatch(FetchApplicationDetails(record.application_id));
+
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-application", {
         state: { record: { ...application[0], approved: constants.REJECTED } },
       });
     }, 700);
-  };
-
-  const handleEditApplication = (record) => {
-    console.log("edit application", record);
   };
 
   useEffect(() => {

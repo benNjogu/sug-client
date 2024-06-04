@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../components/spinner";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import { FetchAllDefferredAndRejectedApplications } from "../../redux/slices/admin";
+import { FetchApplicationDetails } from "../../redux/slices/application";
 
 const DefferedApplications = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const DefferedApplications = () => {
   const [deffereddApplications, setDeffereddApplications] = useState([]);
   let my_id = window.localStorage.getItem("user_id");
   let { defferred_rejected_applications } = useSelector((state) => state.admin);
-  const { account_type } = useSelector((state) => state.auth.user_data);
 
   const columns = [
     {
@@ -77,6 +77,8 @@ const DefferedApplications = () => {
 
   const handleViewApplication = (record) => {
     setLoading(true);
+
+    dispatch(FetchApplicationDetails(record.id));
 
     setTimeout(() => {
       setLoading(false);

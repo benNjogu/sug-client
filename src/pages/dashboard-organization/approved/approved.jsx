@@ -12,6 +12,7 @@ import { convertDigitInString } from "../../../utils/convertDigitsInString";
 import Spinner from "../../../components/spinner";
 import ApprovalLetter from "../../../components/approval-letter/approval-letter.component";
 import {
+  FetchApplicationDetails,
   FetchOrganizationApplications,
   GetApprovedApplicationsByOrg,
 } from "../../../redux/slices/application";
@@ -82,10 +83,8 @@ const Approved = () => {
 
   const handleSearchCourse = (query) => {
     setSearchCourse(query);
-    console.log("qq", query);
   };
 
-  console.log("ss", searchCourse);
   if (searchCourse) {
     orgApprovedApplications = orgApprovedApplications.filter((a) =>
       a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase())
@@ -99,6 +98,7 @@ const Approved = () => {
       (a) => a.id === record.application_id
     );
 
+    dispatch(FetchApplicationDetails(record.application_id));
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-application", {

@@ -17,6 +17,7 @@ import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
 import Spinner from "../../components/spinner";
 import SearchBox from "../../components/search-box";
+import { FetchApplicationDetails } from "../../redux/slices/application";
 
 const AllApplications = () => {
   const navigate = useNavigate();
@@ -26,15 +27,6 @@ const AllApplications = () => {
   const [searchCourse, setSearchCourse] = useState("");
   const [searchYear, setSearchYear] = useState("");
   let { applications } = useSelector((state) => state.admin);
-
-  const handleViewApplication = (record) => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/app/view-application", { state: { record } });
-    }, 700);
-  };
 
   const columns = [
     {
@@ -120,6 +112,17 @@ const AllApplications = () => {
         ),
     },
   ];
+
+  const handleViewApplication = (record) => {
+    setLoading(true);
+
+    dispatch(FetchApplicationDetails(record.id));
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/view-application", { state: { record } });
+    }, 700);
+  };
 
   const handleSearchOrgName = (query) => {
     setSearchOrgName(query);

@@ -9,6 +9,8 @@ import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 import { GetDefferredAndRejects } from "../../../redux/slices/organization";
 import { constants } from "../../../data/constants";
+import { FetchApplicationDetails } from "../../../redux/slices/application";
+import { UpdateCapacity } from "../../../redux/slices/cell";
 
 const DefferedApplications = () => {
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ const DefferedApplications = () => {
       (a) => a.id === record.application_id
     );
 
+    dispatch(FetchApplicationDetails(record.application_id));
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-application", {
@@ -64,7 +67,63 @@ const DefferedApplications = () => {
   };
 
   const handleEditApplication = (record) => {
-    console.log("edit application", record);
+    setLoading(true);
+    let thisApplicationDetails = {
+      number_of_participants: record.number_of_participants,
+      type_of_training: record.type_of_training,
+    };
+    if (record.number_of_groups !== null) {
+      thisApplicationDetails = {
+        ...thisApplicationDetails,
+        number_of_groups: record.number_of_groups,
+      };
+    }
+
+    if (record.number_of_participants === constants.GROUP) {
+      if (
+        record.type_of_training === constants.LOCAL ||
+        record.type_of_training === constants.OVER_SEAS ||
+        record.type_of_training === constants.DISTANCE
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
+            maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
+          })
+        );
+      } else if (record.type_of_training === constants.STATUTORY) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.STATUTORY_CAP.minCapacity,
+            maxCapacity: constants.STATUTORY_CAP.maxCapacity,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        UpdateCapacity({
+          minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,
+          maxCapacity: constants.SINGLE_NOMINEE_CAP.maxCapacity,
+        })
+      );
+    }
+
+    window.localStorage.setItem(
+      constants.RECORD_TO_EDIT_ID,
+      record.application_id
+    );
+    dispatch(FetchApplicationDetails(record.application_id));
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/new-application", {
+        state: {
+          record,
+          type: constants.EDIT_APPLICATION,
+          details: { ...thisApplicationDetails },
+        },
+      });
+    }, 700);
   };
 
   useEffect(() => {

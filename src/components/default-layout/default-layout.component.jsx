@@ -48,9 +48,14 @@ const DefaultLayout = ({ children }) => {
   };
 
   const handleViewProfile = () => {
-    account_type === process.env.REACT_APP_AccountType0
-      ? navigate("/profile")
-      : navigate("/admin-profile");
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      account_type === process.env.REACT_APP_AccountType0
+        ? navigate("/profile")
+        : navigate("/admin-profile");
+    }, 700);
   };
 
   const handleLogout = () => {

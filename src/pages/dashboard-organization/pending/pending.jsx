@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import moment from "moment";
 
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
-import { convertDigitInString } from "../../../utils/convertDigitsInString";
 import Spinner from "../../../components/spinner";
 import { constants } from "../../../data/constants";
+import { FetchApplicationDetails } from "../../../redux/slices/application";
+import { UpdateCapacity } from "../../../redux/slices/cell";
 
 const Pending = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const { applications } = useSelector((state) => state.application);
 
   const columns = [
@@ -88,7 +90,9 @@ const Pending = () => {
 
   const handleViewApplication = (record) => {
     setLoading(true);
+    console.log("pending view application", record);
 
+    dispatch(FetchApplicationDetails(record.id));
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-application", { state: { record } });
@@ -96,7 +100,60 @@ const Pending = () => {
   };
 
   const handleEditApplication = (record) => {
-    console.log("edit application", record);
+    setLoading(true);
+    let thisApplicationDetails = {
+      number_of_participants: record.number_of_participants,
+      type_of_training: record.type_of_training,
+    };
+    if (record.number_of_groups !== null) {
+      thisApplicationDetails = {
+        ...thisApplicationDetails,
+        number_of_groups: record.number_of_groups,
+      };
+    }
+
+    if (record.number_of_participants === constants.GROUP) {
+      if (
+        record.type_of_training === constants.LOCAL ||
+        record.type_of_training === constants.OVER_SEAS ||
+        record.type_of_training === constants.DISTANCE
+      ) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.LOCAL_OVERSEAS_DISTANCE.minCapacity,
+            maxCapacity: constants.LOCAL_OVERSEAS_DISTANCE.maxCapacity,
+          })
+        );
+      } else if (record.type_of_training === constants.STATUTORY) {
+        dispatch(
+          UpdateCapacity({
+            minCapacity: constants.STATUTORY_CAP.minCapacity,
+            maxCapacity: constants.STATUTORY_CAP.maxCapacity,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        UpdateCapacity({
+          minCapacity: constants.SINGLE_NOMINEE_CAP.minCapacity,
+          maxCapacity: constants.SINGLE_NOMINEE_CAP.maxCapacity,
+        })
+      );
+    }
+
+    window.localStorage.setItem(constants.RECORD_TO_EDIT_ID, record.id);
+    dispatch(FetchApplicationDetails(record.id));
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/app/new-application", {
+        state: {
+          record,
+          type: constants.EDIT_APPLICATION,
+          details: { ...thisApplicationDetails },
+        },
+      });
+    }, 700);
   };
 
   const handleDeleteApplication = (record) => {

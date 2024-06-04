@@ -16,6 +16,7 @@ import {
 } from "../../redux/slices/admin";
 import { constants } from "../../data/constants";
 import ApprovalLetter from "../../components/approval-letter/approval-letter.component";
+import { FetchApplicationDetails } from "../../redux/slices/application";
 
 const ApprovedApplications = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const ApprovedApplications = () => {
   let { applications } = useSelector((state) => state.admin);
   console.log("all", applications);
 
+  // This two should be extracted to one; later;
   const columns = [
     {
       title: "S.No",
@@ -41,9 +43,6 @@ const ApprovedApplications = () => {
     {
       title: "Organization",
       dataIndex: "org_name",
-      // account_type === process.env.REACT_APP_AccountType1
-      //   ? "org_name"
-      //   : "user_name",
     },
     {
       title: "Status",
@@ -147,11 +146,12 @@ const ApprovedApplications = () => {
   ];
 
   const handleViewApplication = (record) => {
-    console.log("first,", record);
     setLoading(true);
     let application = applications.filter(
       (a) => a.id === record.application_id
     );
+
+    dispatch(FetchApplicationDetails(record.application_id));
 
     setTimeout(() => {
       setLoading(false);

@@ -80,7 +80,7 @@ const Navbar = ({
           </li>
         </ul>
       ) : account_type === process.env.REACT_APP_AccountType0 &&
-        approved === constants.DEFFERED ? (
+        (approved === constants.DEFFERED || approved === constants.PENDING) ? (
         <ul className="list nav__list collapsible__content">
           {!hideButtons && (
             <li className="nav__item">
