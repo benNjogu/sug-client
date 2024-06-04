@@ -6,9 +6,6 @@ import { CheckCircleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import { constants } from "./../../data/constants";
 import {
-  GetApplicationGroupDates,
-  GetApplicationAuthorizer,
-  GetApplicationNominees,
   GetBannerData,
   UpdateAdminWorkingOnApplication,
   UpdateFormatedApplicationDetails,
@@ -22,9 +19,7 @@ import {
   ApproveApplication,
   DefferOrRejectApplication,
 } from "../../redux/slices/admin";
-import { GetAllOrganizations } from "../../redux/slices/organization";
 import { addSerialNumber, status } from "./../../utils/addSerialNumber";
-import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
 import { convertDigitInString } from "../../utils/convertDigitsInString";
 import ViewUser from "../../components/modal/view-user-modal";
 
@@ -140,7 +135,7 @@ const ViewApplicationDetails = () => {
   const handleViewNominee = (n) => {
     setSelectedNominee({
       ...n,
-      user_name: currentOrganization[0].user_name,
+      user_name: formatedApplication[0]?.user_name,
     });
     setShowViewNomineeModal(true);
   };
