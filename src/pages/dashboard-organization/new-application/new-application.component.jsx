@@ -462,8 +462,8 @@ const NewApplicationComponent = () => {
       setLoading(false);
       if (state?.type.toString() === constants.EDIT_APPLICATION) {
         if (
-          formatedApplication[0].id !==
-          localStorage.getItem(constants.RECORD_TO_EDIT_ID)
+          Number(formatedApplication[0].id) !==
+          Number(localStorage.getItem(constants.RECORD_TO_EDIT_ID))
         ) {
           setShowRefreshErrorModal(true);
           return;

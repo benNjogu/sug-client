@@ -171,9 +171,20 @@ export const EditApplication = (formValues) => {
         { headers: { "Content-Type": "application/json" } }
       )
       .then(function (response) {
-        dispatch(
-          ShowSnackbar({ severity: "success", message: response.data.message })
-        );
+        if (response.data.success)
+          dispatch(
+            ShowSnackbar({
+              severity: "success",
+              message: response.data.message,
+            })
+          );
+        else
+          dispatch(
+            ShowSnackbar({
+              severity: "error",
+              message: response.data.message,
+            })
+          );
       })
       .catch(function (error) {
         console.log(error);
