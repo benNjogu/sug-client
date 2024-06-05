@@ -56,7 +56,6 @@ const ViewApplicationDetails = () => {
   console.log("rr", record);
 
   const [loading, setLoading] = useState(false);
-  const [currentOrganization, setCurrentOrganization] = useState([]);
   const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDefferModal, setShowDefferModal] = useState(false);

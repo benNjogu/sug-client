@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
 import { Modal, Table } from "antd";
+
 import { constants } from "../../../data/constants";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import {
+  DeleteApplicationById,
   FetchApplicationDetails,
   FetchOrganizationApplications,
 } from "../../../redux/slices/application";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 
-import "./applications.styles.css";
 import NewApplicationModalComponent from "../../../components/modal/new-application-modal-component.component";
 import SearchBox from "../../../components/search-box";
 import { UpdateCapacity } from "../../../redux/slices/cell";
+import "./applications.styles.css";
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const Applications = () => {
   const [searchCourse, setSearchCourse] = useState("");
   const [searchYear, setSearchYear] = useState("");
   let { applications } = useSelector((state) => state.application);
+  let { successStatus } = useSelector((state) => state.application);
+  console.log("is_delete success", successStatus);
 
   const columns = [
     {
@@ -91,7 +94,7 @@ const Applications = () => {
             />
             <DeleteOutlined
               className="mx-2"
-              onClick={() => handleDeleteApplication(record)}
+              onClick={() => showDeleteDialog(record)}
             />
           </div>
         ) : record.approved === "Deffered" ? (
@@ -220,10 +223,6 @@ const Applications = () => {
     }, 700);
   };
 
-  const handleDeleteApplication = (record) => {
-    console.log("delete application", record);
-  };
-
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -232,12 +231,36 @@ const Applications = () => {
     setShowModal(false);
   };
 
+  const [modal, contextHolder] = Modal.useModal();
+  const showDeleteDialog = (record) => {
+    modal.confirm({
+      title: "Delete Application",
+      icon: <DeleteOutlined />,
+      content:
+        "Do you really want to delete this application? This process can't be undone!",
+      okText: "OK",
+      cancelText: "CANCEL",
+      onOk: () => handleDeleteApplication(record.id),
+    });
+  };
+
+  const handleDeleteApplication = (application_id) => {
+    console.log("delete id ", application_id);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(DeleteApplicationById(application_id));
+    }, 700);
+  };
+
   useEffect(() => {
     dispatch(FetchOrganizationApplications());
   }, []);
 
   return (
     <DefaultLayout>
+      {contextHolder}
       <Spinner loading={loading} />
 
       <div>

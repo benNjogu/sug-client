@@ -2,14 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Table } from "antd";
+import { Modal, Table } from "antd";
 import moment from "moment";
 
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import Spinner from "../../../components/spinner";
 import { constants } from "../../../data/constants";
-import { FetchApplicationDetails } from "../../../redux/slices/application";
+import {
+  DeleteApplicationById,
+  FetchApplicationDetails,
+} from "../../../redux/slices/application";
 import { UpdateCapacity } from "../../../redux/slices/cell";
 
 const Pending = () => {
@@ -81,7 +84,7 @@ const Pending = () => {
           />
           <DeleteOutlined
             className="mx-2"
-            onClick={() => handleDeleteApplication(record)}
+            onClick={() => showDeleteDialog(record)}
           />
         </div>
       ),
@@ -156,13 +159,34 @@ const Pending = () => {
     }, 700);
   };
 
-  const handleDeleteApplication = (record) => {
-    console.log("delete application", record);
+  const [modal, contextHolder] = Modal.useModal();
+  const showDeleteDialog = (record) => {
+    modal.confirm({
+      title: "Delete Application",
+      icon: <DeleteOutlined />,
+      content:
+        "Do you really want to delete this application? This process can't be undone!",
+      okText: "OK",
+      cancelText: "CANCEL",
+      onOk: () => handleDeleteApplication(record.id),
+    });
+  };
+
+  const handleDeleteApplication = (application_id) => {
+    console.log("delete id ", application_id);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(DeleteApplicationById(application_id));
+    }, 700);
   };
 
   return (
     <DefaultLayout>
+      {contextHolder}
       <Spinner loading={loading} />
+
       <Table
         columns={columns}
         dataSource={addSerialNumber(applications, status.Pending)}

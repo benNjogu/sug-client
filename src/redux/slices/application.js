@@ -13,6 +13,7 @@ const initialState = {
   applicationAuthorizer: [],
   bannerData: [],
   orgApprovedApplications: [],
+  successStatus: null,
 };
 
 const slice = createSlice({
@@ -49,6 +50,10 @@ const slice = createSlice({
 
     updateOrgApprovedApplications(state, action) {
       state.orgApprovedApplications = action.payload.orgApprovedApplications;
+    },
+
+    updateSuccessStatus(state, action) {
+      state.successStatus = action.payload.successStatus;
     },
   },
 });
@@ -185,6 +190,54 @@ export const EditApplication = (formValues) => {
               message: response.data.message,
             })
           );
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+      });
+  };
+};
+
+export const DeleteApplicationById = (application_id) => {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/application/delete-application",
+        { application_id },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(function (response) {
+        console.log("delete data ", response);
+        if (response.data.success) {
+          dispatch(
+            slice.actions.updateSuccessStatus({
+              successStatus: response.data.success,
+            })
+          );
+          dispatch(
+            ShowSnackbar({
+              severity: "success",
+              message: response.data.message,
+            })
+          );
+        } else {
+          dispatch(
+            slice.actions.updateSuccessStatus({
+              successStatus: false,
+            })
+          );
+          dispatch(
+            ShowSnackbar({
+              severity: "success",
+              message: "Something went wrong!",
+            })
+          );
+        }
       })
       .catch(function (error) {
         console.log(error);
