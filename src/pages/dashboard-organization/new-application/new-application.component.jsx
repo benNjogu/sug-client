@@ -468,7 +468,11 @@ const NewApplicationComponent = () => {
           setShowRefreshErrorModal(true);
           return;
         }
-        data = { ...data, application_id: formatedApplication[0]?.id };
+        data = {
+          ...data,
+          application_id: formatedApplication[0]?.id,
+          approved: formatedApplication[0]?.approved,
+        };
         console.log("edit_d", data);
         dispatch(EditApplication({ ...data }));
       } else {
