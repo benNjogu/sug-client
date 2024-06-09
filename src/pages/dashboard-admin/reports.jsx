@@ -41,8 +41,8 @@ const Reports = () => {
   );
   let IBTA_admins = admins.filter(
     (admin) =>
-      admin.account_type === process.env.REACT_APP_AccountType2 ||
-      admin.account_type === process.env.REACT_APP_AccountType3
+      admin.account_type === process.env.REACT_APP_AccountType2.toString() ||
+      admin.account_type === process.env.REACT_APP_AccountType3.toString()
   );
 
   let data = [
