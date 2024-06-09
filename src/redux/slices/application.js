@@ -219,6 +219,7 @@ export const DeleteApplicationById = (application_id) => {
               successStatus: response.data.success,
             })
           );
+          dispatch(FetchOrganizationApplications());
           dispatch(
             ShowSnackbar({
               severity: "success",
