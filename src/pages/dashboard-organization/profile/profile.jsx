@@ -29,18 +29,15 @@ const Profile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues:
-      organization_profile_data === null
-        ? {}
-        : {
-            town: organization_profile_data[0].town,
-            street: organization_profile_data[0].street,
-            building: organization_profile_data[0].building,
-            floor: organization_profile_data[0].floor,
-            box: organization_profile_data[0].box,
-            code: organization_profile_data[0].code,
-            phone: organization_profile_data[0].phone,
-          },
+    defaultValues: {
+      town: organization_profile_data[0]?.town,
+      street: organization_profile_data[0]?.street,
+      building: organization_profile_data[0]?.building,
+      floor: organization_profile_data[0]?.floor,
+      box: organization_profile_data[0]?.box,
+      code: organization_profile_data[0]?.code,
+      phone: organization_profile_data[0]?.phone,
+    },
   });
 
   const onSubmit = (data) => {
