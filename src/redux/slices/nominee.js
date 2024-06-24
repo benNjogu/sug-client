@@ -31,12 +31,11 @@ export function RegisterUser(formValues) {
     await axios
       .post(
         "/nominee/register-nominee",
-        {
-          ...formValues,
-        },
+        formValues,
+
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       )
@@ -103,12 +102,12 @@ export function EditNominee(data) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        `/nominee/edit-nominee`,
-        { ...data },
+        "/nominee/edit-nominee",
+        data,
+
         {
           headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${getState().auth.token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       )

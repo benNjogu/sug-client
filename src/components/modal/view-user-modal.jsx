@@ -1,12 +1,39 @@
+import { useState } from "react";
+import { Modal } from "antd";
+
 import female from "../../assets/images/female.svg";
 import male from "../../assets/images/male.svg";
 
 import "./new-application-modal.styles.css";
+import ViewPdf from "./view-pdf";
 
 const ViewUser = ({ user }) => {
+  const [showViewPDFModal, setShowViewPDFModal] = useState(false);
+  const [pdf, setPdf] = useState();
   console.log("us", user);
+
+  const handleCancel = () => {
+    setShowViewPDFModal(false);
+  };
+
+  const handleViewPdf = (pdf) => {
+    setPdf(`http://localhost:5000/nominee/${pdf}`);
+    setShowViewPDFModal(true);
+  };
+
   return (
     <>
+      {showViewPDFModal && (
+        <Modal
+          open={showViewPDFModal}
+          title={`ID Number provided: ${user.idNumber}`}
+          onCancel={handleCancel}
+          footer={false}
+          width={660}
+        >
+          {<ViewPdf pdf={pdf} />}
+        </Modal>
+      )}
       <div className="profile-icon">
         {user.sex === "F" ? (
           <img src={female} className="profile-img" alt="passport photo" />
@@ -37,7 +64,9 @@ const ViewUser = ({ user }) => {
           <label for="id_pdf" className="label">
             ID Document:
           </label>
-          <p className="idPdf">{user.id_pdf}</p>
+          <p className="idPdf" onClick={() => handleViewPdf(user.id_file)}>
+            {"Click to View Pdf"}
+          </p>
         </div>
         <div class="col-md-6 form-group">
           <label for="active" className="label">

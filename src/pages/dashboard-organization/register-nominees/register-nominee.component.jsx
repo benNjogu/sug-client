@@ -14,6 +14,8 @@ import Spinner from "../../../components/spinner";
 import { constants } from "../../../data/constants";
 import "../../../components/application/styles/form.styles.css";
 import "./register-nominee.style.css";
+import { Modal } from "antd";
+import ViewPdf from "../../../components/modal/view-pdf";
 
 const RegisterNominee = () => {
   let org = window.localStorage.getItem("user_id");
@@ -28,13 +30,21 @@ const RegisterNominee = () => {
   let type = state?.type;
   let current_nominee;
   if (state !== null) current_nominee = state.nominee;
+  console.log(current_nominee);
+
+  const [editPdf, setEditPdf] = useState(
+    type === constants.ADD_NOMINEE ? false : true
+  );
+
+  const [showViewPDFModal, setShowViewPDFModal] = useState(false);
+  const [pdf, setPdf] = useState();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { ...current_nominee },
+    defaultValues: { ...current_nominee, id_pdf: state.id_file },
   });
 
   const handleOther = () => {
@@ -45,20 +55,43 @@ const RegisterNominee = () => {
     setSpecial(false);
   };
 
+  const handleViewPdf = () => {
+    setPdf(
+      `${process.env.REACT_APP_PDF_PATH?.toString()}${current_nominee?.id_file}`
+    );
+    setShowViewPDFModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowViewPDFModal(false);
+  };
+
+  const handleChangePdf = () => {
+    setEditPdf(false);
+  };
+
   const onSubmit = (data) => {
     setLoading(true);
     if (type === constants.ADD_NOMINEE) {
       setTimeout(() => {
         setLoading(false);
 
-        data = { ...data, id_pdf: "id.jpg" };
+        data = {
+          ...data,
+          id_pdf: data.id_pdf[0],
+        };
+
         dispatch(RegisterUser(data));
       }, 2000);
     } else {
       setTimeout(() => {
         setLoading(false);
 
-        data = { ...data, id_pdf: "id.jpg" };
+        data = {
+          ...data,
+          id_pdf: editPdf ? "" : data.id_pdf[0],
+        };
+
         dispatch(EditNominee(data));
 
         dispatch(FetchAllRegisteredUsers(org));
@@ -78,11 +111,22 @@ const RegisterNominee = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} enctype="multipart/form-data">
       <Navbar
         title={"Particulars of the nominee. ATTACH documents where REQUIRED!!!"}
         handleBackpressed={handleBackpressed}
       />
+      {showViewPDFModal && (
+        <Modal
+          open={showViewPDFModal}
+          title={`ID Number provided: ${current_nominee.idNumber}`}
+          onCancel={handleCancel}
+          footer={false}
+          width={660}
+        >
+          {<ViewPdf pdf={pdf} />}
+        </Modal>
+      )}
       <div className="main-div col-md-12">
         <Spinner loading={loading} />
         <div className="row">
@@ -206,7 +250,7 @@ const RegisterNominee = () => {
             <div class="form-row">
               <div class="col-md-3">
                 <Form.Group controlId="first_name">
-                  <label>First Name</label>
+                  <label>First Name:</label>
                   <input
                     type="text"
                     name="first_name"
@@ -237,7 +281,7 @@ const RegisterNominee = () => {
               </div>
               <div class="col-md-3">
                 <Form.Group controlId="last_name">
-                  <label>Last Name</label>
+                  <label>Last Name:</label>
                   <input
                     type="text"
                     name="last_name"
@@ -261,26 +305,58 @@ const RegisterNominee = () => {
                   )}
                 </Form.Group>
               </div>
-              <div class="col-md-3">
-                <Form.Group controlId="id_pdf">
-                  <label for="id">ID PDF:</label>
-                  <div>
-                    <input
-                      type="file"
-                      id="id_pdf"
-                      name="image"
-                      autoComplete="off"
-                      {...register("id_pdf", {
-                        required: "id_pdf is required.",
-                      })}
-                      className={`${errors.id_pdf ? "input-error" : ""}`}
-                    />
-                  </div>
-                  {errors.id_pdf && (
-                    <p className="errorMsg">{errors.id_pdf.message}</p>
-                  )}
-                </Form.Group>
-              </div>
+              {editPdf ? (
+                <div class="col-md-3">
+                  <Form.Group controlId="id_pdf">
+                    <label for="id_pdf" className="">
+                      ID Document:
+                    </label>
+                    <div>
+                      <p className="btn btn-success" onClick={handleViewPdf}>
+                        {"Click to View Pdf"}
+                      </p>
+                    </div>
+                  </Form.Group>
+                </div>
+              ) : (
+                <div class="col-md-3">
+                  <Form.Group controlId="id_pdf">
+                    <label for="id">ID PDF:</label>
+                    <div>
+                      <input
+                        type="file"
+                        id="id_pdf"
+                        name="id_pdf"
+                        accept="application/pdf"
+                        autoComplete="off"
+                        {...register("id_pdf", {
+                          required: "id pdf file is required.",
+                        })}
+                        className={`${errors.id_pdf ? "input-error" : ""}`}
+                      />
+                    </div>
+                    {errors.id_pdf && (
+                      <p className="errorMsg">{errors.id_pdf.message}</p>
+                    )}
+                  </Form.Group>
+                </div>
+              )}
+              {editPdf && (
+                <div class="col-md-3">
+                  <Form.Group controlId="edit_pdf">
+                    <label for="id">EDIT ID PDF:</label>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={handleChangePdf}
+                        className="btn btn btn-danger"
+                      >
+                        CHANGE PDF
+                      </button>
+                    </div>
+                  </Form.Group>
+                </div>
+              )}
             </div>
             <div class="form-row">
               <div class="col-md-12">
