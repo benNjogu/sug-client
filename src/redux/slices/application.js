@@ -173,7 +173,7 @@ export const EditApplication = (formValues) => {
       .post(
         "/application/edit-application",
         { ...formValues },
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "multipart/form-data" } }
       )
       .then(function (response) {
         if (response.data.success)

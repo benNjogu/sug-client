@@ -29,6 +29,7 @@ import "./new-application.styles.css";
 import RefreshErrorModal from "../../../components/modal/refresh-error-modal.component";
 import { addSerialNumber, status } from "../../../utils/addSerialNumber";
 import { FetchOrganizationAuthorizers } from "../../../redux/slices/admin";
+import ViewPdf from "../../../components/modal/view-pdf";
 
 const { TabPane } = Tabs;
 
@@ -51,8 +52,20 @@ const NewApplicationComponent = () => {
   let newGroups = useSelector((state) => state.cell.newGroups);
   // As we add and remove a nominee from a group, we combine them in one array to maintain a single source of truth
   let combinedNominees = useSelector((state) => state.cell?.combinedNominees);
-  let { all_authorizers } = useSelector((state) => state.admin);
-  console.log("new application, authorizers", all_authorizers);
+
+  const [editWorkPlaceCertificatePdf, setEditWorkPlaceCertificatePdf] =
+    useState(
+      state?.type.toString() === constants.EDIT_APPLICATION ? true : false
+    );
+  const [editAdmissionLetterPdf, setEditAdmissionLetterPdf] = useState(
+    state?.type.toString() === constants.EDIT_APPLICATION ? true : false
+  );
+  const [editCourseContentsPdf, setEditCourseContentsPdf] = useState(
+    state?.type.toString() === constants.EDIT_APPLICATION ? true : false
+  );
+  const [editSupportDocumentPdf, setEditSupportDocumentPdf] = useState(
+    state?.type.toString() === constants.EDIT_APPLICATION ? true : false
+  );
 
   const {
     register,
@@ -149,6 +162,9 @@ const NewApplicationComponent = () => {
   // OVERSEAS
   const [related, setRelated] = useState(false);
   const [otherFunds, setOtherFunds] = useState(false);
+
+  const [pdf, setPdf] = useState();
+  const [showViewPDFModal, setShowViewPDFModal] = useState(false);
 
   // NOMINEE
   const handleAddNew = () => {
@@ -471,6 +487,21 @@ const NewApplicationComponent = () => {
           ...data,
           application_id: formatedApplication[0]?.id,
           approved: formatedApplication[0]?.approved,
+          work_place_certificate: editWorkPlaceCertificatePdf
+            ? ""
+            : data.work_place_certificate[0],
+          admission_letter: editAdmissionLetterPdf
+            ? ""
+            : data.admission_letter[0],
+          timetable: editCourseContentsPdf ? "" : data.timetable[0],
+          training_expenses_support_doc: editSupportDocumentPdf
+            ? ""
+            : data.training_expenses_support_doc[0],
+          work_place_certificate_file:
+            formatedApplication[0]?.work_place_certificate_file,
+          admission_letter_file: formatedApplication[0]?.admission_letter_file,
+          course_contents_file: formatedApplication[0]?.course_contents_file,
+          support_document_file: formatedApplication[0]?.support_document_file,
         };
         console.log("edit_d", data);
         dispatch(EditApplication({ ...data }));
@@ -560,8 +591,26 @@ const NewApplicationComponent = () => {
     } else return ` )`;
   };
 
+  const handleViewPdf = (field) => {
+    setPdf(
+      `${process.env.REACT_APP_PDF_PATH?.toString()}/application/${
+        formatedApplication[0][field]
+      }`
+    );
+    setShowViewPDFModal(true);
+  };
+
+  const handleChangePdf = (pdf) => {
+    if (pdf === "work_place_certificate_file")
+      setEditWorkPlaceCertificatePdf(false);
+    else if (pdf === "admission_letter_file") setEditAdmissionLetterPdf(false);
+    else if (pdf === "course_contents_file") setEditCourseContentsPdf(false);
+    else if (pdf === "support_document_file") setEditSupportDocumentPdf(false);
+  };
+
   const handleCancel = () => {
     setShowRefreshErrorModal(false);
+    setShowViewPDFModal(false);
   };
 
   useEffect(() => {
@@ -650,6 +699,17 @@ const NewApplicationComponent = () => {
       {contextHolder}
       <div className="main-container">
         <Spinner loading={loading} />
+        {showViewPDFModal && (
+          <Modal
+            open={showViewPDFModal}
+            title={`Document`}
+            onCancel={handleCancel}
+            footer={false}
+            width={660}
+          >
+            {<ViewPdf pdf={pdf} />}
+          </Modal>
+        )}
         {showRefreshErrorModal && (
           <Modal
             open={showRefreshErrorModal}
@@ -1147,97 +1207,219 @@ const NewApplicationComponent = () => {
                     {details?.type_of_training === constants.STATUTORY && (
                       <div class="form-row">
                         <div class="col-md-12 d-flex">
-                          <Form.Group controlId="certificate">
-                            <label for="certificate">
-                              Attach work place certificate.{" "}
-                              <span className="text-success">
-                                If you have MORE than ONE group, scan all the
-                                certificates and attach them as ONE FILE
-                              </span>
-                              ! :
+                          {editWorkPlaceCertificatePdf ? (
+                            <Form.Group controlId="certificate">
+                              <label for="certificate">
+                                Work place certificate pdf.
+                              </label>
+                              <div>
+                                <p
+                                  className="btn btn-success"
+                                  onClick={() =>
+                                    handleViewPdf("work_place_certificate_file")
+                                  }
+                                >
+                                  {"Click to View Pdf"}
+                                </p>
+                              </div>
+                            </Form.Group>
+                          ) : (
+                            <Form.Group controlId="certificate">
+                              <label for="certificate">
+                                Attach work place certificate.{" "}
+                                <span className="text-success">
+                                  If you have MORE than ONE group, scan all the
+                                  certificates and attach them as ONE FILE
+                                </span>
+                                ! :
+                              </label>
+                              <div>
+                                <input
+                                  type="file"
+                                  id="customFile"
+                                  name="work_place_certificate"
+                                  autoComplete="off"
+                                  {...register("work_place_certificate", {
+                                    required:
+                                      "Work place certificate(s) required.",
+                                  })}
+                                  className={`${
+                                    errors.work_place_certificate
+                                      ? "input-error"
+                                      : ""
+                                  }`}
+                                />
+                              </div>
+                              {errors.work_place_certificate && (
+                                <p className="errorMsg">
+                                  {errors.work_place_certificate.message}
+                                </p>
+                              )}
+                            </Form.Group>
+                          )}
+                          {editWorkPlaceCertificatePdf && (
+                            <div class="col-md-3">
+                              <Form.Group controlId="edit_pdf">
+                                <label for="id">
+                                  Edit Work Place Certificate PDF:
+                                </label>
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      handleChangePdf(
+                                        "work_place_certificate_file"
+                                      )
+                                    }
+                                    className="btn btn btn-danger"
+                                  >
+                                    CHANGE PDF
+                                  </button>
+                                </div>
+                              </Form.Group>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    <div class="form-row">
+                      {editAdmissionLetterPdf ? (
+                        <div class="col-md-6">
+                          <label for="id">
+                            View/Edit Course Proposal/Admission Letter:
+                          </label>
+                          <div className="row">
+                            <div class="col-md-3">
+                              <Form.Group controlId="admission_letter">
+                                <div>
+                                  <p
+                                    className="btn btn-success"
+                                    onClick={() =>
+                                      handleViewPdf("admission_letter_file")
+                                    }
+                                  >
+                                    {"Click View Pdf"}
+                                  </p>
+                                </div>
+                              </Form.Group>
+                            </div>
+                            {editAdmissionLetterPdf && (
+                              <div class="col-md-3">
+                                <Form.Group controlId="edit_pdf">
+                                  <div>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleChangePdf("admission_letter_file")
+                                      }
+                                      className="btn btn btn-danger"
+                                    >
+                                      CHANGE PDF
+                                    </button>
+                                  </div>
+                                </Form.Group>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div class="col-md-6">
+                          <Form.Group controlId="admission_letter">
+                            <label for="admission">
+                              Course proposal or admission letter from the
+                              training provider:
                             </label>
                             <div>
                               <input
                                 type="file"
                                 id="customFile"
-                                name="work_place_certificate"
+                                name="admission_letter"
                                 autoComplete="off"
-                                {...register("work_place_certificate", {
+                                {...register("admission_letter", {
                                   required:
-                                    "Work place certificate(s) required.",
+                                    "Course proposal/admission letter required.",
                                 })}
                                 className={`${
-                                  errors.work_place_certificate
-                                    ? "input-error"
-                                    : ""
+                                  errors.admission_letter ? "input-error" : ""
                                 }`}
                               />
                             </div>
-                            {errors.work_place_certificate && (
+                            {errors.admission_letter && (
                               <p className="errorMsg">
-                                {errors.work_place_certificate.message}
+                                {errors.admission_letter.message}
                               </p>
                             )}
                           </Form.Group>
                         </div>
-                      </div>
-                    )}
-                    <div class="form-row">
-                      <div class="col-md-6">
-                        <Form.Group controlId="admission_letter">
-                          <label for="admission">
-                            Course proposal or admission letter from the
-                            training provider:
-                          </label>
-                          <div>
-                            <input
-                              type="file"
-                              id="customFile"
-                              name="admission_letter"
-                              autoComplete="off"
-                              {...register("admission_letter", {
-                                required:
-                                  "Course proposal/admission letter required.",
-                              })}
-                              className={`${
-                                errors.admission_letter ? "input-error" : ""
-                              }`}
-                            />
-                          </div>
-                          {errors.admission_letter && (
-                            <p className="errorMsg">
-                              {errors.admission_letter.message}
-                            </p>
-                          )}
-                        </Form.Group>
-                      </div>
-                      <div class="col-md-6">
-                        <Form.Group controlId="timetable">
+                      )}
+                      {editCourseContentsPdf ? (
+                        <div class="col-md-6">
                           <label for="contents">
-                            Course contents and timetable:
+                            View/Edit Course contents and timetable:
                           </label>
-                          <div>
-                            <input
-                              type="file"
-                              id="customFile"
-                              name="timetable"
-                              autoComplete="off"
-                              {...register("timetable", {
-                                required:
-                                  "Course content/timetable is required.",
-                              })}
-                              className={`${
-                                errors.timetable ? "input-error" : ""
-                              }`}
-                            />
+                          <div className="row">
+                            <div className="col-md-3">
+                              <Form.Group controlId="timetable">
+                                <div>
+                                  <p
+                                    className="btn btn-success"
+                                    onClick={() =>
+                                      handleViewPdf("course_contents_file")
+                                    }
+                                  >
+                                    {"Click View Pdf"}
+                                  </p>
+                                </div>
+                              </Form.Group>
+                            </div>
+                            {editCourseContentsPdf && (
+                              <div class="col-md-3">
+                                <Form.Group controlId="edit_pdf">
+                                  <div>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleChangePdf("course_contents_file")
+                                      }
+                                      className="btn btn btn-danger"
+                                    >
+                                      CHANGE PDF
+                                    </button>
+                                  </div>
+                                </Form.Group>
+                              </div>
+                            )}
                           </div>
-                          {errors.timetable && (
-                            <p className="errorMsg">
-                              {errors.timetable.message}
-                            </p>
-                          )}
-                        </Form.Group>
-                      </div>
+                        </div>
+                      ) : (
+                        <div class="col-md-6">
+                          <Form.Group controlId="timetable">
+                            <label for="contents">
+                              Course contents and timetable:
+                            </label>
+                            <div>
+                              <input
+                                type="file"
+                                id="customFile"
+                                name="timetable"
+                                autoComplete="off"
+                                {...register("timetable", {
+                                  required:
+                                    "Course content/timetable is required.",
+                                })}
+                                className={`${
+                                  errors.timetable ? "input-error" : ""
+                                }`}
+                              />
+                            </div>
+                            {errors.timetable && (
+                              <p className="errorMsg">
+                                {errors.timetable.message}
+                              </p>
+                            )}
+                          </Form.Group>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1769,29 +1951,67 @@ const NewApplicationComponent = () => {
                       <div class="col-md-4 form-group">
                         <label for="others">Attach support document:</label>
                       </div>
-                      <div class="col-md-8 form-group">
-                        <div>
-                          <input
-                            type="file"
-                            id="customFile"
-                            autoComplete="off"
-                            name="training_expenses_support_doc"
-                            {...register("training_expenses_support_doc", {
-                              required: "Support document required.",
-                            })}
-                            className={`${
-                              errors.training_expenses_support_doc
-                                ? "input-error"
-                                : ""
-                            }`}
-                          />
-                          {errors.training_expenses_support_doc && (
-                            <p className="errorMsg">
-                              {errors.training_expenses_support_doc.message}
-                            </p>
-                          )}
+                      {editSupportDocumentPdf ? (
+                        <div class="col-md-8 form-group">
+                          <div className="row">
+                            <div className="col-md-4">
+                              <Form.Group controlId="admission_letter">
+                                <div>
+                                  <p
+                                    className="btn btn-success"
+                                    onClick={() =>
+                                      handleViewPdf("support_document_file")
+                                    }
+                                  >
+                                    {"Click View Pdf"}
+                                  </p>
+                                </div>
+                              </Form.Group>
+                            </div>
+                            {editSupportDocumentPdf && (
+                              <div className="col-md-4">
+                                <Form.Group controlId="edit_pdf">
+                                  <div>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleChangePdf("support_document_file")
+                                      }
+                                      className="btn btn btn-danger"
+                                    >
+                                      CHANGE PDF
+                                    </button>
+                                  </div>
+                                </Form.Group>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div class="col-md-8 form-group">
+                          <div>
+                            <input
+                              type="file"
+                              id="customFile"
+                              autoComplete="off"
+                              name="training_expenses_support_doc"
+                              {...register("training_expenses_support_doc", {
+                                required: "Support document required.",
+                              })}
+                              className={`${
+                                errors.training_expenses_support_doc
+                                  ? "input-error"
+                                  : ""
+                              }`}
+                            />
+                            {errors.training_expenses_support_doc && (
+                              <p className="errorMsg">
+                                {errors.training_expenses_support_doc.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div class="form-row">
                       <div class="col-md-3 form-group">
