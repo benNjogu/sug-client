@@ -57,7 +57,9 @@ const RegisterNominee = () => {
 
   const handleViewPdf = () => {
     setPdf(
-      `${process.env.REACT_APP_PDF_PATH?.toString()}${current_nominee?.id_file}`
+      `${process.env.REACT_APP_PDF_PATH?.toString()}/nominee/${
+        current_nominee?.id_file
+      }`
     );
     setShowViewPDFModal(true);
   };

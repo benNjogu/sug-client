@@ -25,6 +25,7 @@ import ViewUser from "../../components/modal/view-user-modal";
 
 import "./view-application-details.styles.css";
 import { UpdateCapacity } from "../../redux/slices/cell";
+import ViewPdf from "../../components/modal/view-pdf";
 
 const Banner = ({ type, title, reason, name, email, phone, date }) => (
   <div className="col-md-12">
@@ -62,6 +63,8 @@ const ViewApplicationDetails = () => {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [selectedNominee, setSelectedNominee] = useState({});
   const [showViewNomineeModal, setShowViewNomineeModal] = useState(false);
+  const [showViewPDFModal, setShowViewPDFModal] = useState(false);
+  const [pdf, setPdf] = useState();
 
   const addComma = (number) =>
     "KSh. " + Intl.NumberFormat("en-US").format(number);
@@ -168,6 +171,7 @@ const ViewApplicationDetails = () => {
     setShowDefferModal(false);
     setShowRejectModal(false);
     setShowViewNomineeModal(false);
+    setShowViewPDFModal(false);
   };
 
   const handleBackpressed = () => {
@@ -269,6 +273,12 @@ const ViewApplicationDetails = () => {
         state: { record: { ...formatedApplication[0] } },
       });
     }, 700);
+  };
+
+  const handleViewPdf = (pdf) => {
+    console.log("first ", pdf);
+    setPdf(`${process.env.REACT_APP_PDF_PATH?.toString()}/application/${pdf}`);
+    setShowViewPDFModal(true);
   };
 
   const getNumberOfGroups = () => {
@@ -713,6 +723,17 @@ const ViewApplicationDetails = () => {
         hideButtons={hideButtons}
       />
       <div className="main-div">
+        {showViewPDFModal && (
+          <Modal
+            open={showViewPDFModal}
+            title={`Document`}
+            onCancel={handleCancel}
+            footer={false}
+            width={660}
+          >
+            {<ViewPdf pdf={pdf} />}
+          </Modal>
+        )}
         {showApproveModal && (
           <Modal
             open={showApproveModal}
@@ -937,12 +958,31 @@ const ViewApplicationDetails = () => {
                     </div>
                     <div>
                       <label className="label w-25">Type:</label>
-                      <span>{`${formatedApplication[0]?.type_of_training}, ${formatedApplication[0]?.number_of_participants}`}</span>
+                      <span>{`${formatedApplication[0]?.type_of_training}, ${
+                        formatedApplication[0]?.number_of_participants
+                      } ${
+                        formatedApplication[0]?.number_of_groups !== null
+                          ? `,${formatedApplication[0]?.number_of_groups}`
+                          : ""
+                      }`}</span>
                     </div>
-                    {formatedApplication[0]?.number_of_groups !== null && (
+                    {formatedApplication[0]?.type_of_training ===
+                      constants.STATUTORY && (
                       <div>
-                        <label className="label w-25">Groups:</label>
-                        <span>{formatedApplication[0]?.number_of_groups}</span>
+                        <label className="label w-25">
+                          Work place certificate:
+                        </label>
+                        <span
+                          className="idPdf"
+                          onClick={() =>
+                            handleViewPdf(
+                              formatedApplication[0]
+                                ?.work_place_certificate_file
+                            )
+                          }
+                        >
+                          {"Click to View Pdf"}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -1001,7 +1041,16 @@ const ViewApplicationDetails = () => {
                       <label for="admission" className="label">
                         Course proposal or admission letter:
                       </label>
-                      <a href="#">{record.admission_letter}</a>
+                      <span
+                        className="idPdf"
+                        onClick={() =>
+                          handleViewPdf(
+                            formatedApplication[0]?.admission_letter_file
+                          )
+                        }
+                      >
+                        {"Click to View Pdf"}
+                      </span>
                     </div>
                   </div>
 
@@ -1010,7 +1059,16 @@ const ViewApplicationDetails = () => {
                       <label for="contents" className="label">
                         Course contents and timetable:
                       </label>
-                      <a href="#">{record.course_contents}</a>
+                      <span
+                        className="idPdf"
+                        onClick={() =>
+                          handleViewPdf(
+                            formatedApplication[0]?.course_contents_file
+                          )
+                        }
+                      >
+                        {"Click to View Pdf"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1174,7 +1232,16 @@ const ViewApplicationDetails = () => {
                   <label for="others" className="label w-50">
                     Support document:
                   </label>
-                  <a href="#">{record.support_document}</a>
+                  <span
+                    className="idPdf"
+                    onClick={() =>
+                      handleViewPdf(
+                        formatedApplication[0]?.support_document_file
+                      )
+                    }
+                  >
+                    {"Click to View Pdf"}
+                  </span>
                 </div>
               </div>
               <div class="form-row">

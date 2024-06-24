@@ -17,7 +17,7 @@ const ViewUser = ({ user }) => {
   };
 
   const handleViewPdf = (pdf) => {
-    setPdf(`http://localhost:5000/nominee/${pdf}`);
+    setPdf(`${process.env.REACT_APP_PDF_PATH?.toString()}/nominee/${pdf}`);
     setShowViewPDFModal(true);
   };
 

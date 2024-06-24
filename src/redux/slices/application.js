@@ -147,7 +147,7 @@ export const CreateNewApplication = (formValues) => {
       .post(
         "/application/create-new-application",
         { ...formValues, organization_id: org_id },
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "multipart/form-data" } }
       )
       .then(function (response) {
         dispatch(

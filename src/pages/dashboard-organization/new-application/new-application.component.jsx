@@ -20,6 +20,7 @@ import CellItem from "../../../components/application/select-nominees/cell-item/
 import SelectNomineesTable from "../../../components/application/select-nominees/select-nominees-table";
 
 import {
+  CreateNewApplication,
   EditApplication,
   FetchApplicationDetails,
   UpdateFormatedApplicationDetails,
@@ -148,8 +149,6 @@ const NewApplicationComponent = () => {
   // OVERSEAS
   const [related, setRelated] = useState(false);
   const [otherFunds, setOtherFunds] = useState(false);
-
-  const handleSelectAuthorizer = () => {};
 
   // NOMINEE
   const handleAddNew = () => {
@@ -476,7 +475,16 @@ const NewApplicationComponent = () => {
         console.log("edit_d", data);
         dispatch(EditApplication({ ...data }));
       } else {
-        dispatch(CreateNewApplication({ ...data }));
+        dispatch(
+          CreateNewApplication({
+            ...data,
+            work_place_certificate: data.work_place_certificate[0],
+            admission_letter: data.admission_letter[0],
+            timetable: data.timetable[0],
+            training_expenses_support_doc:
+              data.training_expenses_support_doc[0],
+          })
+        );
       }
     }, 2500);
   };
@@ -1152,6 +1160,7 @@ const NewApplicationComponent = () => {
                               <input
                                 type="file"
                                 id="customFile"
+                                name="work_place_certificate"
                                 autoComplete="off"
                                 {...register("work_place_certificate", {
                                   required:
@@ -1184,6 +1193,7 @@ const NewApplicationComponent = () => {
                             <input
                               type="file"
                               id="customFile"
+                              name="admission_letter"
                               autoComplete="off"
                               {...register("admission_letter", {
                                 required:
@@ -1210,6 +1220,7 @@ const NewApplicationComponent = () => {
                             <input
                               type="file"
                               id="customFile"
+                              name="timetable"
                               autoComplete="off"
                               {...register("timetable", {
                                 required:
@@ -1764,6 +1775,7 @@ const NewApplicationComponent = () => {
                             type="file"
                             id="customFile"
                             autoComplete="off"
+                            name="training_expenses_support_doc"
                             {...register("training_expenses_support_doc", {
                               required: "Support document required.",
                             })}
