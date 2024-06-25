@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
-import { Button } from "antd";
+import { Button, Table } from "antd";
 import moment from "moment";
 
 import {
@@ -12,7 +12,7 @@ import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
 import logo from "../../assets/images/logo.png";
 import Spinner from "../spinner";
 import "./approval-letter.styles.css";
-import { current_manager } from "../../data/data";
+import { addSerialNumber, status } from "../../utils/addSerialNumber";
 
 const ApprovalLetter = ({ letter_data }) => {
   const dispatch = useDispatch();
@@ -23,6 +23,31 @@ const ApprovalLetter = ({ letter_data }) => {
   console.log("appld", applicationDates);
   const { applicationNominees } = useSelector((state) => state.application);
   let { nominees } = useSelector((state) => state.nominee);
+
+  const columns = [
+    {
+      title: "Group",
+      dataIndex: "group_id",
+    },
+    {
+      title: "Start Date",
+      dataIndex: "start_date",
+      render(text, record) {
+        return {
+          children: <div>{`${moment(text).format("Do MM, YYYY")}`}</div>,
+        };
+      },
+    },
+    {
+      title: "End Date",
+      dataIndex: "end_date",
+      render(text, record) {
+        return {
+          children: <div>{`${moment(text).format("Do MM, YYYY")}`}</div>,
+        };
+      },
+    },
+  ];
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -160,16 +185,24 @@ const ApprovalLetter = ({ letter_data }) => {
               : `RE: TRAINING ON ${letter_data.course_title.toUpperCase()} BY ${letter_data.training_provider.toUpperCase()} FROM
              ${moment(applicationDates[0]?.start_date?.split("T")[0])
                .format("Do MMMM, YYYY")
-               .toUpperCase()} (GROUP 1)
+               .toUpperCase()}
              TO ${moment(
-               applicationDates[applicationDates.length - 1]?.end_date?.split(
+               applicationDates[applicationDates?.length - 1]?.end_date?.split(
                  "T"
                )[0]
              )
                .format("Do MMMM, YYYY")
-               .toUpperCase()} (GROUP ${applicationDates.length}).`}
+               .toUpperCase()}.`}
           </h5>
         </div>
+        {applicationDates.length > 1 && (
+          <Table
+            columns={columns}
+            dataSource={addSerialNumber(applicationDates, status?.All)}
+            pagination={false}
+            className="my-4"
+          />
+        )}
         <div className="letter-body">
           <div className="d-flex justify-content-between pb-2">
             <div>
