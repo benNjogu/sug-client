@@ -43,25 +43,8 @@
   font-size: small;
 }
 
-.div-stamp {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.stamp {
-  width: 500px;
-  /* height: 250px; */
-  text-align: center;
-}
-
-.stamp-date {
-  position: absolute;
-  width: 250px;
-  top: 160px;
-  padding-left: 18px;
-  font-weight: 500;
-  font-size: 24px;
+.signature {
+  width: 120px;
+  height: 80px;
   color: #a020f0;
 }

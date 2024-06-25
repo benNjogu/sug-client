@@ -133,15 +133,11 @@ const Approved = () => {
   };
 
   useEffect(() => {
-    if (orgApprovedApplications?.length === 0) {
-      dispatch(
-        GetApprovedApplicationsByOrg(window.localStorage.getItem("user_id"))
-      );
-    }
+    dispatch(
+      GetApprovedApplicationsByOrg(window.localStorage.getItem("user_id"))
+    );
 
-    if (applications.length === 0) {
-      dispatch(FetchOrganizationApplications());
-    }
+    dispatch(FetchOrganizationApplications());
   }, []);
 
   return (

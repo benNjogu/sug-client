@@ -10,13 +10,14 @@ import {
 } from "../../redux/slices/application";
 import { FetchAllRegisteredUsers } from "../../redux/slices/nominee";
 import logo from "../../assets/images/logo.png";
-import stamp from "../../assets/images/ibta-stamp.png";
-import "./approval-letter.styles.css";
 import Spinner from "../spinner";
+import "./approval-letter.styles.css";
+import { current_manager } from "../../data/data";
 
 const ApprovalLetter = ({ letter_data }) => {
   const dispatch = useDispatch();
   const componentRef = useRef();
+  console.log("first ld ", letter_data);
 
   const { applicationDates } = useSelector((state) => state.application);
   console.log("appld", applicationDates);
@@ -26,8 +27,6 @@ const ApprovalLetter = ({ letter_data }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
-  console.log("ld", letter_data);
 
   //filtering nominees based on fetched ids
   const getFilteredNominees = () => {
@@ -64,11 +63,11 @@ const ApprovalLetter = ({ letter_data }) => {
     return arranged_recommendation_data;
   };
 
-  const getNameInitials = () => {
-    let data = letter_data.approver_name.split(" ");
+  const getNameInitials = (name) => {
+    let data = name?.split(" ");
 
     return (
-      data[0].charAt(0).toUpperCase() + "" + data[1].charAt(0).toUpperCase()
+      data[0]?.charAt(0)?.toUpperCase() + "" + data[1]?.charAt(0)?.toUpperCase()
     );
   };
 
@@ -130,13 +129,12 @@ const ApprovalLetter = ({ letter_data }) => {
           <div className="font-italic my-3">When replying please quote:</div>
           <div className="d-flex justify-content-between pb-2">
             <div>
-              <h4 className="font-weight-bold">
-                {`${splitRecommendation().quote}`}
-              </h4>
+              {/**NITA/LEVY/FPAI/361/VOL.IX/[14B] */}
+              <h4 className="font-weight-bold">{`${letter_data?.levy_no}`}</h4>
             </div>
             <div>
               <h4 className="font-weight-bold">{`${moment(
-                letter_data.date_2
+                letter_data?.date_2
               ).format("Do MMMM, YYYY")}`}</h4>
             </div>
           </div>
@@ -238,11 +236,22 @@ const ApprovalLetter = ({ letter_data }) => {
         <div className="sign-off">
           <div className="d-flex justify-content-between pb-2">
             <div>
-              <p className="font-weight-bold medium-text">{`${letter_data.approver_name}`}</p>
+              <p className="font-weight-bold medium-text">{`${letter_data?.approver2_name}`}</p>
+              <img
+                src={`${process.env.REACT_APP_PDF_PATH?.toString()}/manager-signature/${
+                  letter_data?.level_2
+                }.png`}
+                className="signature"
+                alt="signature"
+              />
+
               <p className="font-weight-bold medium-text">
                 <u>For: DIRECTOR GENERAL</u>
               </p>
-              <p className="address-text">{`${getNameInitials()}`}/MN</p>
+              <p className="address-text">
+                {`${getNameInitials(letter_data?.approver1_name)}`}/
+                {`${getNameInitials(letter_data?.approver2_name)}`}
+              </p>
             </div>
           </div>
         </div>
@@ -252,14 +261,6 @@ const ApprovalLetter = ({ letter_data }) => {
             to the Authority as at the approval date mentioned above. The
             Authority reserves the right to revoke the approval if new evidence
             materially alters the compliance status of the recipient.
-          </p>
-        </div>
-        <div className="div-stamp mb-3">
-          <img src={stamp} className="stamp" alt="Stamp" />
-          <p className="stamp-date">
-            {` ${moment(letter_data.date_2)
-              .format("DD - MMM - YYYY")
-              .toUpperCase()} `}
           </p>
         </div>
       </div>

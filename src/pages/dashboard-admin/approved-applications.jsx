@@ -32,7 +32,6 @@ const ApprovedApplications = () => {
   let my_id = window.localStorage.getItem("user_id");
   let { approved_applications } = useSelector((state) => state.admin);
   let { applications } = useSelector((state) => state.admin);
-  console.log("all", applications);
 
   // This two should be extracted to one; later;
   const columns = [
@@ -160,13 +159,14 @@ const ApprovedApplications = () => {
           record:
             application.length === 0
               ? record
-              : { ...application[0], approved: constants.APPROVED },
+              : { ...application[0], approved: record.approved },
         },
       });
     }, 700);
   };
 
   const handleViewLetter = (record) => {
+    console.log("record letter", record);
     setLetterData(record);
     setShowLetterModal(true);
   };
@@ -221,9 +221,7 @@ const ApprovedApplications = () => {
   };
 
   useEffect(() => {
-    if (account_type === process.env.REACT_APP_AccountType1) {
-      dispatch(FetchAllApplications());
-    }
+    dispatch(FetchAllApplications());
 
     dispatch(FetchAllApprovedApplications());
 
