@@ -55,8 +55,6 @@ const ApprovalLetter = ({ letter_data }) => {
         arranged_recommendation_data.residential = recommendation[i];
       } else if (recommendation[i].includes("employers")) {
         arranged_recommendation_data.employers = recommendation[i];
-      } else {
-        arranged_recommendation_data.quote = recommendation[i];
       }
     }
 

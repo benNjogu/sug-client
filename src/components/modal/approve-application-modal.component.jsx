@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Form } from "react-bootstrap";
 import { Checkbox, message } from "antd";
 
-import Quotation from "../application-quote";
 import "../application/styles/form.styles.css";
 
 const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
@@ -53,9 +52,8 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
       return message.error("Recommendation required!!!");
     }
 
-    let all_data = [data.quote.toUpperCase(), recommendation.join()].join();
     handleClose();
-    handleApprove(all_data);
+    handleApprove(recommendation.join());
   };
 
   return (
@@ -68,8 +66,6 @@ const ApproveApplicationModal = ({ handleClose, handleApprove }) => {
             <p className="errorMsg">{"Recommendation required"}</p>
           )}
         </Form.Group>
-
-        <Quotation register={register} errors={errors} />
       </div>
       <div className="col-md-12">
         <div class="modal-footer">

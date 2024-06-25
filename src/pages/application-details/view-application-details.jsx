@@ -116,7 +116,14 @@ const ViewApplicationDetails = () => {
               cursor: "pointer",
             },
           },
-          children: <div onClick={() => console.log("VIEW")}>{text}</div>,
+          children: (
+            <span
+              className="idPdf"
+              onClick={() => handleViewIDPdf(record.id_file)}
+            >
+              {"View"}
+            </span>
+          ),
         };
       },
     },
@@ -276,8 +283,12 @@ const ViewApplicationDetails = () => {
   };
 
   const handleViewPdf = (pdf) => {
-    console.log("first ", pdf);
     setPdf(`${process.env.REACT_APP_PDF_PATH?.toString()}/application/${pdf}`);
+    setShowViewPDFModal(true);
+  };
+
+  const handleViewIDPdf = (pdf) => {
+    setPdf(`${process.env.REACT_APP_PDF_PATH?.toString()}/nominee/${pdf}`);
     setShowViewPDFModal(true);
   };
 
@@ -366,8 +377,6 @@ const ViewApplicationDetails = () => {
         arranged_recommendation_data.residential = recommendation[i];
       } else if (recommendation[i].includes("employers")) {
         arranged_recommendation_data.employers = recommendation[i];
-      } else {
-        arranged_recommendation_data.quote = recommendation[i];
       }
     }
 
