@@ -628,10 +628,7 @@ const ViewApplicationDetails = () => {
                                 {getNumberOfGroups().map((idx) => (
                                   <>
                                     <div class="col-md-6">
-                                      <label
-                                        for="course_objectives"
-                                        className="label"
-                                      >
+                                      <label for="start date" className="label">
                                         {getNumberOfGroups().length > 1
                                           ? `Group ${idx} start date:`
                                           : `Start date:`}

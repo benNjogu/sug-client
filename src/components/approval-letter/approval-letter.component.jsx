@@ -23,6 +23,7 @@ const ApprovalLetter = ({ letter_data }) => {
   console.log("appld", applicationDates);
   const { applicationNominees } = useSelector((state) => state.application);
   let { nominees } = useSelector((state) => state.nominee);
+  const { account_type } = useSelector((state) => state.auth).user_data;
 
   const columns = [
     {
@@ -152,8 +153,11 @@ const ApprovalLetter = ({ letter_data }) => {
           <div className="font-italic my-3">When replying please quote:</div>
           <div className="d-flex justify-content-between pb-2">
             <div>
-              {/**NITA/LEVY/FPAI/361/VOL.IX/[14B] */}
-              <h4 className="font-weight-bold">{`${letter_data?.levy_no}`}</h4>
+              {account_type === process.env.REACT_APP_AccountType0 ? (
+                <h4 className="font-weight-bold">{`${letter_data?.levy_no}`}</h4>
+              ) : (
+                <h4 className="font-weight-bold">{`${letter_data?.levy_no}/OR.${letter_data.organization_id}/[A${letter_data.application_id}]`}</h4>
+              )}
             </div>
             <div>
               <h4 className="font-weight-bold">{`${moment(
