@@ -1,21 +1,21 @@
-import { useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Eye, EyeSlash } from 'phosphor-react';
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Eye, EyeSlash } from "phosphor-react";
 
-import FormProvider from '../../components/hook-form/form-provider';
+import FormProvider from "../../components/hook-form/form-provider";
 import {
   Alert,
   Button,
   IconButton,
   InputAdornment,
   Stack,
-} from '@mui/material';
-import RHFTextfield from '../../components/hook-form/RHF-textfield';
-import { ResetPassword } from '../../redux/slices/auth';
+} from "@mui/material";
+import RHFTextfield from "../../components/hook-form/RHF-textfield";
+import { ResetPassword } from "../../redux/slices/auth";
 
 const NewPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,16 +25,19 @@ const NewPasswordForm = () => {
 
   const NewPassWordSchema = Yup.object().shape({
     password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
     passwordConfirm: Yup.string()
-      .required('Password is required')
-      .oneOf([Yup.ref('password'), null], 'Password must match'),
+      .required("Password is required")
+      .oneOf([Yup.ref("password"), null], "Password must match"),
   });
 
   const defaultValues = {
-    password: 'my_passWord.',
-    passwordConfirm: 'my_passWord.',
+    password: "my_passWord.",
+    passwordConfirm: "my_passWord.",
   };
 
   const methods = useForm({
@@ -56,12 +59,12 @@ const NewPasswordForm = () => {
       try {
         //submit data to backend
         dispatch(
-          ResetPassword({ ...data, token: queryParameters.get('token') })
+          ResetPassword({ ...data, token: queryParameters.get("token") })
         );
       } catch (error) {
         console.log(error);
         reset();
-        setError('afterSubmit', {
+        setError("afterSubmit", {
           ...error,
           message: error.message,
         });
@@ -84,7 +87,7 @@ const NewPasswordForm = () => {
         <RHFTextfield
           name="password"
           label="Enter new password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment>
@@ -98,7 +101,7 @@ const NewPasswordForm = () => {
         <RHFTextfield
           name="passwordConfirm"
           label="Confirm password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment>
@@ -116,17 +119,17 @@ const NewPasswordForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: '#115581',
+            bgcolor: "#115581",
             color: (theme) =>
-              theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
-            '&:hover': {
-              bgcolor: '#0D6EFD',
+              theme.palette.mode === "light" ? "common.white" : "grey.800",
+            "&:hover": {
+              bgcolor: "#0D6EFD",
               color: (theme) =>
-                theme.palette.mode === 'light' ? 'common.white' : 'grey',
+                theme.palette.mode === "light" ? "common.white" : "grey",
             },
           }}
         >
-          {'Submit'}
+          {"Submit"}
         </Button>
       </Stack>
     </FormProvider>

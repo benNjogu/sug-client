@@ -88,7 +88,12 @@ export function LoginUser(formValues) {
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(ShowSnackbar({ severity: "error", message: error.message }));
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
       });
   };
 }
@@ -223,13 +228,27 @@ export function VerifyEmail(formValues) {
           })
         );
 
+        dispatch(
+          slice.actions.updateUserData({
+            user_data: { ...response.data.data },
+          })
+        );
+
         window.localStorage.setItem("user_id", response.data.user_id);
 
         dispatch(
           ShowSnackbar({ severity: "success", message: response.data.message })
         );
       })
-      .catch((e) => console.log(e));
+      .catch((error) => {
+        dispatch(
+          ShowSnackbar({
+            severity: "error",
+            message: error.response.data.message,
+          })
+        );
+        console.log(error);
+      });
   };
 }
 

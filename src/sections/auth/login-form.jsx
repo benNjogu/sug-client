@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Eye, EyeSlash } from 'phosphor-react';
-import { Link as RouterLink } from 'react-router-dom';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Eye, EyeSlash } from "phosphor-react";
+import { Link as RouterLink } from "react-router-dom";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import FormProvider from '../../components/hook-form/form-provider';
+import FormProvider from "../../components/hook-form/form-provider";
 import {
   Alert,
   Button,
@@ -14,9 +14,9 @@ import {
   InputAdornment,
   Link,
   Stack,
-} from '@mui/material';
-import RHFTextfield from '../../components/hook-form/RHF-textfield';
-import { LoginUser } from '../../redux/slices/auth';
+} from "@mui/material";
+import RHFTextfield from "../../components/hook-form/RHF-textfield";
+import { LoginUser } from "../../redux/slices/auth";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,15 +25,17 @@ const LoginForm = () => {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .required('Email is required')
-      .email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+      .required("Email is required")
+      .email("Email must be a valid email address"),
+    password: Yup.string().required("Password is required"),
   });
 
   const methods = useForm({
     resolver: yupResolver(LoginSchema),
     //defaultValues,
   });
+
+  const handleEyeClick = () => setShowPassword(!showPassword);
 
   const {
     reset,
@@ -54,7 +56,7 @@ const LoginForm = () => {
       } catch (error) {
         console.log(error);
         reset();
-        setError('afterSubmit', {
+        setError("afterSubmit", {
           ...error,
           message: error.message,
         });
@@ -79,11 +81,11 @@ const LoginForm = () => {
         <RHFTextfield
           name="password"
           label="Enter password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment>
-                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                <IconButton onClick={handleEyeClick}>
                   {showPassword ? <Eye /> : <EyeSlash />}
                 </IconButton>
               </InputAdornment>
@@ -99,7 +101,7 @@ const LoginForm = () => {
           color="inherit"
           underline="always"
         >
-          {'Forgot Password?'}
+          {"Forgot Password?"}
         </Link>
       </Stack>
       <Button
@@ -109,17 +111,17 @@ const LoginForm = () => {
         type="submit"
         variant="contained"
         sx={{
-          bgcolor: '#115581',
+          bgcolor: "#115581",
           color: (theme) =>
-            theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
-          '&:hover': {
-            bgcolor: '#0D6EFD',
+            theme.palette.mode === "light" ? "common.white" : "grey.800",
+          "&:hover": {
+            bgcolor: "#0D6EFD",
             color: (theme) =>
-              theme.palette.mode === 'light' ? 'common.white' : 'grey',
+              theme.palette.mode === "light" ? "common.white" : "grey",
           },
         }}
       >
-        {'Login'}
+        {"Login"}
       </Button>
     </FormProvider>
   );

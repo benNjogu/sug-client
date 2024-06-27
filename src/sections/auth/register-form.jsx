@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import FormProvider from '../../components/hook-form/form-provider';
+import FormProvider from "../../components/hook-form/form-provider";
 import {
   Alert,
   Button,
   IconButton,
   InputAdornment,
   Stack,
-} from '@mui/material';
-import RHFTextfield from '../../components/hook-form/RHF-textfield';
-import { Eye, EyeSlash } from 'phosphor-react';
-import { RegisterUser } from '../../redux/slices/auth';
+} from "@mui/material";
+import RHFTextfield from "../../components/hook-form/RHF-textfield";
+import { Eye, EyeSlash } from "phosphor-react";
+import { RegisterUser } from "../../redux/slices/auth";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,12 +22,17 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   const RegisterSchema = Yup.object().shape({
-    userName: Yup.string().required('Name of organization is required.'),
-    levyNumber: Yup.string().required('Levy registration number is required.'),
+    userName: Yup.string().required("Name of organization is required."),
+    levyNumber: Yup.string().required("Levy registration number is required."),
     email: Yup.string()
-      .required('Email is required')
-      .email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+      .required("Email is required")
+      .email("Email must be a valid email address"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
   });
 
   const methods = useForm({
@@ -54,7 +59,7 @@ const RegisterForm = () => {
       } catch (error) {
         console.log(error);
         reset();
-        setError('afterSubmit', {
+        setError("afterSubmit", {
           ...error,
           message: error.message,
         });
@@ -75,7 +80,7 @@ const RegisterForm = () => {
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
         )}
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <RHFTextfield name="userName" label="Name of organization" />
           <RHFTextfield name="levyNumber" label="Levy registration number" />
         </Stack>
@@ -84,7 +89,7 @@ const RegisterForm = () => {
         <RHFTextfield
           name="password"
           label="Create password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment>
@@ -102,17 +107,17 @@ const RegisterForm = () => {
           type="submit"
           variant="contained"
           sx={{
-            bgcolor: '#115581',
+            bgcolor: "#115581",
             color: (theme) =>
-              theme.palette.mode === 'light' ? 'common.white' : 'grey.800',
-            '&:hover': {
-              bgcolor: '#0D6EFD',
+              theme.palette.mode === "light" ? "common.white" : "grey.800",
+            "&:hover": {
+              bgcolor: "#0D6EFD",
               color: (theme) =>
-                theme.palette.mode === 'light' ? 'common.white' : 'grey',
+                theme.palette.mode === "light" ? "common.white" : "grey",
             },
           }}
         >
-          {'Create Account'}
+          {"Create Account"}
         </Button>
       </Stack>
     </FormProvider>

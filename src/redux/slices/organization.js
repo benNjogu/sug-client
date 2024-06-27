@@ -45,7 +45,7 @@ export const PostOrganizationProfileData = (formValues) => {
             organization_profile_data: response.data.data,
           })
         );
-        console.log(response);
+        GetOrganizationData();
         dispatch(
           ShowSnackbar({ severity: "success", message: response.data.message })
         );

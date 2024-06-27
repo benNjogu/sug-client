@@ -21,6 +21,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Modal } from "antd";
 
+import { GetOrganizationData } from "../../redux/slices/organization";
 import { LogOutUser } from "../../redux/slices/auth";
 import "./default-layout.styles.css";
 
@@ -52,9 +53,12 @@ const DefaultLayout = ({ children }) => {
 
     setTimeout(() => {
       setLoading(false);
-      account_type === process.env.REACT_APP_AccountType0
-        ? navigate("/profile")
-        : navigate("/admin-profile");
+      if (account_type === process.env.REACT_APP_AccountType0) {
+        dispatch(GetOrganizationData());
+        navigate("/profile");
+      } else {
+        navigate("/admin-profile");
+      }
     }, 700);
   };
 

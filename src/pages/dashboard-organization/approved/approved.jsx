@@ -31,6 +31,7 @@ const Approved = () => {
   const [showSearchBox, setShowSearchBox] = useState(true);
   const [searchCourse, setSearchCourse] = useState("");
   let { applications } = useSelector((state) => state.application);
+  console.log("all appssss", applications);
   let { orgApprovedApplications } = useSelector((state) => state.application);
 
   const columns = [
@@ -98,6 +99,7 @@ const Approved = () => {
       (a) => a.id === record.application_id
     );
 
+    console.log("view", application);
     dispatch(FetchApplicationDetails(record.application_id));
     setTimeout(() => {
       setLoading(false);
