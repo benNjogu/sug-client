@@ -16,7 +16,6 @@ const AllOrganization = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [inactiveBtn, setInactiveBtn] = useState(false);
 
   let { organizations } = useSelector((state) => state.organization);
 
@@ -100,7 +99,6 @@ const AllOrganization = () => {
     setTimeout(() => {
       dispatch(DisableOrganization(id));
       setLoading(false);
-      setInactiveBtn(true);
     }, 500);
   };
 

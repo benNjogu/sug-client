@@ -3,6 +3,7 @@ import axios from "../../utils/axios";
 
 import { message } from "antd";
 import { ShowSnackbar } from "./app";
+import { GetAllOrganizations } from "./organization";
 
 const initialState = {
   applications: [],
@@ -352,6 +353,8 @@ export const DisableOrganization = (organization_id) => {
       })
       .then(function (response) {
         console.log(response);
+
+        dispatch(GetAllOrganizations());
 
         dispatch(
           ShowSnackbar({
