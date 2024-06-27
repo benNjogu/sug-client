@@ -384,6 +384,7 @@ export const DisableAdmin = (admin_id) => {
       .then(function (response) {
         console.log(response);
 
+        dispatch(FetchAllAdmins());
         dispatch(
           ShowSnackbar({
             severity: "success",
@@ -402,6 +403,33 @@ export const DisableAdmin = (admin_id) => {
       });
   };
 };
+
+export function CreateNewAdmin(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/admin/create-admin",
+        {
+          ...formValues,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(FetchAllAdmins());
+        message.success(response.data.message);
+      })
+      .catch((e) => {
+        console.log(e);
+
+        message.error(e.response.data.message);
+      });
+  };
+}
 
 export const FetchAllAdmins = () => {
   return async (dispatch, getState) => {
@@ -427,11 +455,11 @@ export const FetchAllAdmins = () => {
   };
 };
 
-export function EditAdminLevel(formValues) {
+export function EditAdmin(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        "/admin/edit-admin-level",
+        "/admin/edit-admin",
         {
           ...formValues,
         },
@@ -443,7 +471,7 @@ export function EditAdminLevel(formValues) {
       )
       .then((response) => {
         console.log(response);
-
+        dispatch(FetchAllAdmins());
         message.success(response.data.message);
       })
       .catch((e) => {

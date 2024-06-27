@@ -251,30 +251,3 @@ export function VerifyEmail(formValues) {
       });
   };
 }
-
-export function CreateNewAdmin(formValues) {
-  return async (dispatch, getState) => {
-    await axios
-      .post(
-        "/auth/new-admin",
-        {
-          ...formValues,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-
-        message.success(response.data.message);
-      })
-      .catch((e) => {
-        console.log(e);
-
-        message.error(e.response.data.message);
-      });
-  };
-}

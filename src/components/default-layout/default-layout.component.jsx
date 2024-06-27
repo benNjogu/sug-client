@@ -23,6 +23,7 @@ import { Layout, Menu, Button, theme, Modal } from "antd";
 
 import { GetOrganizationData } from "../../redux/slices/organization";
 import { LogOutUser } from "../../redux/slices/auth";
+import { GetAdminData } from "../../redux/slices/admin";
 import "./default-layout.styles.css";
 
 const { Header, Sider, Content } = Layout;
@@ -57,6 +58,7 @@ const DefaultLayout = ({ children }) => {
         dispatch(GetOrganizationData());
         navigate("/profile");
       } else {
+        dispatch(GetAdminData());
         navigate("/admin-profile");
       }
     }, 700);

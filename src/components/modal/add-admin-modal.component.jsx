@@ -5,6 +5,7 @@ import { Form } from "react-bootstrap";
 import "../application/styles/form.styles.css";
 import { constants } from "../../data/constants";
 import { getKeyByValue } from "../../utils/getObjectKey";
+import { message } from "antd";
 
 const AddAdminModal = ({
   handleClose,
@@ -23,7 +24,11 @@ const AddAdminModal = ({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      sex: adminToEdit?.sex,
+      name: adminToEdit?.user_name,
+      email: adminToEdit?.email,
+    },
   });
 
   const handleSelectChange = (e) => {
@@ -34,6 +39,8 @@ const AddAdminModal = ({
   const onSubmit = (data) => {
     if (level === constants.SELECT) {
       setLevelErrors(true);
+      message.error("Select Admin Level");
+      return;
     } else {
       if (adminToEdit === null) {
         data = { ...data, level };
@@ -41,14 +48,10 @@ const AddAdminModal = ({
         handleClose();
         handleAddAdmin(data);
       } else {
-        if (level === adminToEdit.account_type) {
-          handleClose();
-        } else {
-          data = { account_type: level, user_id: adminToEdit.user_id };
-          handleClose();
-          console.log(data);
-          handleEditAdmin(data);
-        }
+        data = { account_type: level, user_id: adminToEdit.user_id };
+        handleClose();
+        console.log(data);
+        handleEditAdmin(data);
       }
     }
   };
@@ -87,11 +90,6 @@ const AddAdminModal = ({
                 name="sex"
                 id="sex-male"
                 value="M"
-                checked={
-                  adminToEdit !== null && adminToEdit.sex === "M"
-                    ? true
-                    : undefined
-                }
                 autoComplete="off"
                 {...register("sex", {
                   required: "Gender is required.",
@@ -109,11 +107,6 @@ const AddAdminModal = ({
                 name="sex"
                 id="sex-female"
                 value="F"
-                checked={
-                  adminToEdit !== null && adminToEdit.sex === "F"
-                    ? true
-                    : undefined
-                }
                 autoComplete="off"
                 {...register("sex", {
                   required: "Gender is required.",
@@ -134,7 +127,6 @@ const AddAdminModal = ({
           type="text"
           name="name"
           id="name"
-          value={adminToEdit !== null ? adminToEdit.user_name : undefined}
           class="form-control"
           placeholder="FirstName LastName"
           {...register("name", {
@@ -152,7 +144,6 @@ const AddAdminModal = ({
           type="email"
           name="email"
           id="email"
-          value={adminToEdit !== null ? adminToEdit.email : undefined}
           class="form-control"
           placeholder="stuff@nita.go.ke"
           {...register("email", {

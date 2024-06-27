@@ -2,14 +2,7 @@ import female from "../../assets/images/female.svg";
 import male from "../../assets/images/male.svg";
 import "./users-card.styles.css";
 
-const UsersCard = ({
-  btn1Text,
-  btn2Text,
-  btn1Click,
-  btn2Click,
-  deactivateBtn,
-  user,
-}) => {
+const UsersCard = ({ btn1Text, btn2Text, btn1Click, btn2Click, user }) => {
   return (
     <div className="profile-card">
       {user.sex === "F" ? (
@@ -34,7 +27,7 @@ const UsersCard = ({
           <button
             className="btn btn-sm btn-danger"
             onClick={() => btn2Click(user.id)}
-            disabled={deactivateBtn || !user.active}
+            disabled={!user.active}
           >
             {btn2Text}
           </button>

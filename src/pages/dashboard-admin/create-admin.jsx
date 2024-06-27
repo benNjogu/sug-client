@@ -6,10 +6,10 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import DefaultLayout from "../../components/default-layout/default-layout.component";
 import FilterNominees from "./../../components/filter-component/filter-component";
 import AddAdminModal from "../../components/modal/add-admin-modal.component";
-import { CreateNewAdmin } from "../../redux/slices/auth";
 import {
+  CreateNewAdmin,
   DisableAdmin,
-  EditAdminLevel,
+  EditAdmin,
   FetchAllAdmins,
 } from "../../redux/slices/admin";
 import { constants } from "../../data/constants";
@@ -20,7 +20,6 @@ const CreateAdmin = () => {
   const dispatch = useDispatch();
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [inactiveBtn, setInactiveBtn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [level, setLevel] = useState(constants.SELECT);
   const [adminToEdit, setAdminToEdit] = useState(null);
@@ -61,16 +60,25 @@ const CreateAdmin = () => {
   };
 
   const handleAddAdmin = (data) => {
-    dispatch(CreateNewAdmin(data));
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(CreateNewAdmin(data));
+      setLoading(false);
+      setInactiveBtn(true);
+    }, 700);
   };
 
-  const handleEdit = (a) => {
-    setAdminToEdit(a);
+  const handleEdit = (admin) => {
+    setAdminToEdit(admin);
     setShowAddAdminModal(true);
   };
 
   const handleEditAdmin = (data) => {
-    dispatch(EditAdminLevel(data));
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(EditAdmin(data));
+      setLoading(false);
+    }, 700);
   };
 
   const handleCancel = () => {
@@ -94,7 +102,6 @@ const CreateAdmin = () => {
     setTimeout(() => {
       dispatch(DisableAdmin(id));
       setLoading(false);
-      setInactiveBtn(true);
     }, 500);
   };
 
@@ -165,7 +172,6 @@ const CreateAdmin = () => {
                   btn2Text={a.active ? "Disable" : "Disabled"}
                   btn1Click={() => handleEdit(a)}
                   btn2Click={() => handleDisable(a.user_id)}
-                  deactivateBtn={inactiveBtn}
                   user={a}
                 />
               </div>
