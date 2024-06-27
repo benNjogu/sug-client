@@ -138,13 +138,23 @@ const AllApplications = () => {
 
   // Searching from organization and/or course title and/or year.
   if (searchOrgName) {
-    applications = applications.filter((a) =>
-      a.org_name.toLowerCase().startsWith(searchOrgName.toLowerCase())
+    applications = applications.filter(
+      (a) =>
+        a.org_name.toLowerCase().startsWith(searchOrgName.toLowerCase()) ||
+        a.organization_id
+          .toString()
+          .toLowerCase()
+          .startsWith(searchOrgName.toLowerCase())
     );
   }
   if (searchCourse) {
-    applications = applications.filter((a) =>
-      a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase())
+    applications = applications.filter(
+      (a) =>
+        a.course_title.toLowerCase().startsWith(searchCourse.toLowerCase()) ||
+        a.application_id
+          .toString()
+          .toLowerCase()
+          .startsWith(searchCourse.toLowerCase())
     );
   }
   if (searchYear) {
@@ -166,14 +176,14 @@ const AllApplications = () => {
       <div className="row d-flex justify-content-between">
         <div className="col-md-4">
           <SearchBox
-            placeholder={"Search organization name..."}
+            placeholder={"Search organization name/id..."}
             value={searchOrgName}
             onChange={handleSearchOrgName}
           />
         </div>
         <div className="col-md-4">
           <SearchBox
-            placeholder={"Search course title..."}
+            placeholder={"Search course title/app_id..."}
             value={searchCourse}
             onChange={handleSearchCourse}
           />

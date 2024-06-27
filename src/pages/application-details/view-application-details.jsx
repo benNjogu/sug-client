@@ -400,6 +400,15 @@ const ViewApplicationDetails = () => {
     }
 
     if (
+      record.approved === constants.DEFFERED ||
+      record.approved === constants.REJECTED
+    )
+      dispatch(GetBannerData(record.application_id, 0));
+
+    if (record.approved === constants.APPROVED)
+      dispatch(GetBannerData(record.application_id, 2));
+
+    if (
       account_type === process.env.REACT_APP_AccountType3 &&
       record.approved === constants.STAGE_2
     ) {
@@ -413,21 +422,12 @@ const ViewApplicationDetails = () => {
       );
     }
 
-    if (
-      record.approved === constants.DEFFERED ||
-      record.approved === constants.REJECTED
-    )
-      dispatch(GetBannerData(record.id, 0));
-
-    if (record.approved === constants.APPROVED)
-      dispatch(GetBannerData(record.id, 2));
-
     if (account_type === process.env.REACT_APP_AccountType3) {
       if (record.approved === constants.STAGE_2) {
-        dispatch(GetBannerData(record.id, 1));
+        dispatch(GetBannerData(record.application_id, 1));
       }
       if (record.approved === constants.APPROVED) {
-        dispatch(GetBannerData(record.id, 2));
+        dispatch(GetBannerData(record.application_id, 2));
       }
     }
   }, []);
@@ -800,9 +800,9 @@ const ViewApplicationDetails = () => {
             <Banner
               type={"success"}
               title={"Application Approved"}
-              reason={`${splitRecommendation().house}, ${
-                splitRecommendation().residential
-              } training, ${splitRecommendation().employers}`}
+              reason={`${splitRecommendation()?.house}, ${
+                splitRecommendation()?.residential
+              } training, ${splitRecommendation()?.employers}`}
               name={bannerData[0]?.level_2}
               date={convertDigitInString(bannerData[0]?.date_2?.split("T")[0])}
             />
