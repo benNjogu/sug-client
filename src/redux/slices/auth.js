@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { message } from "antd";
 import axios from "../../utils/axios";
 
 import { ShowSnackbar } from "./app";
@@ -80,7 +79,9 @@ export function LoginUser(formValues) {
           })
         );
 
+        console.log("first login response", response);
         window.localStorage.setItem("user_id", response.data.user_id);
+        localStorage.setItem("token", response.data.token);
 
         dispatch(
           ShowSnackbar({ severity: "success", message: response.data.message })
@@ -101,6 +102,7 @@ export function LoginUser(formValues) {
 export function LogOutUser() {
   return async (dispatch, getState) => {
     window.localStorage.removeItem("user_id");
+    window.localStorage.removeItem("token");
 
     dispatch(slice.actions.logout());
   };
@@ -235,6 +237,7 @@ export function VerifyEmail(formValues) {
         );
 
         window.localStorage.setItem("user_id", response.data.user_id);
+        window.localStorage.setItem("token", response.data.token);
 
         dispatch(
           ShowSnackbar({ severity: "success", message: response.data.message })
