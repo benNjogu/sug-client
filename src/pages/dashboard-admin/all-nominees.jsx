@@ -14,7 +14,6 @@ const AllNominees = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showViewNomineeModal, setShowViewNomineeModal] = useState(false);
-  const [inactiveBtn, setInactiveBtn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState({});
   let { nominees } = useSelector((state) => state.admin);
@@ -67,7 +66,6 @@ const AllNominees = () => {
     setTimeout(() => {
       dispatch(DisableNominee(id));
       setLoading(false);
-      setInactiveBtn(true);
     }, 500);
   };
 
@@ -103,7 +101,6 @@ const AllNominees = () => {
                   btn2Text={n.active ? "Disable" : "Disabled"}
                   btn1Click={handleView}
                   btn2Click={() => handleDisable(n.id)}
-                  deactivateBtn={inactiveBtn}
                   user={n}
                 />
               </div>

@@ -16,6 +16,7 @@ import {
   FetchAllDeletedNominees,
   FetchOrganizationAuthorizers,
   FetchAllNominees,
+  DisableNominee,
 } from "../../../redux/slices/admin";
 
 const { TabPane } = Tabs;
@@ -32,7 +33,6 @@ const ViewOrganizationDetails = () => {
   const [rejectedApplications, setRejectedApplications] = useState([]);
   let [orgNominees, setOrgNominees] = useState([]);
   let [deletedNominees, setDeletedNominees] = useState([]);
-  const [inactiveBtn, setInactiveBtn] = useState(false);
 
   let { applications } = useSelector((state) => state.admin);
   let { approved_applications } = useSelector((state) => state.admin);
@@ -181,7 +181,6 @@ const ViewOrganizationDetails = () => {
     setTimeout(() => {
       dispatch(DisableNominee(id));
       setLoading(false);
-      setInactiveBtn(true);
     }, 500);
   };
 
@@ -401,13 +400,12 @@ const ViewOrganizationDetails = () => {
                         btn2Text={n.active ? "Disable" : "Disabled"}
                         btn1Click={handleView}
                         btn2Click={handleDisable}
-                        deactivateBtn={inactiveBtn}
                         user={n}
                       />
                     </div>
                   ))
                 : ""}
-            </div>{" "}
+            </div>
           </TabPane>
           <TabPane tab="Deleted Nominees" key={7}>
             <div className="row overflow-auto mt-3">
@@ -419,7 +417,6 @@ const ViewOrganizationDetails = () => {
                         btn2Text={n.active ? "Disable" : "Disabled"}
                         btn1Click={handleView}
                         btn2Click={handleDisable}
-                        deactivateBtn={inactiveBtn}
                         user={n}
                       />
                     </div>

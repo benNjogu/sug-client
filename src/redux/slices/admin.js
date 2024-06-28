@@ -322,7 +322,7 @@ export const DisableNominee = (nominee_id) => {
       })
       .then(function (response) {
         console.log(response);
-
+        dispatch(FetchAllNominees());
         dispatch(
           ShowSnackbar({
             severity: "success",
