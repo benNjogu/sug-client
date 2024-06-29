@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Table } from "antd";
+import { Modal, Table, message } from "antd";
 
 import DefaultLayout from "../../components/default-layout/default-layout.component";
 import Spinner from "../../components/spinner";
@@ -9,13 +9,13 @@ import GenerateReportModal from "../../components/modal/generate-report-modal.co
 import SearchBox from "../../components/search-box";
 import DataCard from "../../components/analytics-data-items/data-card.component";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
-import { FetchAllAdmins } from "../../redux/slices/admin";
+import { FetchAllAdmins, GenerateReport } from "../../redux/slices/admin";
 
 const Reports = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filterByYear, setFilterByYear] = useState("");
+  const [year, setYear] = useState(null);
 
   let { organizations } = useSelector((state) => state.organization);
   let { applications } = useSelector((state) => state.admin);
@@ -44,10 +44,6 @@ const Reports = () => {
       admin.account_type === process.env.REACT_APP_AccountType2.toString() ||
       admin.account_type === process.env.REACT_APP_AccountType3.toString()
   );
-
-  let data = [
-    { s_no: 1, date_given: "29-01-2024", current_date: "29-01-2024" },
-  ];
 
   // get data from various arrays
   let work = [];
@@ -109,36 +105,6 @@ const Reports = () => {
     },
   ];
 
-  const columns = [
-    {
-      title: "S.No",
-      dataIndex: "s_no",
-    },
-    {
-      title: "From",
-      dataIndex: "date_given",
-    },
-    {
-      title: "To",
-      dataIndex: "current_date",
-    },
-    {
-      title: "Action",
-      dataIndex: "id",
-      render: (id, record) => (
-        <div className="d-flex justify-content-around">
-          <div />
-          <div />
-          <div className="">
-            <button class="btn btn-sm btn-outline-success" onClick={() => {}}>
-              {constants.VIEW_REPORT}
-            </button>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -147,11 +113,26 @@ const Reports = () => {
     setShowModal(false);
   };
 
-  const handleFilterByYear = () => {};
+  const handleChangeYear = (year) => {
+    setYear(year);
+  };
 
-  const handleGenerateReport = () => {};
+  const handleGenerateReport = () => {
+    if (year === null) {
+      return message.error("Enter Year");
+    }
 
-  const handleViewReport = () => {};
+    let firstDigit = Math.floor(year / Math.pow(10, 3));
+    if (
+      year.toString().match(/\d/g).length > 4 ||
+      !year.match(/^[0-9]+$/) ||
+      firstDigit !== 2
+    ) {
+      return message.error("Enter valid Year");
+    }
+
+    dispatch(GenerateReport(year));
+  };
 
   useEffect(() => {
     dispatch(FetchAllAdmins());
@@ -163,15 +144,15 @@ const Reports = () => {
         <div className="col-md-9">
           <SearchBox
             placeholder={"Enter year..."}
-            value={filterByYear}
-            onChange={handleFilterByYear}
+            value={year}
+            onChange={handleChangeYear}
           />
         </div>
         <div className="col-md-3">
           <button
             className="btn btn-primary"
             style={{ marginBottom: 12 }}
-            onClick={handleShowModal}
+            onClick={handleGenerateReport}
           >
             {constants.GENERATE_REPORT}
           </button>
@@ -235,16 +216,6 @@ const Reports = () => {
             <DataCard
               value={pending_applications.length}
               valueText={"Pending"}
-            />
-          </div>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col-md-12">
-            <Table
-              style={{ width: 95 + "%" }}
-              columns={columns}
-              dataSource={data}
             />
           </div>
         </div>

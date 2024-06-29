@@ -98,6 +98,30 @@ const Profile = () => {
           </div>
         </div>
         <div class="form-row">
+          <div class="col-md-6 form-group">
+            <label for="county">County (e.g Murang'a):</label>
+            <input
+              type="text"
+              className="form-control text-primary"
+              value={organization_profile_data[0]?.county || undefined}
+              name="county"
+              id="county"
+              readOnly
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="sector">Sector (e.g Agriculture):</label>
+            <input
+              type="text"
+              name="sector"
+              id="sector"
+              className="form-control text-primary"
+              value={organization_profile_data[0]?.sector || undefined}
+              readOnly
+            />
+          </div>
+        </div>
+        <div class="form-row">
           <div class="col-md-3 form-group">
             <label for="town">Town:</label>
             <input

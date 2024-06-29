@@ -5,13 +5,15 @@ import Spinner from "../spinner";
 
 const EditOrganizationProfile = ({ currentData, submitData, handleCancel }) => {
   const [loading, setLoading] = useState(false);
-
+  console.log("cdata", currentData);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      county: currentData?.county,
+      sector: currentData?.sector,
       town: currentData?.town,
       street: currentData?.street,
       building: currentData?.building,
@@ -36,6 +38,50 @@ const EditOrganizationProfile = ({ currentData, submitData, handleCancel }) => {
     <Form className="row" onSubmit={handleSubmit(onSubmit)}>
       <Spinner loading={loading} />
       <div className="col-md-12">
+        <div class="form-row">
+          <div class="col-md-6 form-group">
+            <label for="county">County (e.g Murang'a):</label>
+            <input
+              type="text"
+              name="county"
+              id="county"
+              class="form-control"
+              placeholder="Murang'a"
+              {...register("county", {
+                required: "county is required.",
+              })}
+              className={`${
+                errors.county
+                  ? "input-error form-control text-primary"
+                  : "form-control text-primary"
+              }`}
+            />
+            {errors.county && (
+              <p className="errorMsg">{errors.county.message}</p>
+            )}
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="sector">Sector (e.g Agriculture):</label>
+            <input
+              type="text"
+              name="sector"
+              id="sector"
+              class="form-control"
+              placeholder="Agriculture"
+              {...register("sector", {
+                required: "Sector is required.",
+              })}
+              className={`${
+                errors.sector
+                  ? "input-error form-control text-primary"
+                  : "form-control text-primary"
+              }`}
+            />
+            {errors.sector && (
+              <p className="errorMsg">{errors.sector.message}</p>
+            )}
+          </div>
+        </div>
         <div class="form-row">
           <div class="col-md-6 form-group">
             <label for="address">Town:</label>

@@ -33,3 +33,7 @@
   margin-top: 1.2rem;
   text-align: right;
 }
+
+.native-table {
+  display: none;
+}

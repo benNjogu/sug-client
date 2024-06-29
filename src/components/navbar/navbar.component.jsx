@@ -22,10 +22,12 @@ const Navbar = ({
   handleEdit,
   handleBackpressed,
   approved,
+  reportPage,
+  handleExportReport,
   hideButtons,
 }) => {
   const { account_type } = useSelector((state) => state.auth.user_data);
-  console.log("nav_ap", approved);
+  console.log("nav_ap", account_type);
 
   return (
     <nav className="nav collapsible fixed-top">
@@ -91,6 +93,29 @@ const Navbar = ({
               />
             </li>
           )}
+          <li className="nav__item">
+            <Button
+              text={"Back"}
+              text_color={"text-danger"}
+              icon={<LeftOutlined />}
+              handleBtnClick={handleBackpressed}
+            />
+          </li>
+        </ul>
+      ) : (account_type === process.env.REACT_APP_AccountType1 ||
+          account_type === process.env.REACT_APP_AccountType2 ||
+          account_type === process.env.REACT_APP_AccountType3 ||
+          account_type === process.env.REACT_APP_AccountType4 ||
+          account_type === process.env.REACT_APP_AccountType5) &&
+        reportPage === true ? (
+        <ul className="list nav__list collapsible__content">
+          <li className="nav__item">
+            <Button
+              text={"Export Report"}
+              text_color={"text-success"}
+              handleBtnClick={handleExportReport}
+            />
+          </li>
           <li className="nav__item">
             <Button
               text={"Back"}

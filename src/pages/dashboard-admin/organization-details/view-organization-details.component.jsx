@@ -5,7 +5,6 @@ import { Modal, Table, Tabs } from "antd";
 import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 import Navbar from "../../../components/navbar/navbar.component";
-import "./view-organization-details.styles.css";
 import Spinner from "../../../components/spinner";
 import { convertDigitInString } from "../../../utils/convertDigitsInString";
 import { getTime } from "../../../utils/getTimeFromTimestamp";
@@ -18,6 +17,7 @@ import {
   FetchAllNominees,
   DisableNominee,
 } from "../../../redux/slices/admin";
+import "./view-organization-details.styles.css";
 
 const { TabPane } = Tabs;
 

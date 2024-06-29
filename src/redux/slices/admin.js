@@ -14,6 +14,8 @@ const initialState = {
   deleted_nominees: [],
   admins: [],
   all_authorizers: [],
+  // report data
+  reportData: [],
 };
 
 const slice = createSlice({
@@ -44,6 +46,9 @@ const slice = createSlice({
     },
     updateAdmins(state, action) {
       state.admins = action.payload.admins;
+    },
+    updateReportData(state, action) {
+      state.reportData = action.payload.reportData;
     },
   },
 });
@@ -481,6 +486,40 @@ export function EditAdmin(formValues) {
         console.log(e);
 
         message.error(e.response.data.message);
+      });
+  };
+}
+
+export function GenerateReport(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/admin/generate-report",
+        {
+          year: formValues,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          slice.actions.updateReportData({
+            reportData: response.data.data,
+          })
+        );
+
+        message.success(response.data.message);
+
+        window.location.href = "/admin-view-report";
+      })
+      .catch((error) => {
+        console.log(error);
+
+        message.error(error.response.data.message);
       });
   };
 }

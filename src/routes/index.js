@@ -92,6 +92,7 @@ export default function Router() {
             { path: "admin-rejected", element: <RejectedApplications /> },
             { path: "admin-organizations", element: <AllOrganizations /> },
             { path: "admin-reports", element: <AdminReports /> },
+            { path: "admin-view-report", element: <ViewReport /> },
             { path: "admin-profile", element: <AdminProfile /> },
 
             { path: "404", element: <Page404 /> },
@@ -190,6 +191,9 @@ const ViewOrganization = Loadable(
 );
 const AdminReports = Loadable(
   lazy(() => import("../pages/dashboard-admin/reports"))
+);
+const ViewReport = Loadable(
+  lazy(() => import("../pages/dashboard-admin/report/report.component"))
 );
 
 const Login = Loadable(lazy(() => import("../pages/auth/login")));
