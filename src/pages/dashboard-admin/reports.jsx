@@ -9,7 +9,12 @@ import GenerateReportModal from "../../components/modal/generate-report-modal.co
 import SearchBox from "../../components/search-box";
 import DataCard from "../../components/analytics-data-items/data-card.component";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
-import { FetchAllAdmins, GenerateReport } from "../../redux/slices/admin";
+import {
+  FetchAllAdmins,
+  FetchAllDefferredAndRejectedApplications,
+  FetchAllNominees,
+  GenerateReport,
+} from "../../redux/slices/admin";
 
 const Reports = () => {
   const dispatch = useDispatch();
@@ -19,6 +24,7 @@ const Reports = () => {
 
   let { organizations } = useSelector((state) => state.organization);
   let { applications } = useSelector((state) => state.admin);
+
   let { approved_applications } = useSelector((state) => state.admin);
   let { defferred_rejected_applications } = useSelector((state) => state.admin);
   let { nominees } = useSelector((state) => state.admin);
@@ -41,6 +47,7 @@ const Reports = () => {
   );
   let IBTA_admins = admins.filter(
     (admin) =>
+      admin.account_type === process.env.REACT_APP_AccountType1.toString() ||
       admin.account_type === process.env.REACT_APP_AccountType2.toString() ||
       admin.account_type === process.env.REACT_APP_AccountType3.toString()
   );
@@ -52,6 +59,15 @@ const Reports = () => {
     let admin_data = {};
     admin_data.name = IBTA_admins[i].user_name;
     admin_data.level = IBTA_admins[i].account_type;
+    if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType1) {
+      admin_data.approved_by = "-";
+      admin_data.defferred = defferred_applications.filter(
+        (application) => application.admin_id === IBTA_admins[i].user_id
+      ).length;
+      admin_data.rejected = rejected_applications.filter(
+        (application) => application.admin_id === IBTA_admins[i].user_id
+      ).length;
+    }
     if (IBTA_admins[i].account_type === process.env.REACT_APP_AccountType2) {
       admin_data.approved_by = approved_applications.filter(
         (application) => application.level_1 === IBTA_admins[i].user_id
@@ -136,6 +152,8 @@ const Reports = () => {
 
   useEffect(() => {
     dispatch(FetchAllAdmins());
+    dispatch(FetchAllNominees());
+    dispatch(FetchAllDefferredAndRejectedApplications());
   }, []);
 
   return (
@@ -179,42 +197,42 @@ const Reports = () => {
         <div className="row d-flex justify-content-between">
           <div className="col-md-3">
             <DataCard
-              value={organizations.length}
+              value={organizations?.length}
               valueText={"Organizations"}
             />
           </div>
           <div className="col-md-3">
-            <DataCard value={applications.length} valueText={"Applications"} />
+            <DataCard value={applications?.length} valueText={"Applications"} />
           </div>
           <div className="col-md-3">
-            <DataCard value={nominees.length} valueText={"Nominees"} />
+            <DataCard value={nominees?.length} valueText={"Nominees"} />
           </div>
           <div className="col-md-3">
-            <DataCard value={IBTA_admins.length} valueText={"IBTA admins"} />
+            <DataCard value={IBTA_admins?.length} valueText={"IBTA admins"} />
           </div>
         </div>
         <div className="row d-flex justify-content-between mt-3">
           <div className="col-md-3">
             <DataCard
-              value={approved_applications.length}
+              value={approved_applications?.length}
               valueText={"Approved"}
             />
           </div>
           <div className="col-md-3">
             <DataCard
-              value={defferred_applications.length}
+              value={defferred_applications?.length}
               valueText={"Defferred"}
             />
           </div>
           <div className="col-md-3">
             <DataCard
-              value={rejected_applications.length}
+              value={rejected_applications?.length}
               valueText={"Rejected"}
             />
           </div>
           <div className="col-md-3">
             <DataCard
-              value={pending_applications.length}
+              value={pending_applications?.length}
               valueText={"Pending"}
             />
           </div>
