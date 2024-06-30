@@ -25,6 +25,10 @@ const Profile = () => {
     (state) => state.organization
   );
 
+  const handleInputClick = () => {
+    setShowEditProfileModal(true);
+  };
+
   const handleEdit = () => {
     console.log("modal");
     setShowEditProfileModal(true);
@@ -71,6 +75,7 @@ const Profile = () => {
               id="name"
               className="form-control text-primary"
               value={user_name}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -82,6 +87,7 @@ const Profile = () => {
               id="email"
               className="form-control text-primary"
               value={email}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -93,6 +99,7 @@ const Profile = () => {
               id="regno"
               className="form-control text-primary"
               value={levy_no}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -106,6 +113,7 @@ const Profile = () => {
               value={organization_profile_data[0]?.county || undefined}
               name="county"
               id="county"
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -117,6 +125,7 @@ const Profile = () => {
               id="sector"
               className="form-control text-primary"
               value={organization_profile_data[0]?.sector || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -130,6 +139,7 @@ const Profile = () => {
               id="town"
               className="form-control text-primary"
               value={organization_profile_data[0]?.town || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -141,6 +151,7 @@ const Profile = () => {
               id="street"
               className="form-control text-primary"
               value={organization_profile_data[0]?.street || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -152,6 +163,7 @@ const Profile = () => {
               id="apartment"
               className="form-control text-primary"
               value={organization_profile_data[0]?.building || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -164,6 +176,7 @@ const Profile = () => {
               className="form-control text-primary"
               value={organization_profile_data[0]?.floor || undefined}
               maxLength={2}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -177,6 +190,7 @@ const Profile = () => {
               value={organization_profile_data[0]?.box || undefined}
               name="box"
               id="box"
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -188,6 +202,7 @@ const Profile = () => {
               id="code"
               className="form-control text-primary"
               value={organization_profile_data[0]?.code || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
@@ -199,6 +214,7 @@ const Profile = () => {
               id="phone"
               className="form-control text-primary"
               value={organization_profile_data[0]?.phone || undefined}
+              onClick={handleInputClick}
               readOnly
             />
           </div>
