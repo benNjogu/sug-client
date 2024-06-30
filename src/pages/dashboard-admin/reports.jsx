@@ -11,6 +11,8 @@ import DataCard from "../../components/analytics-data-items/data-card.component"
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import {
   FetchAllAdmins,
+  FetchAllApplications,
+  FetchAllApprovedApplications,
   FetchAllDefferredAndRejectedApplications,
   FetchAllNominees,
   GenerateReport,
@@ -153,6 +155,8 @@ const Reports = () => {
   useEffect(() => {
     dispatch(FetchAllAdmins());
     dispatch(FetchAllNominees());
+    dispatch(FetchAllApplications());
+    dispatch(FetchAllApprovedApplications());
     dispatch(FetchAllDefferredAndRejectedApplications());
   }, []);
 
