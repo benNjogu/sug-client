@@ -27,6 +27,7 @@ const ViewReport = () => {
     "training_provider",
     "venue",
     "total_cost",
+    "number_of_participants",
     "all_nominees",
     "females",
     "males",
@@ -47,6 +48,7 @@ const ViewReport = () => {
     "TRAINING PROVIDER",
     "VENUE",
     "AMOUNT",
+    "PARTICIPANTS",
     "NOMINEES",
     "FEMALES",
     "MALES",
@@ -132,6 +134,10 @@ const ViewReport = () => {
       dataIndex: "total_cost",
     },
     {
+      title: "PARTICIPANTS",
+      dataIndex: "number_of_participants",
+    },
+    {
       title: "NOMINEES",
       dataIndex: "all_nominees",
     },
@@ -196,7 +202,7 @@ const ViewReport = () => {
 
   const { onDownload } = useDownloadExcel({
     currentTableRef: tableRef.current,
-    filename: "Applications report",
+    filename: "sug report",
     sheet: "report",
   });
 

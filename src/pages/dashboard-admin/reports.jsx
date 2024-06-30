@@ -122,12 +122,12 @@ const Reports = () => {
       return message.error("Enter Year");
     }
 
+    if (!year.match(/^[0-9]+$/)) {
+      return message.error("Enter valid Year");
+    }
+
     let firstDigit = Math.floor(year / Math.pow(10, 3));
-    if (
-      year.toString().match(/\d/g).length > 4 ||
-      !year.match(/^[0-9]+$/) ||
-      firstDigit !== 2
-    ) {
+    if (year.toString().match(/\d/g).length > 4 || firstDigit !== 2) {
       return message.error("Enter valid Year");
     }
 
