@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Modal, Table } from "antd";
+import { Modal, Table, message } from "antd";
 
 import { constants } from "../../../data/constants";
 import DefaultLayout from "../../../components/default-layout/default-layout.component";
@@ -18,6 +18,7 @@ import NewApplicationModalComponent from "../../../components/modal/new-applicat
 import SearchBox from "../../../components/search-box";
 import { UpdateCapacity } from "../../../redux/slices/cell";
 import "./applications.styles.css";
+import { GetOrganizationData } from "../../../redux/slices/organization";
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -29,6 +30,10 @@ const Applications = () => {
   let { applications } = useSelector((state) => state.application);
   let { successStatus } = useSelector((state) => state.application);
   console.log("is_delete success", successStatus);
+
+  const { organization_profile_data } = useSelector(
+    (state) => state.organization
+  );
 
   const columns = [
     {
@@ -224,6 +229,14 @@ const Applications = () => {
   };
 
   const handleShowModal = () => {
+    if (
+      organization_profile_data[0]?.county === null ||
+      organization_profile_data[0]?.sector === null ||
+      organization_profile_data[0]?.phone === null
+    ) {
+      return message.error("Edit profile");
+    }
+
     setShowModal(true);
   };
 
@@ -256,6 +269,7 @@ const Applications = () => {
 
   useEffect(() => {
     dispatch(FetchOrganizationApplications());
+    dispatch(GetOrganizationData());
   }, []);
 
   return (
