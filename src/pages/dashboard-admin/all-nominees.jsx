@@ -16,6 +16,8 @@ const AllNominees = () => {
   const [showViewNomineeModal, setShowViewNomineeModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState({});
+
+  const my_id = window.localStorage.getItem("user_id");
   let { nominees } = useSelector((state) => state.admin);
 
   const [modal, contextHolder] = Modal.useModal();
@@ -61,10 +63,10 @@ const AllNominees = () => {
     setShowViewNomineeModal(false);
   };
 
-  const disableNominee = (id) => {
+  const disableNominee = (his_id) => {
     setLoading(true);
     setTimeout(() => {
-      dispatch(DisableNominee(id));
+      dispatch(DisableNominee({ his_id, my_id }));
       setLoading(false);
     }, 500);
   };

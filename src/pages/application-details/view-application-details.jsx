@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, Table, Tag } from "antd";
+import { Modal, Table, Tag, message } from "antd";
 import { CheckCircleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import { constants } from "./../../data/constants";
@@ -216,6 +216,7 @@ const ViewApplicationDetails = () => {
           level: account_type,
           application_id: record.id,
           recommedation,
+          defferred_to_admin: record.defferred_to_admin,
         })
       );
       setHideButtons(true);
@@ -264,9 +265,29 @@ const ViewApplicationDetails = () => {
           application_id: record.id,
           reason: reason.deffer_message,
           type: status.Deffered,
+          back_to_admin: false,
         })
       );
 
+      setHideButtons(true);
+    }, 300);
+  };
+
+  const handleDefferToAdmin = (reason) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      dispatch(
+        DefferOrRejectApplication({
+          level: account_type,
+          application_id: record.id,
+          reason: reason.deffer_message,
+          type: status.Stage_1,
+          back_to_admin: true,
+        })
+      );
+
+      dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
       setHideButtons(true);
     }, 300);
   };
@@ -405,6 +426,9 @@ const ViewApplicationDetails = () => {
     )
       dispatch(GetBannerData(record.application_id, 0));
 
+    if (record.defferred_to_admin === 1)
+      dispatch(GetBannerData(record.application_id, 0));
+
     if (record.approved === constants.APPROVED)
       dispatch(GetBannerData(record.application_id, 2));
 
@@ -441,7 +465,7 @@ const ViewApplicationDetails = () => {
       <>
         {contextHolder}
         <Navbar
-          title={record.course_title}
+          title={`${`(${record.application_id}) ` + record.course_title}`}
           handleApprove={handleApprove}
           handleApproveLevel1and3={handleApproveLevel1and3}
           handleReject={handleReject}
@@ -478,6 +502,7 @@ const ViewApplicationDetails = () => {
                 <DefferApplicationModal
                   handleClose={handleCancel}
                   handleDeffer={handleAppDeffer}
+                  handleDefferToAdmin={handleDefferToAdmin}
                 />
               }
             </Modal>
@@ -718,7 +743,11 @@ const ViewApplicationDetails = () => {
       {contextHolder}
       <Spinner loading={loading} />
       <Navbar
-        title={record.course_title}
+        title={`${
+          account_type !== process.env.REACT_APP_AccountType0
+            ? `(${record.application_id}) ` + record.course_title
+            : record.course_title
+        }`}
         handleApprove={handleApprove}
         handleApproveLevel1and3={handleApproveLevel1and3}
         handleReject={handleReject}
@@ -821,6 +850,21 @@ const ViewApplicationDetails = () => {
             />
           </div>
         )}
+        {record.approved === constants.STAGE_1 &&
+          record.defferred_to_admin === 1 &&
+          account_type !== process.env.REACT_APP_AccountType0 && (
+            <div className="main-div--rejection row">
+              <Banner
+                type={"warning"}
+                title={"Application Defferred"}
+                reason={bannerData[0]?.reason}
+                name={bannerData[0]?.user_name}
+                email={bannerData[0]?.email}
+                phone={bannerData[0]?.phone}
+                date={convertDigitInString(bannerData[0]?.date?.split("T")[0])}
+              />
+            </div>
+          )}
         {record.approved === constants.REJECTED && (
           <div className="main-div--rejection row">
             <Banner

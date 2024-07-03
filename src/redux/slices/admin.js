@@ -316,15 +316,19 @@ export const FetchAllDeletedNominees = () => {
   };
 };
 
-export const DisableNominee = (nominee_id) => {
+export const DisableNominee = (data) => {
   return async (dispatch, getState) => {
     await axios
-      .get(`/nominee/disable-nominee/${nominee_id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${getState().auth.token}`,
-        },
-      })
+      .post(
+        `/nominee/disable-nominee`,
+        { data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
         dispatch(FetchAllNominees());
@@ -347,15 +351,19 @@ export const DisableNominee = (nominee_id) => {
   };
 };
 
-export const DisableOrganization = (organization_id) => {
+export const DisableOrganization = (data) => {
   return async (dispatch, getState) => {
     await axios
-      .get(`/organization/disable-organization/${organization_id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${getState().auth.token}`,
-        },
-      })
+      .post(
+        `/organization/disable-organization`,
+        { data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
 
@@ -380,15 +388,19 @@ export const DisableOrganization = (organization_id) => {
   };
 };
 
-export const DisableAdmin = (admin_id) => {
+export const DisableAdmin = (data) => {
   return async (dispatch, getState) => {
     await axios
-      .get(`/admin/disable-admin/${admin_id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${getState().auth.token}`,
-        },
-      })
+      .post(
+        `/admin/disable-admin`,
+        { data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
 

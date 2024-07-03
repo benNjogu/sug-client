@@ -17,6 +17,7 @@ const AllOrganization = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const my_id = window.localStorage.getItem("user_id");
   let { organizations } = useSelector((state) => state.organization);
 
   const columns = [
@@ -94,10 +95,10 @@ const AllOrganization = () => {
     });
   };
 
-  const disableOrganization = (id) => {
+  const disableOrganization = (his_id) => {
     setLoading(true);
     setTimeout(() => {
-      dispatch(DisableOrganization(id));
+      dispatch(DisableOrganization({ his_id, my_id }));
       setLoading(false);
     }, 500);
   };

@@ -71,6 +71,7 @@ export default function Router() {
             { path: "admin-all-nominees", element: <AllNominees /> },
             { path: "admin-organizations", element: <AllOrganizations /> },
             { path: "admin-profile", element: <AdminProfile /> },
+            { path: "admin-view-report", element: <ViewReport /> },
             { path: "admin-reports", element: <AdminReports /> },
 
             { path: "404", element: <Page404 /> },

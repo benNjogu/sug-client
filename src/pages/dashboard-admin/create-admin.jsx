@@ -24,6 +24,7 @@ const CreateAdmin = () => {
   const [level, setLevel] = useState(constants.SELECT);
   const [adminToEdit, setAdminToEdit] = useState(null);
 
+  const my_id = window.localStorage.getItem("user_id");
   let { account_type } = useSelector((state) => state.auth.user_data);
   let { admins } = useSelector((state) => state.admin);
   if (account_type === process.env.REACT_APP_AccountType4) {
@@ -97,10 +98,10 @@ const CreateAdmin = () => {
     });
   };
 
-  const disableAdmin = (id) => {
+  const disableAdmin = (his_id) => {
     setLoading(true);
     setTimeout(() => {
-      dispatch(DisableAdmin(id));
+      dispatch(DisableAdmin({ his_id, my_id }));
       setLoading(false);
     }, 500);
   };
