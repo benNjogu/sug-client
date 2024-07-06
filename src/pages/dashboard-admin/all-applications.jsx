@@ -18,7 +18,7 @@ import { getTime } from "../../utils/getTimeFromTimestamp";
 import Spinner from "../../components/spinner";
 import SearchBox from "../../components/search-box";
 import { FetchApplicationDetails } from "../../redux/slices/application";
-import { socket } from "../../socket";
+import { connectSocket, socket } from "../../socket";
 import { UpdateAdminOnIt } from "../../redux/slices/app";
 
 const AllApplications = () => {
@@ -187,9 +187,12 @@ const AllApplications = () => {
   }
 
   useEffect(() => {
-    let user_id = window.localStorage.getItem("user_id");
-    // if (!socket) {
-    //   connectSocket(user_id);
+    // let user_id = window.localStorage.getItem("user_id");
+
+    // if (account_type !== process.env.REACT_APP_AccountType0) {
+    //   if (!socket) {
+    //     connectSocket(user_id);
+    //   }
     // }
 
     socket.on("open-application", (data) => {
