@@ -18,6 +18,8 @@ import { getTime } from "../../utils/getTimeFromTimestamp";
 import Spinner from "../../components/spinner";
 import SearchBox from "../../components/search-box";
 import { FetchApplicationDetails } from "../../redux/slices/application";
+import { socket } from "../../socket";
+import { UpdateAdminOnIt } from "../../redux/slices/app";
 
 const AllApplications = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const AllApplications = () => {
   const [searchCourse, setSearchCourse] = useState("");
   const [searchYear, setSearchYear] = useState("");
   let { applications } = useSelector((state) => state.admin);
+  const { account_type } = useSelector((state) => state.auth).user_data;
 
   const columns = [
     {
@@ -118,6 +121,23 @@ const AllApplications = () => {
 
     dispatch(FetchApplicationDetails(record.id));
 
+    if (
+      (account_type === process.env.REACT_APP_AccountType3 &&
+        record.approved === constants.STAGE_2) ||
+      (account_type === process.env.REACT_APP_AccountType2 &&
+        (record.approved === constants.PENDING ||
+          record.approved === constants.STAGE_1))
+    ) {
+      dispatch(UpdateAdminOnIt(""));
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      let data = {
+        application_id: record.id,
+        current_admin_id,
+        current_admin_id,
+      };
+      socket.emit("open-application", data);
+    }
+
     setTimeout(() => {
       setLoading(false);
       navigate("/app/view-application", { state: { record } });
@@ -167,8 +187,22 @@ const AllApplications = () => {
   }
 
   useEffect(() => {
+    let user_id = window.localStorage.getItem("user_id");
+    // if (!socket) {
+    //   connectSocket(user_id);
+    // }
+
+    socket.on("open-application", (data) => {
+      dispatch(FetchAllApplications());
+      dispatch(GetAdminData());
+    });
+
     dispatch(FetchAllApplications());
     dispatch(GetAdminData());
+
+    return () => {
+      socket.off("open-application");
+    };
   }, []);
 
   return (

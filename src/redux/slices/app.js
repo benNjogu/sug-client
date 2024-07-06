@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../utils/axios';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "../../utils/axios";
 
 const initialState = {
   snackbar: {
@@ -9,10 +9,12 @@ const initialState = {
   },
   //organizations as users
   users: [],
+  // application taken
+  adminOnIt: "",
 };
 
 const slice = createSlice({
-  name: 'app',
+  name: "app",
   initialState,
   reducers: {
     openSnackbar(state, action) {
@@ -27,6 +29,9 @@ const slice = createSlice({
     },
     updateUsers(state, action) {
       state.users = action.payload.users;
+    },
+    updateAdminOnIt(state, action) {
+      state.adminOnIt = action.payload.adminOnIt;
     },
   },
 });
@@ -57,9 +62,9 @@ export const CloseSnackbar = () => async (dispatch, getState) => {
 export const FetchUsers = () => {
   return async (dispatch, getState) => {
     await axios
-      .get('/user/get-users', {
+      .get("/user/get-users", {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${getState().auth.token}`,
         },
       })
@@ -73,4 +78,8 @@ export const FetchUsers = () => {
       })
       .catch((error) => console.log(error));
   };
+};
+
+export const UpdateAdminOnIt = (data) => async (dispatch, getState) => {
+  dispatch(slice.actions.updateAdminOnIt({ adminOnIt: data }));
 };

@@ -10,6 +10,7 @@ import { DisableOrganization } from "../../redux/slices/admin";
 import { addSerialNumber, status } from "../../utils/addSerialNumber";
 import SearchBox from "../../components/search-box";
 import Spinner from "../../components/spinner";
+import { socket } from "../../socket";
 
 const AllOrganization = () => {
   const dispatch = useDispatch();
@@ -98,13 +99,27 @@ const AllOrganization = () => {
   const disableOrganization = (his_id) => {
     setLoading(true);
     setTimeout(() => {
-      dispatch(DisableOrganization({ his_id, my_id }));
+      let data = { his_id, my_id };
+      socket.emit("disable-organization", data);
+
+      // dispatch(DisableOrganization({ his_id, my_id }));
       setLoading(false);
     }, 500);
   };
 
   useEffect(() => {
+    socket.on("disable-organization", (data) => {
+      console.log("disable-org", data);
+      // Fetch organizations on disable
+      dispatch(GetAllOrganizations());
+    });
+
+    // Fetch organizations on start
     dispatch(GetAllOrganizations());
+
+    return () => {
+      socket.off("disable-organization");
+    };
   }, []);
 
   return (

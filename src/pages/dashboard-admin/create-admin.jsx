@@ -8,13 +8,13 @@ import FilterNominees from "./../../components/filter-component/filter-component
 import AddAdminModal from "../../components/modal/add-admin-modal.component";
 import {
   CreateNewAdmin,
-  DisableAdmin,
   EditAdmin,
   FetchAllAdmins,
 } from "../../redux/slices/admin";
 import { constants } from "../../data/constants";
 import UsersCard from "../../components/users-card/users-card.component";
 import Spinner from "../../components/spinner";
+import { socket } from "../../socket";
 
 const CreateAdmin = () => {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const CreateAdmin = () => {
   const my_id = window.localStorage.getItem("user_id");
   let { account_type } = useSelector((state) => state.auth.user_data);
   let { admins } = useSelector((state) => state.admin);
+
   if (account_type === process.env.REACT_APP_AccountType4) {
     admins = admins.filter(
       (a) =>
@@ -100,8 +101,12 @@ const CreateAdmin = () => {
 
   const disableAdmin = (his_id) => {
     setLoading(true);
+
     setTimeout(() => {
-      dispatch(DisableAdmin({ his_id, my_id }));
+      let data = { his_id, my_id };
+      socket.emit("disable-admin", data);
+      // dispatch(DisableAdmin({ his_id, my_id }));
+
       setLoading(false);
     }, 500);
   };
@@ -131,7 +136,17 @@ const CreateAdmin = () => {
   }
 
   useEffect(() => {
+    socket.on("disable-admin", (data) => {
+      // Fetch admins on disable
+      dispatch(FetchAllAdmins());
+    });
+
+    // Fetch admins on start
     dispatch(FetchAllAdmins());
+
+    return () => {
+      socket.off("disable-admin");
+    };
   }, []);
 
   return (

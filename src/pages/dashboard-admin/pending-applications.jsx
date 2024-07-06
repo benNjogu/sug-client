@@ -12,6 +12,7 @@ import { convertDigitInString } from "../../utils/convertDigitsInString";
 import { getTime } from "../../utils/getTimeFromTimestamp";
 import { constants } from "../../data/constants";
 import { FetchApplicationDetails } from "../../redux/slices/application";
+import { socket } from "../../socket";
 
 const PendingApplications = () => {
   const navigate = useNavigate();
@@ -24,6 +25,22 @@ const PendingApplications = () => {
   const handleViewApplication = (record) => {
     setLoading(true);
     dispatch(FetchApplicationDetails(record.id));
+
+    if (
+      (account_type === process.env.REACT_APP_AccountType3 &&
+        record.approved === constants.STAGE_2) ||
+      (account_type === process.env.REACT_APP_AccountType2 &&
+        (record.approved === constants.PENDING ||
+          record.approved === constants.STAGE_1))
+    ) {
+      let current_admin_id = Number(window.localStorage.getItem("user_id"));
+      let data = {
+        application_id: record.id,
+        current_admin_id,
+        current_admin_id,
+      };
+      socket.emit("open-application", data);
+    }
 
     setTimeout(() => {
       setLoading(false);
@@ -127,7 +144,20 @@ const PendingApplications = () => {
   console.log("filtered apps", applications);
 
   useEffect(() => {
+    let user_id = window.localStorage.getItem("user_id");
+    // if (!socket) {
+    //   connectSocket(user_id);
+    // }
+
+    socket.on("open-application", (data) => {
+      dispatch(FetchAllApplications());
+    });
+
     dispatch(FetchAllApplications());
+
+    return () => {
+      socket.off("open-application");
+    };
   }, []);
 
   return (

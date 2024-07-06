@@ -26,6 +26,8 @@ import ViewUser from "../../components/modal/view-user-modal";
 import "./view-application-details.styles.css";
 import { UpdateCapacity } from "../../redux/slices/cell";
 import ViewPdf from "../../components/modal/view-pdf";
+import { socket } from "../../socket";
+import { UpdateAdminOnIt } from "../../redux/slices/app";
 
 const Banner = ({ type, title, reason, name, email, phone, date }) => (
   <div className="col-md-12">
@@ -189,7 +191,13 @@ const ViewApplicationDetails = () => {
         record.approved === constants.STAGE_1)
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
+      let data = {
+        application_id: record.id,
+        current_admin_id: 0,
+        admin_id: current_admin_id,
+      };
+      socket.emit("open-application", data);
+      // dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
     }
 
     if (
@@ -197,7 +205,13 @@ const ViewApplicationDetails = () => {
       record.approved === constants.STAGE_2
     ) {
       let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
+      let data = {
+        application_id: record.id,
+        current_admin_id: 0,
+        admin_id: current_admin_id,
+      };
+      socket.emit("open-application", data);
+      // dispatch(UpdateAdminWorkingOnApplication(record.id, 0, current_admin_id));
     }
 
     setTimeout(() => {
@@ -405,20 +419,20 @@ const ViewApplicationDetails = () => {
   };
 
   useEffect(() => {
-    if (
-      account_type === process.env.REACT_APP_AccountType2 &&
-      (record.approved === constants.PENDING ||
-        record.approved === constants.STAGE_1)
-    ) {
-      let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(
-        UpdateAdminWorkingOnApplication(
-          record.id,
-          current_admin_id,
-          current_admin_id
-        )
-      );
-    }
+    // if (
+    //   account_type === process.env.REACT_APP_AccountType2 &&
+    //   (record.approved === constants.PENDING ||
+    //     record.approved === constants.STAGE_1)
+    // ) {
+    //   let current_admin_id = Number(window.localStorage.getItem("user_id"));
+    //   dispatch(
+    //     UpdateAdminWorkingOnApplication(
+    //       record.id,
+    //       current_admin_id,
+    //       current_admin_id
+    //     )
+    //   );
+    // }
 
     if (
       record.approved === constants.DEFFERED ||
@@ -432,19 +446,19 @@ const ViewApplicationDetails = () => {
     if (record.approved === constants.APPROVED)
       dispatch(GetBannerData(record.application_id, 2));
 
-    if (
-      account_type === process.env.REACT_APP_AccountType3 &&
-      record.approved === constants.STAGE_2
-    ) {
-      let current_admin_id = Number(window.localStorage.getItem("user_id"));
-      dispatch(
-        UpdateAdminWorkingOnApplication(
-          record.id,
-          current_admin_id,
-          current_admin_id
-        )
-      );
-    }
+    // if (
+    //   account_type === process.env.REACT_APP_AccountType3 &&
+    //   record.approved === constants.STAGE_2
+    // ) {
+    //   let current_admin_id = Number(window.localStorage.getItem("user_id"));
+    //   dispatch(
+    //     UpdateAdminWorkingOnApplication(
+    //       record.id,
+    //       current_admin_id,
+    //       current_admin_id
+    //     )
+    //   );
+    // }
 
     if (account_type === process.env.REACT_APP_AccountType3) {
       if (record.approved === constants.STAGE_2) {
