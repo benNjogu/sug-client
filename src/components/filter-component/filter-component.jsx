@@ -36,7 +36,7 @@ const FilterNominees = ({
       </div>
       <div className="col-md-3">
         <select
-          class="form-control form-control-md"
+          class="form-control form-control-md text-primary"
           value={level}
           onChange={onSort}
         >

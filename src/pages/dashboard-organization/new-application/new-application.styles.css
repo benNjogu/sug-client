@@ -33,3 +33,11 @@
 .form-content {
   overflow: auto;
 }
+
+input[type="radio"] {
+  accent-color: #0d6efd;
+}
+
+input[type="checkbox"] {
+  accent-color: #0d6efd;
+}

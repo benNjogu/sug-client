@@ -725,7 +725,7 @@ const NewApplicationComponent = () => {
             }
           </Modal>
         )}
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" size="large">
           {details?.number_of_participants === constants.GROUP ? (
             getNumberOfGroupsArray().map((i) => (
               <TabPane tab={`${getTitle(i)}`} key={i}>
@@ -856,19 +856,19 @@ const NewApplicationComponent = () => {
                               Course title (Select Course):
                             </label>
                             <select
-                              class="form-control form-control-md"
+                              class="form-control text-primary"
                               {...register("course_title", {
                                 required: "Course title is required.",
                               })}
                               className={`${
                                 errors.course_title
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                               onChange={handleSelectCourse}
                             >
                               {statutory_options.map((o) => (
-                                <option>{o}</option>
+                                <option className="text-primary">{o}</option>
                               ))}
                             </select>
                             {errors.course_title && (
@@ -893,8 +893,8 @@ const NewApplicationComponent = () => {
                               })}
                               className={`${
                                 errors.course_title
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                             />
                             {errors.course_title && (
@@ -919,8 +919,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.training_provider
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.training_provider && (
@@ -946,8 +946,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.venue
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.venue && (
@@ -969,8 +969,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.country
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.country && (
@@ -996,8 +996,8 @@ const NewApplicationComponent = () => {
                               })}
                               className={`${
                                 errors.course_objectives
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                             />
                             {errors.course_objectives && (
@@ -1032,8 +1032,8 @@ const NewApplicationComponent = () => {
                               })}
                               className={`${
                                 errors.start_date_1
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                             />
                             {errors.start_date_1 && (
@@ -1066,8 +1066,8 @@ const NewApplicationComponent = () => {
                               })}
                               className={`${
                                 errors.end_date_1
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                             />
                             {errors.end_date_1 && (
@@ -1102,8 +1102,8 @@ const NewApplicationComponent = () => {
                                 })}
                                 className={`${
                                   errors.start_date_2
-                                    ? "input-error form-control"
-                                    : "form-control"
+                                    ? "input-error form-control text-primary"
+                                    : "form-control text-primary"
                                 }`}
                               />
                               {errors.start_date_2 && (
@@ -1129,8 +1129,8 @@ const NewApplicationComponent = () => {
                                 })}
                                 className={`${
                                   errors.end_date_2
-                                    ? "input-error form-control"
-                                    : "form-control"
+                                    ? "input-error form-control text-primary"
+                                    : "form-control text-primary"
                                 }`}
                               />
                               {errors.end_date_2 && (
@@ -1163,8 +1163,8 @@ const NewApplicationComponent = () => {
                                 })}
                                 className={`${
                                   errors.start_date_3
-                                    ? "input-error form-control"
-                                    : "form-control"
+                                    ? "input-error form-control text-primary"
+                                    : "form-control text-primary"
                                 }`}
                               />
                               {errors.start_date_3 && (
@@ -1190,8 +1190,8 @@ const NewApplicationComponent = () => {
                                 })}
                                 className={`${
                                   errors.end_date_3
-                                    ? "input-error form-control"
-                                    : "form-control"
+                                    ? "input-error form-control text-primary"
+                                    : "form-control text-primary"
                                 }`}
                               />
                               {errors.end_date_3 && (
@@ -1438,17 +1438,17 @@ const NewApplicationComponent = () => {
                       <legend className="text-info">
                         Regional/Overseas training additional requirements.
                       </legend>
-                      <div class="form-row">
-                        <div class="col-md-6">
+                      <div className="form-row">
+                        <div className="col-md-6">
                           <Form.Group controlId="local_availability">
                             <label for="local_availability">
                               Is the course available locally?
                             </label>
                             <div>
-                              <div class="form-check form-check-inline">
+                              <div className="form-check form-check-inline">
                                 <input
                                   type="radio"
-                                  class="form-check-input"
+                                  class="form-check-input text-primary"
                                   name="local_availability"
                                   id="available-yes"
                                   value="yes"
@@ -1458,8 +1458,8 @@ const NewApplicationComponent = () => {
                                   })}
                                   className={`${
                                     errors.local_availability
-                                      ? "input-error"
-                                      : ""
+                                      ? "input-error text-primary"
+                                      : "text-primary"
                                   }`}
                                 />
                                 <label
@@ -1510,7 +1510,7 @@ const NewApplicationComponent = () => {
                               type="date"
                               name="employment_date"
                               id="employment_date"
-                              class="form-control"
+                              class="form-control text-primary"
                               placeholder="mm/dd/yyyy"
                               autoComplete="off"
                               {...register("employment_date", {
@@ -1518,8 +1518,8 @@ const NewApplicationComponent = () => {
                               })}
                               className={`${
                                 errors.employment_date
-                                  ? "input-error form-control"
-                                  : "form-control"
+                                  ? "input-error form-control text-primary"
+                                  : "form-control text-primary"
                               }`}
                             />
                             {errors.employment_date && (
@@ -1615,8 +1615,8 @@ const NewApplicationComponent = () => {
                                   })}
                                   className={`${
                                     errors.related_to_organization
-                                      ? "input-error form-control mt-1"
-                                      : "form-control mt-1"
+                                      ? "input-error form-control mt-1 text-primary"
+                                      : "form-control mt-1 text-primary"
                                   }`}
                                 />
                               )}
@@ -1699,8 +1699,8 @@ const NewApplicationComponent = () => {
                                   })}
                                   className={`${
                                     errors.org_funding
-                                      ? "input-error form-control mt-1"
-                                      : "form-control mt-1"
+                                      ? "input-error form-control mt-1 text-primary"
+                                      : "form-control mt-1 text-primary"
                                   }`}
                                 />
                               )}
@@ -1752,8 +1752,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.tuition_fees
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                             onChange={onChangeTuitionFee}
                           />
@@ -1785,8 +1785,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.examination_fees
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                             onChange={onChangeExaminationFee}
                           />
@@ -1820,8 +1820,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.books_fees
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                             onChange={onChangeBooksFees}
                           />
@@ -1853,8 +1853,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.accomodation_fees
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                             onChange={onChangeAccomodationFees}
                           />
@@ -1888,8 +1888,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.fare_fees
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                             onChange={onChangeFareFees}
                           />
@@ -1916,7 +1916,7 @@ const NewApplicationComponent = () => {
                             autoComplete="off"
                             step="0.01"
                             {...register("other_fees")}
-                            className={"form-control"}
+                            className={"form-control text-primary"}
                             onChange={handleChange}
                           />
                         </Form.Group>
@@ -1935,8 +1935,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.other_fees_notes
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.other_fees_notes && (
@@ -2021,7 +2021,7 @@ const NewApplicationComponent = () => {
                         <input
                           type="number"
                           name="total_cost"
-                          class="form-control"
+                          class="form-control text-primary"
                           id="total_cost"
                           value={sum}
                           placeholder="0.00"
@@ -2095,8 +2095,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.authorizer_id
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.authorizer_id && (
@@ -2120,8 +2120,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.authorizer_first_name
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.authorizer_first_name && (
@@ -2145,8 +2145,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.authorizer_last_name
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.authorizer_last_name && (
@@ -2172,8 +2172,8 @@ const NewApplicationComponent = () => {
                             })}
                             className={`${
                               errors.authorizer_designation
-                                ? "input-error form-control"
-                                : "form-control"
+                                ? "input-error form-control text-primary"
+                                : "form-control text-primary"
                             }`}
                           />
                           {errors.authorizer_designation && (
