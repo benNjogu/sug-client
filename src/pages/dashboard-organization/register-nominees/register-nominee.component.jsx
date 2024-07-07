@@ -190,7 +190,9 @@ const RegisterNominee = () => {
                       required: "Age is required.",
                     })}
                     className={`${
-                      errors.age ? "input-error form-control" : "form-control"
+                      errors.age
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.age && (
@@ -215,8 +217,8 @@ const RegisterNominee = () => {
                     })}
                     className={`${
                       errors.idNumber
-                        ? "input-error form-control"
-                        : "form-control"
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.idNumber && (
@@ -240,7 +242,9 @@ const RegisterNominee = () => {
                       },
                     })}
                     className={`${
-                      errors.phone ? "input-error form-control" : "form-control"
+                      errors.phone
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.phone && (
@@ -272,8 +276,8 @@ const RegisterNominee = () => {
                     })}
                     className={`${
                       errors.first_name
-                        ? "input-error form-control"
-                        : "form-control"
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.first_name && (
@@ -298,8 +302,8 @@ const RegisterNominee = () => {
                     })}
                     className={`${
                       errors.last_name
-                        ? "input-error form-control"
-                        : "form-control"
+                        ? "input-error form-control  text-primary"
+                        : "form-control  text-primary"
                     }`}
                   />
                   {errors.last_name && (
@@ -375,8 +379,8 @@ const RegisterNominee = () => {
                     })}
                     className={`${
                       errors.qualifications
-                        ? "input-error form-control"
-                        : "form-control"
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.qualifications && (
@@ -510,8 +514,8 @@ const RegisterNominee = () => {
                           })}
                           className={`${
                             errors.other_specification
-                              ? "input-error form-control"
-                              : "form-control"
+                              ? "input-error form-control text-primary"
+                              : "form-control text-primary"
                           }`}
                         />
                       )}
@@ -543,8 +547,8 @@ const RegisterNominee = () => {
                     })}
                     className={`${
                       errors.job_description
-                        ? "input-error form-control"
-                        : "form-control"
+                        ? "input-error form-control text-primary"
+                        : "form-control text-primary"
                     }`}
                   />
                   {errors.job_description && (

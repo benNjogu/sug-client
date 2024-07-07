@@ -156,7 +156,7 @@ const CreateAdmin = () => {
       {showAddAdminModal && (
         <Modal
           open={showAddAdminModal}
-          title={`New Admin`}
+          title={`${adminToEdit === null ? `New Admin` : `Edit Admin`}`}
           onCancel={handleCancel}
           footer={false}
         >

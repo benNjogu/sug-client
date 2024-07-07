@@ -67,7 +67,7 @@ const AddAdminModal = ({
       <div className="col-md-12 my-2">
         <label for="type">Level of administration:</label>
         <select
-          class="form-control form-control-md"
+          class="form-control form-control-md text-primary"
           value={adminToEdit !== null ? level : undefined}
           onChange={handleSelectChange}
         >
@@ -90,6 +90,7 @@ const AddAdminModal = ({
                 name="sex"
                 id="sex-male"
                 value="M"
+                disabled={adminToEdit !== null}
                 autoComplete="off"
                 {...register("sex", {
                   required: "Gender is required.",
@@ -107,6 +108,7 @@ const AddAdminModal = ({
                 name="sex"
                 id="sex-female"
                 value="F"
+                disabled={adminToEdit !== null}
                 autoComplete="off"
                 {...register("sex", {
                   required: "Gender is required.",
@@ -127,13 +129,16 @@ const AddAdminModal = ({
           type="text"
           name="name"
           id="name"
-          class="form-control"
+          disabled={adminToEdit !== null}
+          class="form-control text-primary"
           placeholder="FirstName LastName"
           {...register("name", {
             required: "Admin name is required.",
           })}
           className={`${
-            errors.name ? "input-error form-control" : "form-control"
+            errors.name
+              ? "input-error form-control text-primary"
+              : "form-control text-primary"
           }`}
         />
         {errors.name && <p className="errorMsg">{errors.name.message}</p>}
@@ -144,13 +149,16 @@ const AddAdminModal = ({
           type="email"
           name="email"
           id="email"
-          class="form-control"
+          disabled={adminToEdit !== null}
+          class="form-control text-primary"
           placeholder="stuff@nita.go.ke"
           {...register("email", {
             required: "Email is required.",
           })}
           className={`${
-            errors.email ? "input-error form-control" : "form-control"
+            errors.email
+              ? "input-error form-control text-primary"
+              : "form-control text-primary"
           }`}
         />
         {errors.email && <p className="errorMsg">{errors.email.message}</p>}
@@ -168,7 +176,9 @@ const AddAdminModal = ({
               required: "Password is required.",
             })}
             className={`${
-              errors.password ? "input-error form-control" : "form-control"
+              errors.password
+                ? "input-error form-control text-primary"
+                : "form-control text-primary"
             }`}
           />
           {errors.password && (

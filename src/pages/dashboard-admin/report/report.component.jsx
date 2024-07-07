@@ -25,7 +25,7 @@ const ViewReport = () => {
     "end_date",
     "course_title",
     "training_provider",
-    "venue",
+    "course_venue",
     "total_cost",
     "number_of_participants",
     "all_nominees",
