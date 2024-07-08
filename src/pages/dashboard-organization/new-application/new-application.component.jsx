@@ -1238,6 +1238,7 @@ const NewApplicationComponent = () => {
                                   type="file"
                                   id="customFile"
                                   name="work_place_certificate"
+                                  accept="application/pdf"
                                   autoComplete="off"
                                   {...register("work_place_certificate", {
                                     required:
@@ -1334,6 +1335,7 @@ const NewApplicationComponent = () => {
                                 type="file"
                                 id="customFile"
                                 name="admission_letter"
+                                accept="application/pdf"
                                 autoComplete="off"
                                 {...register("admission_letter", {
                                   required:
@@ -1403,6 +1405,7 @@ const NewApplicationComponent = () => {
                                 id="customFile"
                                 name="timetable"
                                 autoComplete="off"
+                                accept="application/pdf"
                                 {...register("timetable", {
                                   required:
                                     "Course content/timetable is required.",
@@ -1994,6 +1997,7 @@ const NewApplicationComponent = () => {
                               type="file"
                               id="customFile"
                               autoComplete="off"
+                              accept="application/pdf"
                               name="training_expenses_support_doc"
                               {...register("training_expenses_support_doc", {
                                 required: "Support document required.",
