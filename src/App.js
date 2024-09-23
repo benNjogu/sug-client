@@ -32,7 +32,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div style={{ background: "none" }}>
       <Router />
 
       {message && open ? (
@@ -54,7 +54,7 @@ const App = () => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

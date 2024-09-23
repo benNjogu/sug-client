@@ -234,7 +234,7 @@ const ViewOrganizationDetails = () => {
   }, []);
 
   return (
-    <>
+    <div className="outer-container">
       {contextHolder}
       <Navbar title={record.user_name} handleBackpressed={handleBackpressed} />
       <div className="main-container">
@@ -433,7 +433,7 @@ const ViewOrganizationDetails = () => {
           </TabPane>
         </Tabs>
       </div>
-    </>
+    </div>
   );
 };
 

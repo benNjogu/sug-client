@@ -724,7 +724,7 @@ const ViewApplicationDetails = () => {
     );
 
   return (
-    <>
+    <div className="main-container">
       {contextHolder}
       <Spinner loading={loading} />
       <Navbar
@@ -1372,7 +1372,7 @@ const ViewApplicationDetails = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
