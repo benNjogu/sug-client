@@ -83,7 +83,15 @@ const AllApplications = () => {
               fontWeight: 600,
             },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              {text === constants.STAGE_1
+                ? "Verified"
+                : text === constants.STAGE_2
+                ? "Recommended"
+                : text}
+            </div>
+          ),
         };
       },
     },
@@ -187,14 +195,6 @@ const AllApplications = () => {
   }
 
   useEffect(() => {
-    // let user_id = window.localStorage.getItem("user_id");
-
-    // if (account_type !== process.env.REACT_APP_AccountType0) {
-    //   if (!socket) {
-    //     connectSocket(user_id);
-    //   }
-    // }
-
     socket.on("open-application", (data) => {
       dispatch(FetchAllApplications());
       dispatch(GetAdminData());

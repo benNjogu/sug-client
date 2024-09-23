@@ -12,7 +12,7 @@
 }
 
 .demo-logo-vertical h3 {
-  color: #05a5a5;
+  color: #fff;
   font-size: 22px;
   font-weight: bold;
   text-align: center;
@@ -63,7 +63,7 @@
 }
 
 .ant-menu-item-selected {
-  background-color: #047979 !important;
+  background-color: #2a5890 !important;
 }
 
 .avatar__container {
@@ -81,7 +81,7 @@
 
 .border-wrap {
   width: 160px;
-  border: #673ab7 solid 1px;
+  border: #2a5890 solid 1px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   border-top-right-radius: 20px;

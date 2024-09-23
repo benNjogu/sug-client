@@ -17,7 +17,6 @@
     "antd": "^5.12.6",
     "axios": "^1.4.0",
     "bootstrap": "^4.6.2",
-    "country-state-city": "^2.0.0",
     "font-awesome": "^4.7.0",
     "framer-motion": "^7.5.3",
     "helmet": "^7.0.0",

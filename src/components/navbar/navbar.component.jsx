@@ -43,7 +43,13 @@ const Navbar = ({
           {!hideButtons && (
             <li className="nav__item">
               <Button
-                text={"Approve"}
+                text={`${
+                  account_type === process.env.REACT_APP_AccountType1
+                    ? "Verify"
+                    : account_type === process.env.REACT_APP_AccountType2
+                    ? "Recommend"
+                    : "Approve"
+                }`}
                 text_color={"text-success"}
                 handleBtnClick={
                   account_type === process.env.REACT_APP_AccountType1 ||

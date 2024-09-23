@@ -70,7 +70,13 @@ const Applications = () => {
               fontWeight: 600,
             },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              {text === constants.STAGE_1 || text === constants.STAGE_2
+                ? "In progress"
+                : text}
+            </div>
+          ),
         };
       },
     },

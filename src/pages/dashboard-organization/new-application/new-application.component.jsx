@@ -1210,7 +1210,8 @@ const NewApplicationComponent = () => {
                           {editWorkPlaceCertificatePdf ? (
                             <Form.Group controlId="certificate">
                               <label for="certificate">
-                                Work place certificate pdf.
+                                Work place certificate pdf (
+                                <span className="text-danger">PDF only</span>).
                               </label>
                               <div>
                                 <p
@@ -1226,7 +1227,8 @@ const NewApplicationComponent = () => {
                           ) : (
                             <Form.Group controlId="certificate">
                               <label for="certificate">
-                                Attach work place certificate.{" "}
+                                Attach work place certificate (
+                                <span className="text-danger">PDF only</span>).{" "}
                                 <span className="text-success">
                                   If you have MORE than ONE group, scan all the
                                   certificates and attach them as ONE FILE
@@ -1287,7 +1289,8 @@ const NewApplicationComponent = () => {
                       {editAdmissionLetterPdf ? (
                         <div class="col-md-6">
                           <label for="id">
-                            View/Edit Course Proposal/Admission Letter:
+                            View/Edit Course Proposal/Admission Letter (
+                            <span className="text-danger">PDF only</span>):
                           </label>
                           <div className="row">
                             <div class="col-md-3">
@@ -1328,7 +1331,8 @@ const NewApplicationComponent = () => {
                           <Form.Group controlId="admission_letter">
                             <label for="admission">
                               Course proposal or admission letter from the
-                              training provider:
+                              training provider (
+                              <span className="text-danger">PDF only</span>):
                             </label>
                             <div>
                               <input
@@ -1357,7 +1361,8 @@ const NewApplicationComponent = () => {
                       {editCourseContentsPdf ? (
                         <div class="col-md-6">
                           <label for="contents">
-                            View/Edit Course contents and timetable:
+                            View/Edit Course contents and timetable (
+                            <span className="text-danger">PDF only</span>):
                           </label>
                           <div className="row">
                             <div className="col-md-3">
@@ -1397,7 +1402,8 @@ const NewApplicationComponent = () => {
                         <div class="col-md-6">
                           <Form.Group controlId="timetable">
                             <label for="contents">
-                              Course contents and timetable:
+                              Course contents and timetable (
+                              <span className="text-danger">PDF only</span>):
                             </label>
                             <div>
                               <input
@@ -1952,7 +1958,10 @@ const NewApplicationComponent = () => {
                     </div>
                     <div class="form-row">
                       <div class="col-md-4 form-group">
-                        <label for="others">Attach support document:</label>
+                        <label for="others">
+                          Attach support document (
+                          <span className="text-danger">PDF only</span>):
+                        </label>
                       </div>
                       {editSupportDocumentPdf ? (
                         <div class="col-md-8 form-group">

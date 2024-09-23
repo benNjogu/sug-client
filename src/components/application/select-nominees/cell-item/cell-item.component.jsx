@@ -2,7 +2,6 @@ import Chip from "@mui/material/Chip";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useSelector } from "react-redux";
-import { constants } from "../../../../data/constants";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -52,7 +51,9 @@ const CellItem = ({ group_id, label, onClick, onRemove }) => {
       </Paper>
       {capacity?.minCapacity > chipData?.length && (
         <p className="text-danger">
-          This cell has a minimum capacity of {capacity.minCapacity}
+          {`A minimum of ${capacity.minCapacity} ${
+            capacity.minCapacity > 1 ? `nominees` : `nominee`
+          } required`}
         </p>
       )}
     </div>

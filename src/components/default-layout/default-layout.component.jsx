@@ -348,7 +348,7 @@ const DefaultLayout = ({ children }) => {
             >
               <span className="edit_profile_text">EDIT PROFILE</span>
               <div className="border-wrap d-flex align-items-center">
-                <Avatar sx={{ bgcolor: "#673ab7" }}>
+                <Avatar sx={{ bgcolor: "#2a5890" }}>
                   {getFirstLetterOfUserName()}
                 </Avatar>
               </div>

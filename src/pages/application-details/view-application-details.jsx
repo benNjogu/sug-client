@@ -419,21 +419,6 @@ const ViewApplicationDetails = () => {
   };
 
   useEffect(() => {
-    // if (
-    //   account_type === process.env.REACT_APP_AccountType2 &&
-    //   (record.approved === constants.PENDING ||
-    //     record.approved === constants.STAGE_1)
-    // ) {
-    //   let current_admin_id = Number(window.localStorage.getItem("user_id"));
-    //   dispatch(
-    //     UpdateAdminWorkingOnApplication(
-    //       record.id,
-    //       current_admin_id,
-    //       current_admin_id
-    //     )
-    //   );
-    // }
-
     if (
       record.approved === constants.DEFFERED ||
       record.approved === constants.REJECTED
@@ -445,20 +430,6 @@ const ViewApplicationDetails = () => {
 
     if (record.approved === constants.APPROVED)
       dispatch(GetBannerData(record.application_id, 2));
-
-    // if (
-    //   account_type === process.env.REACT_APP_AccountType3 &&
-    //   record.approved === constants.STAGE_2
-    // ) {
-    //   let current_admin_id = Number(window.localStorage.getItem("user_id"));
-    //   dispatch(
-    //     UpdateAdminWorkingOnApplication(
-    //       record.id,
-    //       current_admin_id,
-    //       current_admin_id
-    //     )
-    //   );
-    // }
 
     if (account_type === process.env.REACT_APP_AccountType3) {
       if (record.approved === constants.STAGE_2) {

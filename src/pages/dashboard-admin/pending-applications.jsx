@@ -79,7 +79,15 @@ const PendingApplications = () => {
               fontWeight: 600,
             },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              {text === constants.STAGE_1
+                ? "Verified"
+                : text === constants.STAGE_2
+                ? "Recommended"
+                : text}
+            </div>
+          ),
         };
       },
     },

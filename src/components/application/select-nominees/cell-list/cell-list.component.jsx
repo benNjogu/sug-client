@@ -1,10 +1,8 @@
 import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import AddCell from "../add-cell/add-cell.component";
 import CellItem from "../cell-item/cell-item.component";
 import { AddNewGroup } from "../../../../redux/slices/cell";
-import { constants } from "../../../../data/constants";
 
 const CellList = ({ user, details }) => {
   const dispatch = useDispatch();
