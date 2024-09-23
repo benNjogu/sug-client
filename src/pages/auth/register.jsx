@@ -20,12 +20,7 @@ const Register = () => {
             For employees to be nominated for skills upgrading, click link below
             to register.
           </Typography>
-          <Link
-            sx={{ justifyContent: "center" }}
-            component={RouterLink}
-            to="/auth/login"
-            variant="body1"
-          >
+          <Link component={RouterLink} to="/auth/login" variant="body1">
             Register as an employee
           </Link>
         </Stack>
