@@ -15,6 +15,20 @@ const Login = () => {
         </Stack>
         {/* Login form */}
         <LoginForm />
+        <Stack direction="column" spacing={0.5}>
+          <Typography variant="body2">
+            For employees to be nominated for skills upgrading, click link below
+            to register.
+          </Typography>
+          <Link
+            sx={{ justifyContent: "center" }}
+            component={RouterLink}
+            to="/auth/login"
+            variant="body1"
+          >
+            Register as an employee
+          </Link>
+        </Stack>
       </Stack>
     </>
   );
