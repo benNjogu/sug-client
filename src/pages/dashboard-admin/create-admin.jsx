@@ -66,7 +66,7 @@ const CreateAdmin = () => {
     setTimeout(() => {
       dispatch(CreateNewAdmin(data));
       setLoading(false);
-      setInactiveBtn(true);
+      // setInactiveBtn(true);
     }, 700);
   };
 

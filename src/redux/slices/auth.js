@@ -92,7 +92,7 @@ export function LoginUser(formValues) {
         dispatch(
           ShowSnackbar({
             severity: "error",
-            message: error.response.data.message,
+            message: error?.response?.data?.message || "Something went wrong!",
           })
         );
       });

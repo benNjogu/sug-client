@@ -58,6 +58,7 @@ const ViewApplicationDetails = () => {
   const record = state.record;
   console.log("rr", record);
 
+  let current_admin_id = Number(window.localStorage.getItem("user_id"));
   const [loading, setLoading] = useState(false);
   const [hideButtons, setHideButtons] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);

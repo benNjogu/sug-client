@@ -21,6 +21,7 @@ const Loadable = (Component) => (props) => {
 export default function Router() {
   const { user_data } = useSelector((state) => state.auth);
   let { account_type } = user_data;
+  console.log("account type", account_type);
 
   return useRoutes([
     {
